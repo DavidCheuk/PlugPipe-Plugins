@@ -120,11 +120,36 @@ pre-commit install
 
 ### 2. Create Plugin
 
+**Option A: Use Scaffold Script (Recommended)**
+
 ```bash
 # Create branch
 git checkout -b feature/my-awesome-plugin
 
-# Create plugin structure
+# Generate plugin structure automatically
+python3 scripts/create_plugin.py plug my_plugin "Your Name" "Plugin description" [category] [version]
+
+# Example: Create plugin in 'integration' category
+python3 scripts/create_plugin.py plug api_connector "Your Name" "Connects to external APIs" integration 1.0.0
+
+# For pipelines:
+python3 scripts/create_plugin.py pipe my_workflow "Your Name" "Data processing workflow" etl 1.0.0
+
+# For glue components:
+python3 scripts/create_plugin.py glue data_transformer "Your Name" "Transform data formats" transformation 1.0.0
+```
+
+The scaffold script will create:
+- ✅ Proper directory structure (plugs/category/name/version/)
+- ✅ plug.yaml with all required fields
+- ✅ main.py with SPDX headers and execute() function
+- ✅ SBOM scaffolding
+- ✅ Security-validated names and versions
+
+**Option B: Manual Creation** (if scaffold unavailable)
+
+```bash
+# Create plugin structure manually
 mkdir -p plugs/category/my_plugin/1.0.0
 cd plugs/category/my_plugin/1.0.0
 
