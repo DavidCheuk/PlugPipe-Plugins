@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: PlugPipe Documentation
+    url: https://github.com/DavidCheuk/PlugPipe/tree/main/docs
+    about: Visit the main documentation for guides and references
+  - name: Plugin Development Guide
+    url: https://github.com/DavidCheuk/PlugPipe/blob/main/docs/guides/getting-started.md
+    about: Learn how to create and submit plugins
+  - name: Security Vulnerability
+    url: mailto:security@plugpipe.com
+    about: Report security vulnerabilities privately (DO NOT create public issues)

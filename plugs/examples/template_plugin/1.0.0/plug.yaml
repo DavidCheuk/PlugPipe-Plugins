@@ -1,0 +1,76 @@
+# Template Plugin Manifest
+# This is a reference implementation showing all required and recommended fields
+
+name: template_plugin
+version: 1.0.0
+display_name: "Template Plugin"
+description: "Reference implementation demonstrating PlugPipe plugin best practices and standards"
+category: examples
+author: "PlugPipe Team"
+copyright: "Copyright 2025 PlugPipe Team"
+license: "MIT"
+
+# Optional but recommended fields
+tags:
+  - template
+  - example
+  - reference
+  - best-practices
+
+# A2A Protocol Support (DEFAULT - required for all plugins)
+# Indicates this plugin supports agent-to-agent communication
+a2a_enabled: true
+
+# MCP Protocol Support (OPTIONAL - only if plugin provides MCP server functionality)
+# Uncomment if your plugin implements MCP protocol
+# mcp_server: true
+
+# Plugin capabilities
+capabilities:
+  - execute  # Standard execution function
+  - validate  # Input validation
+  - batch  # Batch processing support
+
+# Dependencies (if any)
+# external_dependencies:
+#   - package-name>=1.0.0
+#   - another-package==2.0.0
+
+# Plugin dependencies (other PlugPipe plugins)
+# plugin_dependencies:
+#   - universal_input_sanitizer  # For security
+#   - dependency_manager  # For dependency handling
+
+# Input/Output schema hints
+input_schema:
+  action:
+    type: string
+    required: true
+    description: "Action to perform (example, validate, process)"
+  data:
+    type: any
+    required: false
+    description: "Input data to process"
+
+output_schema:
+  success:
+    type: boolean
+    description: "Whether operation succeeded"
+  result:
+    type: any
+    description: "Operation result"
+  message:
+    type: string
+    description: "Human-readable message"
+
+# Performance characteristics
+performance:
+  avg_execution_time_ms: 50
+  max_memory_mb: 10
+  concurrent_safe: true
+
+# Metadata for discovery
+metadata:
+  maturity: stable  # experimental, beta, stable, deprecated
+  maintenance: active  # active, maintained, deprecated
+  status: production  # development, testing, production
