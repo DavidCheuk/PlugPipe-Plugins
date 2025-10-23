@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:working_test_api",
+    "name": "Working Test Api Agent",
+    "description": "Auto-generated plugin for working_test API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/working_test_api",
+    "skills": [
+      {
+        "id": "working_test_api-primary",
+        "name": "Working Test Api",
+        "description": "Auto-generated plugin for working_test API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "working_test_api",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "working_test_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.689345Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

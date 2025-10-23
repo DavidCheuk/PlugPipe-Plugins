@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:opa_policy",
+    "name": "Opa Policy Agent",
+    "description": "Open Policy Agent integration for advanced policy evaluation in PlugPipe authorization framework",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/opa_policy",
+    "skills": [
+      {
+        "id": "opa_policy-primary",
+        "name": "Opa Policy",
+        "description": "Open Policy Agent integration for advanced policy evaluation in PlugPipe authorization framework",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "opa_policy",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "policy",
+          "authorization",
+          "opa",
+          "compliance"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.898699Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:background_ai_fixer_service",
+    "name": "Background Ai Fixer Service Agent",
+    "description": "Background AI-powered continuous issue resolution service that orchestrates existing fixing plugins with intelligent prioritization, monitoring, and automated remediation workflows",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/background_ai_fixer_service",
+    "skills": [
+      {
+        "id": "background_ai_fixer_service-primary",
+        "name": "Background Ai Fixer Service",
+        "description": "Background AI-powered continuous issue resolution service that orchestrates existing fixing plugins with intelligent prioritization, monitoring, and automated remediation workflows",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "background_ai_fixer_service",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "ai",
+          "automation",
+          "fixing",
+          "continuous",
+          "background",
+          "orchestration",
+          "intelligence",
+          "monitoring",
+          "safety",
+          "enterprise",
+          "compliance",
+          "self-healing"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.893233Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

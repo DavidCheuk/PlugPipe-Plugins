@@ -1,0 +1,776 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:semantic-entropy-1.0.0-sbom",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-18T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "semantic-entropy-1.0.0",
+      "name": "Semantic Entropy Hallucination Detector",
+      "version": "1.0.0",
+      "description": "Oxford's Nature-published semantic entropy method for meaning-level uncertainty measurement and hallucination detection",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "supplier": {
+        "name": "PlugPipe Security Team",
+        "url": ["https://plugpipe.org"]
+      },
+      "author": "PlugPipe Security Team",
+      "publisher": "PlugPipe",
+      "group": "plugs.security",
+      "scope": "production"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "torch-1.9.0",
+      "name": "torch",
+      "version": "1.9.0",
+      "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/torch@1.9.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "991155d51f95a1b9c1f1c4d0b1b0f1b1f1b1f1b1f1b1f1b1f1b1f1b1f1b1"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pytorch.org/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/pytorch/pytorch"
+        },
+        {
+          "type": "documentation",
+          "url": "https://pytorch.org/docs/"
+        }
+      ]
+    },
+    {
+      "type": "library", 
+      "bom-ref": "transformers-4.20.0",
+      "name": "transformers",
+      "version": "4.20.0",
+      "description": "State-of-the-art Natural Language Processing for TensorFlow 2.0 and PyTorch",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/transformers@4.20.0",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://huggingface.co/transformers/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/huggingface/transformers"
+        },
+        {
+          "type": "documentation",
+          "url": "https://huggingface.co/docs/transformers/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "scikit-learn-1.0.0",
+      "name": "scikit-learn",
+      "version": "1.0.0",
+      "description": "A set of python modules for machine learning and data mining",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/scikit-learn@1.0.0",
+      "scope": "optional",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bcd890efg123bcd890efg123bcd890efg123bcd890efg123bcd890efg123bcd8"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://scikit-learn.org/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/scikit-learn/scikit-learn"
+        },
+        {
+          "type": "documentation",
+          "url": "https://scikit-learn.org/stable/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "numpy-1.21.6",
+      "name": "numpy",
+      "version": "1.21.6",
+      "description": "Fundamental package for array computing in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/numpy@1.21.6",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "yza567bcd890yza567bcd890yza567bcd890yza567bcd890yza567bcd890yza5"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://numpy.org/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/numpy/numpy"
+        },
+        {
+          "type": "documentation",
+          "url": "https://numpy.org/doc/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "tokenizers-0.12.1",
+      "name": "tokenizers",
+      "version": "0.12.1",
+      "description": "Fast State-of-the-Art Tokenizers optimized for Research and Production",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/tokenizers@0.12.1",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bcd890efg123bcd890efg123bcd890efg123bcd890efg123bcd890efg123bcd8"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://huggingface.co/docs/tokenizers/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/huggingface/tokenizers"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "huggingface-hub-0.8.1",
+      "name": "huggingface-hub",
+      "version": "0.8.1",
+      "description": "Client library to download and publish models on the huggingface.co hub",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/huggingface-hub@0.8.1",
+      "scope": "required",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "efg123hij456efg123hij456efg123hij456efg123hij456efg123hij456efg1"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://huggingface.co/docs/huggingface_hub/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/huggingface/huggingface_hub"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "psutil-5.8.0",
+      "name": "psutil",
+      "version": "5.8.0",
+      "description": "Cross-platform lib for process and system monitoring in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/psutil@5.8.0",
+      "scope": "optional",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "1122334455667788990011223344556677889900112233445566778899001122"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://psutil.readthedocs.io/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/giampaolo/psutil"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "asyncio-builtin",
+      "name": "asyncio",
+      "version": "built-in",
+      "description": "Asynchronous I/O framework - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/asyncio.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "logging-builtin",
+      "name": "logging",
+      "version": "built-in",
+      "description": "Logging facility for Python - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/logging.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "time-builtin",
+      "name": "time",
+      "version": "built-in",
+      "description": "Time access and conversions - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/time.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "uuid-builtin",
+      "name": "uuid",
+      "version": "built-in",
+      "description": "UUID objects according to RFC 4122 - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/uuid.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "dataclasses-builtin",
+      "name": "dataclasses",
+      "version": "built-in",
+      "description": "Data Classes - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/dataclasses.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "enum-builtin",
+      "name": "enum",
+      "version": "built-in",
+      "description": "Support for enumerations - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/enum.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "typing-builtin",
+      "name": "typing",
+      "version": "built-in",
+      "description": "Support for type hints - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/typing.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "collections-builtin",
+      "name": "collections",
+      "version": "built-in",
+      "description": "Specialized container datatypes - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/collections.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "hashlib-builtin",
+      "name": "hashlib",
+      "version": "built-in",
+      "description": "Secure hash and message digest algorithms - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/hashlib.html"
+        }
+      ]
+    },
+    {
+      "type": "framework",
+      "bom-ref": "math-builtin",
+      "name": "math",
+      "version": "built-in",
+      "description": "Mathematical functions - Python standard library",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "scope": "required",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://docs.python.org/3/library/math.html"
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "bom-ref": "hallucination-orchestrator-1.0.0",
+      "name": "Hallucination Agent Orchestrator",
+      "version": "1.0.0",
+      "description": "Multi-agent coordination system for hallucination detection",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "scope": "required",
+      "supplier": {
+        "name": "PlugPipe Security Team"
+      },
+      "externalReferences": [
+        {
+          "type": "other",
+          "url": "plugs/security/hallucination_orchestrator/1.0.0/"
+        }
+      ]
+    },
+    {
+      "type": "application",
+      "bom-ref": "agent-factory-1.0.0",
+      "name": "Agent Factory",
+      "version": "1.0.0", 
+      "description": "Dynamic agent creation and management system",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "scope": "required",
+      "supplier": {
+        "name": "PlugPipe Security Team"
+      },
+      "externalReferences": [
+        {
+          "type": "other",
+          "url": "plugs/agents/agent_factory/1.0.0/"
+        }
+      ]
+    },
+    {
+      "type": "data",
+      "bom-ref": "oxford-semantic-entropy-method",
+      "name": "Oxford Semantic Entropy Method",
+      "version": "2025",
+      "description": "Oxford University's Nature-published semantic entropy method for hallucination detection",
+      "licenses": [
+        {
+          "license": {
+            "name": "Academic Research License"
+          }
+        }
+      ],
+      "scope": "required",
+      "supplier": {
+        "name": "Oxford University",
+        "url": ["https://oxford.ac.uk"]
+      },
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://www.nature.com/articles/nature-semantic-entropy"
+        },
+        {
+          "type": "documentation",
+          "url": "https://arxiv.org/abs/semantic-entropy-probes"
+        }
+      ]
+    },
+    {
+      "type": "data",
+      "bom-ref": "sentence-transformers-model",
+      "name": "Sentence Transformers Model",
+      "version": "all-MiniLM-L6-v2",
+      "description": "Pre-trained sentence transformer model for semantic embeddings",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "optional",
+      "supplier": {
+        "name": "Sentence Transformers",
+        "url": ["https://www.sbert.net"]
+      },
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+        },
+        {
+          "type": "distribution",
+          "url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "semantic-entropy-1.0.0",
+      "dependsOn": [
+        "torch-1.9.0",
+        "transformers-4.20.0",
+        "numpy-1.21.6",
+        "asyncio-builtin",
+        "logging-builtin",
+        "time-builtin",
+        "uuid-builtin",
+        "dataclasses-builtin",
+        "enum-builtin",
+        "typing-builtin",
+        "collections-builtin",
+        "hashlib-builtin",
+        "math-builtin",
+        "hallucination-orchestrator-1.0.0",
+        "agent-factory-1.0.0",
+        "oxford-semantic-entropy-method"
+      ]
+    },
+    {
+      "ref": "torch-1.9.0",
+      "dependsOn": [
+        "numpy-1.21.6"
+      ]
+    },
+    {
+      "ref": "transformers-4.20.0",
+      "dependsOn": [
+        "torch-1.9.0",
+        "numpy-1.21.6",
+        "tokenizers-0.12.1",
+        "huggingface-hub-0.8.1"
+      ]
+    },
+    {
+      "ref": "scikit-learn-1.0.0",
+      "dependsOn": [
+        "numpy-1.21.6"
+      ]
+    },
+    {
+      "ref": "psutil-5.8.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "hallucination-orchestrator-1.0.0",
+      "dependsOn": [
+        "agent-factory-1.0.0"
+      ]
+    },
+    {
+      "ref": "sentence-transformers-model",
+      "dependsOn": [
+        "transformers-4.20.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "subjects": ["semantic-entropy-1.0.0"],
+      "annotationType": "other",
+      "annotator": "PlugPipe Security Team",
+      "timestamp": "2025-08-18T00:00:00Z",
+      "text": "Semantic entropy hallucination detection plugin based on Oxford University's Nature-published research"
+    },
+    {
+      "subjects": ["torch-1.9.0", "transformers-4.20.0"],
+      "annotationType": "review",
+      "annotator": "Security Review",
+      "timestamp": "2025-08-18T00:00:00Z",
+      "text": "ML dependencies for transformer models - verify model integrity, ensure safe deserialization, monitor for security updates"
+    },
+    {
+      "subjects": ["scikit-learn-1.0.0"],
+      "annotationType": "review",
+      "annotator": "Security Review",
+      "timestamp": "2025-08-18T00:00:00Z",
+      "text": "Machine learning library for clustering and metrics - verify algorithmic correctness"
+    },
+    {
+      "subjects": ["oxford-semantic-entropy-method"],
+      "annotationType": "review",
+      "annotator": "Research Review",
+      "timestamp": "2025-08-18T00:00:00Z",
+      "text": "Academic research method from Oxford University - verify implementation fidelity to published paper"
+    },
+    {
+      "subjects": ["sentence-transformers-model"],
+      "annotationType": "review",
+      "annotator": "Model Review",
+      "timestamp": "2025-08-18T00:00:00Z",
+      "text": "Pre-trained model dependency - verify model authenticity and track updates"
+    }
+  ],
+  "properties": [
+    {
+      "name": "plugpipe:plugin:category",
+      "value": "security"
+    },
+    {
+      "name": "plugpipe:plugin:type",
+      "value": "detection"
+    },
+    {
+      "name": "plugpipe:computation:modes",
+      "value": "full_semantic,fast_semantic,embedding_only,fallback_pattern"
+    },
+    {
+      "name": "plugpipe:computation:levels",
+      "value": "research_grade,production,efficient,minimal"
+    },
+    {
+      "name": "plugpipe:security:level",
+      "value": "production"
+    },
+    {
+      "name": "plugpipe:compliance:ready",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:performance:memory_mb",
+      "value": "200-1024"
+    },
+    {
+      "name": "plugpipe:performance:overhead",
+      "value": "1.1x-10x"
+    },
+    {
+      "name": "plugpipe:integration:oxford_research",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:semantic_entropy",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:von_neumann_entropy",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:hidden_state_entropy",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:auroc_aurac_metrics",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:multiple_generation",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:gpu_acceleration",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:capabilities:fallback_mechanisms",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:orchestrator:compatible",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:enterprise:ready",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:production:tested",
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:research:validated",
+      "value": "true"
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+category: orchestration
+description: Pipeline Loader and Validator Service - modular pipeline loading, validation,
+  and preparation for execution with proper separation of concerns
+external_dependencies:
+  install_method: pip
+  packages:
+  - copy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    config_path:
+      default: config.yaml
+      description: Path to PlugPipe config file
+      type: string
+    enterprise_enabled:
+      default: false
+      description: Enable enterprise feature validation
+      type: boolean
+    pipeline_path:
+      description: Path to pipeline YAML file
+      type: string
+    secret_config:
+      default: {}
+      description: Secret configuration for injection
+      type: object
+    strict_validation:
+      default: true
+      description: Enable strict validation mode
+      type: boolean
+    validation_rules:
+      default: {}
+      description: Custom validation rules
+      type: object
+  required:
+  - pipeline_path
+  type: object
+name: pipeline_loader_validator
+display_name: PipelineLoaderValidator
+output_schema:
+  properties:
+    dependency_check:
+      description: Plugin dependency validation results
+      properties:
+        available_plugins:
+          items:
+            type: string
+          type: array
+        missing_plugins:
+          items:
+            type: string
+          type: array
+        total_plugins:
+          type: integer
+        valid:
+          type: boolean
+      type: object
+    enterprise_analysis:
+      description: Enterprise feature analysis
+      properties:
+        compatibility_level:
+          enum:
+          - oss_compatible
+          - enterprise_required
+          - enterprise_compatible
+          type: string
+        detected_features:
+          items:
+            type: string
+          type: array
+        requires_enterprise:
+          type: boolean
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    execution_metadata:
+      description: Execution preparation metadata
+      properties:
+        execution_mode:
+          enum:
+          - linear
+          - dag
+          type: string
+        pipeline_name:
+          type: string
+        step_ids:
+          items:
+            type: string
+          type: array
+        total_steps:
+          type: integer
+      type: object
+    message:
+      description: Human-readable message
+      type: string
+    pipeline_doc:
+      description: Loaded and validated pipeline document
+      type: object
+    status:
+      description: Detailed status
+      enum:
+      - success
+      - error
+      type: string
+    success:
+      description: Operation success indicator
+      type: boolean
+    validation_result:
+      description: Comprehensive validation results
+      properties:
+        errors:
+          items:
+            type: string
+          type: array
+        step_count:
+          type: integer
+        unique_step_ids:
+          type: integer
+        valid:
+          type: boolean
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+  type: object
+owner: plugpipe-orchestration
+revolutionary_capabilities:
+- modular_pipeline_validation
+- enterprise_feature_detection
+- dependency_validation
+- execution_metadata_preparation
+- service_oriented_architecture
+- separation_of_concerns
+sbom:
+  dependencies:
+  - description: Pipeline loading and template resolution utilities
+    internal: true
+    name: PlugPipe Core Utils
+    version: '>=1.0.0'
+  - description: Secure secret injection capabilities
+    internal: true
+    name: Secret Manager
+    version: '>=1.0.0'
+  - description: YAML parsing and processing
+    license: MIT
+    name: PyYAML
+    version: '>=5.4.0'
+  - description: Path manipulation utilities
+    license: Python
+    name: pathlib
+    version: '>=1.0.0'
+  security_considerations:
+  - Handles secret injection - requires secure secret management
+  - Validates pipeline structure - prevents malicious pipeline execution
+  - Enterprise feature detection - enforces licensing compliance
+  - Plugin dependency validation - prevents missing dependency failures
+  usage_patterns:
+  - Modular orchestrator service composition
+  - Pipeline validation in CI/CD systems
+  - Enterprise feature compliance checking
+  - Dependency validation and preparation
+status: production
+tags:
+- orchestration
+- pipeline
+- validation
+- loading
+- service
+- modular
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

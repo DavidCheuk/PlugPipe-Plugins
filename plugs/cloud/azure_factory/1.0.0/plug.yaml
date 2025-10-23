@@ -1,0 +1,205 @@
+compliance:
+  audit_logging: true
+  azure_security_standards: Follows Azure security best practices and Microsoft security
+    guidelines
+  cloud_security_compliant: true
+  credential_management: Secure Azure service principal and CLI authentication support
+  data_residency: Respects Azure data residency and regional compliance requirements
+  encryption: Supports Azure encryption at rest and in transit
+  resource_governance: Azure resource tagging, naming conventions, and lifecycle management
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:40'
+  stdlib_modules_declared: true
+description: Azure Factory Plugin for multi-service cloud orchestration across Virtual
+  Machines, Storage Accounts, Azure SQL, Azure Functions and other Azure services
+  with enterprise features
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Azure operation to perform
+      enum:
+      - create_resource
+      - list_resources
+      - update_resource
+      - delete_resource
+      - get_resource_status
+      - optimize_costs
+      - setup_monitoring
+      - configure_auto_scaling
+      type: string
+    config:
+      description: Resource configuration parameters
+      type: object
+    filters:
+      description: Filters for listing resources
+      type: object
+    resource_id:
+      description: Resource identifier for operations
+      type: string
+    resource_type:
+      description: Type of resource (vm, storage_account, database, function, etc.)
+      type: string
+    service:
+      description: Azure service to operate on
+      enum:
+      - compute
+      - storage
+      - sql
+      - functions
+      - aks
+      - keyvault
+      - cosmosdb
+      - servicebus
+      type: string
+  required:
+  - action
+  - service
+  type: object
+name: azure_factory
+display_name: AzureIntegrationFactory
+output_schema:
+  properties:
+    auto_scaling_config:
+      description: Auto-scaling configuration
+      type: object
+    cost_optimization:
+      description: Cost optimization recommendations
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    monitoring_setup:
+      description: Monitoring configuration details
+      type: object
+    resource_details:
+      description: Resource details and metadata
+      type: object
+    resource_id:
+      description: Created or operated resource identifier
+      type: string
+    resources:
+      description: List of resources for list operations
+      items:
+        type: object
+      type: array
+    status:
+      description: Resource status or operation result
+      type: string
+    success:
+      description: Whether the operation was successful
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - asyncio
+    - json
+    - logging
+    - os
+    - time
+    - uuid
+    - yaml
+    - datetime
+    - typing
+    - subprocess
+    - tempfile
+    - base64
+    - re
+    - pathlib
+    - sys
+    - dataclasses
+    name: Python Standard Library
+    notes: Uses standard library modules for cloud operations, security validation,
+      and Azure CLI integration
+    purpose: Core functionality for async processing, data handling, subprocess management,
+      input validation, and security operations
+    risk_level: low
+    version: 3.8+
+  - name: Azure CLI
+    notes: External system dependency for Azure operations - requires proper authentication
+      and network access
+    optional: false
+    purpose: Microsoft Azure cloud services management and authentication
+    risk_level: medium
+    version: '>=2.0.0'
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes comprehensive fallback validation
+      when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    version: 1.0.0
+  - modules: null
+    name: PlugPipe Framework
+    notes: Core PlugPipe framework components for plugin orchestration
+    purpose: Plugin discovery and integration with PlugPipe ecosystem
+    risk_level: low
+    version: '>=1.0.0'
+  summary: Azure Factory Plugin with comprehensive cloud orchestration, Universal
+    Input Sanitizer security integration, and enterprise Azure services management
+security:
+  access_control: Restrict Azure access to authorized cloud operations only
+  audit_logging: All Azure operations logged for compliance and monitoring
+  command_injection_protection: true
+  configuration_validation: true
+  credential_sanitization: true
+  data_protection: Azure credentials and resource data require secure handling
+  file_paths:
+  - /tmp
+  - /var/tmp
+  - ~/.azure/
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data
+  file_system_access: true
+  input_validation: true
+  network_access: true
+  network_destinations:
+  - management.azure.com
+  - login.microsoftonline.com
+  - Azure regional endpoints
+  path_traversal_protection: true
+  requires_secrets: true
+  secret_types:
+  - AZURE_TENANT_ID
+  - AZURE_CLIENT_ID
+  - AZURE_CLIENT_SECRET
+  - AZURE_SUBSCRIPTION_ID
+  sensitive_data_handling: Azure credentials, resource IDs, and configuration data
+    sanitized and validated
+  subprocess_security: Controlled subprocess execution with timeout and validation
+  universal_sanitizer_integration: true
+status: stable
+stdlib_modules:
+- abc
+- asyncio
+- base64
+- dataclasses
+- datetime
+- json
+- logging
+- os
+- pathlib
+- re
+- subprocess
+- sys
+- tempfile
+- time
+- typing
+- uuid
+version: 1.0.0
+author: PlugPipe Cloud Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

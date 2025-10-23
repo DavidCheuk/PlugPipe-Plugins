@@ -1,0 +1,296 @@
+author: PlugPipe Team
+category: ai_devops
+config_schema:
+  properties:
+    automation_settings:
+      default: {}
+      properties:
+        auto_comment:
+          default: false
+          description: Automatically post AI review comments
+          type: boolean
+        auto_create_security_issues:
+          default: false
+          description: Automatically create issues for security findings
+          type: boolean
+        auto_label:
+          default: false
+          description: Automatically apply priority labels to issues
+          type: boolean
+        auto_update:
+          default: false
+          description: Automatically create dependency update PRs
+          type: boolean
+      type: object
+    github:
+      properties:
+        app_id:
+          description: GitHub App ID (for app auth)
+          type: string
+        auth_method:
+          default: token
+          enum:
+          - token
+          - app
+          type: string
+        base_url:
+          default: https://api.github.com
+          type: string
+        installation_id:
+          description: GitHub App installation ID
+          type: string
+        private_key:
+          description: GitHub App private key
+          type: string
+        token:
+          description: GitHub personal access token
+          type: string
+      required:
+      - auth_method
+      type: object
+    llm:
+      properties:
+        api_key:
+          description: LLM provider API key
+          type: string
+        max_tokens:
+          default: 2000
+          type: integer
+        model:
+          description: Model to use for analysis
+          type: string
+        provider:
+          default: openai
+          enum:
+          - openai
+          - anthropic
+          type: string
+        temperature:
+          default: 0.1
+          type: number
+      required:
+      - provider
+      - api_key
+      type: object
+  required:
+  - github
+  - llm
+  type: object
+dependencies:
+- description: Core GitHub API integration
+  name: github_integration
+  version: '>=1.0.0'
+description: PP GitHub Automation - AI-powered repository management and analysis
+examples:
+- config:
+    github:
+      auth_method: token
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${OPENAI_API_KEY}
+      model: gpt-4
+      provider: openai
+  description: Comprehensive AI analysis of repository health
+  input:
+    analysis_depth: comprehensive
+    operation: analyze_repository
+    owner: myorg
+    repo: myproject
+  name: Repository Health Analysis
+- config:
+    automation_settings:
+      auto_comment: true
+    github:
+      auth_method: token
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${ANTHROPIC_API_KEY}
+      model: claude-3-sonnet-20240229
+      provider: anthropic
+  description: Automated AI-powered pull request review
+  input:
+    operation: review_pull_request
+    owner: myorg
+    pr_number: 42
+    repo: myproject
+    review_criteria:
+    - security
+    - performance
+    - maintainability
+  name: AI Code Review
+- config:
+    automation_settings:
+      auto_create_security_issues: true
+    github:
+      auth_method: token
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${OPENAI_API_KEY}
+      provider: openai
+  description: AI-powered security vulnerability analysis
+  input:
+    operation: security_scan
+    owner: myorg
+    repo: myproject
+    scan_depth: comprehensive
+  name: Security Scanning
+- config:
+    automation_settings:
+      auto_label: true
+    github:
+      auth_method: token
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${OPENAI_API_KEY}
+      provider: openai
+  description: AI-driven issue prioritization and management
+  input:
+    operation: prioritize_issues
+    owner: myorg
+    prioritization_criteria:
+      business_impact: high
+      technical_debt: medium
+      user_experience: critical
+    repo: myproject
+  name: Issue Prioritization
+input_schema:
+  properties:
+    analysis_depth:
+      default: standard
+      description: Depth of AI analysis
+      enum:
+      - quick
+      - standard
+      - comprehensive
+      type: string
+    commit_range:
+      default: HEAD~5..HEAD
+      description: Commit range for bug detection
+      type: string
+    maintenance_tasks:
+      description: Specific maintenance tasks to perform
+      items:
+        type: string
+      type: array
+    operation:
+      description: AI operation to perform
+      enum:
+      - analyze_repository
+      - review_pull_request
+      - spot_bugs
+      - enforce_coding_standards
+      - prioritize_issues
+      - manage_dependencies
+      - security_scan
+      - automated_maintenance
+      - create_or_update_file
+      - search_repositories
+      - create_pull_request_with_ai
+      type: string
+    owner:
+      description: Repository owner/organization
+      type: string
+    pr_number:
+      description: Pull request number (for review operations)
+      type: integer
+    prioritization_criteria:
+      description: Issue prioritization criteria
+      type: object
+    repo:
+      description: Repository name
+      type: string
+    review_criteria:
+      description: Specific criteria for code review
+      items:
+        type: string
+      type: array
+    scan_depth:
+      default: comprehensive
+      description: Security scan depth
+      enum:
+      - basic
+      - standard
+      - comprehensive
+      type: string
+    standards_config:
+      description: Coding standards configuration
+      type: object
+    update_strategy:
+      default: conservative
+      description: Dependency update strategy
+      enum:
+      - conservative
+      - moderate
+      - aggressive
+      type: string
+  required:
+  - operation
+  - owner
+  - repo
+  type: object
+license: MIT
+name: llm_github_mcp
+display_name: LLMGitHubMcp
+output_schema:
+  properties:
+    ai_insights:
+      description: Key AI insights and recommendations
+      type: object
+    llm_github_error:
+      description: Error message if operation failed
+      type: string
+    llm_github_result:
+      description: Detailed AI analysis results
+      type: object
+    llm_github_status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      type: string
+  type: object
+owner: PlugPipe Integration Team
+performance:
+  caching: Supports result caching for repeated analyses
+  execution_time: 30-300 seconds
+  rate_limits: Respects GitHub and LLM provider rate limits
+resources:
+  cpu: moderate
+  memory: 512MB
+  network: high
+  storage: minimal
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  network_access:
+  - api.github.com
+  - api.openai.com
+  - api.anthropic.com
+  permissions:
+  - repository_read
+  - repository_write
+  - issues_write
+  requires_secrets:
+  - GITHUB_TOKEN
+  - LLM_API_KEY
+status: stable
+tags:
+- github
+- llm
+- mcp
+- ai
+- automation
+- code_review
+- security
+- bug_detection
+- dependency_management
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

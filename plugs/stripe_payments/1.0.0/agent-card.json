@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:payments:stripe_payments",
+    "name": "Stripe Payments Agent",
+    "description": "Enterprise Stripe payment processing integration with comprehensive financial operations",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/stripe_payments",
+    "skills": [
+      {
+        "id": "stripe_payments-primary",
+        "name": "Stripe Payments",
+        "description": "Enterprise Stripe payment processing integration with comprehensive financial operations",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "stripe_payments",
+        "category": "payments",
+        "subcategory": "",
+        "tags": [
+          "stripe",
+          "payments",
+          "billing",
+          "subscriptions",
+          "ecommerce",
+          "fintech",
+          "recurring"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.625911Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

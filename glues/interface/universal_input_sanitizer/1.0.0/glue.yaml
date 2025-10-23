@@ -1,0 +1,17 @@
+name: universal_input_sanitizer
+version: 1.0.0
+description: Universal input sanitization interface that transforms raw input into sanitized, secure input across all threat categories
+author: PlugPipe Integration Team
+category: interface
+status: active
+source_schema: raw_input
+target_schema: sanitized_input
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- interface
+- security
+- input-sanitization
+- threat-detection
+- universal
+- validation

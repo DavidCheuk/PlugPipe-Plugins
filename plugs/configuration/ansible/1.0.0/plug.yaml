@@ -1,0 +1,532 @@
+description: Comprehensive Ansible automation and configuration management plugin
+  for playbook execution, inventory management, role management, ad-hoc commands,
+  vault integration, and Galaxy operations
+external_dependencies:
+  install_method: pip
+  packages:
+  - shlex
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    ask_vault_pass:
+      default: false
+      description: Prompt for vault password
+      type: boolean
+    become:
+      default: true
+      description: Use privilege escalation (sudo)
+      type: boolean
+    become_method:
+      default: sudo
+      description: Privilege escalation method
+      enum:
+      - sudo
+      - su
+      - pbrun
+      - pfexec
+      - doas
+      - dzdo
+      - ksu
+      type: string
+    become_user:
+      default: root
+      description: User to become via privilege escalation
+      type: string
+    check_mode:
+      default: false
+      description: Run in check mode (dry run)
+      type: boolean
+    collection_name:
+      description: Name of the Ansible collection
+      type: string
+    collections_paths:
+      default:
+      - /etc/ansible/collections
+      description: Paths for Ansible collections
+      items:
+        type: string
+      type: array
+    command:
+      description: Shell command to execute on target hosts
+      type: string
+    dest:
+      description: Destination file path for copy operations
+      type: string
+    diff_mode:
+      default: false
+      description: Show diffs for changes
+      type: boolean
+    enabled:
+      description: Whether service should be enabled at boot
+      type: boolean
+    extra_vars:
+      default: {}
+      description: Extra variables to pass to playbook
+      type: object
+    force:
+      default: false
+      description: Force reinstall of role or collection
+      type: boolean
+    forks:
+      default: 5
+      description: Number of parallel processes
+      type: integer
+    galaxy_server_url:
+      default: https://galaxy.ansible.com
+      description: Ansible Galaxy server URL
+      type: string
+    host_key_checking:
+      default: false
+      description: Enable SSH host key checking
+      type: boolean
+    hostname:
+      description: Specific hostname for host variable operations
+      type: string
+    inventory:
+      description: Path to inventory file or dynamic inventory script
+      type: string
+    inventory_path:
+      default: /etc/ansible/hosts
+      description: Default inventory file path
+      type: string
+    limit:
+      description: Limit selected hosts to an additional pattern
+      type: string
+    mode:
+      description: File permissions for copy operations
+      type: string
+    module_args:
+      description: Arguments to pass to the Ansible module
+      type: string
+    module_name:
+      description: Ansible module name for ad-hoc execution
+      type: string
+    operation:
+      description: Ansible operation to execute
+      enum:
+      - run_playbook
+      - check_syntax
+      - list_tasks
+      - list_hosts
+      - list_groups
+      - get_host_vars
+      - ping_hosts
+      - gather_facts
+      - run_module
+      - copy_file
+      - install_package
+      - manage_service
+      - run_command
+      - install_role
+      - install_collection
+      - list_roles
+      - list_collections
+      - remove_role
+      - search_roles
+      - search_collections
+      type: string
+    owner:
+      description: File owner for copy operations
+      type: string
+    package:
+      description: Package name for installation operations
+      type: string
+    pattern:
+      default: all
+      description: Host pattern for targeting specific hosts
+      type: string
+    playbook_name:
+      description: Name or path of the Ansible playbook
+      type: string
+    playbook_path:
+      default: /etc/ansible/playbooks
+      description: Default playbooks directory
+      type: string
+    private_key_file:
+      description: Path to SSH private key file
+      type: string
+    remote_user:
+      default: root
+      description: SSH user for remote connections
+      type: string
+    role_name:
+      description: Name of the Ansible role
+      type: string
+    roles_path:
+      default: /etc/ansible/roles
+      description: Ansible roles directory
+      type: string
+    search_term:
+      description: Search term for Galaxy search operations
+      type: string
+    service:
+      description: Service name for service management operations
+      type: string
+    skip_tags:
+      description: Tags to skip (only run plays and tasks whose tags do not match
+        these values)
+      items:
+        type: string
+      type: array
+    src:
+      description: Source file path for copy operations
+      type: string
+    state:
+      default: present
+      description: Desired state for package/service operations
+      enum:
+      - present
+      - absent
+      - latest
+      - started
+      - stopped
+      - restarted
+      - reloaded
+      type: string
+    tags:
+      description: Tags to run (only run plays and tasks tagged with these values)
+      items:
+        type: string
+      type: array
+    timeout:
+      default: 1800
+      description: Command execution timeout in seconds
+      type: integer
+    vault_id:
+      description: Vault identity for multiple vaults
+      type: string
+    vault_password_file:
+      description: Path to vault password file
+      type: string
+    verbosity:
+      default: 0
+      description: Verbosity level (0-4)
+      maximum: 4
+      minimum: 0
+      type: integer
+    version:
+      description: Specific version of role or collection
+      type: string
+  required:
+  - operation
+  type: object
+name: ansible
+display_name: Ansible
+output_schema:
+  properties:
+    ansible_config:
+      description: Ansible configuration used for operation
+      properties:
+        become:
+          type: boolean
+        forks:
+          type: integer
+        inventory_path:
+          type: string
+        remote_user:
+          type: string
+        timeout:
+          type: integer
+      type: object
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    collections:
+      description: List of installed collections (for list_collections operation)
+      items:
+        type: string
+      type: array
+    command:
+      description: Executed Ansible command
+      type: string
+    error:
+      description: Error message if operation failed
+      type: string
+    error_details:
+      description: Detailed error information
+      properties:
+        documentation_link:
+          type: string
+        error_type:
+          type: string
+        suggested_fix:
+          type: string
+      type: object
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    facts:
+      description: Gathered facts from hosts (for gather_facts operation)
+      type: object
+    groups:
+      description: Inventory groups structure (for list_groups operation)
+      type: object
+    host_vars:
+      description: Host variables (for get_host_vars operation)
+      type: object
+    hosts:
+      description: List of hosts (for list_hosts operation)
+      items:
+        type: string
+      type: array
+    installation_result:
+      description: Role/collection installation results
+      properties:
+        installed:
+          type: boolean
+        name:
+          type: string
+        path:
+          type: string
+        version:
+          type: string
+      type: object
+    module_results:
+      description: Ad-hoc module execution results by host
+      type: object
+    operation:
+      description: Executed Ansible operation
+      type: string
+    output:
+      description: Command output from Ansible
+      type: string
+    ping_results:
+      description: Ping results by host (for ping_hosts operation)
+      type: object
+    playbook_result:
+      description: Playbook execution results
+      properties:
+        duration:
+          type: number
+        plays:
+          items:
+            type: object
+          type: array
+        tasks_changed:
+          type: integer
+        tasks_failed:
+          type: integer
+        tasks_ok:
+          type: integer
+        tasks_total:
+          type: integer
+        tasks_unreachable:
+          type: integer
+      type: object
+    return_code:
+      description: Command return code
+      type: integer
+    roles:
+      description: List of installed roles (for list_roles operation)
+      items:
+        type: string
+      type: array
+    search_results:
+      description: Galaxy search results (for search operations)
+      items:
+        properties:
+          author:
+            type: string
+          description:
+            type: string
+          download_count:
+            type: integer
+          name:
+            type: string
+        type: object
+      type: array
+    success:
+      description: Operation success status
+      type: boolean
+    syntax_check_result:
+      description: Playbook syntax check results
+      properties:
+        errors:
+          items:
+            type: string
+          type: array
+        valid:
+          type: boolean
+      type: object
+    tasks:
+      description: List of tasks in playbook (for list_tasks operation)
+      items:
+        properties:
+          name:
+            type: string
+          tags:
+            items:
+              type: string
+            type: array
+        type: object
+      type: array
+    timestamp:
+      description: Operation execution timestamp
+      format: date-time
+      type: string
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - CIS Controls for configuration management
+  - NIST Cybersecurity Framework
+  - SOC 2 compliance controls
+  - ISO 27001 configuration management standards
+  - PCI DSS system configuration requirements
+  - FedRAMP controls for government cloud deployments
+  dependencies:
+  - description: Core Ansible automation engine
+    license: GPL-3.0
+    name: ansible-core
+    source: https://github.com/ansible/ansible
+    type: python
+    version: '>=2.12.0'
+  - description: Ansible automation platform with collections
+    license: GPL-3.0
+    name: ansible
+    source: https://github.com/ansible/ansible
+    type: python
+    version: '>=6.0.0'
+  - description: Ansible Galaxy tool for role and collection management
+    license: GPL-3.0
+    name: ansible-galaxy
+    source: https://github.com/ansible/ansible
+    type: binary
+    version: '>=2.12.0'
+  - description: Ansible playbook execution engine
+    license: GPL-3.0
+    name: ansible-playbook
+    source: https://github.com/ansible/ansible
+    type: binary
+    version: '>=2.12.0'
+  - description: Ansible inventory management tool
+    license: GPL-3.0
+    name: ansible-inventory
+    source: https://github.com/ansible/ansible
+    type: binary
+    version: '>=2.12.0'
+  - description: Ansible Vault for secrets management
+    license: GPL-3.0
+    name: ansible-vault
+    optional: true
+    source: https://github.com/ansible/ansible
+    type: binary
+    version: '>=2.12.0'
+  - description: Python runtime for Ansible execution
+    license: PSF
+    name: python3
+    source: https://www.python.org
+    type: runtime
+    version: '>=3.8'
+  - description: YAML parsing library for Ansible configurations
+    license: MIT
+    name: pyyaml
+    source: https://github.com/yaml/pyyaml
+    type: python
+    version: '>=5.4.0'
+  - description: Templating engine for Ansible templates
+    license: BSD-3-Clause
+    name: jinja2
+    source: https://github.com/pallets/jinja
+    type: python
+    version: '>=3.0.0'
+  - description: SSH client library for Ansible connections
+    license: LGPL-2.1
+    name: paramiko
+    optional: true
+    source: https://github.com/paramiko/paramiko
+    type: python
+    version: '>=2.7.0'
+  integration_capabilities:
+  - Git integration for playbook version control
+  - Jenkins/CI-CD pipeline integration
+  - AWX/Ansible Tower for enterprise management
+  - Docker container orchestration
+  - Kubernetes cluster management
+  - Cloud provider automation (AWS, GCP, Azure)
+  - Network device configuration management
+  - Database deployment and configuration
+  - Application deployment automation
+  - Monitoring and observability setup
+  - Security compliance automation
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - SSH key management and secure storage
+  - Ansible Vault for sensitive data encryption
+  - Network security for SSH connections (port 22)
+  - File permissions for playbooks and inventory files
+  - Regular security updates for Ansible components
+  - Audit logging for all Ansible operations
+  - Principle of least privilege for target systems
+  - Secure handling of vault passwords and decryption keys
+  - Host key verification for SSH connections
+  security_enhancements:
+  - Universal Input Sanitizer integration for malicious pattern detection
+  - Command injection prevention with argument sanitization
+  - Path traversal protection for playbook and inventory files
+  - Configuration validation with security constraints
+  - Dangerous command blocking for shell operations
+  - Credential and sensitive data redaction in error messages
+  - Fallback security validation when sanitizer unavailable
+  - Comprehensive input validation for all Ansible operations
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - RHEL 7+
+    - CentOS 7+
+    - Ubuntu 18.04+
+    - Debian 9+
+    - SLES 12+
+    - Amazon Linux 2+
+    - Alpine Linux 3.12+
+  - name: Windows
+    notes: Requires WinRM configuration
+    versions:
+    - Windows Server 2016+
+    - Windows 10+
+  - name: macOS
+    versions:
+    - macOS 10.14+
+  - name: Network Devices
+    notes: Via network modules and collections
+    versions:
+    - Cisco IOS
+    - Juniper JunOS
+    - Arista EOS
+    - F5 BIG-IP
+  - name: Cloud Platforms
+    notes: Via cloud collections
+    versions:
+    - AWS
+    - GCP
+    - Azure
+    - DigitalOcean
+    - Linode
+  threat_model:
+  - Asset: Ansible automation infrastructure
+  - Threat_Actors: External attackers, Malicious insiders, Compromised applications
+  - Attack_Vectors: Command injection, Configuration manipulation, Path traversal
+  - Impact: System compromise, Data exfiltration, Service disruption
+  - Controls: Input sanitization, Path validation, Command filtering, Error redaction
+  vulnerability_assessments:
+  - Command injection vulnerabilities - MITIGATED
+  - Path traversal attacks - MITIGATED
+  - Configuration tampering - MITIGATED
+  - Sensitive data exposure - MITIGATED
+  - Privilege escalation via become parameters - VALIDATED
+  - Ansible vault password exposure - PROTECTED
+status: active
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

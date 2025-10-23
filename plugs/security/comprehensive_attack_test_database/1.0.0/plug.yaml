@@ -1,0 +1,106 @@
+author: PlugPipe Security Team
+category: security
+config:
+  output_format:
+    default: json
+    description: Output format for test cases
+    options:
+    - json
+    - yaml
+    - csv
+    type: string
+  sophistication_levels:
+    default:
+    - basic
+    - intermediate
+    - advanced
+    - expert
+    description: Sophistication levels to include
+    type: array
+  test_categories:
+    default:
+    - prompt_injection
+    - secret_leakage
+    - pii_exposure
+    - protocol_abuse
+    - policy_violation
+    description: Categories of attacks to include in test database
+    type: array
+dependencies:
+  plugins: []
+description: Comprehensive attack test database with 500+ realistic security test
+  cases for MCP testing
+external_dependencies:
+  python:
+  - requests>=2.25.0
+interface:
+  process:
+    input_schema:
+      properties:
+        action:
+          enum:
+          - generate
+          - list
+          - filter
+          - export
+          type: string
+        export_path:
+          type: string
+        filter_criteria:
+          properties:
+            category:
+              type: string
+            severity:
+              type: string
+            sophistication:
+              type: string
+          type: object
+      required:
+      - action
+      type: object
+    output_schema:
+      properties:
+        categories:
+          type: array
+        export_path:
+          type: string
+        statistics:
+          type: object
+        test_cases:
+          type: array
+        total_test_cases:
+          type: integer
+      type: object
+name: comprehensive_attack_test_database
+display_name: ComprehensiveAttackTestDatabase
+tags:
+- attack
+- testing
+- database
+- comprehensive
+- mcp
+- prompt-injection
+- security
+- xss
+- sql-injection
+- command-injection
+- xxe
+- ssti
+- csrf
+- auth-bypass
+- file-upload
+- api-abuse
+- header-injection
+- path-traversal
+- ldap-injection
+type: plug
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

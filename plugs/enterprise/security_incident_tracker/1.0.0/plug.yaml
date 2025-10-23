@@ -1,0 +1,101 @@
+name: security_incident_tracker
+display_name: SecurityIncidentTracker
+owner: Security Team
+version: 1.0.0
+status: stable
+description: Tracks and reports security incidents from enterprise monitoring system,
+  MCP Guardian logs, and security alert manager for 30-day incident tracking and severity
+  analysis
+category: enterprise
+type: security_incident_tracker
+metadata:
+  created_at: '2025-10-05T16:00:00Z'
+  updated_at: '2025-10-05T16:00:00Z'
+  license: MIT
+  keywords:
+  - security
+  - incidents
+  - tracking
+  - monitoring
+  - alerts
+input_schema:
+  type: object
+  properties:
+    time_period_days:
+      type: integer
+      description: Number of days to look back for incidents
+      default: 30
+    severity_filter:
+      type: array
+      description: Filter by severity levels
+      items:
+        type: string
+        enum:
+        - info
+        - warning
+        - error
+        - critical
+      default:
+      - error
+      - critical
+    include_resolved:
+      type: boolean
+      description: Include resolved incidents
+      default: false
+  additionalProperties: true
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    plugin_name:
+      type: string
+    timestamp:
+      type: string
+      format: date-time
+    message:
+      type: string
+    processed_data:
+      type: object
+      properties:
+        total_incidents:
+          type: integer
+        incidents_by_severity:
+          type: object
+        recent_incidents:
+          type: array
+        incident_trend:
+          type: string
+    metadata:
+      type: object
+  required:
+  - success
+  - plugin_name
+  - timestamp
+capabilities:
+- security_incident_tracking
+- alert_aggregation
+- severity_analysis
+- trend_detection
+operations:
+- track_incidents
+- analyze_severity
+- detect_trends
+- generate_report
+plugpipe_principles:
+  everything_is_plugin: true
+  write_once_use_everywhere: true
+  no_glue_code: true
+  secure_by_design: true
+  reuse_not_reinvent: true
+compliance:
+  follows_foundation_pattern: true
+  uses_pp_discovery: true
+  reuse_not_reinvent: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

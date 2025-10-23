@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:plugin_change_hooks-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T07:15:51.132098Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "plugin_change_hooks@1.0.0",
+      "name": "plugin_change_hooks",
+      "version": "1.0.0",
+      "description": "Auto-triggering hook system for plugin change validation - monitors plugin directory changes and automatically triggers validation pipeline with issue tracking"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

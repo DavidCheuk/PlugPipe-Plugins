@@ -1,0 +1,226 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlugPipe CycloneDX SBOM Schema",
+  "description": "Software Bill of Materials schema following CycloneDX 1.4+ specification for PlugPipe components",
+  "type": "object",
+  "required": ["bomFormat", "specVersion", "serialNumber", "version", "metadata"],
+  "properties": {
+    "bomFormat": {
+      "type": "string",
+      "enum": ["CycloneDX"],
+      "description": "SBOM format identifier"
+    },
+    "specVersion": {
+      "type": "string",
+      "enum": ["1.4", "1.5"],
+      "description": "CycloneDX specification version"
+    },
+    "serialNumber": {
+      "type": "string",
+      "pattern": "^urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$|^urn:uuid:[a-zA-Z0-9_-]+-[0-9]\\.[0-9]\\.[0-9].*$",
+      "description": "Unique identifier for the SBOM"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Version of the SBOM document"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["timestamp", "tools", "component"],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "SBOM generation timestamp"
+        },
+        "tools": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["vendor", "name", "version"],
+            "properties": {
+              "vendor": {
+                "type": "string",
+                "description": "Tool vendor"
+              },
+              "name": {
+                "type": "string",
+                "description": "Tool name"
+              },
+              "version": {
+                "type": "string",
+                "description": "Tool version"
+              }
+            }
+          }
+        },
+        "component": {
+          "type": "object",
+          "required": ["type", "bom-ref", "name", "version"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["application", "library", "framework", "container", "operating-system", "device", "file"],
+              "description": "Component type"
+            },
+            "bom-ref": {
+              "type": "string",
+              "description": "Unique identifier for the component within the SBOM"
+            },
+            "name": {
+              "type": "string",
+              "description": "Component name"
+            },
+            "version": {
+              "type": "string",
+              "description": "Component version"
+            },
+            "description": {
+              "type": "string",
+              "description": "Component description"
+            },
+            "scope": {
+              "type": "string",
+              "enum": ["required", "optional", "excluded"],
+              "description": "Component scope"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "description": "Array of components (dependencies)",
+      "items": {
+        "type": "object",
+        "required": ["type", "bom-ref", "name", "version"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["application", "library", "framework", "container", "operating-system", "device", "file"]
+          },
+          "bom-ref": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "license": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "purl": {
+            "type": "string",
+            "description": "Package URL (PURL) identifier"
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "description": "Dependency graph",
+      "items": {
+        "type": "object",
+        "required": ["ref"],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "description": "Reference to component"
+          },
+          "dependsOn": {
+            "type": "array",
+            "description": "Array of dependency references",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "vulnerabilities": {
+      "type": "array",
+      "description": "Known vulnerabilities",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bom-ref": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "published": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low", "info"]
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "annotations": {
+      "type": "array",
+      "description": "Enterprise security annotations",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bom-ref": {
+            "type": "string"
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "annotationType": {
+            "type": "string"
+          },
+          "annotation": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

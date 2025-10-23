@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:governance:business_compliance_auditor",
+    "name": "Business Compliance Auditor Agent",
+    "description": "Universal business compliance auditor supporting multiple frameworks including PlugPipe principles, OWASP, SOC2, ISO27001, GDPR, and custom business rules",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/business_compliance_auditor",
+    "skills": [
+      {
+        "id": "business_compliance_auditor-primary",
+        "name": "Business Compliance Auditor",
+        "description": "Universal business compliance auditor supporting multiple frameworks including PlugPipe principles, OWASP, SOC2, ISO27001, GDPR, and custom business rules",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "business_compliance_auditor",
+        "category": "governance",
+        "subcategory": "",
+        "tags": [
+          "compliance",
+          "auditing",
+          "governance",
+          "gate-keeping",
+          "business-rules",
+          "multi-framework"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.740802Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

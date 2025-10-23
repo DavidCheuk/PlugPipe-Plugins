@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:architecture_guardian_watcher-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:07:26.135665Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "architecture_guardian_watcher@1.0.0",
+      "name": "architecture_guardian_watcher",
+      "version": "1.0.0",
+      "description": "Continuous monitoring integration for PlugPipe Architecture Guardian agent - ensures real-time enforcement of PlugPipe principles during development"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

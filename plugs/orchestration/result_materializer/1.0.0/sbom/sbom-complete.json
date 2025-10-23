@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:result_materializer-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:36:09.452558Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "result_materializer@1.0.0",
+      "name": "result_materializer",
+      "version": "1.0.0",
+      "description": "Result Materializer Service - handles result materialization, output management, and artifact storage with proper organization and validation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

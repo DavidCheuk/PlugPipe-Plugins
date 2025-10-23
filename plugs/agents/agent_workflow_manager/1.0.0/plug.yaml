@@ -1,0 +1,181 @@
+category: orchestration
+config_defaults:
+  default_execution_mode: dag
+  enable_fallback: true
+  enable_parallel_execution: true
+  max_agents_per_workflow: 10
+  workflow_timeout_seconds: 300
+config_schema:
+  properties:
+    default_execution_mode:
+      default: dag
+      description: Default execution mode for workflows
+      enum:
+      - dag
+      - linear
+      - parallel
+      type: string
+    enable_fallback:
+      default: true
+      description: Whether to enable fallback when plugins unavailable
+      type: boolean
+    enable_parallel_execution:
+      default: true
+      description: Whether to allow parallel execution of workflow steps
+      type: boolean
+    max_agents_per_workflow:
+      default: 10
+      description: Maximum number of agents per workflow
+      maximum: 50
+      minimum: 1
+      type: integer
+    workflow_timeout_seconds:
+      default: 300
+      description: Timeout for workflow execution
+      maximum: 3600
+      minimum: 30
+      type: number
+  type: object
+description: Agent workflow orchestration system that coordinates agent_factory, modular_orchestrator,
+  execution_engine, and task_queue_orchestrator plugins for complex multi-agent workflows
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    action:
+      default: execute_workflow
+      description: Workflow management action to perform
+      enum:
+      - execute_workflow
+      - create_workflow_template
+      - list_workflow_templates
+      - get_available_orchestrators
+      type: string
+    execution_mode:
+      default: dag
+      description: Workflow execution mode
+      enum:
+      - dag
+      - linear
+      - parallel
+      type: string
+    template_config:
+      description: Configuration for new workflow template
+      type: object
+    template_name:
+      description: Name for new workflow template
+      type: string
+    workflow_data:
+      description: Data and context for workflow execution
+      type: object
+    workflow_template:
+      default: multi_agent_fact_check
+      description: Workflow template to execute
+      enum:
+      - multi_agent_fact_check
+      - multi_agent_content_analysis
+      - multi_agent_research_validation
+      type: string
+  type: object
+metadata:
+  capabilities:
+  - agent_workflow_orchestration
+  - multi_plugin_coordination
+  - workflow_template_management
+  - execution_mode_selection
+  - graceful_degradation
+  dependencies:
+  - name: agent_factory
+    required: false
+    version: 1.0.0
+  - name: modular_orchestrator
+    required: false
+    version: 1.0.0
+  - name: execution_engine
+    required: false
+    version: 1.0.0
+  - name: task_queue_orchestrator
+    required: false
+    version: 1.0.0
+  memory_mb: 1024
+  type: orchestration
+name: agent_workflow_manager
+display_name: AgentWorkflowManager
+output_schema:
+  properties:
+    agents_created:
+      description: Agents created for workflow
+      items:
+        type: object
+      type: array
+    error:
+      description: Error message if failed
+      type: string
+    execution_mode:
+      description: Execution mode used
+      type: string
+    execution_steps:
+      description: Steps completed in orchestration
+      items:
+        type: string
+      type: array
+    orchestration_results:
+      description: Results from orchestrated plugins
+      type: object
+    orchestrator_availability:
+      description: Availability status of orchestration plugins
+      type: object
+    partial_results:
+      description: Partial results if workflow failed
+      type: object
+    reused_plugins:
+      description: List of PlugPipe plugins that were reused
+      items:
+        type: string
+      type: array
+    success:
+      description: Operation success status
+      type: boolean
+    templates:
+      description: Available workflow templates
+      items:
+        type: object
+      type: array
+    workflow_id:
+      description: Unique workflow execution identifier
+      type: string
+    workflow_status:
+      description: Final workflow status
+      enum:
+      - completed
+      - failed
+      - completed_with_fallback
+      type: string
+    workflow_template:
+      description: Template used for workflow
+      type: string
+  required:
+  - success
+  type: object
+owner: PlugPipe Orchestration Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- orchestration
+- agent-workflows
+- multi-agent
+- workflow-templates
+- plugin-coordination
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

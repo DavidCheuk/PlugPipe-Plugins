@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:certificates:certificate_manager_abstract",
+    "name": "Certificate Manager Abstract Agent",
+    "description": "Abstract base plugin for certificate management operations across all certificate providers following PlugPipe's plugin-first architecture",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/certificate_manager_abstract",
+    "skills": [
+      {
+        "id": "certificate_manager_abstract-primary",
+        "name": "Certificate Manager Abstract",
+        "description": "Abstract base plugin for certificate management operations across all certificate providers following PlugPipe's plugin-first architecture",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "certificate_manager_abstract",
+        "category": "security",
+        "subcategory": "certificates",
+        "tags": [
+          "certificates",
+          "pki",
+          "security",
+          "abstract",
+          "base",
+          "interface"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.658773Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

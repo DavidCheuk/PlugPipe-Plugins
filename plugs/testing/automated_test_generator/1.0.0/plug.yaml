@@ -1,0 +1,525 @@
+name: automated_test_generator
+display_name: AutomatedTestGenerator
+version: 1.0.0
+owner: PlugPipe Core Team
+status: stable
+description: Comprehensive automated test generation orchestrator that leverages existing
+  PlugPipe abstractions for intelligent, multi-layered test creation including unit
+  tests, integration tests, performance tests, and security tests. Enhanced with mission-critical
+  plugin detection and performance/stress/redundancy testing using the performance_benchmark
+  plugin for enterprise-grade availability assurance.
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      enum:
+      - generate_plugin_tests
+      - generate_integration_tests
+      - generate_performance_tests
+      - generate_security_tests
+      - generate_full_test_suite
+      - analyze_test_coverage
+      - validate_existing_tests
+      - run_selective_tests
+      - list_test_patterns
+      - manual_test_execution
+      default: generate_full_test_suite
+      description: Type of test generation to perform
+    target_plugin:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Plugin name
+        version:
+          type: string
+          description: Plugin version
+        path:
+          type: string
+          description: Path to plugin directory
+        category:
+          type: string
+          description: Plugin category
+      description: Target plugin for test generation
+    test_configuration:
+      type: object
+      properties:
+        test_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - unit
+            - integration
+            - performance
+            - security
+            - compliance
+            - api
+            - e2e
+          default:
+          - unit
+          - integration
+          - security
+          description: Types of tests to generate
+        test_framework:
+          type: string
+          enum:
+          - pytest
+          - unittest
+          - nose2
+          default: pytest
+          description: Testing framework to use
+        coverage_target:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          default: 0.9
+          description: Target code coverage percentage
+        enable_mock_generation:
+          type: boolean
+          default: true
+          description: Generate mock objects for external dependencies
+        enable_fixture_generation:
+          type: boolean
+          default: true
+          description: Generate test fixtures and setup/teardown
+        enable_parametrized_tests:
+          type: boolean
+          default: true
+          description: Generate parametrized tests for edge cases
+        include_error_scenarios:
+          type: boolean
+          default: true
+          description: Generate tests for error handling scenarios
+      description: Test generation configuration
+    test_selection:
+      type: object
+      properties:
+        test_patterns:
+          type: array
+          items:
+            type: string
+          description: Specific test patterns to run (e.g., ["test_*_performance",
+            "test_security_*"])
+        exclude_patterns:
+          type: array
+          items:
+            type: string
+          description: Test patterns to exclude from execution
+        test_categories:
+          type: array
+          items:
+            type: string
+            enum:
+            - unit
+            - integration
+            - performance
+            - security
+            - compliance
+            - api
+            - e2e
+          description: Specific test categories to generate or run
+        test_tags:
+          type: array
+          items:
+            type: string
+          description: pytest tags/markers to filter tests (e.g., ["slow", "critical",
+            "mission_critical"])
+        max_execution_time:
+          type: integer
+          default: 300
+          description: Maximum execution time in seconds for test runs
+        parallel_execution:
+          type: boolean
+          default: false
+          description: Enable parallel test execution
+      description: Test selection and filtering configuration
+    cli_options:
+      type: object
+      properties:
+        verbose:
+          type: boolean
+          default: false
+          description: Enable verbose output for CLI execution
+        dry_run:
+          type: boolean
+          default: false
+          description: Show what tests would be generated/run without executing
+        output_format:
+          type: string
+          enum:
+          - table
+          - json
+          - yaml
+          - junit
+          default: table
+          description: Output format for test results
+        save_results:
+          type: boolean
+          default: true
+          description: Save test results to file
+        interactive_mode:
+          type: boolean
+          default: false
+          description: Enable interactive test selection mode
+      description: CLI execution options
+    ecosystem_analysis:
+      type: object
+      properties:
+        enable_llm_analysis:
+          type: boolean
+          default: true
+          description: Use LLM service for intelligent test generation
+        enable_context_analysis:
+          type: boolean
+          default: true
+          description: Use context analyzer for plugin understanding
+        enable_integrity_validation:
+          type: boolean
+          default: true
+          description: Use codebase integrity scanner for validation
+        enable_agent_orchestration:
+          type: boolean
+          default: true
+          description: Use agent factory for specialized test agents
+      description: PlugPipe ecosystem integration settings
+  required:
+  - action
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Whether test generation was successful
+    operation_completed:
+      type: string
+      description: The operation that was performed
+    test_generation_results:
+      type: object
+      properties:
+        tests_generated:
+          type: integer
+          description: Total number of test files generated
+        test_categories:
+          type: object
+          properties:
+            unit_tests:
+              type: integer
+            integration_tests:
+              type: integer
+            performance_tests:
+              type: integer
+            security_tests:
+              type: integer
+            compliance_tests:
+              type: integer
+          description: Number of tests by category
+        coverage_analysis:
+          type: object
+          properties:
+            estimated_coverage:
+              type: number
+              description: Estimated code coverage percentage
+            functions_covered:
+              type: integer
+            functions_total:
+              type: integer
+            lines_covered:
+              type: integer
+            lines_total:
+              type: integer
+          description: Test coverage analysis
+        test_files_created:
+          type: array
+          items:
+            type: object
+            properties:
+              file_path:
+                type: string
+              test_type:
+                type: string
+              tests_count:
+                type: integer
+              functions_tested:
+                type: array
+                items:
+                  type: string
+          description: Details of created test files
+    ecosystem_analysis_results:
+      type: object
+      properties:
+        llm_insights:
+          type: object
+          description: LLM-generated insights about plugin functionality
+        context_analysis:
+          type: object
+          description: Context analyzer results for plugin understanding
+        integrity_validation:
+          type: object
+          description: Plugin integrity and completeness validation
+        agent_coordination:
+          type: object
+          description: Specialized test agent coordination results
+      description: Results from PlugPipe ecosystem analysis
+    test_quality_metrics:
+      type: object
+      properties:
+        complexity_score:
+          type: number
+          description: Test suite complexity score
+        maintainability_score:
+          type: number
+          description: Test maintainability score
+        edge_case_coverage:
+          type: number
+          description: Edge case coverage percentage
+        error_scenario_coverage:
+          type: number
+          description: Error scenario coverage percentage
+      description: Quality metrics for generated tests
+    recommendations:
+      type: array
+      items:
+        type: string
+      description: Recommendations for test improvement
+    validation_results:
+      type: object
+      properties:
+        syntax_valid:
+          type: boolean
+        imports_valid:
+          type: boolean
+        executable:
+          type: boolean
+        pytest_compatible:
+          type: boolean
+      description: Validation results for generated tests
+    error:
+      type: string
+      description: Error message if generation failed
+    timestamp:
+      type: string
+      format: date-time
+  required:
+  - success
+  - operation_completed
+  - timestamp
+config_schema:
+  type: object
+  properties:
+    ecosystem_integration:
+      type: object
+      properties:
+        llm_service_config:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              default: true
+            model_preference:
+              type: string
+              enum:
+              - fast
+              - balanced
+              - comprehensive
+              default: balanced
+            max_analysis_tokens:
+              type: integer
+              default: 4000
+        context_analyzer_config:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              default: true
+            deep_analysis:
+              type: boolean
+              default: true
+            architectural_analysis:
+              type: boolean
+              default: true
+        agent_factory_config:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              default: true
+            specialized_agents:
+              type: array
+              items:
+                type: string
+              default:
+              - unit_test_agent
+              - integration_test_agent
+              - security_test_agent
+    test_generation_defaults:
+      type: object
+      properties:
+        default_test_framework:
+          type: string
+          default: pytest
+        default_coverage_target:
+          type: number
+          default: 0.85
+        default_test_types:
+          type: array
+          items:
+            type: string
+          default:
+          - unit
+          - integration
+          - security
+        auto_validate_generated_tests:
+          type: boolean
+          default: true
+capabilities:
+- intelligent_test_generation
+- multi_framework_support
+- ecosystem_plugin_orchestration
+- automated_mock_generation
+- coverage_analysis
+- quality_metrics_assessment
+- test_validation_and_execution
+- specialized_agent_coordination
+- selective_test_pattern_filtering
+- cli_integration_with_pp_command
+- interactive_test_selection_mode
+- parallel_test_execution_support
+plugin_dependencies:
+  required:
+  - intelligence/llm_service/1.0.0
+  - core/agent_factory/1.0.0
+  - intelligence/context_analyzer/1.0.0
+  optional:
+  - core/codebase_integrity_scanner/1.0.0
+  - testing/intelligent_test_agent/1.0.0
+  - testing/performance_benchmark/1.0.0
+  - security/cyberpig_ai/1.0.0
+  - security/presidio_dlp/1.0.0
+dependencies:
+  python:
+  - pytest>=7.0.0
+  - pytest-cov>=4.0.0
+  - pytest-mock>=3.0.0
+  - pytest-asyncio>=0.21.0
+  - coverage>=6.0.0
+  - mock>=4.0.0
+  - psutil>=5.8.0
+  - concurrent.futures
+  system:
+  - python>=3.8
+revolutionary_capabilities:
+- comprehensive_plugin_ecosystem_orchestration
+- llm_powered_intelligent_test_generation
+- context_aware_plugin_analysis_for_targeted_testing
+- automated_specialized_test_agent_coordination
+- multi_layer_test_validation_with_security_integration
+- zero_custom_test_logic_pure_plugin_composition
+- mission_critical_performance_stress_redundancy_testing
+- performance_benchmark_integration_for_enterprise_grade_testing
+- enterprise_grade_test_quality_assurance
+- universal_plugin_testing_framework
+- flexible_cli_integration_with_pp_command_ecosystem
+- interactive_test_selection_and_pattern_filtering
+- developer_friendly_workflow_automation
+orchestration_architecture:
+  llm_intelligence_layer:
+    plugin: intelligence/llm_service/1.0.0
+    purpose: Intelligent analysis of plugin functionality for targeted test generation
+    reuses: Universal LLM orchestration, multi-provider support, intelligent routing
+  context_understanding_layer:
+    plugin: intelligence/context_analyzer/1.0.0
+    purpose: Deep code analysis and architectural understanding for comprehensive
+      testing
+    reuses: AST analysis, intention recognition, dependency analysis, pattern recognition
+  test_agent_coordination_layer:
+    plugin: core/agent_factory/1.0.0
+    purpose: Dynamic creation of specialized test agents for different test types
+    reuses: Agent lifecycle management, template system, multi-agent coordination
+  validation_and_quality_layer:
+    plugins:
+    - core/codebase_integrity_scanner/1.0.0
+    - testing/intelligent_test_agent/1.0.0
+    purpose: Validation of generated tests and quality assurance
+    reuses: Code integrity scanning, automated test execution, monitoring
+  security_testing_layer:
+    plugins:
+    - security/cyberpig_ai/1.0.0
+    - security/presidio_dlp/1.0.0
+    purpose: Security-focused test generation and validation
+    reuses: Secret detection, PII scanning, security analysis
+  performance_testing_layer:
+    plugin: testing/performance_benchmark/1.0.0
+    purpose: Mission-critical plugin performance, stress, and redundancy testing
+    reuses: Load testing, capacity planning, performance benchmarking, resource monitoring
+    capabilities: Concurrent execution stress testing, memory leak detection, failover
+      validation
+  cli_integration_layer:
+    components:
+    - cli/pp_test_gen.py
+    - cli/pp_integration.sh
+    - CLI_USAGE.md
+    purpose: Developer-friendly CLI integration with pp command ecosystem
+    reuses: PlugPipe CLI patterns, pytest integration, interactive selection
+    capabilities: Selective test patterns, interactive mode, parallel execution, multiple
+      output formats
+plugin_composition_philosophy:
+  zero_custom_logic: All test generation logic delegated to specialized PlugPipe plugins
+  pure_orchestration: Orchestrates existing plugins rather than implementing custom
+    functionality
+  ecosystem_leverage: Maximizes reuse of proven, battle-tested PlugPipe abstractions
+  security_first: Integrates security plugins for comprehensive security test generation
+  intelligence_native: Uses LLM service and context analyzer for intelligent test
+    creation
+  agent_driven: Leverages agent factory for scalable, specialized test agent architecture
+business_value:
+  compliance_achievement:
+  - Ensures all new plugins have comprehensive unit tests as required by CLAUDE.md
+  - Automates mandatory testing requirements without developer overhead
+  - Provides consistent, high-quality test coverage across entire plugin ecosystem
+  - Generates mission-critical performance, stress, and redundancy tests for availability
+    requirements
+  development_productivity:
+  - Eliminates manual test writing for new plugins
+  - Generates intelligent, contextual tests based on plugin functionality
+  - Reduces time-to-production for new plugins with automated quality assurance
+  - Automatically identifies mission-critical plugins requiring enhanced performance
+    testing
+  quality_assurance:
+  - Leverages PlugPipe ecosystem for enterprise-grade test generation
+  - Provides multi-layered validation including security and performance testing
+  - Ensures architectural consistency across all plugin testing approaches
+  - Integrates performance_benchmark plugin for comprehensive load testing and capacity
+    planning
+  mission_critical_reliability:
+  - Generates stress tests with concurrent execution scenarios for high-availability
+    plugins
+  - Provides memory leak detection and resource usage monitoring tests
+  - Creates redundancy and failover validation tests for critical infrastructure components
+  - Integrates enterprise-grade performance benchmarking using existing PlugPipe abstractions
+category: testing
+tags:
+- automated-testing
+- test-generation
+- plugin-ecosystem
+- llm-powered
+- enterprise-quality
+- security-testing
+- performance-testing
+- compliance-automation
+entrypoint: main.py
+discoverability: public
+sbom:
+  summary: sbom/sbom.json
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+author: PlugPipe Testing Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

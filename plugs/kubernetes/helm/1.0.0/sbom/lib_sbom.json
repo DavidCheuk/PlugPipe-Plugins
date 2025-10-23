@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:helm_charts-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:36.749349Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "helm_charts@1.0.0",
+      "name": "helm_charts",
+      "version": "1.0.0",
+      "description": "Helm Charts plugin for standardized Kubernetes application deployment with comprehensive chart management, values templating, repository operations, and release lifecycle management"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,163 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:mcp_security_compliance_validator-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T17:35:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_security_compliance_validator@1.0.0",
+      "name": "mcp_security_compliance_validator",
+      "version": "1.0.0",
+      "description": "MCP Security Compliance Validation Plugin for validating MCP implementations against security standards and compliance frameworks",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "jsonschema@4.17.0",
+      "name": "jsonschema",
+      "version": "4.17.0",
+      "description": "An implementation of JSON Schema validation for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/jsonschema@4.17.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.28.0",
+      "name": "requests",
+      "version": "2.28.0",
+      "description": "Python HTTP for Humans",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.28.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pydantic@2.0.0",
+      "name": "pydantic",
+      "version": "2.0.0",
+      "description": "Data validation using Python type hints",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pydantic@2.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "yaml@6.0",
+      "name": "PyYAML",
+      "version": "6.0",
+      "description": "YAML parser and emitter for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pyyaml@6.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "mcp_security_compliance_validator@1.0.0",
+      "dependsOn": [
+        "jsonschema@4.17.0",
+        "requests@2.28.0",
+        "pydantic@2.0.0",
+        "yaml@6.0"
+      ]
+    },
+    {
+      "ref": "pydantic@2.0.0",
+      "dependsOn": [
+        "jsonschema@4.17.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "mcp_security_compliance_validator@1.0.0",
+      "subjects": ["mcp_security_compliance_validator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_compliance_plugin"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_compliance_validator@1.0.0",
+      "subjects": ["mcp_security_compliance_validator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "compliance_frameworks",
+        "value": "MCP_PROTOCOL_GDPR_SOX_HIPAA_SECURITY_BASELINE"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_compliance_validator@1.0.0",
+      "subjects": ["mcp_security_compliance_validator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "validation_operations",
+        "value": "VALIDATE_COMPLIANCE_CHECK_GDPR_CHECK_SOX_CHECK_HIPAA_CHECK_PCI_DSS_CHECK_MCP_PROTOCOL"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_compliance_validator@1.0.0",
+      "subjects": ["mcp_security_compliance_validator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "compliance_validation_layer"
+      }
+    },
+    {
+      "bom-ref": "jsonschema@4.17.0",
+      "subjects": ["jsonschema@4.17.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "schema_validation_purpose",
+        "value": "MCP_PROTOCOL_COMPLIANCE_VALIDATION"
+      }
+    }
+  ]
+}

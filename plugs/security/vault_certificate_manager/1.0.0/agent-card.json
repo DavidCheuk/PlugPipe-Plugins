@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:certificates:vault_certificate_manager",
+    "name": "Vault Certificate Manager Agent",
+    "description": "HashiCorp Vault PKI certificate management plugin with dynamic certificate generation and enterprise security features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/vault_certificate_manager",
+    "skills": [
+      {
+        "id": "vault_certificate_manager-primary",
+        "name": "Vault Certificate Manager",
+        "description": "HashiCorp Vault PKI certificate management plugin with dynamic certificate generation and enterprise security features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "vault_certificate_manager",
+        "category": "security",
+        "subcategory": "certificates",
+        "tags": [
+          "vault",
+          "certificates",
+          "pki",
+          "hashicorp",
+          "dynamic_certificates",
+          "enterprise",
+          "private_ca"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.209421Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

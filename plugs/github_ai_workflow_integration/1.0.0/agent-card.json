@@ -1,0 +1,61 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:github_ai_workflow_integration",
+    "name": "Github Ai Workflow Integration Agent",
+    "description": "AI-powered GitHub workflow optimization using foundational PlugPipe plugins",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/github_ai_workflow_integration",
+    "skills": [
+      {
+        "id": "github_ai_workflow_integration-primary",
+        "name": "Github Ai Workflow Integration",
+        "description": "AI-powered GitHub workflow optimization using foundational PlugPipe plugins",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "github_ai_workflow_integration-example-1",
+        "name": "Analyze CI/CD workflow performance and get optimization suggestions",
+        "description": "Analyze CI/CD workflow performance and get optimization suggestions",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "github_ai_workflow_integration-example-2",
+        "name": "Apply AI-recommended performance optimizations to workflow",
+        "description": "Apply AI-recommended performance optimizations to workflow",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "github_ai_workflow_integration",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.580608Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

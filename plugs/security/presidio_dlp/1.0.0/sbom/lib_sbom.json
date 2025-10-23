@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:presidio_dlp-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:01:22.235041Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "presidio_dlp@1.0.0",
+      "name": "presidio_dlp",
+      "version": "1.0.0",
+      "description": "Microsoft Presidio-powered data leakage prevention and PII detection for enterprise LLM security"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

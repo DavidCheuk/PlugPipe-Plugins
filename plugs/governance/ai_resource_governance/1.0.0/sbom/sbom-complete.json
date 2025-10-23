@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:ai_resource_governance-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-27T07:35:26.933280Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "ai_resource_governance@1.0.0",
+      "name": "ai_resource_governance",
+      "version": "1.0.0",
+      "description": "Centralized AI resource governance system that orchestrates budget_aware_rate_limiter, intelligent_llm_priority_manager, llm_cost_estimator and other AI control plugins for unified cost management"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

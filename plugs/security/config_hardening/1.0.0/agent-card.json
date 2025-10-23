@@ -1,0 +1,80 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:config_hardening",
+    "name": "Config Hardening Agent",
+    "description": "Security configuration hardening and validation plugin for PlugPipe production deployments",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/config_hardening",
+    "skills": [
+      {
+        "id": "config_hardening-primary",
+        "name": "Config Hardening",
+        "description": "Security configuration hardening and validation plugin for PlugPipe production deployments",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "config_hardening-example-1",
+        "name": "Validate production config file for security compliance",
+        "description": "Validate production config file for security compliance",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "config_hardening-example-2",
+        "name": "Generate comprehensive security configuration report",
+        "description": "Generate comprehensive security configuration report",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "config_hardening-example-3",
+        "name": "Automatically apply security fixes where possible",
+        "description": "Automatically apply security fixes where possible",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "config_hardening",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "configuration",
+          "hardening",
+          "production",
+          "validation"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.874904Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

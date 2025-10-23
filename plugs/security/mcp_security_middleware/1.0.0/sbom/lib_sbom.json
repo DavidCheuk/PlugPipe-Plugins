@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:mcp_security_middleware-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:01:19.470149Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "name": "mcp_security_middleware",
+      "version": "1.0.0",
+      "description": "MCP Security Middleware - Centralized security orchestration for all MCP operations"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

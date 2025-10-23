@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:salt-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:28.330149Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "salt@1.0.0",
+      "name": "salt",
+      "version": "1.0.0",
+      "description": "Comprehensive Salt Stack configuration management plugin for infrastructure automation, state management, pillar data, minion orchestration, and execution modules with support for both Master/Minion and SSH architectures"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

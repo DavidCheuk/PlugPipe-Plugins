@@ -1,0 +1,132 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "creationInfo": {
+    "created": "2025-08-21T00:00:00Z",
+    "creators": [
+      "Tool: PlugPipe MCP Auto-Updater v1.1.0"
+    ],
+    "licenseListVersion": "3.19"
+  },
+  "name": "mcp-specification-auto-updater-1.1.0",
+  "documentNamespace": "https://plugpipe.dev/sbom/mcp_specification_auto_updater/1.1.0",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-aiohttp",
+      "name": "aiohttp",
+      "versionInfo": ">=3.8.0",
+      "downloadLocation": "https://pypi.org/project/aiohttp/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright 2013-2023 aiohttp contributors",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:pypi/aiohttp@3.8.0"
+        }
+      ],
+      "purpose": "HTTP client for MCP specification downloads",
+      "criticality": "high"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-PyYAML",
+      "name": "PyYAML",
+      "versionInfo": ">=6.0",
+      "downloadLocation": "https://pypi.org/project/PyYAML/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "copyrightText": "Copyright 2017-2021 Ingy döt Net & Copyright 2006-2016 Kirill Simonov",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:pypi/PyYAML@6.0"
+        }
+      ],
+      "purpose": "YAML parsing for plugin manifests",
+      "criticality": "high"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-packaging",
+      "name": "packaging",
+      "versionInfo": ">=21.0",
+      "downloadLocation": "https://pypi.org/project/packaging/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright 2014-2019 Donald Stufft and individual contributors",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:pypi/packaging@21.0"
+        }
+      ],
+      "purpose": "Version parsing and semantic versioning",
+      "criticality": "medium"
+    },
+    {
+      "SPDXID": "SPDXRef-Package-pipaudit",
+      "name": "pip-audit",
+      "versionInfo": ">=2.6.0",
+      "downloadLocation": "https://pypi.org/project/pip-audit/",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "copyrightText": "Copyright 2021-2023 Trail of Bits",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:pypi/pip-audit@2.6.0"
+        }
+      ],
+      "purpose": "Security vulnerability scanning",
+      "criticality": "medium",
+      "optional": true
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-aiohttp"
+    },
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-PyYAML"
+    },
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-packaging"
+    },
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-pipaudit"
+    }
+  ],
+  "securityAssessment": {
+    "scanDate": "2025-08-21T00:00:00Z",
+    "vulnerabilityCount": 0,
+    "criticalVulnerabilities": 0,
+    "highVulnerabilities": 0,
+    "mediumVulnerabilities": 0,
+    "lowVulnerabilities": 0,
+    "scanTools": ["pip-audit", "safety", "PlugPipe Security Scanner"]
+  },
+  "dependencyTree": {
+    "directDependencies": 4,
+    "transitiveDependencies": 12,
+    "totalDependencies": 16,
+    "maxDepth": 3,
+    "circularDependencies": 0,
+    "versionConflicts": 0
+  },
+  "complianceStatus": {
+    "frameworks": ["SOC2", "GDPR", "HIPAA"],
+    "licenseCompatibility": "compatible",
+    "exportControl": "not_restricted",
+    "vulnerabilityThreshold": "medium"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:test_fix_api",
+    "name": "Test Fix Api Agent",
+    "description": "Auto-generated plugin for test_fix API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/test_fix_api",
+    "skills": [
+      {
+        "id": "test_fix_api-primary",
+        "name": "Test Fix Api",
+        "description": "Auto-generated plugin for test_fix API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "test_fix_api",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "test_fix_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.633336Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

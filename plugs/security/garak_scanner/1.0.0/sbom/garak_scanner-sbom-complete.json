@@ -1,0 +1,263 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:garak_scanner-1.0.0-mcp-security-complete",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T16:50:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "garak_scanner@1.0.0",
+      "name": "garak_scanner",
+      "version": "1.0.0",
+      "description": "NVIDIA Garak LLM vulnerability scanner for comprehensive security assessment and red-teaming",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "garak@0.9.0",
+      "name": "garak",
+      "version": "0.9.0",
+      "description": "NVIDIA's LLM vulnerability scanner framework",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/garak@0.9.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "placeholder-hash-for-garak"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/nvidia/garak"
+        },
+        {
+          "type": "documentation",
+          "url": "https://nvidia.github.io/garak/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/nvidia/garak.git"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "transformers@4.21.0",
+      "name": "transformers",
+      "version": "4.21.0",
+      "description": "State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/transformers@4.21.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "placeholder-hash-for-transformers"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/huggingface/transformers"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "torch@1.13.0",
+      "name": "torch",
+      "version": "1.13.0",
+      "description": "Tensors and Dynamic neural networks in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/torch@1.13.0",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "placeholder-hash-for-torch"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pytorch.org"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "numpy@1.21.0",
+      "name": "numpy",
+      "version": "1.21.0",
+      "description": "NumPy is the fundamental package for array computing with Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/numpy@1.21.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.28.0",
+      "name": "requests",
+      "version": "2.28.0",
+      "description": "Python HTTP for Humans",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.28.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "openai@0.27.0",
+      "name": "openai",
+      "version": "0.27.0",
+      "description": "OpenAI Python API library",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/openai@0.27.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "garak_scanner@1.0.0",
+      "dependsOn": [
+        "garak@0.9.0",
+        "transformers@4.21.0",
+        "torch@1.13.0",
+        "numpy@1.21.0"
+      ]
+    },
+    {
+      "ref": "garak@0.9.0",
+      "dependsOn": [
+        "transformers@4.21.0",
+        "torch@1.13.0",
+        "requests@2.28.0",
+        "openai@0.27.0"
+      ]
+    },
+    {
+      "ref": "transformers@4.21.0",
+      "dependsOn": [
+        "torch@1.13.0",
+        "numpy@1.21.0",
+        "requests@2.28.0"
+      ]
+    },
+    {
+      "ref": "torch@1.13.0",
+      "dependsOn": [
+        "numpy@1.21.0"
+      ]
+    },
+    {
+      "ref": "openai@0.27.0",
+      "dependsOn": [
+        "requests@2.28.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "CVE-placeholder-requests",
+      "id": "CVE-placeholder-requests",
+      "description": "Placeholder for requests library vulnerability tracking",
+      "published": "2025-09-06T16:50:00Z",
+      "severity": "low",
+      "recommendation": "Monitor requests security advisories"
+    }
+  ],
+  "annotations": [
+    {
+      "bom-ref": "garak_scanner@1.0.0",
+      "subjects": ["garak_scanner@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_red_team_plugin"
+      }
+    },
+    {
+      "bom-ref": "garak_scanner@1.0.0",
+      "subjects": ["garak_scanner@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "owasp_coverage",
+        "value": "LLM01_LLM02_LLM03_LLM04_LLM06_LLM08_LLM09_LLM10"
+      }
+    },
+    {
+      "bom-ref": "garak_scanner@1.0.0",
+      "subjects": ["garak_scanner@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "vulnerability_assessment_layer"
+      }
+    },
+    {
+      "bom-ref": "garak_scanner@1.0.0",
+      "subjects": ["garak_scanner@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "red_teaming_certified",
+        "value": "true"
+      }
+    },
+    {
+      "bom-ref": "garak@0.9.0",
+      "subjects": ["garak@0.9.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "nvidia_maintained",
+        "value": "true"
+      }
+    }
+  ]
+}

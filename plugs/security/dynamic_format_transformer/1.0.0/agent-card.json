@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:dynamic_format_transformer",
+    "name": "Dynamic Format Transformer Agent",
+    "description": "Dynamic protocol format transformer that wraps raw attack payloads during testing with MCP Guardian integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/dynamic_format_transformer",
+    "skills": [
+      {
+        "id": "dynamic_format_transformer-primary",
+        "name": "Dynamic Format Transformer",
+        "description": "Dynamic protocol format transformer that wraps raw attack payloads during testing with MCP Guardian integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "dynamic_format_transformer",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "format-transformer",
+          "mcp",
+          "http",
+          "websocket",
+          "dynamic",
+          "real-time",
+          "mcp-guardian",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.045250Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,248 @@
+author: David Yu Cheuk
+category: orchestration
+compatibility:
+  airflow_version: '>=2.0.0'
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+config_schema:
+  properties:
+    airflow_url:
+      description: Airflow webserver URL
+      examples:
+      - http://localhost:8080
+      - https://airflow.company.com
+      type: string
+    api_key:
+      description: Alternative API key for authentication
+      type: string
+    auth_token:
+      description: Airflow API authentication token
+      type: string
+    dag_id:
+      description: Airflow DAG identifier to execute
+      examples:
+      - data_pipeline
+      - etl_workflow
+      type: string
+    max_retries:
+      default: 3
+      description: Maximum number of retry attempts
+      maximum: 10
+      minimum: 0
+      type: integer
+    poll_interval:
+      default: 5
+      description: Polling interval in seconds for status checks
+      maximum: 300
+      minimum: 1
+      type: integer
+    timeout:
+      default: 600
+      description: Maximum execution time in seconds
+      maximum: 7200
+      minimum: 30
+      type: integer
+    verify_ssl:
+      default: true
+      description: Verify SSL certificates for HTTPS connections
+      type: boolean
+  required:
+  - dag_id
+  type: object
+description: Enterprise Airflow DAG orchestration plugin - trigger, monitor, and manage
+  Apache Airflow workflows with comprehensive status tracking and error handling.
+discoverability: public
+documentation:
+  examples:
+  - config:
+      airflow_url: http://localhost:8080
+      auth_token: ${AIRFLOW_TOKEN}
+      dag_id: example_dag
+    description: Basic DAG execution without parameters
+    input:
+      parameters: {}
+    name: Simple DAG trigger
+  - config:
+      dag_id: data_processing_pipeline
+    description: Trigger data pipeline with specific parameters
+    input:
+      parameters:
+        batch_size: 5000
+        source_table: raw_data
+        target_table: processed_data
+    name: Parameterized data pipeline
+  - description: Trigger DAG with custom run identifier
+    input:
+      parameters:
+        environment: staging
+      run_id: manual_run_20250126
+    name: Custom run tracking
+  readme: "# Airflow Workflow Runner Plugin\n\nEnterprise-grade Apache Airflow integration\
+    \ for triggering and monitoring DAG executions\nthrough PlugPipe workflows. Provides\
+    \ comprehensive workflow orchestration capabilities.\n\n## Features\n- ✅ DAG triggering\
+    \ with custom parameters\n- ✅ Real-time execution monitoring\n- ✅ Comprehensive\
+    \ status tracking\n- ✅ Error handling and retry logic\n- ✅ Authentication support\
+    \ (Basic Auth, API Keys)\n- ✅ Configurable polling and timeouts\n- ✅ Enterprise\
+    \ security integration\n\n## Usage Examples\n\n### Trigger Data Pipeline DAG\n\
+    ```yaml\nsteps:\n  - plugin: airflow_workflow_runner\n    config:\n      airflow_url:\
+    \ \"https://airflow.company.com\"\n      auth_token: \"${AIRFLOW_API_TOKEN}\"\n\
+    \      dag_id: \"daily_data_pipeline\"\n      timeout: 1800  # 30 minutes\n  \
+    \  input:\n      parameters:\n        date: \"2025-01-26\"\n        environment:\
+    \ \"production\"\n        data_source: \"postgres\"\n```\n\n### ETL Workflow with\
+    \ Custom Run ID\n```yaml\nsteps:\n  - plugin: airflow_workflow_runner\n    config:\n\
+    \      airflow_url: \"${AIRFLOW_URL}\"\n      dag_id: \"customer_etl_pipeline\"\
+    \n    input:\n      run_id: \"etl_${timestamp}\"\n      parameters:\n        table_names:\
+    \ [\"customers\", \"orders\", \"products\"]\n        batch_size: 10000\n```\n\n\
+    ### Scheduled Report Generation\n```yaml\nsteps:\n  - plugin: airflow_workflow_runner\n\
+    \    config:\n      dag_id: \"monthly_reports\"\n      poll_interval: 10  # Check\
+    \ every 10 seconds\n    input:\n      parameters:\n        report_type: \"financial\"\
+    \n        month: \"2025-01\"\n        recipients: [\"finance@company.com\"]\n\
+    ```\n"
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+health_check:
+  expected_result: success
+  method: airflow_connectivity_test
+  timeout: 30
+input_schema:
+  properties:
+    conf:
+      description: DAG configuration parameters (alias for parameters)
+      type: object
+    parameters:
+      additionalProperties: true
+      description: DAG execution parameters
+      type: object
+    run_id:
+      description: Custom DAG run identifier
+      pattern: ^[a-zA-Z0-9_.-]+$
+      type: string
+    wait_for_completion:
+      default: true
+      description: Wait for DAG execution to complete
+      type: boolean
+  type: object
+license: MIT
+metadata:
+  capabilities:
+  - dag-triggering
+  - workflow-orchestration
+  - status-monitoring
+  - parameter-passing
+  - authentication
+  - error-handling
+  category: orchestration
+  dependencies:
+    optional:
+    - requests
+    - python-dateutil
+    required:
+    - apache-airflow
+  domain: workflow-management
+  use_cases:
+  - ETL and data pipeline orchestration
+  - Batch job scheduling and execution
+  - Cross-system workflow coordination
+  - Data processing automation
+  - Report generation workflows
+  - Integration testing pipelines
+name: airflow_workflow_runner
+display_name: AirflowWorkflowRunner
+output_schema:
+  properties:
+    dag_run_id:
+      description: Generated or provided DAG run identifier
+      type: string
+    error:
+      description: Error message if execution failed
+      type: string
+    result:
+      description: Detailed execution results and metadata
+      properties:
+        duration:
+          description: Execution duration in seconds
+          type: number
+        end_date:
+          description: Execution completion time
+          type: string
+        execution_date:
+          description: DAG execution timestamp
+          type: string
+        logs_url:
+          description: URL to execution logs
+          type: string
+        start_date:
+          description: Actual execution start time
+          type: string
+        task_states:
+          description: Individual task execution states
+          type: object
+      type: object
+    state:
+      description: Final DAG execution state
+      enum:
+      - queued
+      - running
+      - success
+      - failed
+      - up_for_retry
+      - up_for_reschedule
+      - upstream_failed
+      - skipped
+      type: string
+    success:
+      description: Whether the DAG execution succeeded
+      type: boolean
+  required:
+  - dag_run_id
+  - state
+  - success
+  type: object
+owner: David Yu Cheuk
+performance:
+  average_execution_time: 5-300 seconds (depends on DAG complexity)
+  memory_usage: 10-50 MB
+  network_usage: Low to Medium (API calls and polling)
+  scalability: Handles concurrent DAG executions
+requirements:
+  python:
+  - requests>=2.28.0
+  - apache-airflow>=2.0.0
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  external_domains:
+  - '*.airflow.apache.org'
+  - airflow-webserver
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - auth_token
+  - api_key
+status: stable
+tags:
+- workflow
+- dag
+- airflow
+- orchestration
+- automation
+- data-pipeline
+- etl
+- scheduling
+- enterprise
+- apache-airflow
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

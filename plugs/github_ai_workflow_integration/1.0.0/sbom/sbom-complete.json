@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:github_ai_workflow_integration-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:01:23.069316Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "github_ai_workflow_integration@1.0.0",
+      "name": "github_ai_workflow_integration",
+      "version": "1.0.0",
+      "description": "AI-powered GitHub workflow optimization using foundational PlugPipe plugins"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,79 @@
+author: PlugPipe Core Team
+category: core
+dependencies:
+- python: '>=3.8'
+- pyyaml: '>=5.4.0'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:41'
+  stdlib_modules_declared: true
+description: Comprehensive PlugPipe plugin registry scanner that provides accurate
+  plugin counts and metadata by scanning the file system directly
+entry_point: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+license: MIT
+name: plugin_registry_scanner
+display_name: PluginScanner
+operations:
+  count_only:
+    description: Get accurate plugin and pipe counts
+    parameters:
+      breakdown:
+        default: true
+        description: Include breakdown by type (plugs vs pipes) and category
+        type: boolean
+  scan_all:
+    description: Scan all plugins and pipes for accurate registry data
+    parameters:
+      format:
+        default: json
+        description: Output format
+        enum:
+        - json
+        - summary
+        - detailed
+        type: string
+      include_metadata:
+        default: true
+        description: Include detailed metadata from manifest files
+        type: boolean
+  verify_pp_list:
+    description: Compare file system scan with pp list output
+    parameters:
+      show_missing:
+        default: true
+        description: Show plugins found in filesystem but missing from pp list
+        type: boolean
+runtime:
+  memory_limit: 128MB
+  timeout: 30
+schema_version: '1.0'
+security:
+  permissions:
+  - read_filesystem: true
+  - execute_commands: false
+stdlib_modules:
+- datetime
+- glob
+- json
+- logging
+- os
+- pathlib
+- re
+- subprocess
+- sys
+- typing
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

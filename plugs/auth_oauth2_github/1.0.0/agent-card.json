@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:oauth2:auth_oauth2_github",
+    "name": "Auth Oauth2 Github Agent",
+    "description": "GitHub OAuth 2.0 authentication with organization access control",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/auth_oauth2_github",
+    "skills": [
+      {
+        "id": "auth_oauth2_github-primary",
+        "name": "Auth Oauth2 Github",
+        "description": "GitHub OAuth 2.0 authentication with organization access control",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "auth_oauth2_github",
+        "category": "oauth2",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:29.406921Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

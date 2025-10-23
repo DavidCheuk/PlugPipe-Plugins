@@ -1,0 +1,189 @@
+config_defaults:
+  default_tenant: default
+  multi_tenant: true
+  opa_url: http://localhost:8181
+  policy_package: plugpipe.authz
+  tls_enabled: true
+config_schema:
+  properties:
+    compliance_frameworks:
+      items:
+        enum:
+        - sox
+        - gdpr
+        - hipaa
+        - pci-dss
+        - iso27001
+        - nist
+        - fedramp
+        - cis
+        - cobit
+        - itil
+        type: string
+      type: array
+    default_tenant:
+      default: default
+      type: string
+    ecosystem_monitoring:
+      default: true
+      description: Enable ecosystem-wide health and compliance monitoring
+      type: boolean
+    monitoring_interval:
+      default: 300
+      description: Health monitoring interval in seconds
+      type: integer
+    multi_tenant:
+      default: true
+      type: boolean
+    opa_url:
+      default: http://localhost:8181
+      type: string
+    pipe_runs_directory:
+      default: pipe_runs
+      description: Directory containing pipeline execution results
+      type: string
+    pipes_directory:
+      default: pipe_specs
+      description: Directory containing pipeline specifications
+      type: string
+    plugs_directory:
+      default: plugs
+      description: Directory containing plugins to monitor
+      type: string
+    policy_package:
+      default: plugpipe.authz
+      type: string
+    tls_enabled:
+      default: true
+      type: boolean
+  type: object
+description: Enterprise-grade Open Policy Agent integration with ecosystem monitoring,
+  advanced multi-tenancy, security, and compliance features
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Action to perform
+      enum:
+      - evaluate_policy
+      - get_ecosystem_health
+      - get_compliance_status
+      - evaluate_change_policy
+      type: string
+    basic_decision:
+      description: Basic RBAC decision from previous layer
+      properties:
+        allow:
+          type: boolean
+        reason:
+          type: string
+      required:
+      - allow
+      - reason
+      type: object
+    change_request:
+      description: Change management request for policy evaluation
+      type: object
+    request:
+      description: Authorization request object
+      properties:
+        action:
+          type: string
+        resource:
+          type: string
+        resource_type:
+          type: string
+        subject:
+          type: string
+      required:
+      - subject
+      - action
+      - resource
+      - resource_type
+      type: object
+    tenant_id:
+      description: Tenant identifier for multi-tenancy
+      type: string
+  required:
+  - request
+  - basic_decision
+  type: object
+metadata:
+  capabilities:
+  - multi_tenancy
+  - policy_governance
+  - compliance_frameworks
+  - ecosystem_monitoring
+  - health_monitoring
+  - change_management_integration
+  - audit_aggregation
+  category: policy-engine
+  memory_mb: 2048
+  tier: enterprise
+  type: enterprise
+name: opa_policy_enterprise
+display_name: OpaPolicyEnterprise
+output_schema:
+  properties:
+    allow:
+      description: Authorization decision
+      type: boolean
+    change_approval:
+      description: Change management approval decision
+      type: object
+    compliance_status:
+      description: Compliance validation results
+      type: object
+    confidence:
+      description: Confidence level of the decision
+      type: number
+    ecosystem_health:
+      description: Ecosystem-wide health status
+      type: object
+    engine:
+      description: Policy engine that made the decision
+      type: string
+    metadata:
+      description: Additional metadata about the decision
+      type: object
+    reason:
+      description: Human-readable reason for the decision
+      type: string
+  required:
+  - allow
+  - engine
+  type: object
+owner: PlugPipe Enterprise Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- policy
+- authorization
+- opa
+- enterprise
+- multi-tenant
+- compliance
+- ecosystem
+- monitoring
+- health
+- change-management
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

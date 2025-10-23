@@ -1,0 +1,160 @@
+ai_features:
+  analysis_types:
+  - issue_detection
+  - severity_assessment
+  - business_impact_analysis
+  - remediation_planning
+  - risk_assessment
+  confidence_threshold: 0.85
+  enabled: true
+  llm_integration: true
+  machine_learning: true
+capabilities:
+- description: Comprehensive detection using multiple analysis plugins with AI enhancement
+  name: AI-Powered Issue Detection
+- description: AI-driven issue prioritization based on severity, business impact,
+    and fix complexity
+  name: Intelligent Prioritization
+- description: Automated remediation planning with plugin orchestration recommendations
+  name: Remediation Planning
+- description: AI-powered risk assessment with business impact analysis
+  name: Risk Assessment
+- description: Executive-level reporting with AI insights and recommendations
+  name: Executive Reporting
+dependencies:
+  optional:
+  - intelligent_test_agent
+  - background_ai_fixer_service
+  - mix_and_match_llm_function
+  - ai_discovery
+  runtime:
+  - codebase_integrity_scanner
+  - config_hardening
+  - business_compliance_auditor
+  - performance_bottleneck_detector
+  - issue_tracker
+dependency_analysis:
+  analyzer_notes: All imports (subprocess) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: AI-powered comprehensive detection reporter with intelligent issue prioritization,
+  remediation planning, and executive insights
+input_schema:
+  properties:
+    format:
+      default: api
+      description: Output format for the report
+      enum:
+      - api
+      - cli
+      - dashboard
+      type: string
+    include_ai_insights:
+      default: true
+      description: Include detailed AI insights and recommendations
+      type: boolean
+    max_issues:
+      default: 1000
+      description: Maximum number of issues to analyze
+      type: integer
+    operation:
+      default: get_dashboard_data
+      description: Type of AI analysis operation to perform
+      enum:
+      - get_dashboard_data
+      - get_ai_analysis
+      - get_remediation_plan
+      type: string
+  required: []
+  type: object
+name: ai_powered_detection_reporter
+display_name: AIPoweredDetectionReporter
+output_schema:
+  properties:
+    error:
+      description: Error message if analysis failed
+      type: string
+    report_data:
+      properties:
+        ai_analysis:
+          properties:
+            insights:
+              type: array
+            remediation_plan:
+              type: object
+            risk_assessment:
+              type: object
+          type: object
+        auto_fixer_priorities:
+          items:
+            type: object
+          type: array
+        executive_summary:
+          properties:
+            ai_recommendation:
+              type: string
+            ai_risk_level:
+              type: string
+            critical_issues_count:
+              type: integer
+            high_priority_issues_count:
+              type: integer
+            overall_health_score:
+              type: number
+          type: object
+        metadata:
+          properties:
+            ai_confidence:
+              type: number
+            ai_version:
+              type: string
+            analysis_type:
+              type: string
+            generated_at:
+              type: string
+            title:
+              type: string
+            total_issues_found:
+              type: integer
+          type: object
+        remediation_progress:
+          type: object
+      type: object
+    success:
+      description: Whether the AI analysis completed successfully
+      type: boolean
+  type: object
+owner: PlugPipe AI System
+sbom:
+  components:
+  - name: ai_detection_system
+    type: core
+    version: 1.0.0
+  - name: plugin_orchestrator
+    type: integration
+    version: 1.0.0
+  - name: ai_insight_generator
+    type: ai
+    version: 1.0.0
+  created_at: '2025-08-29T14:30:00Z'
+status: stable
+stdlib_modules:
+- subprocess
+tags:
+- ai
+- detection
+- analysis
+- governance
+- reporting
+- remediation
+- risk-assessment
+- executive-dashboard
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

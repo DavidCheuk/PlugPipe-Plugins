@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:universal_input_sanitizer-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T23:35:15.598249Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "universal_input_sanitizer@1.0.0",
+      "name": "universal_input_sanitizer",
+      "version": "1.0.0",
+      "description": "Universal input sanitization plugin for command, SQL, prompt, and XSS injection prevention using battle-tested security libraries"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

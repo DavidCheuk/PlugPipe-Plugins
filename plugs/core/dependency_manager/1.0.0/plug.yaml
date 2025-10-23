@@ -1,0 +1,106 @@
+author: PlugPipe Core Team
+capabilities:
+- dependency_management
+- package_installation
+- binary_installation
+- system_integration
+category: core
+dependency_analysis:
+  analyzer_notes: All imports (shutil, tempfile, platform, subprocess) are stdlib
+    modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Manages external dependencies for PlugPipe plugins
+input_schema:
+  properties:
+    dependencies:
+      items:
+        properties:
+          install_method:
+            default: auto
+            description: Installation method (auto, manual, url)
+            type: string
+          name:
+            description: Name of the dependency
+            type: string
+          required:
+            default: true
+            type: boolean
+          type:
+            default: binary
+            enum:
+            - binary
+            - python
+            - system
+            - npm
+            - docker
+            - go
+            type: string
+          url:
+            description: Download URL for manual installation
+            type: string
+          version:
+            description: Optional version specification
+            type: string
+        required:
+        - name
+        type: object
+      type: array
+  required:
+  - dependencies
+  type: object
+license: MIT
+metadata:
+  documentation: Handles external dependency management for plugins
+  maintainer: PlugPipe Core Team
+  repository: plugpipe-core
+name: dependency_manager
+display_name: DependencyManager
+output_schema:
+  properties:
+    already_available:
+      items:
+        type: string
+      type: array
+    dependencies_checked:
+      type: integer
+    errors:
+      items:
+        type: string
+      type: array
+    failed:
+      items:
+        type: string
+      type: array
+    installed:
+      items:
+        type: string
+      type: array
+    status:
+      enum:
+      - success
+      - partial
+      - failed
+      - error
+      type: string
+  type: object
+status: stable
+stdlib_modules:
+- shutil
+- tempfile
+- platform
+- subprocess
+tags:
+- dependencies
+- package-management
+- installation
+- core
+type: utility
+version: 1.0.0
+owner: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

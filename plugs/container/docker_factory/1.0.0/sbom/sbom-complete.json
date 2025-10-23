@@ -1,0 +1,131 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:docker-factory-plugin-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-21T20:30:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "docker-factory-plugin",
+      "name": "docker_factory_plugin",
+      "version": "1.0.0",
+      "description": "Enterprise Docker factory for containerized plugin execution"
+    }
+  },
+  "components": [
+    {
+      "type": "operating-system",
+      "bom-ref": "docker",
+      "name": "docker",
+      "version": "latest",
+      "supplier": {
+        "name": "Docker Inc"
+      },
+      "description": "Container orchestration platform"
+    },
+    {
+      "type": "framework",
+      "bom-ref": "python",
+      "name": "python",
+      "version": "3.11",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "Python runtime environment"
+    },
+    {
+      "type": "library",
+      "bom-ref": "asyncio",
+      "name": "asyncio",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "Asynchronous I/O framework"
+    },
+    {
+      "type": "library",
+      "bom-ref": "subprocess",
+      "name": "subprocess", 
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "Process management utilities"
+    },
+    {
+      "type": "library",
+      "bom-ref": "json",
+      "name": "json",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "JSON serialization library"
+    },
+    {
+      "type": "library", 
+      "bom-ref": "logging",
+      "name": "logging",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "Python logging framework"
+    },
+    {
+      "type": "library",
+      "bom-ref": "uuid",
+      "name": "uuid",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "UUID generation library"
+    },
+    {
+      "type": "library",
+      "bom-ref": "tempfile",
+      "name": "tempfile",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "Temporary file management"
+    },
+    {
+      "type": "library",
+      "bom-ref": "yaml",
+      "name": "yaml",
+      "version": "builtin",
+      "supplier": {
+        "name": "Python Software Foundation"
+      },
+      "description": "YAML parsing library"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "docker-factory-plugin",
+      "dependsOn": [
+        "docker",
+        "python", 
+        "asyncio",
+        "subprocess",
+        "json",
+        "logging",
+        "uuid",
+        "tempfile",
+        "yaml"
+      ]
+    }
+  ]
+}

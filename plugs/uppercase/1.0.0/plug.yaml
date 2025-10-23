@@ -1,0 +1,191 @@
+author: PlugPipe Demo Team
+category: text-processing
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+config_schema:
+  properties:
+    add_metadata:
+      default: true
+      description: Include metadata in output
+      type: boolean
+    encoding:
+      default: utf-8
+      description: Character encoding to use
+      enum:
+      - utf-8
+      - latin-1
+      - ascii
+      type: string
+    locale:
+      default: en_US
+      description: Locale for language-specific transformations
+      examples:
+      - en_US
+      - tr_TR
+      - de_DE
+      - fr_FR
+      type: string
+    preserve_formatting:
+      default: true
+      description: Preserve original spacing and formatting
+      type: boolean
+    trim_whitespace:
+      default: false
+      description: Remove leading and trailing whitespace before conversion
+      type: boolean
+  type: object
+description: Text transformation plugin that converts input strings to uppercase -
+  demonstrates string processing patterns and internationalization support.
+discoverability: public
+documentation:
+  examples:
+  - description: Convert simple text to uppercase
+    expected_output:
+      success: true
+      uppercased: HELLO WORLD
+    input:
+      text: hello world
+    name: Basic uppercase conversion
+  - description: Handle international characters correctly
+    expected_output:
+      success: true
+      uppercased: CAFÉ NIÑO RÉSUMÉ
+    input:
+      text: café niño résumé
+    name: International characters
+  - description: Handle mixed letters, numbers, and symbols
+    expected_output:
+      success: true
+      uppercased: HELLO123! @#$%
+    input:
+      text: Hello123! @#$%
+    name: Mixed content
+  - description: Handle empty strings gracefully
+    expected_output:
+      success: true
+      uppercased: ''
+    input:
+      text: ''
+    name: Empty string handling
+  readme: "# Uppercase Plugin\n\nText transformation plugin that converts input strings\
+    \ to uppercase with full Unicode support.\nDemonstrates string processing patterns\
+    \ in PlugPipe.\n\n## Features\n- ✅ Full Unicode uppercase transformation\n- ✅\
+    \ International character support (é → É, ñ → Ñ)\n- ✅ Preserves whitespace and\
+    \ special characters\n- ✅ Configurable trimming and formatting options\n- ✅ Fast\
+    \ processing for any text size\n- ✅ Locale-aware transformations\n\n## Usage Examples\n\
+    \n### Basic Uppercase\n```yaml\nsteps:\n  - plugin: uppercase\n    input:\n  \
+    \    text: \"hello world\"\n    # Output: \"HELLO WORLD\"\n```\n\n### International\
+    \ Text\n```yaml\nsteps:\n  - plugin: uppercase\n    input:\n      text: \"café\
+    \ español\"\n    # Output: \"CAFÉ ESPAÑOL\"\n```\n\n### With Trimming\n```yaml\n\
+    steps:\n  - plugin: uppercase\n    config:\n      trim_whitespace: true\n    input:\n\
+    \      text: \"  hello world  \"\n    # Output: \"HELLO WORLD\"\n```\n\n### Pipeline\
+    \ Integration\n```yaml\npipeline:\n  - id: format_user_input\n    uses: uppercase\n\
+    \    with:\n      text: \"{{user_input}}\"\n  - id: validate_format\n    uses:\
+    \ validator\n    with:\n      data: \"{{format_user_input.uppercased}}\"\n```\n"
+entrypoint: main.py
+health_check:
+  expected_result: success
+  method: uppercase_test
+  timeout: 5
+input_schema:
+  properties:
+    text:
+      description: The text string to convert to uppercase
+      examples:
+      - hello world
+      - café español
+      - Mixed123! Content
+      - ''
+      type: string
+  required:
+  - text
+  type: object
+license: MIT
+metadata:
+  capabilities:
+  - text-transformation
+  - case-conversion
+  - unicode-support
+  - internationalization
+  - string-processing
+  category: text-processing
+  domain: utility
+  use_cases:
+  - Data normalization and standardization
+  - Text preprocessing for search systems
+  - User input formatting and validation
+  - Content management system formatting
+  - API response standardization
+  - Database field normalization
+name: uppercase
+display_name: Uppercase
+output_schema:
+  properties:
+    metadata:
+      description: Additional information about the conversion
+      properties:
+        converted_length:
+          description: Length of converted text
+          type: integer
+        has_international_chars:
+          description: Whether input contained international characters
+          type: boolean
+        original_length:
+          description: Length of original text
+          type: integer
+        transformation_applied:
+          description: Type of transformation applied
+          type: string
+      type: object
+    success:
+      description: Whether the conversion succeeded
+      type: boolean
+    uppercased:
+      description: The text converted to uppercase
+      type: string
+  required:
+  - uppercased
+  - success
+  type: object
+owner: PlugPipe Demo Team
+performance:
+  average_execution_time: < 1ms
+  benchmarks:
+    large_text: < 10ms (< 10MB)
+    medium_text: < 1ms (< 100KB)
+    small_text: < 0.1ms (< 1KB)
+  cpu_usage: minimal
+  memory_usage: < 1MB
+  scalability: Handles text up to 10MB efficiently
+requirements:
+  python: []
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  data_handling: Processes text in memory, no persistence
+  file_system_access: none
+  isolation_required: false
+  network_access: false
+  requires_secrets: false
+status: stable
+tags:
+- demo
+- text-processing
+- string-transformation
+- formatting
+- case-conversion
+- utility
+- internationalization
+- unicode-support
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

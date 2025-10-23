@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:uppercase-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:56:38.306661Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "uppercase@1.0.0",
+      "name": "uppercase",
+      "version": "1.0.0",
+      "description": "Text transformation plugin that converts input strings to uppercase - demonstrates string processing patterns and internationalization support."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

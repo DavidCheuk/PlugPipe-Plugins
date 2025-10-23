@@ -1,0 +1,167 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:enhanced_mcp_schema_validation-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T17:10:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "name": "enhanced_mcp_schema_validation",
+      "version": "1.0.0",
+      "description": "Enhanced MCP Schema Validation with security-focused schema hardening and double validation patterns",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "jsonschema@4.20.0",
+      "name": "jsonschema",
+      "version": "4.20.0",
+      "description": "An implementation of JSON Schema validation for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/jsonschema@4.20.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pydantic@2.0.0",
+      "name": "pydantic",
+      "version": "2.0.0",
+      "description": "Data validation using Python type hints",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pydantic@2.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "hypothesis@6.0.0",
+      "name": "hypothesis",
+      "version": "6.0.0",
+      "description": "A library for property-based testing",
+      "licenses": [
+        {
+          "license": {
+            "id": "MPL-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/hypothesis@6.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "schemathesis@3.19.0",
+      "name": "schemathesis",
+      "version": "3.19.0",
+      "description": "Property-based testing for API schemas",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/schemathesis@3.19.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "enhanced_mcp_schema_validation@1.0.0",
+      "dependsOn": [
+        "jsonschema@4.20.0",
+        "pydantic@2.0.0",
+        "hypothesis@6.0.0",
+        "schemathesis@3.19.0"
+      ]
+    },
+    {
+      "ref": "schemathesis@3.19.0",
+      "dependsOn": [
+        "hypothesis@6.0.0",
+        "jsonschema@4.20.0"
+      ]
+    },
+    {
+      "ref": "pydantic@2.0.0",
+      "dependsOn": [
+        "jsonschema@4.20.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "subjects": ["enhanced_mcp_schema_validation@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_validation_plugin"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "subjects": ["enhanced_mcp_schema_validation@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_protocol_compliance",
+        "value": "MCP_2025_06_18_HARDENED"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "subjects": ["enhanced_mcp_schema_validation@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "double_validation_patterns",
+        "value": "CLIENT_SERVER_INPUT_OUTPUT_SCHEMA_DATA"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "subjects": ["enhanced_mcp_schema_validation@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "protocol_validation_layer"
+      }
+    }
+  ]
+}

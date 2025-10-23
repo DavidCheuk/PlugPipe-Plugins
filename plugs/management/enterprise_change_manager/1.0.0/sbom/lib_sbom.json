@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enterprise_change_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:21:12.233479Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enterprise_change_manager@1.0.0",
+      "name": "enterprise_change_manager",
+      "version": "1.0.0",
+      "description": "Enterprise change management orchestrator using existing plugin composition (Salt, ELK, Prometheus) with Agent Factory integration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

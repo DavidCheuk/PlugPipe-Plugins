@@ -1,0 +1,553 @@
+business_value:
+  competitive_advantages:
+  - First universal compliance orchestrator supporting any business framework
+  - Zero-overlap architecture leveraging existing governance and validation plugins
+  - Revolutionary plugin registration gate-keeping with configurable compliance validation
+  - Enterprise-grade compliance monitoring through proven plugin composition
+  orchestration_benefits:
+  - 90% reduction in compliance framework integration complexity
+  - Universal compliance rule engine - works with any business standard
+  - Automated compliance monitoring - minimal manual intervention required
+  - Plugin registration gate-keeping with real-time compliance validation
+  risk_mitigation:
+  - Comprehensive business compliance through proven plugin coordination
+  - Real-time compliance violation detection and automated remediation
+  - Multi-framework compliance automation with configurable rule sets
+  - Complete audit trails through plugin composition logging
+category: governance
+config_schema:
+  properties:
+    compliance_frameworks:
+      description: Configuration for supported compliance frameworks
+      properties:
+        custom_frameworks:
+          items:
+            properties:
+              name:
+                type: string
+              rules_source:
+                type: string
+              validation_schema:
+                type: object
+            type: object
+          type: array
+        gdpr_compliance:
+          properties:
+            enabled:
+              default: false
+              type: boolean
+            privacy_requirements:
+              items:
+                type: string
+              type: array
+          type: object
+        iso27001_compliance:
+          properties:
+            control_domains:
+              items:
+                type: string
+              type: array
+            enabled:
+              default: false
+              type: boolean
+          type: object
+        owasp_compliance:
+          properties:
+            enabled:
+              default: true
+              type: boolean
+            frameworks:
+              default:
+              - owasp_top10_web
+              - owasp_top10_llm
+              items:
+                type: string
+              type: array
+          type: object
+        plugpipe_principles:
+          properties:
+            enabled:
+              default: true
+              type: boolean
+            principle_categories:
+              default:
+              - foundational_principles
+              - simplicity_by_tradition
+              - security_first
+              - plugin_architecture
+              items:
+                type: string
+              type: array
+            rules_source:
+              default: CLAUDE.md
+              type: string
+          type: object
+        soc2_compliance:
+          properties:
+            enabled:
+              default: false
+              type: boolean
+            trust_service_categories:
+              default:
+              - security
+              - availability
+              - processing_integrity
+              - confidentiality
+              - privacy
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+    gate_keeping:
+      properties:
+        auto_remediation:
+          default: false
+          description: Attempt automatic compliance remediation
+          type: boolean
+        enabled:
+          default: true
+          description: Enable plugin registration gate-keeping
+          type: boolean
+        rejection_threshold:
+          default: 0.6
+          description: Compliance score threshold for rejection
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        strict_mode:
+          default: false
+          description: Strict compliance validation (reject on any violation)
+          type: boolean
+        warning_threshold:
+          default: 0.8
+          description: Compliance score threshold for warnings
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+      type: object
+    knowledge_base:
+      properties:
+        document_sources:
+          default:
+          - CLAUDE.md
+          - docs/claude_guidance/
+          - compliance_docs/
+          items:
+            type: string
+          type: array
+        enabled:
+          default: true
+          type: boolean
+        update_interval_hours:
+          default: 168
+          type: integer
+      type: object
+    monitoring:
+      properties:
+        alert_on_violations:
+          default: true
+          type: boolean
+        compliance_degradation_threshold:
+          default: 0.1
+          type: number
+        continuous_monitoring:
+          default: true
+          type: boolean
+        monitoring_interval_hours:
+          default: 24
+          type: integer
+      type: object
+  type: object
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:42'
+  stdlib_modules_declared: true
+description: Universal business compliance auditor supporting multiple frameworks
+  including PlugPipe principles, OWASP, SOC2, ISO27001, GDPR, and custom business
+  rules
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      properties:
+        audit_scope:
+          description: Scope for compliance auditing
+          items:
+            type: string
+          type: array
+        compliance_frameworks:
+          description: Specific frameworks to validate against
+          items:
+            type: string
+          type: array
+        monitoring_period:
+          description: Period for monitoring operations
+          type: string
+        plugin_metadata:
+          description: Plugin metadata for validation operations
+          type: object
+        plugin_path:
+          description: Path to plugin for audit operations
+          type: string
+        question:
+          description: Compliance question for Q&A operations
+          type: string
+        report_format:
+          default: json
+          description: Format for compliance reports
+          enum:
+          - json
+          - yaml
+          - markdown
+          - pdf
+          - html
+          type: string
+      type: object
+    operation:
+      description: Compliance operation to perform
+      enum:
+      - validate_plugin_compliance
+      - plugin_registration_gate_check
+      - execute_compliance_audit
+      - answer_compliance_question
+      - monitor_continuous_compliance
+      - generate_compliance_report
+      - update_compliance_knowledge_base
+      - get_compliance_status
+      type: string
+  required:
+  - operation
+  type: object
+integration_metadata:
+  api_orchestration_endpoints:
+  - /compliance/validate-plugin: Validate plugin against compliance frameworks
+  - /compliance/register-gate: Plugin registration gate-keeping endpoint
+  - /compliance/audit: Execute compliance audit across frameworks
+  - /compliance/qa: Answer questions about compliance frameworks
+  - /compliance/monitor: Continuous compliance monitoring
+  - /compliance/report: Generate multi-framework compliance reports
+  orchestration_pattern: delegate_everything_reuse_all
+  plugin_dependencies:
+    optional:
+    - auth_rbac_standard/1.0.0
+    - opa_policy/1.0.0
+    - opa_policy_enterprise/1.0.0
+    - governance/privacy_verification/1.0.0
+    - security/security_orchestrator/1.0.0
+    required:
+    - agents/consistency_agent_factory/1.0.0
+    - agents/rag_agent_factory/1.0.0
+    - compliance/generic_report_generator/1.0.0
+    - registry/database_plugin_registry/1.0.0
+  zero_function_overlap: true
+name: business_compliance_auditor
+display_name: BusinessComplianceAuditor
+orchestration_architecture:
+  audit_reporting:
+    plugin: compliance/generic_report_generator/1.0.0
+    purpose: Generate compliance reports across multiple frameworks
+    reuses: Multi-format reporting, template generation, audit documentation
+  compliance_validation_agents:
+    plugin: agents/consistency_agent_factory/1.0.0
+    purpose: Creates specialized compliance validation agents for different frameworks
+    reuses: Multi-agent coordination, rule validation, consistency checking
+  knowledge_base_qa:
+    plugin: agents/rag_agent_factory/1.0.0
+    purpose: Q&A system for compliance framework documentation and principles
+    reuses: Document retrieval, knowledge synthesis, question answering
+  plugin_registry_integration:
+    plugin: registry/database_plugin_registry/1.0.0
+    purpose: Integration with plugin registration system for gate-keeping
+    reuses: Plugin metadata access, registration workflows, lifecycle hooks
+  policy_enforcement:
+    plugins:
+    - auth_rbac_standard/1.0.0
+    - opa_policy/1.0.0
+    - opa_policy_enterprise/1.0.0
+    purpose: Policy as Code execution for compliance rule enforcement
+    reuses: Authorization decisions, policy evaluation, rule execution
+output_schema:
+  properties:
+    compliance_report:
+      properties:
+        generated_timestamp:
+          type: string
+        report_content:
+          type: string
+        report_format:
+          type: string
+        report_id:
+          type: string
+        summary:
+          type: object
+      type: object
+    compliance_results:
+      properties:
+        compliance_status:
+          enum:
+          - compliant
+          - warning
+          - non_compliant
+          - critical
+          type: string
+        framework_scores:
+          description: Compliance scores per framework
+          type: object
+        gate_keeping_decision:
+          enum:
+          - approve
+          - approve_with_warnings
+          - reject
+          - require_remediation
+          type: string
+        overall_compliance_score:
+          description: Overall compliance score across all frameworks
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        violations:
+          items:
+            properties:
+              description:
+                type: string
+              framework:
+                type: string
+              remediation_suggestion:
+                type: string
+              rule:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                - info
+                type: string
+            type: object
+          type: array
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    monitoring_results:
+      properties:
+        alerts_generated:
+          type: integer
+        compliance_trends:
+          type: array
+        monitoring_period:
+          type: string
+        remediation_actions_taken:
+          type: integer
+        violations_detected:
+          type: integer
+      type: object
+    operation_completed:
+      description: Completed operation identifier
+      type: string
+    orchestration_metadata:
+      properties:
+        agents_created:
+          items:
+            type: string
+          type: array
+        execution_time_seconds:
+          type: number
+        frameworks_evaluated:
+          items:
+            type: string
+          type: array
+        plugins_orchestrated:
+          items:
+            type: string
+          type: array
+      type: object
+    qa_response:
+      properties:
+        answer:
+          type: string
+        confidence_score:
+          type: number
+        question:
+          type: string
+        relevant_frameworks:
+          items:
+            type: string
+          type: array
+        source_references:
+          items:
+            type: string
+          type: array
+      type: object
+    success:
+      description: Whether operation succeeded
+      type: boolean
+    timestamp:
+      description: Operation timestamp
+      type: string
+  required:
+  - success
+  - operation_completed
+  type: object
+owner: PlugPipe Governance Team
+plugpipe_compliance_rules:
+  foundational_principles:
+    everything_is_a_plugin:
+      rule: All functionality must be implemented as plugins in plugs/ directory
+      severity: critical
+      validation: check_plugin_structure
+    no_glue_code:
+      rule: LLMs should compose plugs declaratively via YAML, avoid custom integration
+        code
+      severity: medium
+      validation: check_glue_code_usage
+    reuse_never_reinvent:
+      rule: Must leverage existing tools/solutions rather than custom implementations
+      severity: high
+      validation: check_reinvention_patterns
+    secure_by_design:
+      rule: All plugs must include authentication, error handling, rate limiting,
+        audit trails
+      severity: critical
+      validation: check_security_features
+    write_once_use_everywhere:
+      rule: Plugins must follow PlugPipe contract and be centrally registered
+      severity: high
+      validation: check_plugin_contract
+  plugin_architecture:
+    abstract_plugin_reuse:
+      rule: Check existing foundational plugins before creating new ones
+      severity: high
+      validation: check_abstract_plugin_usage
+    plugin_file_structure:
+      rule: Use plug.yaml (not plugin.yaml), follow min_plug_schema.json
+      severity: high
+      validation: check_file_structure
+    pp_command_usage:
+      rule: Use ./pp commands first, fall back to scripts/ only when pp fails
+      severity: medium
+      validation: check_command_usage
+    sbom_generation:
+      rule: Always generate SBOM using scripts/sbom_helper_cli.py
+      severity: critical
+      validation: check_sbom_presence
+  simplicity_by_tradition:
+    convention_over_configuration:
+      rule: Use sensible defaults and established patterns
+      severity: medium
+      validation: check_conventions
+    human_readable_by_default:
+      rule: YAML configs, clear error messages, readable logs
+      severity: medium
+      validation: check_readability
+    minimal_predictable_structure:
+      rule: Follow plugs/, pipes/, registry/ structure patterns
+      severity: high
+      validation: check_directory_structure
+revolutionary_capabilities:
+- universal_compliance_framework_support
+- automated_plugin_registration_gate_keeping
+- real_time_compliance_monitoring
+- multi_framework_rule_orchestration
+- compliance_qa_knowledge_base
+- business_rule_violation_detection
+- automated_compliance_reporting
+- plugin_lifecycle_compliance_integration
+sbom:
+  complete: sbom/sbom-complete.json
+  dependencies:
+  - license: Python Software Foundation License
+    name: asyncio
+    purpose: Asynchronous orchestration coordination
+    version: '>=3.7'
+  - license: Python Software Foundation License
+    name: uuid
+    purpose: Unique identifier generation for compliance workflows
+    version: '>=3.7'
+  - license: Python Software Foundation License
+    name: datetime
+    purpose: Timestamp management for compliance auditing
+    version: '>=3.7'
+  - license: Python Software Foundation License
+    name: json
+    purpose: JSON processing for compliance data
+    version: '>=3.7'
+  - license: MIT License
+    name: yaml
+    purpose: YAML processing for configuration
+    version: '>=3.7'
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  reused_plugin_capabilities:
+    compliance_reporting:
+      capabilities:
+      - Multi-format compliance report generation
+      - Template-based reporting across frameworks
+      - Audit trail documentation
+      - Executive summary generation
+      plugin: compliance/generic_report_generator/1.0.0
+    compliance_validation_agents:
+      capabilities:
+      - Specialized compliance validation agent creation
+      - Multi-framework rule consistency checking
+      - Automated compliance violation detection
+      - Cross-framework compliance correlation
+      plugin: agents/consistency_agent_factory/1.0.0
+    knowledge_base_qa:
+      capabilities:
+      - Document-based question answering
+      - Knowledge retrieval and synthesis
+      - Context-aware compliance guidance
+      - Multi-source document integration
+      plugin: agents/rag_agent_factory/1.0.0
+    policy_enforcement:
+      plugins:
+      - capabilities:
+        - Basic RBAC policy enforcement for compliance access control
+        - Resource-based permissions for compliance operations
+        plugin: auth_rbac_standard/1.0.0
+      - capabilities:
+        - Rego-based Policy as Code execution for compliance rules
+        - Advanced compliance policy evaluation
+        plugin: opa_policy/1.0.0
+  security_considerations:
+  - Pure orchestration - no direct sensitive data processing
+  - Delegates all compliance validation to specialized agents
+  - Framework-agnostic - works with any compliance standard
+  - Comprehensive audit trail through plugin coordination
+  - Configurable compliance thresholds and remediation actions
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- asyncio
+- datetime
+- importlib
+- json
+- logging
+- os
+- sys
+- typing
+- uuid
+tags:
+- compliance
+- auditing
+- governance
+- gate-keeping
+- business-rules
+- multi-framework
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,463 @@
+description: Comprehensive Salt Stack configuration management plugin for infrastructure
+  automation, state management, pillar data, minion orchestration, and execution modules
+  with support for both Master/Minion and SSH architectures
+external_dependencies:
+  install_method: pip
+  packages:
+  - shlex
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Service management action
+      enum:
+      - start
+      - stop
+      - restart
+      - reload
+      - enable
+      - disable
+      type: string
+    args:
+      default: []
+      description: Arguments for module function execution
+      items:
+        type: string
+      type: array
+    command:
+      description: Shell command to execute on target minions
+      type: string
+    destination:
+      description: Destination file path for file operations
+      type: string
+    function:
+      description: Salt module function name
+      type: string
+    grain:
+      description: Grain key for get/set operations
+      type: string
+    key:
+      description: Pillar key to retrieve
+      type: string
+    master_host:
+      default: localhost
+      description: Salt master hostname or IP address
+      type: string
+    master_port:
+      default: 4506
+      description: Salt master port number
+      type: integer
+    minion_id:
+      description: Specific minion ID for key operations
+      type: string
+    module:
+      description: Salt execution module name
+      type: string
+    operation:
+      description: Salt operation to execute
+      enum:
+      - apply_state
+      - test_state
+      - highstate
+      - list_states
+      - list_minions
+      - accept_key
+      - delete_key
+      - list_keys
+      - get_grains
+      - set_grains
+      - get_pillar
+      - refresh_pillar
+      - execute_module
+      - run_command
+      - copy_file
+      - install_package
+      - service_status
+      - manage_service
+      type: string
+    package:
+      description: Package name for installation operations
+      type: string
+    pillar_data:
+      default: {}
+      description: Pillar data to pass with state operations
+      type: object
+    pillar_root:
+      default: /srv/pillar
+      description: Pillar data root directory
+      type: string
+    roster_file:
+      default: /etc/salt/roster
+      description: Salt SSH roster file path
+      type: string
+    salt_dir:
+      default: /etc/salt
+      description: Salt configuration directory
+      type: string
+    service:
+      description: Service name for service management operations
+      type: string
+    source:
+      description: Source file path for file operations
+      type: string
+    ssh_key_path:
+      description: SSH private key path for Salt SSH
+      type: string
+    ssh_mode:
+      default: false
+      description: Use Salt SSH instead of traditional master/minion
+      type: boolean
+    ssh_user:
+      default: root
+      description: SSH user for Salt SSH operations
+      type: string
+    state:
+      description: Salt state to apply or test
+      type: string
+    state_root:
+      default: /srv/salt
+      description: Salt states root directory
+      type: string
+    status:
+      default: up
+      description: Minion status filter for list operations
+      enum:
+      - up
+      - down
+      - rejected
+      - unaccepted
+      type: string
+    target:
+      default: '*'
+      description: Target minions (glob pattern, compound targeting, or specific minion
+        ID)
+      type: string
+    timeout:
+      default: 300
+      description: Command execution timeout in seconds
+      type: integer
+    value:
+      description: Value to set for grain operations
+      type: string
+    version:
+      description: Specific package version to install
+      type: string
+  required:
+  - operation
+  type: object
+name: salt
+display_name: Salt
+output_schema:
+  properties:
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    command:
+      description: Executed Salt command
+      type: string
+    error:
+      description: Error message if operation failed
+      type: string
+    error_details:
+      description: Detailed error information
+      properties:
+        documentation_link:
+          type: string
+        error_type:
+          type: string
+        suggested_fix:
+          type: string
+      type: object
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    grains:
+      description: Minion grain data (for get_grains operation)
+      type: object
+    keys:
+      description: Minion keys by status (for list_keys operation)
+      properties:
+        minions:
+          items:
+            type: string
+          type: array
+        minions_denied:
+          items:
+            type: string
+          type: array
+        minions_pre:
+          items:
+            type: string
+          type: array
+        minions_rejected:
+          items:
+            type: string
+          type: array
+      type: object
+    minions:
+      description: Minion list (for list_minions operation)
+      items:
+        type: string
+      type: array
+    module_result:
+      description: Execution module results
+      type: object
+    operation:
+      description: Executed Salt operation
+      type: string
+    output:
+      description: Command output from Salt
+      type: string
+    package_info:
+      description: Package installation results
+      properties:
+        changes:
+          type: object
+        installed:
+          type: boolean
+        version:
+          type: string
+      type: object
+    pillar:
+      description: Pillar data (for get_pillar operation)
+      type: object
+    return_code:
+      description: Salt command return code
+      type: integer
+    salt_config:
+      description: Salt configuration used for operation
+      properties:
+        master_host:
+          type: string
+        ssh_mode:
+          type: boolean
+        timeout:
+          type: integer
+      type: object
+    service_status:
+      description: Service status information
+      properties:
+        active:
+          type: boolean
+        enabled:
+          type: boolean
+        status:
+          type: string
+      type: object
+    state_result:
+      description: Detailed state execution results
+      properties:
+        changes:
+          type: object
+        duration:
+          type: number
+        failed:
+          type: integer
+        succeeded:
+          type: integer
+        total:
+          type: integer
+      type: object
+    states:
+      description: Available Salt states (for list_states operation)
+      items:
+        type: string
+      type: array
+    success:
+      description: Operation success status
+      type: boolean
+    target:
+      description: Target specification used
+      type: string
+    timestamp:
+      description: Operation execution timestamp
+      format: date-time
+      type: string
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - CIS Controls for configuration management
+  - NIST Cybersecurity Framework
+  - SOC 2 compliance controls
+  - ISO 27001 configuration management standards
+  - PCI DSS system configuration requirements
+  - FedRAMP security controls
+  dependencies:
+  - description: Salt Stack master daemon for centralized configuration management
+    license: Apache-2.0
+    name: salt-master
+    source: https://github.com/saltstack/salt
+    type: binary
+    version: '>=3004.0'
+  - description: Salt Stack minion daemon for configuration execution
+    license: Apache-2.0
+    name: salt-minion
+    source: https://github.com/saltstack/salt
+    type: binary
+    version: '>=3004.0'
+  - description: Salt Stack SSH client for agentless configuration management
+    license: Apache-2.0
+    name: salt-ssh
+    optional: true
+    source: https://github.com/saltstack/salt
+    type: binary
+    version: '>=3004.0'
+  - description: Salt Stack REST API for programmatic access
+    license: Apache-2.0
+    name: salt-api
+    optional: true
+    source: https://github.com/saltstack/salt
+    type: binary
+    version: '>=3004.0'
+  - description: Salt Stack cloud provisioning tool
+    license: Apache-2.0
+    name: salt-cloud
+    optional: true
+    source: https://github.com/saltstack/salt
+    type: binary
+    version: '>=3004.0'
+  - description: Python runtime for Salt execution
+    license: PSF
+    name: python3
+    source: https://www.python.org
+    type: runtime
+    version: '>=3.6'
+  - description: YAML parsing library for Salt configurations
+    license: MIT
+    name: pyyaml
+    source: https://github.com/yaml/pyyaml
+    type: python
+    version: '>=5.4.0'
+  - description: Templating engine for Salt states and configurations
+    license: BSD-3-Clause
+    name: jinja2
+    source: https://github.com/pallets/jinja
+    type: python
+    version: '>=3.0.0'
+  integration_capabilities:
+  - Git integration for Salt state versioning
+  - Docker container management
+  - Kubernetes orchestration
+  - Cloud provider integrations (AWS, GCP, Azure)
+  - Database management and configuration
+  - Web server and application deployment
+  - Monitoring and logging system configuration
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Salt master authentication and authorization controls
+  - Secure communication channels between master and minions
+  - Pillar data encryption for sensitive configuration
+  - SSH key management for Salt SSH operations
+  - Network security for Salt communication ports (4505-4506)
+  - File permissions for Salt configuration and state files
+  - Regular security updates for Salt components
+  - Audit logging for all Salt operations and state changes
+  - Universal Input Sanitizer integration for malicious pattern detection
+  - Command injection prevention with argument sanitization
+  - Path traversal protection for configuration and file operations
+  - Dangerous command blocking and validation
+  - Credential redaction in error messages and outputs
+  - Secure temporary file creation with restricted permissions
+  - Configuration validation with security constraints
+  - Fallback security validation when sanitizer unavailable
+  security_enhancements:
+    command_injection_prevention:
+      argument_sanitization: true
+      dangerous_command_blocking: true
+      shell_metacharacter_escaping: true
+    configuration_validation:
+      hostname_format_validation: true
+      port_range_validation: 1024-65535
+      timeout_constraints: 5-3600 seconds
+    credential_protection:
+      error_message_sanitization: true
+      secure_temporary_files: true
+      sensitive_data_redaction: true
+    path_traversal_protection:
+      configuration_paths: true
+      file_operations: true
+      ssh_key_validation: true
+    universal_input_sanitizer:
+      fallback_validation: true
+      integrated: true
+      salt_specific_patterns: true
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - RHEL 7+
+    - CentOS 7+
+    - Ubuntu 18.04+
+    - Debian 9+
+    - SLES 12+
+  - name: Windows
+    versions:
+    - Windows Server 2016+
+    - Windows 10+
+  - name: macOS
+    versions:
+    - macOS 10.14+
+  - name: FreeBSD
+    versions:
+    - FreeBSD 11+
+  threat_model:
+    assets:
+    - Salt master configuration
+    - Minion authentication keys
+    - Pillar data with secrets
+    - State files and modules
+    mitigations:
+    - Input validation and sanitization
+    - Command injection prevention
+    - Secure credential handling
+    - Audit logging integration
+    threats:
+    - Malicious state injection
+    - Credential harvesting
+    - Unauthorized command execution
+    - Configuration tampering
+  vulnerability_assessments:
+    command_injection:
+      controls:
+      - Universal Input Sanitizer integration
+      - Argument sanitization with shlex.quote
+      - Dangerous pattern detection and blocking
+      - Shell metacharacter filtering
+      mitigated: true
+      severity: CRITICAL
+    information_disclosure:
+      controls:
+      - Error message sanitization
+      - Credential redaction in outputs
+      - Sensitive pattern filtering
+      mitigated: true
+      severity: MEDIUM
+    path_traversal:
+      controls:
+      - Path validation in configuration
+      - Directory traversal pattern detection
+      - Secure temporary file creation
+      mitigated: true
+      severity: HIGH
+    privilege_escalation:
+      controls:
+      - Dangerous command blocking
+      - Operation validation
+      - Secure defaults enforcement
+      mitigated: true
+      severity: HIGH
+status: active
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

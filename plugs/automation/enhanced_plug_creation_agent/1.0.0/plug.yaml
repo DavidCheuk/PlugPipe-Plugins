@@ -1,0 +1,197 @@
+config_defaults:
+  auto_release: false
+  auto_test: true
+  enable_ai_analysis: true
+  max_research_time_minutes: 30
+  research_depth: comprehensive
+config_schema:
+  properties:
+    auto_release:
+      default: false
+      description: Automatically release plugin if tests pass
+      type: boolean
+    auto_test:
+      default: true
+      description: Automatically run tests after plugin creation
+      type: boolean
+    enable_ai_analysis:
+      default: true
+      description: Use AI for intelligent API analysis
+      type: boolean
+    max_research_time_minutes:
+      default: 30
+      description: Maximum time for research phase
+      maximum: 120
+      minimum: 5
+      type: integer
+    plugin_category:
+      default: integration
+      description: Category for generated plugins
+      type: string
+    research_depth:
+      default: comprehensive
+      description: Depth of API research and analysis
+      enum:
+      - quick
+      - standard
+      - comprehensive
+      type: string
+    target_apis:
+      description: List of specific APIs to research and create plugins for
+      items:
+        type: string
+      type: array
+  type: object
+description: Intelligent agent that researches APIs, analyzes documentation, and automatically
+  creates comprehensive PlugPipe plugins with testing and release automation
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - unittest
+  - pytest
+  - requests
+  - main
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Action to perform
+      enum:
+      - research_and_create
+      - batch_create
+      - analyze_api
+      - list_candidates
+      - update_existing
+      type: string
+    api_docs_url:
+      description: API documentation URL
+      format: uri
+      type: string
+    api_name:
+      description: Name of API/service to create plugin for
+      type: string
+    api_url:
+      description: Base URL or documentation URL for the API
+      format: uri
+      type: string
+    batch_apis:
+      description: Batch API creation list
+      items:
+        properties:
+          name:
+            type: string
+          priority:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          url:
+            type: string
+        type: object
+      type: array
+    priority_features:
+      description: High-priority features to implement
+      items:
+        type: string
+      type: array
+    research_config:
+      description: Configuration for research phase
+      type: object
+  required:
+  - action
+  type: object
+metadata:
+  capabilities:
+  - api_documentation_research
+  - plugin_scaffolding
+  - automated_testing
+  - sbom_generation
+  - release_automation
+  - code_generation
+  - documentation_creation
+  category: automation
+  memory_mb: 4096
+  type: intelligence
+name: enhanced_plug_creation_agent
+display_name: EnhancedPlugCreationAgent
+output_schema:
+  properties:
+    batch_results:
+      items:
+        type: object
+      type: array
+    error:
+      description: Error message if failed
+      type: string
+    message:
+      description: Result message
+      type: string
+    plugin_details:
+      properties:
+        documentation_created:
+          type: boolean
+        features_implemented:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        path:
+          type: string
+        sbom_generated:
+          type: boolean
+        test_results:
+          type: object
+        version:
+          type: string
+      type: object
+    recommendations:
+      description: Recommendations for improvement
+      items:
+        type: string
+      type: array
+    research_results:
+      properties:
+        api_analysis:
+          type: object
+        authentication_method:
+          type: string
+        endpoints_discovered:
+          type: integer
+        rate_limits:
+          type: object
+        sdk_available:
+          type: boolean
+      type: object
+    success:
+      description: Whether operation succeeded
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- automation
+- ai-powered
+- plugin-generation
+- api-research
+- enterprise
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

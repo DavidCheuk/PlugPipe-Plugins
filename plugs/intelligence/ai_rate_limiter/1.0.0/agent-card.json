@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:intelligence:ai_rate_limiter",
+    "name": "Ai Rate Limiter Agent",
+    "description": "Production-ready centralized LLM rate limiting and quota management service with advanced analytics and circuit breaker patterns",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/ai_rate_limiter",
+    "skills": [
+      {
+        "id": "ai_rate_limiter-primary",
+        "name": "Ai Rate Limiter",
+        "description": "Production-ready centralized LLM rate limiting and quota management service with advanced analytics and circuit breaker patterns",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "ai_rate_limiter",
+        "category": "intelligence",
+        "subcategory": "",
+        "tags": [
+          "rate-limiting",
+          "quota-management",
+          "cost-control",
+          "llm",
+          "infrastructure",
+          "analytics",
+          "circuit-breaker"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.813130Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

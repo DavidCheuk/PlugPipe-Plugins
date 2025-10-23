@@ -1,0 +1,117 @@
+name: mcp_security_compliance_validator
+display_name: McpComplianceValidator
+version: 1.0.0
+description: MCP Security Compliance Validation Plugin - Validates MCP implementations
+  against security standards and compliance frameworks
+category: security
+subcategory: compliance_validation
+author: PlugPipe Security Team
+compatibility: 1.0.0
+discovery: public
+core_dependencies:
+- name: json
+  type: data_format
+  purpose: Configuration and result handling
+- name: re
+  type: regex
+  purpose: Pattern matching for compliance rules
+- name: datetime
+  type: time_handling
+  purpose: Compliance timestamp tracking
+external_dependencies:
+- name: jsonschema
+  version: '>=4.17.0'
+  purpose: Schema validation for MCP protocol compliance
+- name: requests
+  version: '>=2.28.0'
+  purpose: HTTP client for compliance endpoint testing
+security:
+  sandbox: recommended
+  audit: enabled
+  sensitive_operations: false
+  description: Compliance validation plugin - reads and validates configurations
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - validate_compliance
+      - check_gdpr
+      - check_sox
+      - check_hipaa
+      - check_pci_dss
+      - check_mcp_protocol
+      - get_status
+      - generate_report
+      description: Type of compliance validation to perform
+    target_endpoint:
+      type: string
+      description: Target MCP server endpoint for validation
+      default: http://localhost:8091
+    compliance_frameworks:
+      type: array
+      items:
+        type: string
+      description: Compliance frameworks to validate against
+      default:
+      - MCP_PROTOCOL
+      - GDPR
+      - SOX
+      - SECURITY_BASELINE
+    validation_depth:
+      type: string
+      enum:
+      - basic
+      - standard
+      - comprehensive
+      description: Depth of compliance validation
+      default: standard
+    config_file:
+      type: string
+      description: Path to configuration file for validation
+    generate_remediation:
+      type: boolean
+      description: Generate remediation recommendations
+      default: true
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    compliance_status:
+      type: object
+    validation_results:
+      type: array
+    remediation_plan:
+      type: array
+    compliance_score:
+      type: number
+    certificate_status:
+      type: object
+interfaces:
+  cli: true
+  api: true
+  web: false
+performance:
+  timeout: 180
+  memory_limit: 256MB
+  cpu_limit: 1
+monitoring:
+  metrics_enabled: true
+  tracing_enabled: true
+  logging_level: INFO
+sbom:
+  summary: sbom/mcp_security_compliance_validator-sbom.json
+  complete: sbom/mcp_security_compliance_validator-sbom-complete.json
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

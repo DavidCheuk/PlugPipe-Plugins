@@ -1,0 +1,78 @@
+dependency_analysis:
+  analyzer_notes: All imports (ast) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Analyzes and fixes error handling patterns in Python code with automated
+  remediation capabilities
+discoverability: public
+input_schema:
+  properties:
+    auto_fix:
+      default: false
+      description: Whether to automatically apply fixes
+      type: boolean
+    directory:
+      description: Directory to analyze (for analyze_directory operation)
+      type: string
+    file_path:
+      description: Path to Python file to analyze (required for analyze_file, apply_fixes)
+      type: string
+    operation:
+      description: Operation to perform
+      enum:
+      - analyze_file
+      - analyze_directory
+      - apply_fixes
+      - get_status
+      type: string
+    pattern:
+      default: '**/*.py'
+      description: File pattern to match for directory analysis
+      type: string
+  required:
+  - operation
+  type: object
+name: error_handling_analyzer
+display_name: ErrorHandlingAnalyzer
+output_schema:
+  properties:
+    analysis:
+      description: Analysis results with error handling issues
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    fixes:
+      description: Applied fixes and recommendations
+      type: object
+    success:
+      description: Whether the operation succeeded
+      type: boolean
+  type: object
+owner: plugpipe-core
+sbom:
+  dependencies:
+  - name: ast
+    type: standard-library
+    version: python-stdlib
+  - name: pathlib
+    type: standard-library
+    version: python-stdlib
+status: active
+stdlib_modules:
+- ast
+tags:
+- error-handling
+- code-quality
+- security
+- analysis
+- auto-fix
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:legal:acme_corp_disclaimer",
+    "name": "Acme Corp Disclaimer Agent",
+    "description": "ACME Corporation customized legal disclaimer with company-specific terms and branding",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/acme_corp_disclaimer",
+    "skills": [
+      {
+        "id": "acme_corp_disclaimer-primary",
+        "name": "Acme Corp Disclaimer",
+        "description": "ACME Corporation customized legal disclaimer with company-specific terms and branding",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "acme_corp_disclaimer",
+        "category": "legal",
+        "subcategory": "",
+        "tags": [
+          "legal",
+          "disclaimer",
+          "acme-corp",
+          "enterprise",
+          "customized"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.548586Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

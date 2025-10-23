@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:template_security-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T23:55:06.176562Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "template_security@1.0.0",
+      "name": "template_security",
+      "version": "1.0.0",
+      "description": "Enterprise-grade template security plugin using proven security tools - eliminates Server-Side Template Injection (SSTI) vulnerabilities through sandboxed Jinja2 environments and security orchestration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:opa_policy-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:56:49.196843Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "opa_policy@1.0.0",
+      "name": "opa_policy",
+      "version": "1.0.0",
+      "description": "Open Policy Agent integration for advanced policy evaluation in PlugPipe authorization framework"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

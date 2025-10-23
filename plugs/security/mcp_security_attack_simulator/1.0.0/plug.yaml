@@ -1,0 +1,109 @@
+name: mcp_security_attack_simulator
+display_name: SecurityAttackSimulator
+version: 1.0.0
+description: MCP Security Attack Simulation and Testing Plugin - Simulates security
+  attacks for MCP protocol testing
+category: security
+subcategory: mcp_testing
+author: PlugPipe Security Team
+compatibility: 1.0.0
+discovery: public
+core_dependencies:
+- name: requests
+  type: http_client
+  purpose: HTTP attack simulation
+- name: asyncio
+  type: async_framework
+  purpose: Concurrent attack testing
+- name: json
+  type: data_format
+  purpose: MCP message handling
+external_dependencies:
+- name: aiohttp
+  version: '>=3.8.0'
+  purpose: Async HTTP client for attack simulation
+- name: faker
+  version: '>=18.0.0'
+  purpose: Generate fake data for attack payloads
+security:
+  sandbox: required
+  audit: enabled
+  sensitive_operations: true
+  description: Attack simulation plugin - requires sandbox for safety
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - simulate_attacks
+      - payload_injection
+      - protocol_violation
+      - auth_bypass
+      - dos_simulation
+      - get_status
+      description: Type of security attack to simulate
+    target_endpoint:
+      type: string
+      description: Target MCP server endpoint for simulation
+      default: http://localhost:8091
+    attack_types:
+      type: array
+      items:
+        type: string
+      description: Specific attack types to simulate
+      default:
+      - injection
+      - protocol_violation
+      - auth_bypass
+    intensity:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      description: Attack simulation intensity level
+      default: medium
+    test_mode:
+      type: boolean
+      description: Run in safe test mode
+      default: true
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    attack_results:
+      type: array
+    security_findings:
+      type: array
+    recommendations:
+      type: array
+    compliance_status:
+      type: object
+interfaces:
+  cli: true
+  api: true
+  web: false
+performance:
+  timeout: 300
+  memory_limit: 512MB
+  cpu_limit: 2
+monitoring:
+  metrics_enabled: true
+  tracing_enabled: true
+  logging_level: INFO
+sbom:
+  summary: sbom/mcp_security_attack_simulator-sbom.json
+  complete: sbom/mcp_security_attack_simulator-sbom-complete.json
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

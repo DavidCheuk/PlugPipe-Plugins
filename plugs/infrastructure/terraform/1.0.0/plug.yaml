@@ -1,0 +1,372 @@
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:43'
+  stdlib_modules_declared: true
+description: Comprehensive Terraform plugin for Infrastructure as Code (IaC) provisioning
+  and management across multiple cloud providers with enterprise features including
+  plan analysis, state management, and security scanning
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    auto_approve:
+      default: false
+      description: Skip interactive approval for apply/destroy operations
+      type: boolean
+    backend_config:
+      description: Backend configuration for remote state storage
+      properties:
+        config:
+          description: Backend-specific configuration parameters
+          type: object
+        type:
+          enum:
+          - s3
+          - gcs
+          - azurerm
+          - consul
+          - etcd
+          - http
+          type: string
+      type: object
+    cloud_provider:
+      default: aws
+      description: Target cloud provider for optimization
+      enum:
+      - aws
+      - gcp
+      - azure
+      - kubernetes
+      - docker
+      - local
+      type: string
+    compliance_check:
+      default: false
+      description: Enable compliance policy validation
+      type: boolean
+    config_path:
+      default: .
+      description: Path to Terraform configuration directory
+      type: string
+    cost_estimation:
+      default: false
+      description: Enable cost estimation for planned changes
+      type: boolean
+    destroy_auto_approve:
+      default: false
+      description: Skip confirmation for destroy operations
+      type: boolean
+    import_address:
+      description: Resource address for import operations
+      type: string
+    import_id:
+      description: Resource ID for import operations
+      type: string
+    operation:
+      description: Terraform operation to execute
+      enum:
+      - init
+      - plan
+      - apply
+      - destroy
+      - validate
+      - import
+      - refresh
+      - state_list
+      - state_show
+      - state_rm
+      - state_mv
+      - workspace_new
+      - workspace_select
+      - workspace_list
+      - workspace_delete
+      - format
+      - version
+      - providers
+      - plan_analyze
+      - security_scan
+      type: string
+    parallelism:
+      default: 10
+      description: Number of concurrent operations
+      type: integer
+    plan_file:
+      description: Path to save/load Terraform plan file
+      type: string
+    refresh_only:
+      default: false
+      description: Update state without modifying infrastructure
+      type: boolean
+    replace:
+      description: Force replacement of specific resources
+      items:
+        type: string
+      type: array
+    security_scan:
+      default: true
+      description: Enable security scanning of Terraform configurations
+      type: boolean
+    state_address:
+      description: Resource address for state operations
+      type: string
+    state_destination:
+      description: Destination address for state move operations
+      type: string
+    state_file:
+      description: Path to Terraform state file
+      type: string
+    target:
+      description: Limit operation to specific resources
+      items:
+        type: string
+      type: array
+    var_file:
+      description: Path to Terraform variables file (.tfvars)
+      type: string
+    variables:
+      default: {}
+      description: Terraform variables to pass to the operation
+      type: object
+    workspace:
+      default: default
+      description: Terraform workspace name for environment isolation
+      type: string
+  required:
+  - operation
+  type: object
+name: terraform
+display_name: Terraform
+output_schema:
+  properties:
+    compliance_status:
+      description: Compliance validation results
+      properties:
+        failed:
+          type: integer
+        passed:
+          type: integer
+        skipped:
+          type: integer
+        violations:
+          items:
+            properties:
+              message:
+                type: string
+              policy:
+                type: string
+              resource:
+                type: string
+              severity:
+                type: string
+            type: object
+          type: array
+      type: object
+    error_details:
+      description: Detailed error information if operation failed
+      properties:
+        documentation_link:
+          type: string
+        error_message:
+          type: string
+        error_type:
+          type: string
+        suggested_fix:
+          type: string
+      type: object
+    execution_time:
+      description: Command execution time in seconds
+      type: number
+    operation:
+      description: Executed Terraform operation
+      type: string
+    plan_summary:
+      description: Summary of planned changes (for plan operations)
+      properties:
+        estimated_cost:
+          description: Estimated monthly cost in USD
+          type: number
+        resources_to_add:
+          type: integer
+        resources_to_change:
+          type: integer
+        resources_to_destroy:
+          type: integer
+      type: object
+    providers_info:
+      description: Provider version information
+      items:
+        properties:
+          name:
+            type: string
+          registry:
+            type: string
+          version:
+            type: string
+        type: object
+      type: array
+    return_code:
+      description: Command exit code
+      type: integer
+    security_findings:
+      description: Security scan findings
+      items:
+        properties:
+          line:
+            type: integer
+          message:
+            type: string
+          resource:
+            type: string
+          rule:
+            type: string
+          severity:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+        type: object
+      type: array
+    state_info:
+      description: State file information and statistics
+      properties:
+        last_updated:
+          description: Last state update timestamp
+          format: date-time
+          type: string
+        providers:
+          description: List of providers used
+          items:
+            type: string
+          type: array
+        resources:
+          description: Number of resources in state
+          type: integer
+      type: object
+    stderr:
+      description: Standard error from Terraform command
+      type: string
+    stdout:
+      description: Standard output from Terraform command
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+    terraform_version:
+      description: Terraform version used
+      type: string
+    workspace:
+      description: Active Terraform workspace
+      type: string
+    workspace_info:
+      description: Workspace information and status
+      properties:
+        available:
+          items:
+            type: string
+          type: array
+        current:
+          type: string
+      type: object
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - CIS Benchmarks for cloud providers
+  - SOC 2 compliance controls
+  - PCI DSS requirements for payment processing
+  - HIPAA for healthcare data protection
+  - GDPR for data privacy requirements
+  dependencies:
+  - description: HashiCorp Terraform CLI for infrastructure provisioning
+    license: MPL-2.0
+    name: terraform
+    source: https://github.com/hashicorp/terraform
+    type: binary
+    version: '>=1.0.0'
+  - description: Terraform linter for security and best practices
+    license: MPL-2.0
+    name: tflint
+    optional: true
+    source: https://github.com/terraform-linters/tflint
+    type: binary
+    version: '>=0.40.0'
+  - description: Static analysis for Terraform security scanning
+    license: Apache-2.0
+    name: checkov
+    optional: true
+    source: https://github.com/bridgecrewio/checkov
+    type: python
+    version: '>=2.0.0'
+  - description: Terraform cost estimation tool
+    license: Apache-2.0
+    name: terracost
+    optional: true
+    source: https://github.com/cycloidio/terracost
+    type: binary
+    version: '>=0.2.0'
+  - description: Generate documentation for Terraform modules
+    license: MIT
+    name: terraform-docs
+    optional: true
+    source: https://github.com/terraform-docs/terraform-docs
+    type: binary
+    version: '>=0.16.0'
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Terraform state files may contain sensitive data - ensure secure storage
+  - Use remote backends for production state management
+  - Enable state encryption and access controls
+  - Regular security scanning of Terraform configurations
+  - Principle of least privilege for cloud provider credentials
+  - Version pinning for providers to ensure reproducible deployments
+  - Secret management through dedicated tools (Vault, AWS Secrets Manager)
+  summary: sbom/sbom.json
+  supported_providers:
+  - min_version: 4.0.0
+    name: AWS
+    registry: hashicorp/aws
+  - min_version: 4.0.0
+    name: Google Cloud
+    registry: hashicorp/google
+  - min_version: 3.0.0
+    name: Microsoft Azure
+    registry: hashicorp/azurerm
+  - min_version: 2.0.0
+    name: Kubernetes
+    registry: hashicorp/kubernetes
+  - min_version: 2.0.0
+    name: Docker
+    registry: kreuzwerker/docker
+  - min_version: 2.0.0
+    name: VMware vSphere
+    registry: hashicorp/vsphere
+status: active
+stdlib_modules:
+- asyncio
+- datetime
+- json
+- logging
+- os
+- re
+- shutil
+- subprocess
+- tempfile
+- typing
+- uuid
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

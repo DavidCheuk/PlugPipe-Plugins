@@ -1,0 +1,169 @@
+category: orchestration
+description: Context Resolver Service - handles context resolution, environment setup,
+  and parameter resolution with security-first approach and proper separation of concerns
+external_dependencies:
+  install_method: pip
+  packages:
+  - copy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    base_context:
+      description: Base context for foreach iterations
+      type: object
+    context:
+      description: Context for result merging
+      type: object
+    default_env_vars:
+      default:
+      - PATH
+      - HOME
+      - USER
+      - PYTHONPATH
+      - VIRTUAL_ENV
+      - PLUGPIPE_CONFIG
+      description: Default environment variables to include
+      items:
+        type: string
+      type: array
+    initial_context:
+      description: Initial context to extend or build upon
+      type: object
+    item:
+      description: Current item in foreach iteration
+    iteration:
+      description: Current iteration number in foreach
+      type: integer
+    operation:
+      default: initialize_pipeline
+      description: Context resolution operation to perform
+      enum:
+      - initialize_pipeline
+      - resolve_step
+      - resolve_foreach
+      - merge_results
+      type: string
+    pipeline_context:
+      description: Main pipeline context for step resolution
+      type: object
+    pipeline_doc:
+      description: Pipeline document for context initialization
+      type: object
+    pipeline_path:
+      default: ''
+      description: Path to pipeline file
+      type: string
+    secure_env_enabled:
+      default: true
+      description: Enable secure environment isolation
+      type: boolean
+    step:
+      description: Step definition for context resolution
+      type: object
+    step_id:
+      description: Step identifier for result merging
+      type: string
+    step_index:
+      description: Step index for tracking
+      type: integer
+    step_result:
+      description: Step execution result to merge
+  type: object
+name: context_resolver
+display_name: ContextResolver
+output_schema:
+  properties:
+    context:
+      description: Resolved pipeline context
+      properties:
+        env:
+          type: object
+        execution_id:
+          type: string
+        inputs:
+          type: object
+        pipeline_metadata:
+          type: object
+        pipeline_path:
+          type: string
+        step_outputs:
+          type: object
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    item_context:
+      description: Resolved foreach item context
+      type: object
+    operation:
+      description: Operation that was performed
+      type: string
+    resolved_step:
+      description: Step definition with resolved parameters
+      type: object
+    step_context:
+      description: Resolved step-specific context
+      type: object
+    success:
+      description: Operation success indicator
+      type: boolean
+    supported_operations:
+      description: List of supported operations (returned on error)
+      items:
+        type: string
+      type: array
+  type: object
+owner: plugpipe-orchestration
+revolutionary_capabilities:
+- modular_context_resolution
+- security_first_environment_isolation
+- parameter_resolution_service
+- context_lifecycle_management
+- service_oriented_architecture
+- separation_of_concerns
+sbom:
+  dependencies:
+  - description: Template parameter resolution utilities
+    internal: true
+    name: PlugPipe Template Resolver
+    version: '>=1.0.0'
+  - description: Security-first environment isolation
+    internal: true
+    name: Environment Isolation Plugin
+    optional: true
+    version: '>=1.0.0'
+  - description: UUID generation for execution tracking
+    license: Python
+    name: Python UUID
+    version: '>=3.7'
+  - description: Timestamp generation and tracking
+    license: Python
+    name: Python datetime
+    version: '>=3.7'
+  security_considerations:
+  - Integrates with environment isolation plugin for secure execution
+  - Handles secret resolution and context passing securely
+  - Prevents environment variable leakage between steps
+  - Enforces security-first fallback when isolation unavailable
+  usage_patterns:
+  - Pipeline context initialization and management
+  - Step-by-step context resolution and parameter injection
+  - Secure environment isolation for plugin execution
+  - Foreach loop context handling with isolation
+status: production
+tags:
+- orchestration
+- context
+- resolution
+- security
+- service
+- modular
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: openapi-import-pipe
+  owner: PlugPipe Team
+  version: 1.0.0
+  tags:
+  - pipeline
+  - migrated
+  doc: Pipeline converted from openapi_import_pipe
+inputs: {}
+pipeline:
+- plugin: factory_runner_plugin
+  config:
+    backend: openapi
+    target_dir: output_plugin
+  id: step_1
+  uses: plugin
+  with: {}
+- plugin: helper_dynamic_importer
+  config:
+    plugin_dir: output_plugin
+  id: step_2
+  uses: plugin
+  with: {}
+- plugin: petstore_api
+  config:
+    base_url: https://petstore3.swagger.io/api/v3
+  input:
+    status: available
+  id: step_3
+  uses: plugin
+  with: {}
+summary:
+  format: table
+  doc: Pipeline execution summary for openapi-import-pipe
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

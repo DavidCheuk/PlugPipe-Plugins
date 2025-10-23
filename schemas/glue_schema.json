@@ -1,0 +1,378 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlugPipe Glue Transformation Schema",
+  "description": "Schema for glue.yaml files in PlugPipe Trinity Architecture",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description",
+    "author",
+    "category",
+    "status",
+    "source_schema",
+    "target_schema"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "Glue component name (lowercase, alphanumeric, underscore only)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (e.g., 1.0.0)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500,
+      "description": "Human-readable description of the glue transformation"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 100,
+      "description": "Author or team responsible for the glue component"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "integration",
+        "transformation",
+        "authentication",
+        "interface"
+      ],
+      "description": "Glue component category"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "experimental",
+        "deprecated",
+        "maintenance"
+      ],
+      "description": "Component lifecycle status"
+    },
+    "source_schema": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Name of the source schema this glue transforms from"
+    },
+    "target_schema": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Name of the target schema this glue transforms to"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Creation date (YYYY-MM-DD format)"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date",
+      "description": "Last update date (YYYY-MM-DD format)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "uniqueItems": true,
+      "minItems": 1,
+      "description": "Tags for categorization and discovery"
+    },
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_field", "target_field"],
+        "properties": {
+          "source_field": {
+            "type": "string",
+            "description": "Source field path or identifier"
+          },
+          "target_field": {
+            "type": "string",
+            "description": "Target field path or identifier"
+          },
+          "transform": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "enhance",
+              "preserve",
+              "convert",
+              "filter",
+              "aggregate",
+              "split",
+              "custom"
+            ],
+            "description": "Type of transformation to apply (optional)"
+          },
+          "default": {
+            "description": "Default value if source field is missing"
+          },
+          "when": {
+            "type": "object",
+            "description": "Conditional logic for when to apply this mapping"
+          },
+          "error_policy": {
+            "type": "string",
+            "enum": [
+              "fail",
+              "skip",
+              "default"
+            ],
+            "default": "fail",
+            "description": "How to handle errors for this mapping"
+          }
+        },
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "description": "Field mapping specifications"
+    },
+    "error_policy": {
+      "type": "string",
+      "enum": [
+        "fail_fast",
+        "continue_on_error",
+        "fail_safe",
+        "retry_with_backoff"
+      ],
+      "description": "How to handle transformation errors"
+    },
+    "transformation_config": {
+      "type": "object",
+      "properties": {
+        "preserve_metadata": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to preserve source metadata"
+        },
+        "validate_schemas": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to validate against schemas"
+        },
+        "log_transformations": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to log transformation details"
+        },
+        "retry_on_failure": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to retry failed transformations"
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "default": 3,
+          "description": "Maximum retry attempts"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300,
+          "default": 30,
+          "description": "Transformation timeout in seconds"
+        }
+      },
+      "additionalProperties": true,
+      "description": "Global transformation configuration"
+    },
+    "implementation": {
+      "type": "object",
+      "properties": {
+        "entry_point": {
+          "type": "string",
+          "default": "main.py",
+          "description": "Main implementation file"
+        },
+        "async_capable": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the implementation supports async operations"
+        },
+        "streaming_support": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the implementation supports streaming"
+        },
+        "batch_processing": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the implementation supports batch processing"
+        },
+        "memory_efficient": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the implementation is memory efficient for large data"
+        }
+      },
+      "additionalProperties": true,
+      "description": "Implementation characteristics and capabilities"
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "test_coverage_requirement": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 80,
+          "description": "Minimum test coverage percentage required"
+        },
+        "schema_validation_required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether schema validation is required"
+        },
+        "performance_benchmark": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether performance benchmarking is enabled"
+        },
+        "documentation_required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether documentation is required"
+        },
+        "security_scan_required": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether security scanning is required"
+        }
+      },
+      "additionalProperties": true,
+      "description": "Quality assurance requirements"
+    },
+    "plugpipe_principles": {
+      "type": "object",
+      "properties": {
+        "everything_is_plugin": {
+          "type": "boolean",
+          "default": true,
+          "description": "Adheres to everything-is-plugin principle"
+        },
+        "write_once_use_everywhere": {
+          "type": "boolean",
+          "default": true,
+          "description": "Component is reusable across contexts"
+        },
+        "no_glue_code": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this violates no-glue-code (false for glue components)"
+        },
+        "secure_by_design": {
+          "type": "boolean",
+          "default": true,
+          "description": "Built with security as primary concern"
+        },
+        "reuse_not_reinvent": {
+          "type": "boolean",
+          "default": true,
+          "description": "Reuses existing solutions where possible"
+        }
+      },
+      "additionalProperties": false,
+      "description": "PlugPipe architectural principles compliance"
+    },
+    "schema_references": {
+      "type": "object",
+      "properties": {
+        "source_schema_file": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+\\.json$",
+          "description": "Filename of the source schema JSON file"
+        },
+        "target_schema_file": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+\\.json$",
+          "description": "Filename of the target schema JSON file"
+        },
+        "schema_validation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to validate against referenced schemas"
+        }
+      },
+      "description": "References to schema files for validation"
+    },
+    "compatibility": {
+      "type": "object",
+      "properties": {
+        "plugpipe_version": {
+          "type": "string",
+          "pattern": "^>=?\\d+\\.\\d+\\.\\d+$",
+          "description": "Minimum PlugPipe version required"
+        },
+        "python_version": {
+          "type": "string",
+          "pattern": "^>=?\\d+\\.\\d+$",
+          "description": "Minimum Python version required"
+        },
+        "platform_support": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["linux", "windows", "macos", "docker"]
+          },
+          "description": "Supported platforms"
+        }
+      },
+      "description": "Compatibility requirements"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional metadata for the glue component"
+    },
+    "mandatory_dependencies": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/dependency_categories",
+      "description": "Mandatory dependency requirements for this glue component"
+    },
+    "security_requirements": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/security_requirements",
+      "description": "Security-specific dependency requirements"
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "name": "api_transformer",
+      "version": "1.0.0",
+      "description": "Transforms REST API responses to GraphQL format",
+      "author": "API Integration Team",
+      "category": "transformation",
+      "status": "active",
+      "source_schema": "rest_api_response",
+      "target_schema": "graphql_response",
+      "created_at": "2025-09-20",
+      "updated_at": "2025-09-20",
+      "tags": ["api", "transformation", "rest", "graphql"],
+      "mappings": [
+        {
+          "source_field": "data",
+          "target_field": "response.data",
+          "transformation": "direct"
+        }
+      ],
+      "error_policy": "continue_on_error",
+      "transformation_config": {
+        "preserve_metadata": true,
+        "validate_schemas": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:financial_verification_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:37.801982Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "financial_verification_agent_factory@1.0.0",
+      "name": "financial_verification_agent_factory",
+      "version": "1.0.0",
+      "description": "Financial AI Verification Agent Factory - generates specialized financial verification agents using all 7 core agent factories (core, RAG, citation, web_search, consistency, medical, legal) for regulatory-compliant financial AI validation with transaction verification, risk assessment, fraud detection, compliance checking, market data validation, financial statement analysis, and audit trail generation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

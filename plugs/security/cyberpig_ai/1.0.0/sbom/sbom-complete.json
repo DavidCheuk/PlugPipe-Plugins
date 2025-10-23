@@ -1,0 +1,75 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:cyberpig_ai-1.0.0-mcp-security-enhanced",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:20:25.068291Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "name": "cyberpig_ai",
+      "version": "1.0.0",
+      "description": "Comprehensive secret detection and prevention plugin for ecosystem-wide security scanning"
+    }
+  },
+  "components": [],
+  "dependencies": [
+    {
+      "ref": "cyberpig_ai@1.0.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "CVE-placeholder-cyberpig_ai",
+      "id": "CVE-placeholder-cyberpig_ai",
+      "description": "Placeholder for cyberpig_ai vulnerability tracking",
+      "published": "2025-09-06T09:20:25.068325Z",
+      "severity": "low",
+      "recommendation": "Monitor cyberpig_ai security advisories"
+    }
+  ],
+  "annotations": [
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": [
+        "cyberpig_ai@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "plugpipe_principle_compliance",
+        "value": "REUSE_EVERYTHING_REINVENT_NOTHING"
+      }
+    },
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": [
+        "cyberpig_ai@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "security_layer"
+      }
+    },
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": [
+        "cyberpig_ai@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_security_plugin"
+      }
+    }
+  ]
+}

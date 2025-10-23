@@ -1,0 +1,94 @@
+name: uptime_monitor
+display_name: UptimeMonitor
+owner: Infrastructure Team
+version: 1.0.0
+status: stable
+description: Monitors system uptime and availability by tracking heartbeat metrics,
+  service health diagnostics, and calculating real-time uptime percentage with historical
+  trend analysis
+category: enterprise
+type: uptime_monitor
+metadata:
+  created_at: '2025-10-05T16:05:00Z'
+  updated_at: '2025-10-05T16:05:00Z'
+  license: MIT
+  keywords:
+  - uptime
+  - monitoring
+  - availability
+  - health
+  - sla
+input_schema:
+  type: object
+  properties:
+    calculation_period_hours:
+      type: integer
+      description: Hours to look back for uptime calculation
+      default: 24
+    heartbeat_threshold_seconds:
+      type: integer
+      description: Maximum seconds since last heartbeat to consider system up
+      default: 60
+    include_service_health:
+      type: boolean
+      description: Include individual service health status
+      default: true
+  additionalProperties: true
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    plugin_name:
+      type: string
+    timestamp:
+      type: string
+      format: date-time
+    message:
+      type: string
+    processed_data:
+      type: object
+      properties:
+        uptime_percentage:
+          type: number
+        current_status:
+          type: string
+        last_heartbeat:
+          type: string
+        service_health:
+          type: object
+        uptime_trend:
+          type: string
+    metadata:
+      type: object
+  required:
+  - success
+  - plugin_name
+  - timestamp
+capabilities:
+- uptime_monitoring
+- heartbeat_tracking
+- availability_calculation
+- health_status
+operations:
+- calculate_uptime
+- check_heartbeat
+- analyze_availability
+- generate_sla_report
+plugpipe_principles:
+  everything_is_plugin: true
+  write_once_use_everywhere: true
+  no_glue_code: true
+  secure_by_design: true
+  reuse_not_reinvent: true
+compliance:
+  follows_foundation_pattern: true
+  uses_pp_discovery: true
+  reuse_not_reinvent: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

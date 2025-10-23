@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:automatic_pipe_creation_agent-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:05.511402Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "automatic_pipe_creation_agent@1.0.0",
+      "name": "automatic_pipe_creation_agent",
+      "version": "1.0.0",
+      "description": "Intelligent agent that researches workflow patterns, analyzes business processes, and automatically creates reusable pipe templates with comprehensive testing and documentation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

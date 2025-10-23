@@ -1,0 +1,565 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_medical_validation_results:
+      default: true
+      type: boolean
+    citation_agent_factory:
+      default: agents/citation_agent_factory
+      description: Reference to Citation Agent Factory for medical source verification
+      type: string
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for medical consistency
+        checking
+      type: string
+    default_compliance_level:
+      default: fda_approved
+      enum:
+      - fda_approved
+      - clinical_trial
+      - research_grade
+      - general_medical
+      type: string
+    default_validation_strictness:
+      default: 0.95
+      maximum: 0.99
+      minimum: 0.85
+      type: number
+    enable_multi_agent_medical_coordination:
+      default: true
+      type: boolean
+    max_parallel_medical_checks:
+      default: 5
+      maximum: 10
+      minimum: 1
+      type: integer
+    medical_database_timeout:
+      default: 30.0
+      type: number
+    medical_domain_settings:
+      properties:
+        cardiology:
+          properties:
+            critical_interaction_threshold:
+              default: 0.95
+              type: number
+            mandatory_databases:
+              default:
+              - pubmed
+              - medline
+              - clinical_trials_gov
+              - fda_databases
+              items:
+                type: string
+              type: array
+            validation_strictness:
+              default: 0.98
+              type: number
+          type: object
+        oncology:
+          properties:
+            critical_interaction_threshold:
+              default: 0.98
+              type: number
+            mandatory_databases:
+              default:
+              - pubmed
+              - medline
+              - clinical_trials_gov
+              - fda_databases
+              - cochrane
+              items:
+                type: string
+              type: array
+            validation_strictness:
+              default: 0.99
+              type: number
+          type: object
+        pharmacology:
+          properties:
+            mandatory_contraindication_screening:
+              default: true
+              type: boolean
+            mandatory_dosage_validation:
+              default: true
+              type: boolean
+            mandatory_drug_interaction_check:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.97
+              type: number
+          type: object
+      type: object
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for medical knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for medical fact checking
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Medical AI Verification Agent Factory - generates specialized medical
+  validation agents using all 5 core agent factories (core, RAG, citation, web_search,
+  consistency) for FDA-compliant medical AI verification with clinical evidence assessment,
+  drug interaction validation, and regulatory compliance checking
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        alert_thresholds:
+          properties:
+            contraindication_risk:
+              default: 0.85
+              type: number
+            critical_drug_interaction:
+              default: 0.9
+              type: number
+            dosage_error_threshold:
+              default: 0.8
+              type: number
+          type: object
+        compliance_level:
+          default: fda_approved
+          enum:
+          - fda_approved
+          - clinical_trial
+          - research_grade
+          - general_medical
+          type: string
+        enable_clinical_evidence_assessment:
+          default: true
+          type: boolean
+        enable_contraindication_screening:
+          default: true
+          type: boolean
+        enable_dosage_validation:
+          default: true
+          type: boolean
+        enable_drug_interaction_check:
+          default: true
+          type: boolean
+        medical_database_sources:
+          default:
+          - pubmed
+          - medline
+          - clinical_trials_gov
+          - fda_databases
+          items:
+            enum:
+            - pubmed
+            - medline
+            - clinical_trials_gov
+            - fda_databases
+            - cochrane
+            - embase
+            - cinahl
+            type: string
+          type: array
+        medical_domain:
+          enum:
+          - cardiology
+          - oncology
+          - neurology
+          - pediatrics
+          - pharmacology
+          - radiology
+          - surgery
+          - emergency_medicine
+          - psychiatry
+          - general_medicine
+          type: string
+        regulatory_frameworks:
+          default:
+          - fda
+          items:
+            enum:
+            - fda
+            - ema
+            - health_canada
+            - tga
+            - pmda
+            - who
+            type: string
+          type: array
+        require_peer_review:
+          default: true
+          type: boolean
+        validation_strictness:
+          default: 0.95
+          maximum: 0.99
+          minimum: 0.85
+          type: number
+      required:
+      - medical_domain
+      - compliance_level
+      type: object
+    medical_verification_task:
+      properties:
+        content_to_verify:
+          type: string
+        medical_context:
+          type: string
+        patient_demographics:
+          properties:
+            age_range:
+              enum:
+              - pediatric
+              - adult
+              - geriatric
+              - all_ages
+              type: string
+            comorbidities:
+              items:
+                type: string
+              type: array
+            gender:
+              enum:
+              - male
+              - female
+              - all_genders
+              type: string
+            pregnancy_status:
+              enum:
+              - pregnant
+              - not_pregnant
+              - unknown
+              type: string
+          type: object
+        urgency_level:
+          default: high
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        verification_focus:
+          items:
+            enum:
+            - drug_interactions
+            - contraindications
+            - dosage_accuracy
+            - clinical_evidence
+            - regulatory_compliance
+            - side_effects
+            - treatment_protocols
+            type: string
+          type: array
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_medical_verification
+      type: string
+    template_id:
+      enum:
+      - drug_interaction_verifier
+      - diagnosis_validator
+      - treatment_protocol_checker
+      - clinical_evidence_assessor
+      - regulatory_compliance_validator
+      - medical_citation_verifier
+      - contraindication_detector
+      - dosage_validator
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - medical-agent-creation
+  - fda-compliance-validation
+  - clinical-evidence-assessment
+  - drug-interaction-checking
+  - contraindication-screening
+  - dosage-validation
+  - medical-citation-verification
+  - regulatory-compliance-checking
+  - multi-agent-medical-coordination
+  - clinical-database-integration
+  - peer-review-validation
+  - treatment-protocol-verification
+  category: domain-specific-agent-factory
+  compliance:
+    fda_compliant: true
+    gdpr_compliant: true
+    hipaa_compliant: true
+    medical_device_regulation: applicable
+  dependencies:
+    optional:
+    - medical_databases
+    - fda_api
+    - drug_interaction_api
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/citation_agent_factory
+    - agents/web_search_agent_factory
+    - agents/consistency_agent_factory
+  domain: medical-verification
+  performance:
+    cpu_usage: very_high
+    io_usage: very_high
+    memory_usage: very_high
+    network_usage: high
+  security:
+    file_system_access: read-only
+    hipaa_compliant: true
+    isolation_required: true
+    network_access: limited
+name: medical_verification_agent_factory
+display_name: MedicalVerificationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    medical_verification_results:
+      properties:
+        agent_coordination_results:
+          properties:
+            citation_medical_sources:
+              properties:
+                invalid_medical_citations:
+                  type: integer
+                medical_citations_checked:
+                  type: integer
+                performed:
+                  type: boolean
+                pubmed_verified_sources:
+                  type: integer
+              type: object
+            consistency_medical_check:
+              properties:
+                medical_consistency_score:
+                  type: number
+                medical_inconsistencies:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            rag_medical_knowledge:
+              properties:
+                knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                medical_facts_verified:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+            web_medical_verification:
+              properties:
+                conflicting_medical_info:
+                  items:
+                    type: string
+                  type: array
+                medical_sources_verified:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+          type: object
+        alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - critical_safety
+                - drug_interaction
+                - contraindication
+                - dosage_error
+                - regulatory_violation
+                type: string
+              message:
+                type: string
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        contraindication_screening:
+          properties:
+            absolute_contraindications:
+              items:
+                properties:
+                  condition:
+                    type: string
+                  evidence_source:
+                    type: string
+                  patient_risk:
+                    type: string
+                  severity:
+                    enum:
+                    - absolute
+                    - relative
+                    - caution
+                    type: string
+                type: object
+              type: array
+            contraindications_found:
+              type: integer
+          type: object
+        dosage_validation:
+          properties:
+            dosage_appropriate:
+              type: boolean
+            patient_specific_adjustments:
+              items:
+                type: string
+              type: array
+            recommended_dosage:
+              type: string
+            safety_margin:
+              enum:
+              - safe
+              - caution
+              - unsafe
+              type: string
+          type: object
+        drug_interaction_analysis:
+          properties:
+            critical_interactions:
+              items:
+                properties:
+                  clinical_significance:
+                    type: string
+                  drug_combination:
+                    type: string
+                  evidence_level:
+                    type: string
+                  interaction_severity:
+                    enum:
+                    - critical
+                    - major
+                    - moderate
+                    - minor
+                    type: string
+                  recommendation:
+                    type: string
+                type: object
+              type: array
+            interactions_detected:
+              type: integer
+          type: object
+        evidence_assessment:
+          properties:
+            clinical_evidence_level:
+              enum:
+              - level_1
+              - level_2
+              - level_3
+              - level_4
+              - level_5
+              - insufficient
+              type: string
+            cochrane_review_available:
+              type: boolean
+            fda_approval_status:
+              enum:
+              - approved
+              - investigational
+              - off_label
+              - contraindicated
+              - unknown
+              type: string
+            peer_reviewed_sources:
+              type: integer
+          type: object
+        medical_validation_method:
+          type: string
+        overall_safety_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          items:
+            type: string
+          type: array
+        regulatory_compliance:
+          properties:
+            approval_status:
+              type: string
+            fda_compliant:
+              type: boolean
+            regulatory_notes:
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        compliance_check_time:
+          type: number
+        evidence_sources_reviewed:
+          type: integer
+        medical_databases_consulted:
+          type: integer
+        verification_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Medical AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- medical
+- verification
+- fda-compliance
+- clinical-validation
+- drug-safety
+- factory
+- multi-agent
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

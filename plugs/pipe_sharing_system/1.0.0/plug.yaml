@@ -1,0 +1,129 @@
+name: pipe_sharing_system
+display_name: PipeSharingSystem
+version: 1.0.0
+description: Enterprise pipe sharing orchestrator coordinating registry plugins for
+  comprehensive distribution and collaboration workflows
+owner: PlugPipe Registry Team
+status: stable
+category: registry
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: orchestration
+  capabilities:
+  - pipe_sharing
+  - registry_orchestration
+  - distribution_management
+  - collaboration_workflows
+  - analytics_reporting
+  memory_mb: 256
+  dependencies:
+  - name: plugin_registry_scanner
+    version: 1.0.0
+    required: false
+  - name: universal_registry_scanner
+    version: 1.0.0
+    required: false
+  - name: pp_registry_comprehensive_reporter
+    version: 1.0.0
+    required: false
+tags:
+- sharing
+- registry
+- distribution
+- collaboration
+- orchestration
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      description: Sharing action to perform
+      enum:
+      - list_shareable
+      - generate_share_report
+      - share_pipe
+      - manage_permissions
+      default: list_shareable
+    pipe_filters:
+      type: object
+      description: Filters for pipe sharing
+      properties:
+        category:
+          type: string
+        status:
+          type: string
+          enum:
+          - stable
+          - development
+          - experimental
+        author:
+          type: string
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    message:
+      type: string
+      description: Operation result message
+    result:
+      type: object
+      description: Sharing operation results
+    error:
+      type: string
+      description: Error message if failed
+  required:
+  - success
+config_defaults:
+  enable_public_sharing: true
+  require_approval: false
+  max_pipes_per_user: 50
+config_schema:
+  type: object
+  properties:
+    enable_public_sharing:
+      type: boolean
+      default: true
+      description: Allow public pipe sharing
+    require_approval:
+      type: boolean
+      default: false
+      description: Require approval for shared pipes
+    max_pipes_per_user:
+      type: integer
+      default: 50
+      minimum: 1
+      maximum: 1000
+      description: Maximum pipes per user
+sbom:
+  summary: Enterprise pipe sharing orchestrator using Python standard library for
+    comprehensive distribution and collaboration workflows
+  complete: true
+  dependencies:
+  - name: Python Standard Library
+    version: 3.8+
+    modules:
+    - os
+    - sys
+    - json
+    - logging
+    - asyncio
+    - pathlib
+    - typing
+    - datetime
+    - importlib
+    purpose: Core functionality for pipe sharing orchestration, registry coordination,
+      and workflow management
+    risk_level: low
+    notes: Uses standard library modules for pipe sharing coordination. Optional dependencies
+      on registry plugins.
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

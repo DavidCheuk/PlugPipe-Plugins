@@ -1,0 +1,329 @@
+description: Real-time API server for issue tracker data access with WebSocket support,
+  dashboard integration, and comprehensive validation issue management endpoints
+documentation:
+  examples:
+  - examples/server_configs.yaml
+  - examples/dashboard_integration.yaml
+  readme: README.md
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  - contextlib
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    api_endpoints:
+      properties:
+        custom_endpoints:
+          description: Additional custom endpoints
+          items:
+            properties:
+              auth_required:
+                default: false
+                type: boolean
+              method:
+                enum:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                - PATCH
+                type: string
+              operation:
+                description: Issue tracker operation to execute
+                type: string
+              path:
+                description: Custom endpoint path
+                type: string
+            type: object
+          type: array
+        enable_all:
+          default: true
+          description: Enable all default API endpoints
+          type: boolean
+        rate_limit:
+          description: API rate limiting configuration
+          properties:
+            burst_size:
+              default: 20
+              type: integer
+            enabled:
+              default: true
+              type: boolean
+            requests_per_minute:
+              default: 100
+              type: integer
+          type: object
+      type: object
+    auth_config:
+      properties:
+        api_key_header:
+          default: X-API-Key
+          description: Header name for API key authentication
+          type: string
+        auth_plugin:
+          default: auth_jwt_manager
+          description: Authentication plugin to use
+          type: string
+        enable_auth:
+          default: false
+          description: Enable authentication middleware
+          type: boolean
+        protected_endpoints:
+          default: []
+          description: Endpoints that require authentication
+          items:
+            type: string
+          type: array
+      type: object
+    dashboard_config:
+      properties:
+        dashboard_refresh_interval:
+          default: 30
+          description: Dashboard data refresh interval in seconds
+          minimum: 5
+          type: integer
+        enable_dashboard_endpoints:
+          default: true
+          description: Enable dashboard-specific endpoints
+          type: boolean
+        include_analytics:
+          default: true
+          description: Include analytics endpoints for dashboard
+          type: boolean
+        include_charts_data:
+          default: true
+          description: Include chart data endpoints
+          type: boolean
+      type: object
+    issue_tracker_config:
+      properties:
+        cache_enabled:
+          default: true
+          description: Enable caching of issue data
+          type: boolean
+        cache_ttl_seconds:
+          default: 300
+          description: Cache time-to-live in seconds
+          minimum: 30
+          type: integer
+        issue_tracker_plugin:
+          default: issue_tracker
+          description: Issue tracker plugin to use for data access
+          type: string
+        real_time_updates:
+          default: true
+          description: Enable real-time issue updates via WebSocket
+          type: boolean
+        storage_backend:
+          default: auto
+          description: Storage backend preference for issue tracker
+          type: string
+      type: object
+    operation:
+      default: start_server
+      description: API server operation to perform
+      enum:
+      - start_server
+      - stop_server
+      - get_server_status
+      - configure_endpoints
+      - test_endpoints
+      type: string
+    server_config:
+      properties:
+        cors_origins:
+          default:
+          - '*'
+          description: Allowed CORS origins
+          items:
+            type: string
+          type: array
+        description:
+          default: Real-time API for PlugPipe validation issue tracking and dashboard
+            integration
+          description: API server description
+          type: string
+        enable_cors:
+          default: true
+          description: Enable CORS middleware
+          type: boolean
+        enable_docs:
+          default: true
+          description: Enable OpenAPI/Swagger documentation
+          type: boolean
+        enable_websockets:
+          default: true
+          description: Enable WebSocket support for real-time updates
+          type: boolean
+        host:
+          default: 127.0.0.1
+          description: Server host address
+          type: string
+        port:
+          default: 8080
+          description: Server port number
+          maximum: 65535
+          minimum: 1000
+          type: integer
+        title:
+          default: PlugPipe Issue Tracker API
+          description: API server title
+          type: string
+        version:
+          default: 1.0.0
+          description: API version
+          type: string
+        websocket_path:
+          default: /ws
+          description: WebSocket endpoint path
+          type: string
+      type: object
+  type: object
+name: issue_tracker_api_server
+display_name: IssueTrackerAPIServer
+output_schema:
+  properties:
+    api_endpoints:
+      properties:
+        documentation_url:
+          description: OpenAPI documentation URL
+          type: string
+        endpoints_list:
+          description: List of available API endpoints
+          items:
+            properties:
+              auth_required:
+                type: boolean
+              description:
+                type: string
+              method:
+                type: string
+              path:
+                type: string
+            type: object
+          type: array
+        total_endpoints:
+          description: Total number of available endpoints
+          minimum: 0
+          type: integer
+        websocket_endpoint:
+          description: WebSocket endpoint URL
+          type: string
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    integration_status:
+      properties:
+        auth_enabled:
+          description: Whether authentication is enabled
+          type: boolean
+        cache_status:
+          description: Cache system status
+          enum:
+          - enabled
+          - disabled
+          - error
+          type: string
+        issue_tracker_available:
+          description: Whether issue tracker plugin is available
+          type: boolean
+        real_time_enabled:
+          description: Whether real-time updates are enabled
+          type: boolean
+      type: object
+    operation_result:
+      properties:
+        operation:
+          description: Operation that was performed
+          type: string
+        server_url:
+          description: Full server URL if server is running
+          type: string
+        timestamp:
+          description: When the operation completed
+          format: date-time
+          type: string
+        websocket_url:
+          description: WebSocket connection URL
+          type: string
+      type: object
+    server_status:
+      properties:
+        endpoints_registered:
+          description: Number of registered endpoints
+          minimum: 0
+          type: integer
+        host:
+          description: Server host address
+          type: string
+        port:
+          description: Server port number
+          type: integer
+        status:
+          description: Current server status
+          enum:
+          - running
+          - stopped
+          - error
+          - starting
+          type: string
+        uptime_seconds:
+          description: Server uptime in seconds
+          minimum: 0
+          type: number
+        websocket_connections:
+          description: Number of active WebSocket connections
+          minimum: 0
+          type: integer
+      type: object
+    success:
+      description: Whether the operation completed successfully
+      type: boolean
+  type: object
+owner: plugpipe-core
+sbom: sbom/
+status: active
+usage_examples:
+- config:
+    issue_tracker_config:
+      real_time_updates: true
+    operation: start_server
+    server_config:
+      enable_docs: true
+      host: 0.0.0.0
+      port: 8080
+  description: Start basic issue tracker API server
+  name: Basic API server
+- config:
+    dashboard_config:
+      dashboard_refresh_interval: 15
+      enable_dashboard_endpoints: true
+      include_analytics: true
+    operation: start_server
+    server_config:
+      enable_websockets: true
+      port: 8080
+  description: API server optimized for dashboard integration
+  name: Dashboard integration
+- config:
+    auth_config:
+      auth_plugin: auth_jwt_manager
+      enable_auth: true
+      protected_endpoints:
+      - /api/issues/delete
+      - /api/admin/*
+    operation: start_server
+  description: API server with authentication enabled
+  name: Authenticated API
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

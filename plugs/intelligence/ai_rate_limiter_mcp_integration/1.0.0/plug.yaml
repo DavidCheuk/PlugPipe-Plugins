@@ -1,0 +1,89 @@
+name: ai_rate_limiter_mcp_integration
+display_name: AIRateLimiterMcpIntegration
+version: 1.0.0
+description: MCP Protocol Integration for AI Rate Limiter - Extends existing AI rate
+  limiting with MCP-specific features
+author: PlugPipe Team
+license: MIT
+category: Intelligence
+tags:
+- mcp
+- rate-limiting
+- ai
+- security
+- integration
+- extension
+capabilities:
+- mcp_rate_limiting
+- mcp_protocol_aware
+- ai_resource_governance_integration
+- mcp_endpoint_protection
+dependencies:
+  external_dependencies:
+  - name: aioredis
+    version: '>=2.0.0'
+  - name: fastapi
+    version: '>=0.104.0'
+  plugin_dependencies:
+  - name: ai_rate_limiter
+    version: '>=1.0.0'
+    optional: false
+  - name: ai_resource_governance
+    version: '>=1.0.0'
+    optional: true
+  - name: audit_elk_stack
+    version: '>=1.0.0'
+    optional: true
+configuration:
+  required:
+  - mcp_server_config
+  optional:
+  - rate_limit_overrides: {}
+  - endpoint_specific_limits: {}
+  - burst_protection: true
+  - adaptive_limiting: true
+  - cost_integration_enabled: true
+mcp_integration:
+  protected_endpoints:
+  - tools/call
+  - resources/read
+  - prompts/get
+  - server/initialize
+  - server/ping
+  rate_limiting_tiers:
+    basic:
+      tools_per_minute: 30
+      resources_per_minute: 60
+      prompts_per_minute: 20
+      burst_allowance: 10
+    standard:
+      tools_per_minute: 150
+      resources_per_minute: 300
+      prompts_per_minute: 100
+      burst_allowance: 50
+    premium:
+      tools_per_minute: 500
+      resources_per_minute: 1000
+      prompts_per_minute: 300
+      burst_allowance: 200
+  cost_controls:
+    max_tool_execution_cost: 1.0
+    max_hourly_cost: 50.0
+    max_daily_cost: 500.0
+    emergency_stop_threshold: 1000.0
+security:
+  features:
+  - mcp_ddos_protection
+  - tool_complexity_analysis
+  - resource_size_limits
+  - client_fingerprinting
+  - anomaly_detection
+public: true
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

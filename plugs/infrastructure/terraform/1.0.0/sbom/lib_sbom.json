@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:terraform-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:28.144422Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "terraform@1.0.0",
+      "name": "terraform",
+      "version": "1.0.0",
+      "description": "Comprehensive Terraform plugin for Infrastructure as Code (IaC) provisioning and management across multiple cloud providers with enterprise features including plan analysis, state management, and security scanning"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

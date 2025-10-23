@@ -1,0 +1,103 @@
+name: error_recovery_coordinator
+display_name: ErrorRecoveryCoordinator
+version: 1.0.0
+description: P0-3 Service Layer Health Orchestration - Automatic error recovery coordination
+  via service abstractions
+category: orchestration
+tags:
+- error-recovery
+- coordination
+- service-layer
+- microservices
+- p0-3
+author: PlugPipe Architecture Team
+license: MIT
+architecture_compliance:
+  trinity_registry_interface: true
+  service_layer_abstraction: true
+  plugin_first: true
+  microservices_patterns: true
+  error_recovery_orchestration: true
+plugin_type: orchestration
+entry_point: main.py
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - recover_component
+      - assess_recovery
+      - orchestrate_recovery
+      - recovery_status
+      description: Error recovery operation to perform
+    component:
+      type: string
+      description: Component requiring recovery (trinity_registry, cache, coordinator)
+    health_info:
+      type: object
+      description: Component health information for recovery assessment
+    service_layer:
+      type: string
+      description: Service layer identifier for recovery context
+    recovery_strategies:
+      type: array
+      items:
+        type: string
+      description: Available recovery strategies (reconnect, fallback, circuit_breaker)
+    recovery_config:
+      type: object
+      description: Recovery coordination configuration
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Recovery operation success
+    recovery_status:
+      type: string
+      enum:
+      - recovered
+      - recovering
+      - failed
+      - not_needed
+      description: Component recovery status
+    recovery_actions:
+      type: array
+      items:
+        type: string
+      description: Recovery actions performed
+    recovery_time_seconds:
+      type: number
+      description: Time taken for recovery
+    next_steps:
+      type: array
+      items:
+        type: string
+      description: Recommended next steps
+  required:
+  - success
+  - recovery_status
+external_dependencies:
+- name: python
+  version: '>=3.8'
+  description: Python runtime
+metadata:
+  p0_3_compliance: true
+  service_layer_recovery: true
+  microservices_coordination: true
+  architecture_layer: service_abstraction
+  recovery_patterns:
+  - circuit_breaker
+  - fallback
+  - retry
+  - reconnect
+  created_date: '2025-09-25'
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

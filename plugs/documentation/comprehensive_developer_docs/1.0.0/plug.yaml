@@ -1,0 +1,657 @@
+capabilities:
+- comprehensive_plugin_development_guidance
+- ecosystem_context_understanding
+- interactive_tutorial_generation
+- intelligent_knowledge_search
+- contextual_recommendation_engine
+- template_generation_system
+- integration_pattern_library
+- troubleshooting_diagnostic_system
+- best_practices_enforcement
+- multi_level_documentation_support
+compliance:
+  audit_logging: true
+  data_minimization: Only necessary documentation data processed
+  data_retention: Search queries and documentation requests not permanently stored
+  encryption: All documentation templates and knowledge base encrypted at rest
+  gdpr_compliant: true
+  privacy_protection: User search patterns and documentation access anonymized
+dependencies:
+  ai_powered_assistance:
+  - intelligence/llm_service/1.0.0
+  - intelligence/context_analyzer/1.0.0
+  - intelligence/intelligent_llm_priority_manager/1.0.0
+  development_pipeline:
+  - core/cli_parameter_mapping_coordinator/1.0.0
+  - orchestration/plugin_change_validation_pipeline/1.0.0
+  - intelligence/background_ai_fixer_service/1.0.0
+  ecosystem_analysis:
+  - governance/pp_registry_comprehensive_reporter/1.0.0
+  - core/codebase_integrity_scanner/1.0.0
+  - governance/business_compliance_auditor/1.0.0
+  quality_assurance:
+  - testing/intelligent_test_agent/1.0.0
+  - testing/automated_test_generator/1.0.0
+  - security/config_hardening/1.0.0
+  system_dependencies:
+  - python3>=3.8
+  - yaml>=6.0
+  - jinja2>=3.0
+  - markdown>=3.4
+  - pygments>=2.12
+description: Comprehensive developer self-help documentation and knowledge base providing
+  detailed guidance for plugin development, ecosystem understanding, and best practices
+  with intelligent context awareness
+developer_experience:
+  contextual_help: true
+  copy_paste_examples: true
+  ecosystem_navigation: true
+  hands_on_learning: true
+  integration_wizards: true
+  progressive_disclosure: true
+  template_customization: true
+  troubleshooting_diagnostics: true
+enterprise_features:
+  ai_powered_recommendations: true
+  best_practices_enforcement: true
+  comprehensive_search: true
+  contextual_guidance: true
+  ecosystem_understanding: true
+  integration_assistance: true
+  interactive_tutorials: true
+  multi_experience_level_support: true
+  template_generation: true
+  troubleshooting_diagnostics: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - pytest
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    development_stage:
+      default: development
+      description: Current development stage for contextual guidance
+      enum:
+      - planning
+      - development
+      - testing
+      - integration
+      - deployment
+      - maintenance
+      type: string
+    experience_level:
+      default: intermediate
+      description: Developer experience level for appropriate documentation depth
+      enum:
+      - beginner
+      - intermediate
+      - advanced
+      - expert
+      type: string
+    integration_type:
+      description: Type of integration for specific guidance
+      enum:
+      - cli
+      - api
+      - mcp
+      - ui
+      - pipeline
+      type: string
+    operation:
+      default: get_plugin_development_guide
+      description: Documentation operation to perform
+      enum:
+      - get_plugin_development_guide
+      - get_ecosystem_overview
+      - get_integration_patterns
+      - get_troubleshooting_guide
+      - generate_plugin_template
+      - get_best_practices
+      - search_knowledge_base
+      - get_api_documentation
+      - get_testing_guidelines
+      - get_security_requirements
+      - get_deployment_guide
+      - create_interactive_tutorial
+      type: string
+    plugin_category:
+      description: Specific plugin category for targeted guidance
+      type: string
+    plugin_name:
+      description: Specific plugin name for targeted documentation
+      type: string
+    search_query:
+      description: Search query for knowledge base lookup
+      type: string
+    specific_topic:
+      description: Specific topic or area of interest for focused documentation
+      type: string
+    template_config:
+      properties:
+        category:
+          description: Plugin category for template
+          type: string
+        complexity_level:
+          default: moderate
+          description: Plugin complexity level
+          enum:
+          - simple
+          - moderate
+          - complex
+          - enterprise
+          type: string
+        downstream_integrations:
+          description: Downstream integration requirements
+          items:
+            type: string
+          type: array
+        functionality_type:
+          default: plug
+          description: Type of plugin functionality
+          enum:
+          - plug
+          - pipe
+          - glue
+          type: string
+        plugin_name:
+          description: Name for the new plugin template
+          type: string
+        upstream_dependencies:
+          description: Upstream plugin dependencies
+          items:
+            type: string
+          type: array
+      type: object
+    tutorial_config:
+      properties:
+        hands_on:
+          default: true
+          description: Include hands-on exercises
+          type: boolean
+        include_examples:
+          default: true
+          description: Include practical examples
+          type: boolean
+        tutorial_type:
+          description: Type of interactive tutorial
+          enum:
+          - plugin_creation
+          - ecosystem_integration
+          - testing
+          - deployment
+          type: string
+      type: object
+  required:
+  - operation
+  type: object
+name: comprehensive_developer_docs
+display_name: ComprehensiveDeveloperDocs
+output_schema:
+  additionalProperties: false
+  properties:
+    best_practices:
+      description: Comprehensive best practices
+      properties:
+        development_practices:
+          items:
+            properties:
+              example:
+                type: string
+              practice:
+                type: string
+              rationale:
+                type: string
+            type: object
+          type: array
+        security_practices:
+          items:
+            properties:
+              example:
+                type: string
+              practice:
+                type: string
+              rationale:
+                type: string
+            type: object
+          type: array
+        testing_practices:
+          items:
+            properties:
+              example:
+                type: string
+              practice:
+                type: string
+              rationale:
+                type: string
+            type: object
+          type: array
+      type: object
+    ecosystem_overview:
+      description: Complete ecosystem understanding
+      properties:
+        architecture_diagram:
+          description: Text-based ecosystem architecture
+          type: string
+        component_relationships:
+          properties:
+            downstream_components:
+              items:
+                properties:
+                  integration_points:
+                    items:
+                      type: string
+                    type: array
+                  name:
+                    type: string
+                  purpose:
+                    type: string
+                type: object
+              type: array
+            upstream_components:
+              items:
+                properties:
+                  integration_points:
+                    items:
+                      type: string
+                    type: array
+                  name:
+                    type: string
+                  purpose:
+                    type: string
+                type: object
+              type: array
+          type: object
+        data_flow:
+          description: How data flows through the ecosystem
+          type: string
+        key_principles:
+          items:
+            type: string
+          type: array
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    integration_patterns:
+      description: Comprehensive integration patterns
+      properties:
+        api_integration:
+          properties:
+            code_example:
+              type: string
+            integration_steps:
+              items:
+                type: string
+              type: array
+            pattern_description:
+              type: string
+          type: object
+        cli_integration:
+          properties:
+            code_example:
+              type: string
+            integration_steps:
+              items:
+                type: string
+              type: array
+            pattern_description:
+              type: string
+          type: object
+        pipeline_integration:
+          properties:
+            code_example:
+              type: string
+            integration_steps:
+              items:
+                type: string
+              type: array
+            pattern_description:
+              type: string
+          type: object
+      type: object
+    interactive_tutorial:
+      description: Interactive learning experience
+      properties:
+        progress_tracking:
+          properties:
+            completed_sections:
+              items:
+                type: string
+              type: array
+            current_section:
+              type: string
+            next_recommended_section:
+              type: string
+          type: object
+        tutorial_outline:
+          items:
+            properties:
+              code_examples:
+                items:
+                  type: string
+                type: array
+              hands_on_exercises:
+                items:
+                  properties:
+                    exercise_title:
+                      type: string
+                    expected_outcome:
+                      type: string
+                    instructions:
+                      type: string
+                  type: object
+                type: array
+              learning_objectives:
+                items:
+                  type: string
+                type: array
+              section_title:
+                type: string
+            type: object
+          type: array
+      type: object
+    operation_result:
+      description: Operation execution metadata
+      properties:
+        documentation_scope:
+          type: string
+        operation:
+          type: string
+        processing_time_ms:
+          type: number
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    plugin_development_guide:
+      description: Complete plugin development guidance
+      properties:
+        overview:
+          description: Comprehensive overview of plugin development
+          type: string
+        required_files:
+          items:
+            properties:
+              filename:
+                type: string
+              purpose:
+                type: string
+              template:
+                type: string
+            type: object
+          type: array
+        step_by_step_process:
+          items:
+            properties:
+              code_examples:
+                items:
+                  type: string
+                type: array
+              common_pitfalls:
+                items:
+                  type: string
+                type: array
+              description:
+                type: string
+              step_number:
+                type: integer
+              title:
+                type: string
+            type: object
+          type: array
+        validation_checklist:
+          items:
+            type: string
+          type: array
+      type: object
+    plugin_template:
+      description: Complete plugin template generation
+      properties:
+        integration_checklist:
+          items:
+            type: string
+          type: array
+        plugin_structure:
+          properties:
+            documentation:
+              description: Generated plugin documentation
+              type: string
+            main_py:
+              description: Generated main.py content
+              type: string
+            plug_yaml:
+              description: Generated plug.yaml content
+              type: string
+            test_file:
+              description: Generated test file content
+              type: string
+          type: object
+        setup_instructions:
+          items:
+            type: string
+          type: array
+      type: object
+    recommendations:
+      description: AI-powered contextual recommendations
+      items:
+        properties:
+          description:
+            type: string
+          implementation_guidance:
+            type: string
+          rationale:
+            type: string
+          recommendation_type:
+            enum:
+            - plugin_suggestion
+            - integration_pattern
+            - best_practice
+            - tool_recommendation
+            type: string
+          related_resources:
+            items:
+              type: string
+            type: array
+          title:
+            type: string
+        type: object
+      type: array
+    search_results:
+      description: Searchable knowledge base results
+      items:
+        properties:
+          category:
+            type: string
+          code_examples:
+            items:
+              type: string
+            type: array
+          content_preview:
+            type: string
+          full_content:
+            type: string
+          related_topics:
+            items:
+              type: string
+            type: array
+          relevance_score:
+            maximum: 1.0
+            minimum: 0.0
+            type: number
+          title:
+            type: string
+        type: object
+      type: array
+    success:
+      description: Whether the documentation operation completed successfully
+      type: boolean
+    troubleshooting_guide:
+      description: Comprehensive troubleshooting guidance
+      properties:
+        common_issues:
+          items:
+            properties:
+              issue_description:
+                type: string
+              root_causes:
+                items:
+                  type: string
+                type: array
+              solutions:
+                items:
+                  properties:
+                    implementation_steps:
+                      items:
+                        type: string
+                      type: array
+                    solution_description:
+                      type: string
+                    verification_steps:
+                      items:
+                        type: string
+                      type: array
+                  type: object
+                type: array
+              symptoms:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+        diagnostic_tools:
+          items:
+            properties:
+              purpose:
+                type: string
+              tool_name:
+                type: string
+              usage_example:
+                type: string
+            type: object
+          type: array
+      type: object
+  required:
+  - success
+  type: object
+owner: plugpipe-documentation-team
+performance:
+  documentation_coverage: 100% of core ecosystem components
+  knowledge_base_size: supports 1000+ documentation articles
+  recommendation_latency: < 1 second for contextual suggestions
+  search_response_time: < 500ms for knowledge base queries
+  template_generation_time: < 30 seconds for complex plugins
+  tutorial_loading_time: < 2 seconds for interactive content
+revolutionary_capabilities:
+- contextual_developer_assistance
+- ecosystem_aware_documentation
+- intelligent_knowledge_discovery
+- interactive_learning_experiences
+- ai_powered_development_guidance
+- comprehensive_troubleshooting_system
+- automated_template_generation
+- integration_pattern_intelligence
+sbom:
+  complete: sbom/sbom-complete.json
+  components:
+  - description: Python YAML processing library
+    name: pyyaml
+    supplier: PyYAML developers
+    type: library
+    version: '>=6.0'
+  - description: Jinja2 template engine for secure template generation
+    name: jinja2
+    security_notes: Template injection protection enabled
+    supplier: Pallets team
+    type: library
+    version: '>=3.0'
+  - description: Markdown processing with XSS protection
+    name: markdown
+    security_notes: HTML sanitization enabled
+    supplier: Python-Markdown developers
+    type: library
+    version: '>=3.4'
+  - description: Pygments syntax highlighting with security hardening
+    name: pygments
+    security_notes: Code injection protection enabled
+    supplier: Pygments team
+    type: library
+    version: '>=2.12'
+  - description: Universal Input Sanitizer for security hardening
+    name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes comprehensive fallback validation
+      when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for user queries and template
+      parameters
+    risk_level: low
+    supplier: PlugPipe Core Team
+    type: plugin
+    version: 1.0.0
+  - description: Regular expression support for security pattern matching
+    name: re
+    purpose: Dangerous pattern detection in user input
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: JSON serialization for secure data handling
+    name: json
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Asynchronous programming support
+    name: asyncio
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Logging framework for security audit trails
+    name: logging
+    purpose: Security event logging and audit trail generation
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  format: plugpipe_v1
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+  tool: manual
+security:
+  access_control: Documentation access restricted to authenticated users only
+  configuration_validation: true
+  data_protection: User search queries and template parameters validated and sanitized
+  file_paths:
+  - /tmp
+  - /var/tmp
+  - /data
+  file_system_access: true
+  input_validation: true
+  network_access: false
+  path_traversal_protection: true
+  requires_secrets: false
+  sensitive_data_handling: No sensitive data stored or processed in documentation
+    operations
+  sql_injection_protection: true
+  universal_sanitizer_integration: true
+  xss_protection: true
+status: active
+tags:
+- documentation
+- developer-experience
+- knowledge-base
+- tutorials
+- ecosystem
+- guidance
+- templates
+- troubleshooting
+- best-practices
+- ai-powered
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,132 @@
+capabilities:
+- explicit_context_passing
+- environment_scoping
+- audit_trail_logging
+- plugin_isolation
+- security_policy_enforcement
+- containerization_support
+- sensitive_variable_protection
+dependencies:
+  external:
+  - description: Thread-safe scope management
+    name: threading
+    version: '>=3.8'
+  - description: Context manager support
+    name: contextlib
+    version: '>=3.8'
+description: Comprehensive environment isolation system that replaces global os.environ
+  copying with explicit, secure context passing. Provides plugin isolation, containerization
+  support, audit trails, and prevents cross-plugin environment contamination for enterprise-grade
+  security.
+external_dependencies:
+  install_method: pip
+  packages:
+  - contextlib
+  - copy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    access_operation:
+      description: Type of variable access operation
+      enum:
+      - read
+      - write
+      - delete
+      type: string
+    additional_vars:
+      description: Additional environment variables to set in scope
+      type: object
+    allowed_vars:
+      description: List of allowed environment variable names
+      items:
+        type: string
+      type: array
+    audit_plugin_id:
+      description: Plugin ID filter for audit trail
+      type: string
+    hours:
+      description: 'Time window for audit trail (default: 24)'
+      type: integer
+    operation:
+      description: Operation to perform
+      enum:
+      - create_scope
+      - get_context
+      - access_variable
+      - destroy_scope
+      - get_audit_trail
+      - get_scope_summary
+      type: string
+    parent_scope_id:
+      description: Parent scope ID for inheritance
+      type: string
+    plugin_id:
+      description: Plugin identifier requesting environment access
+      type: string
+    scope_id:
+      description: Environment scope identifier
+      type: string
+    variable_name:
+      description: Environment variable name for access operations
+      type: string
+    variable_value:
+      description: Environment variable value for write operations
+      type: string
+  type: object
+name: environment_isolation
+display_name: EnvironmentIsolation
+output_schema:
+  properties:
+    audit_trail:
+      description: Environment variable access audit records
+      type: array
+    destroyed:
+      description: Whether scope was successfully destroyed
+      type: boolean
+    environment_context:
+      description: Isolated environment context (replaces os.environ)
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    scope_id:
+      description: Environment scope identifier
+      type: string
+    scope_summary:
+      description: Environment scope summary information
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    time_window_hours:
+      description: Audit trail time window
+      type: integer
+    variable_value:
+      description: Environment variable value
+      type: string
+  type: object
+owner: plugpipe-security-team
+sbom: sbom/sbom.json
+security:
+  audit_required: true
+  file_system: read_only
+  isolation: process
+  network_access: false
+  secrets: context_managed
+status: stable
+tags:
+- security
+- environment-isolation
+- plugin-isolation
+- audit-logging
+- containerization
+- context-management
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

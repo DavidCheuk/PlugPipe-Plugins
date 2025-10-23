@@ -1,0 +1,283 @@
+name: ethics_guardrails_validator
+display_name: EthicsGuardrailsValidator
+owner: PlugPipe Security Team
+version: 1.0.0
+status: production
+description: Comprehensive ethics and safety validation system for plugin generation
+  requests. Prevents generation of harmful, unethical, or dangerous plugins by leveraging
+  existing PlugPipe validation infrastructure including legal validation agents and
+  security orchestrator.
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - validate_request
+      - get_blocked_keywords
+      - get_validation_config
+      description: Type of ethics validation operation to perform
+    request:
+      type: string
+      description: Natural language plugin request to validate for ethics compliance
+    context:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: Domain context for the plugin request
+        complexity_level:
+          type: string
+          enum:
+          - simple
+          - moderate
+          - complex
+          - enterprise
+          description: Complexity level of the requested plugin
+        intended_use:
+          type: string
+          description: Intended use case for the plugin
+        target_environment:
+          type: string
+          description: Target deployment environment
+      additionalProperties: true
+    critical_threshold:
+      type: number
+      default: 0.9
+      minimum: 0.5
+      maximum: 1.0
+      description: Threshold for critical violations
+    high_threshold:
+      type: number
+      default: 0.7
+      minimum: 0.3
+      maximum: 1.0
+      description: Threshold for high-severity violations
+    approval_threshold:
+      type: number
+      default: 0.8
+      minimum: 0.5
+      maximum: 1.0
+      description: Minimum confidence score required for approval
+    enable_legal_validation:
+      type: boolean
+      default: true
+      description: Enable integration with legal validation agents
+    enable_security_validation:
+      type: boolean
+      default: true
+      description: Enable integration with security orchestrator
+    enable_prompt_injection_detection:
+      type: boolean
+      default: true
+      description: Enable advanced prompt injection detection using multiple methods
+    enable_llm_guard:
+      type: boolean
+      default: true
+      description: Enable LLM Guard integration for comprehensive threat detection
+    enable_garak_scanner:
+      type: boolean
+      default: false
+      description: Enable Garak scanner for enterprise-level vulnerability assessment
+        (resource intensive)
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    operation_completed:
+      type: string
+    ethics_validation:
+      type: object
+      properties:
+        approved:
+          type: boolean
+          description: Whether the plugin request is approved for generation
+        confidence_score:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Confidence score for the ethics validation
+        summary:
+          type: string
+          description: Human-readable summary of validation results
+        legal_check_passed:
+          type: boolean
+          description: Whether legal validation passed
+        security_check_passed:
+          type: boolean
+          description: Whether security validation passed
+        violations_found:
+          type: integer
+          description: Number of ethics violations detected
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: Type of violation detected
+              severity:
+                type: string
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                description: Severity level of the violation
+              description:
+                type: string
+                description: Description of the violation
+              recommendation:
+                type: string
+                description: Recommendation for addressing the violation
+              blocked:
+                type: boolean
+                description: Whether this violation blocks plugin generation
+    blocked_keywords:
+      type: array
+      items:
+        type: string
+      description: List of blocked keywords (when operation is get_blocked_keywords)
+    config:
+      type: object
+      description: Current validation configuration (when operation is get_validation_config)
+    error:
+      type: string
+      description: Error message if validation failed
+    timestamp:
+      type: string
+      description: Timestamp of validation completion
+config_schema:
+  type: object
+  properties:
+    validation_strictness:
+      type: string
+      enum:
+      - strict
+      - moderate
+      - permissive
+      default: moderate
+      description: Overall strictness of ethics validation
+    custom_blocked_keywords:
+      type: array
+      items:
+        type: string
+      description: Additional custom blocked keywords
+    domain_risk_levels:
+      type: object
+      properties:
+        surveillance:
+          type: string
+          enum:
+          - blocked
+          - high_risk
+          - medium_risk
+          - low_risk
+          default: high_risk
+        data_collection:
+          type: string
+          enum:
+          - blocked
+          - high_risk
+          - medium_risk
+          - low_risk
+          default: medium_risk
+        automation:
+          type: string
+          enum:
+          - blocked
+          - high_risk
+          - medium_risk
+          - low_risk
+          default: low_risk
+        financial:
+          type: string
+          enum:
+          - blocked
+          - high_risk
+          - medium_risk
+          - low_risk
+          default: medium_risk
+    integration_settings:
+      type: object
+      properties:
+        legal_validation_timeout:
+          type: number
+          default: 30.0
+          description: Timeout for legal validation in seconds
+        security_validation_timeout:
+          type: number
+          default: 30.0
+          description: Timeout for security validation in seconds
+        cache_validation_results:
+          type: boolean
+          default: true
+          description: Cache validation results for performance
+  additionalProperties: true
+entrypoint: main.py
+discoverability: public
+sbom:
+  dependencies:
+  - name: re
+    version: builtin
+    purpose: Pattern matching for harmful content detection
+  - name: logging
+    version: builtin
+    purpose: Validation logging and audit trails
+  - name: asyncio
+    version: builtin
+    purpose: Asynchronous validation processing
+  - name: dataclasses
+    version: builtin
+    purpose: Structured validation result objects
+  integrates_with:
+  - agents.legal_validation_agent_factory
+  - security.security_orchestrator
+  - security.llm_guard
+  - security.garak_scanner
+  - intelligence.mix_and_match_llm_function
+revolutionary_capabilities:
+- comprehensive_ethics_validation
+- harmful_content_prevention
+- legal_compliance_integration
+- security_risk_assessment
+- multi_layer_validation_approach
+- context_aware_risk_detection
+- automated_safety_guardrails
+- advanced_prompt_injection_detection
+- llm_guard_integration
+- garak_vulnerability_scanning
+- multi_engine_threat_detection
+validation_categories:
+- keyword_blocking
+- pattern_detection
+- context_analysis
+- legal_compliance
+- security_assessment
+- privacy_protection
+- abuse_prevention
+- prompt_injection_detection
+- llm_guard_scanning
+- garak_vulnerability_assessment
+- jailbreak_detection
+- role_manipulation_detection
+tags:
+- security
+- ethics
+- validation
+- safety
+- compliance
+- guardrails
+- risk-assessment
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

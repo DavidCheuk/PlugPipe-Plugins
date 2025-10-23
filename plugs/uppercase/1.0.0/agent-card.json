@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:text-processing:uppercase",
+    "name": "Uppercase Agent",
+    "description": "Text transformation plugin that converts input strings to uppercase - demonstrates string processing patterns and internationalization support.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/uppercase",
+    "skills": [
+      {
+        "id": "uppercase-primary",
+        "name": "Uppercase",
+        "description": "Text transformation plugin that converts input strings to uppercase - demonstrates string processing patterns and internationalization support.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "uppercase",
+        "category": "text-processing",
+        "subcategory": "",
+        "tags": [
+          "demo",
+          "text-processing",
+          "string-transformation",
+          "formatting",
+          "case-conversion",
+          "utility",
+          "internationalization",
+          "unicode-support"
+        ],
+        "author": "PlugPipe Demo Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.918487Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

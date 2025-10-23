@@ -1,0 +1,411 @@
+author: PlugPipe Security Team
+capabilities:
+- comprehensive_vulnerability_scanning
+- red_teaming
+- prompt_injection_testing
+- data_poisoning_detection
+- model_robustness_assessment
+- systematic_probing
+- adversarial_testing
+category: security
+compatibility:
+  min_plugpipe_version: 1.0.0
+  python_version: '>=3.8'
+compliance:
+  owasp_compliant: true
+  red_teaming_certified: true
+  security_frameworks:
+  - OWASP Top 10 LLM Applications 2025
+  - NIST AI Risk Management Framework
+  - AI Red Team Guidelines
+  vulnerability_assessment_certified: true
+config_schema:
+  properties:
+    garak:
+      properties:
+        batch_size:
+          default: 5
+          description: Batch size for parallel processing
+          maximum: 20
+          minimum: 1
+          type: integer
+        detector_modules:
+          description: List of Garak detector modules to use
+          items:
+            type: string
+          type: array
+        include_raw_results:
+          default: true
+          description: Include raw Garak results in threat context
+          type: boolean
+        max_attempts:
+          default: 50
+          description: Maximum number of attempts per probe
+          maximum: 1000
+          minimum: 1
+          type: integer
+        model_name:
+          default: microsoft/DialoGPT-medium
+          description: Model name or endpoint to scan
+          type: string
+        model_type:
+          default: huggingface
+          description: Type of model to scan
+          enum:
+          - huggingface
+          - openai
+          - anthropic
+          - replicate
+          - cohere
+          type: string
+        probe_modules:
+          description: List of Garak probe modules to use
+          items:
+            type: string
+          type: array
+        report_format:
+          default: json
+          description: Output report format
+          enum:
+          - json
+          - jsonl
+          - csv
+          type: string
+        scan_intensity:
+          default: normal
+          description: Intensity of vulnerability scanning
+          enum:
+          - light
+          - normal
+          - intensive
+          type: string
+        timeout_seconds:
+          default: 300
+          description: Timeout for entire scan operation
+          maximum: 3600
+          minimum: 60
+          type: integer
+      type: object
+  type: object
+dependencies:
+- name: dependency_manager
+  required: false
+  version: 1.0.0
+dependency_analysis:
+  analyzer_notes: All imports (tempfile, uuid, subprocess) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: NVIDIA Garak LLM vulnerability scanner for comprehensive security assessment
+  and red-teaming
+documentation:
+  examples:
+  - config:
+      garak:
+        max_attempts: 25
+        scan_intensity: light
+    description: Light scan for common vulnerabilities
+    expected_output:
+      status: success
+      threats_detected: '>= 0'
+    input:
+      model_endpoint: test-model
+      operation: scan_model
+    name: Quick Security Check
+  - config:
+      garak:
+        max_attempts: 100
+        scan_intensity: intensive
+    description: Intensive scan with all probes
+    input:
+      model_endpoint: production-model
+      operation: scan_model
+    name: Comprehensive Assessment
+  - description: Get plugin and Garak information
+    expected_output:
+      garak_available: true
+      status: success
+    input:
+      operation: get_info
+    name: Plugin Information
+  readme: "# Garak LLM Vulnerability Scanner Plugin for PlugPipe\n\nThis plugin integrates\
+    \ NVIDIA's Garak vulnerability scanner - the premier tool for systematic \nvulnerability\
+    \ assessment and red-teaming of Large Language Models. Garak probes for \nhallucination,\
+    \ data leakage, prompt injection, misinformation, toxicity generation, \njailbreaks,\
+    \ and many other weaknesses.\n\n## Features\n\n### Comprehensive Vulnerability\
+    \ Assessment\n- **Prompt Injection Testing**: Systematic testing for prompt injection\
+    \ vulnerabilities\n- **Data Poisoning Detection**: Identifies model poisoning\
+    \ and adversarial inputs\n- **Information Leakage Testing**: Probes for sensitive\
+    \ data disclosure\n- **Toxicity Generation**: Tests for harmful content generation\n\
+    - **Hallucination Detection**: Identifies factual inconsistencies and fabrications\n\
+    - **Jailbreak Attempts**: Tests security boundaries and guardrails\n\n### Red-Teaming\
+    \ Capabilities\n- **Adversarial Prompt Generation**: Automated generation of malicious\
+    \ prompts\n- **Systematic Probing**: Comprehensive coverage of attack vectors\n\
+    - **Robustness Assessment**: Evaluation of model defenses\n- **Behavioral Analysis**:\
+    \ Understanding of model failure modes\n\n## OWASP Top 10 LLM Applications 2025\
+    \ Coverage\n\nGarak provides the most comprehensive coverage of OWASP LLM vulnerabilities:\n\
+    \n- **LLM01: Prompt Injection** - Primary strength with dedicated injection probes\n\
+    - **LLM02: Sensitive Information Disclosure** - PII and data leakage testing\n\
+    - **LLM03: Supply Chain** - Model integrity and supply chain testing\n- **LLM04:\
+    \ Data and Model Poisoning** - Poisoning attack detection\n- **LLM06: Excessive\
+    \ Agency** - Boundary and permission testing\n- **LLM08: Vector and Embedding\
+    \ Weaknesses** - Advanced vector space attacks\n- **LLM09: Misinformation** -\
+    \ Hallucination and factual consistency testing\n- **LLM10: Unbounded Consumption**\
+    \ - Resource consumption testing\n\n## Installation\n\nThe plugin requires the\
+    \ Garak library:\n\n```bash\npip install garak>=0.9.0\n```\n\n## Usage Examples\n\
+    \n### Basic Model Vulnerability Scan\n```yaml\nsteps:\n  - plugin: garak_scanner\n\
+    \    config:\n      garak:\n        model_type: \"huggingface\"\n        model_name:\
+    \ \"microsoft/DialoGPT-medium\"\n        scan_intensity: \"normal\"\n        max_attempts:\
+    \ 50\n    input:\n      operation: \"scan_model\"\n      model_endpoint: \"microsoft/DialoGPT-medium\"\
+    \n      context:\n        user_id: \"security_team\"\n        scan_id: \"model_assessment_001\"\
+    \n```\n\n### Intensive Security Assessment\n```yaml\nsteps:\n  - plugin: garak_scanner\n\
+    \    config:\n      garak:\n        scan_intensity: \"intensive\"\n        probe_modules:\
+    \ [\"promptinject\", \"pii\", \"poison\", \"toxicity\", \"hallucination\"]\n \
+    \       max_attempts: 100\n        timeout_seconds: 600\n    input:\n      operation:\
+    \ \"scan_model\"\n      model_endpoint: \"your-model-endpoint\"\n```\n\n### Custom\
+    \ Probe Selection\n```yaml\nsteps:\n  - plugin: garak_scanner\n    input:\n  \
+    \    operation: \"scan_model\"\n      model_endpoint: \"your-model\"\n      context:\n\
+    \        custom_probes: [\"promptinject\", \"leakage\", \"malwaregen\"]\n    \
+    \    parallel_requests: 3\n```\n\n## Scan Intensity Levels\n\n### Light Scan (Quick\
+    \ Assessment)\n- Probe modules: promptinject, pii, toxicity\n- Duration: ~5-10\
+    \ minutes\n- Use case: Quick security check\n\n### Normal Scan (Balanced Assessment)\n\
+    - Probe modules: promptinject, pii, poison, toxicity, hallucination, leakage\n\
+    - Duration: ~15-30 minutes\n- Use case: Regular security assessment\n\n### Intensive\
+    \ Scan (Comprehensive Assessment)\n- All available probe modules including advanced\
+    \ attacks\n- Duration: ~1-2 hours\n- Use case: Thorough security evaluation\n\n\
+    ## Available Probe Modules\n\n- **promptinject**: Prompt injection attacks\n-\
+    \ **pii**: Personal information extraction\n- **poison**: Data poisoning attacks\n\
+    - **toxicity**: Toxic content generation\n- **hallucination**: Factual inconsistency\
+    \ testing\n- **leakage**: System prompt and data leakage\n- **malwaregen**: Malicious\
+    \ code generation\n- **donotanswer**: Refusal and boundary testing\n- **gcg**:\
+    \ Advanced gradient-based attacks\n\n## Security Response Actions\n\nBased on\
+    \ scan results, the plugin recommends:\n\n- **Critical Vulnerabilities**: Block\
+    \ model deployment\n- **High Vulnerabilities**: Implement additional safeguards\n\
+    - **Medium Vulnerabilities**: Monitor and apply mitigations\n- **Low Vulnerabilities**:\
+    \ Document and track\n\n## Performance Considerations\n\n- Scans can be resource-intensive\
+    \ and time-consuming\n- Use appropriate scan intensity for your use case\n- Consider\
+    \ running scans during off-peak hours\n- Monitor system resources during intensive\
+    \ scans\n\n## Integration with PlugPipe Security Framework\n\nGarak integrates\
+    \ with PlugPipe's security coordinator for automated vulnerability assessment:\n\
+    \n```python\n# Register with security coordinator\nsecurity_coordinator.register_security_plugin(\"\
+    garak_scanner\", garak_plugin)\n```\n\n## Red-Teaming Best Practices\n\n1. **Regular\
+    \ Assessment**: Schedule regular vulnerability scans\n2. **Baseline Establishment**:\
+    \ Create security baselines for models\n3. **Continuous Monitoring**: Monitor\
+    \ for new vulnerability patterns\n4. **Documentation**: Document all findings\
+    \ and remediation actions\n5. **Team Training**: Train teams on LLM security best\
+    \ practices\n"
+external_dependencies:
+- description: NVIDIA Garak LLM vulnerability scanner
+  name: garak
+  required: true
+  type: python
+  version: '>=0.9.0'
+- description: Hugging Face Transformers library
+  name: transformers
+  required: true
+  type: python
+  version: '>=4.21.0'
+- description: PyTorch deep learning framework
+  name: torch
+  required: true
+  type: python
+  version: '>=1.13.0'
+- description: NumPy scientific computing library
+  name: numpy
+  required: true
+  type: python
+  version: '>=1.21.0'
+- description: Python 3 development headers
+  name: python3-dev
+  required: true
+  type: system
+health_check:
+  check_command: python -c 'import garak; print(garak.__version__)'
+  enabled: true
+  endpoint: /health
+  timeout_seconds: 30
+input_schema:
+  properties:
+    context:
+      description: Additional context for scanning
+      properties:
+        custom_probes:
+          description: Custom probe modules to use
+          items:
+            type: string
+          type: array
+        parallel_requests:
+          description: Number of parallel requests
+          maximum: 10
+          minimum: 1
+          type: integer
+        scan_id:
+          description: Custom scan identifier
+          type: string
+        user_id:
+          description: User ID for audit logging
+          type: string
+      type: object
+    model_endpoint:
+      description: Model endpoint or name to scan (required for scan_model)
+      type: string
+    operation:
+      default: scan_model
+      description: Operation to perform
+      enum:
+      - scan_model
+      - get_info
+      type: string
+  required: []
+  type: object
+license: MIT
+name: garak_scanner
+display_name: GarakScanner
+output_schema:
+  properties:
+    error:
+      description: Error message if status is error
+      type: string
+    garak_available:
+      description: Whether Garak library is available
+      type: boolean
+    garak_version:
+      description: Version of Garak library
+      type: string
+    model_endpoint:
+      description: Model endpoint that was scanned
+      type: string
+    operation:
+      description: Operation performed
+      type: string
+    scan_configuration:
+      description: Configuration used for scanning
+      properties:
+        detector_modules:
+          items:
+            type: string
+          type: array
+        max_attempts:
+          type: integer
+        probe_modules:
+          items:
+            type: string
+          type: array
+        scan_intensity:
+          type: string
+      type: object
+    scan_summary:
+      description: Summary of threats by severity level
+      properties:
+        critical_threats:
+          type: integer
+        high_threats:
+          type: integer
+        low_threats:
+          type: integer
+        medium_threats:
+          type: integer
+        total_threats:
+          type: integer
+      type: object
+    status:
+      description: Plugin execution status
+      enum:
+      - success
+      - error
+      - disabled
+      type: string
+    threats:
+      description: List of detected vulnerabilities
+      items:
+        properties:
+          confidence:
+            maximum: 1.0
+            minimum: 0.0
+            type: number
+          context:
+            type: object
+          description:
+            type: string
+          detected_by:
+            type: string
+          level:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          recommendation:
+            enum:
+            - allow
+            - sanitize
+            - block
+            - quarantine
+            - audit_only
+            type: string
+          threat_id:
+            type: string
+          threat_type:
+            type: string
+          timestamp:
+            type: string
+        type: object
+      type: array
+    threats_detected:
+      description: Number of vulnerabilities detected
+      type: integer
+  required:
+  - status
+  type: object
+owasp_coverage:
+  llm_applications_2025:
+  - 'LLM01: Prompt Injection'
+  - 'LLM02: Sensitive Information Disclosure'
+  - 'LLM03: Supply Chain'
+  - 'LLM04: Data and Model Poisoning'
+  - 'LLM06: Excessive Agency'
+  - 'LLM08: Vector and Embedding Weaknesses'
+  - 'LLM09: Misinformation'
+  - 'LLM10: Unbounded Consumption'
+owner: PlugPipe Security Team
+performance:
+  caching:
+    enabled: false
+  resource_monitoring:
+    cpu_threshold_percent: 70
+    enabled: true
+    memory_threshold_mb: 3072
+sbom:
+  complete: sbom/garak_scanner-sbom-complete.json
+  summary: sbom/garak_scanner-sbom.json
+security:
+  cpu_limit_percent: 75
+  external_domains:
+  - huggingface.co
+  - api.openai.com
+  - api.anthropic.com
+  memory_limit_mb: 4096
+  network_access: true
+  requires_secrets: false
+  timeout_seconds: 600
+status: stable
+stdlib_modules:
+- tempfile
+- uuid
+- subprocess
+tags:
+- security
+- llm
+- vulnerability-scanner
+- red-teaming
+- garak
+- nvidia
+- owasp
+type: vulnerability_scanner
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

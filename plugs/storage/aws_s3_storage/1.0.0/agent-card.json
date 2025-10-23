@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:storage:aws_s3_storage",
+    "name": "Aws S3 Storage Agent",
+    "description": "Enterprise AWS S3 cloud storage integration with security and lifecycle management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/aws_s3_storage",
+    "skills": [
+      {
+        "id": "aws_s3_storage-primary",
+        "name": "Aws S3 Storage",
+        "description": "Enterprise AWS S3 cloud storage integration with security and lifecycle management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "aws_s3_storage",
+        "category": "storage",
+        "subcategory": "",
+        "tags": [
+          "aws",
+          "s3",
+          "storage",
+          "cloud",
+          "backup",
+          "cdn",
+          "data_lake"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.475133Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:background_ai_fixer_service-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T08:12:48.907573Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "background_ai_fixer_service@1.0.0",
+      "name": "background_ai_fixer_service",
+      "version": "1.0.0",
+      "description": "Background AI-powered continuous issue resolution service that orchestrates existing fixing plugins with intelligent prioritization, monitoring, and automated remediation workflows"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

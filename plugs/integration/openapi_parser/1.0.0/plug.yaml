@@ -1,0 +1,210 @@
+dependencies:
+- name: swagger-parser
+  optional: true
+  type: npm
+  version: '>=10.0.0'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:44'
+  stdlib_modules_declared: true
+description: OpenAPI/Swagger specification parser and validator leveraging proven
+  JSON Schema validation and OpenAPI tools
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - jsonschema
+  - openapi_spec_validator
+  - requests
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    operation:
+      description: Parser operation to perform
+      enum:
+      - parse_spec
+      - validate_spec
+      - extract_endpoints
+      - analyze_auth
+      - convert_to_mcp_tools
+      type: string
+    parsing_options:
+      properties:
+        extract_examples:
+          description: Extract example values
+          type: boolean
+        include_deprecated:
+          description: Include deprecated endpoints
+          type: boolean
+        resolve_references:
+          description: Resolve $ref references
+          type: boolean
+        validate_schema:
+          description: Validate against OpenAPI schema
+          type: boolean
+      type: object
+    specification:
+      properties:
+        format:
+          description: Specification format
+          enum:
+          - json
+          - yaml
+          type: string
+        source:
+          description: Specification source (inline JSON/YAML, file path, or URL)
+          type: string
+        source_type:
+          description: Source type of the specification
+          enum:
+          - inline
+          - file
+          - url
+          type: string
+      required:
+      - source_type
+      - source
+      type: object
+  required:
+  - operation
+  - specification
+  type: object
+metadata:
+  capabilities:
+  - openapi_parsing
+  - swagger_parsing
+  - json_schema_validation
+  - yaml_parsing
+  - specification_validation
+  - endpoint_extraction
+  - authentication_analysis
+  category: integration
+  output_formats:
+  - standardized_api_spec
+  - mcp_tool_definitions
+  - endpoint_metadata
+  supported_versions:
+  - OpenAPI 3.0.x
+  - OpenAPI 3.1.x
+  - Swagger 2.0
+  type: parser
+name: openapi_parser
+display_name: OpenapiParser
+output_schema:
+  properties:
+    authentication:
+      properties:
+        endpoint_security:
+          type: object
+        global_security:
+          type: array
+        security_schemes:
+          type: object
+      type: object
+    endpoints:
+      items:
+        properties:
+          description:
+            type: string
+          method:
+            type: string
+          parameters:
+            type: array
+          path:
+            type: string
+          request_body:
+            type: object
+          responses:
+            type: object
+          summary:
+            type: string
+        type: object
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    mcp_tools:
+      items:
+        properties:
+          description:
+            type: string
+          input_schema:
+            type: object
+          name:
+            type: string
+        type: object
+      type: array
+    operation_completed:
+      description: Name of completed operation
+      type: string
+    parsed_spec:
+      properties:
+        components:
+          type: object
+        description:
+          type: string
+        openapi_version:
+          type: string
+        paths:
+          type: object
+        security:
+          type: array
+        servers:
+          type: array
+        title:
+          type: string
+        version:
+          type: string
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    validation_results:
+      properties:
+        errors:
+          type: array
+        schema_version:
+          type: string
+        valid:
+          type: boolean
+        warnings:
+          type: array
+      type: object
+  required:
+  - success
+  - operation_completed
+  type: object
+owner: PlugPipe Integration Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- asyncio
+- json
+- logging
+- pathlib
+- re
+- typing
+- urllib
+tags:
+- integration
+- parser
+- openapi
+- swagger
+- api-specification
+- validation
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

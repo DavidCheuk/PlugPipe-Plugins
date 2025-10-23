@@ -1,0 +1,40 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:requirement_analyzer",
+    "name": "Requirement Analyzer Agent",
+    "description": "Analyzes natural language requirements and extracts structured information for intelligent plugin composition. Extracted from monolithic mix_and_match to follow single responsibility principle.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/requirement_analyzer",
+    "skills": [
+      {
+        "id": "requirement_analyzer-primary",
+        "name": "Requirement Analyzer",
+        "description": "Analyzes natural language requirements and extracts structured information for intelligent plugin composition. Extracted from monolithic mix_and_match to follow single responsibility principle.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "requirement_analyzer",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "intelligence",
+          "natural-language-processing",
+          "requirement-analysis",
+          "architecture-refactoring"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.357678Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,477 @@
+capabilities:
+- kubernetes_operator
+- plugin_lifecycle_management
+- custom_resource_definitions
+- reconciliation_loops
+- auto_scaling
+- health_monitoring
+- declarative_management
+- kubernetes_native
+- container_orchestration
+- service_discovery
+- load_balancing
+- fault_tolerance
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:45'
+  stdlib_modules_declared: true
+description: Kubernetes Operator plugin for PlugPipe lifecycle management, providing
+  Custom Resource Definitions, controllers, reconciliation loops, and automated plugin
+  deployment and scaling within Kubernetes clusters
+enterprise_features:
+  auto_scaling: true
+  custom_resource_definitions: true
+  declarative_management: true
+  enterprise_ready: true
+  fault_tolerance: true
+  health_monitoring: true
+  high_availability: true
+  kubernetes_native: true
+  operator_pattern: true
+  production_ready: true
+  reconciliation_loops: true
+  scalable_operations: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    kubernetes_operator:
+      description: Kubernetes Operator plugin configuration
+      properties:
+        auto_reconcile:
+          default: true
+          description: Enable automatic reconciliation
+          type: boolean
+        kubeconfig:
+          description: Path to kubeconfig file
+          type: string
+        namespace:
+          default: plugpipe-system
+          description: Kubernetes namespace for operator
+          type: string
+        reconcile_interval:
+          default: 30
+          description: Reconciliation interval in seconds
+          minimum: 5
+          type: integer
+      type: object
+    operation:
+      description: Kubernetes Operator operation to execute
+      enum:
+      - install_crds
+      - deploy_plugin
+      - scale_plugin
+      - get_plugin_status
+      - undeploy_plugin
+      - list_managed_plugins
+      - reconcile_plugins
+      - health_check
+      type: string
+    plugin_name:
+      description: Name of the plugin to manage
+      type: string
+    plugin_spec:
+      description: Plugin deployment specification
+      properties:
+        env:
+          description: Environment variables for the plugin
+          items:
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            type: object
+          type: array
+        image:
+          description: Container image for the plugin
+          type: string
+        port:
+          default: 8080
+          description: Container port for the plugin
+          type: integer
+        replicas:
+          default: 1
+          description: Number of plugin replicas
+          minimum: 0
+          type: integer
+        resources:
+          description: Resource requirements and limits
+          properties:
+            limits:
+              properties:
+                cpu:
+                  default: 500m
+                  type: string
+                memory:
+                  default: 512Mi
+                  type: string
+              type: object
+            requests:
+              properties:
+                cpu:
+                  default: 250m
+                  type: string
+                memory:
+                  default: 256Mi
+                  type: string
+              type: object
+          type: object
+        service_type:
+          default: ClusterIP
+          description: Kubernetes service type
+          enum:
+          - ClusterIP
+          - NodePort
+          - LoadBalancer
+          type: string
+      type: object
+    replicas:
+      description: Number of replicas for scaling operations
+      minimum: 0
+      type: integer
+  required:
+  - operation
+  type: object
+kubernetes:
+  deployment:
+    replicas: 1
+    strategy:
+      type: Recreate
+  namespace: plugpipe-system
+  rbac:
+    create: true
+    rules:
+    - apiGroups:
+      - ''
+      resources:
+      - pods
+      - services
+      - configmaps
+      - secrets
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      - replicasets
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - plugpipe.io
+      resources:
+      - plugins
+      - pipelines
+      verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+    - apiGroups:
+      - apiextensions.k8s.io
+      resources:
+      - customresourcedefinitions
+      verbs:
+      - get
+      - list
+      - create
+      - update
+      - patch
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  service:
+    port: 8080
+    type: ClusterIP
+name: operator
+display_name: Operator
+output_schema:
+  properties:
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    operation_completed:
+      description: The operation that was executed
+      type: string
+    plugin_type:
+      description: Plugin type identifier
+      type: string
+    result:
+      description: Detailed operation results
+      properties:
+        crds_installed:
+          description: List of installed CRDs
+          items:
+            type: string
+          type: array
+        error:
+          description: Error message if operation failed
+          type: string
+        execution_context:
+          description: Execution context identifier
+          type: string
+        execution_time:
+          description: Operation execution time
+          type: number
+        health_status:
+          description: Operator health check results
+          properties:
+            auto_reconcile:
+              type: boolean
+            cluster_accessible:
+              type: boolean
+            kubectl_available:
+              type: boolean
+            managed_plugins:
+              type: integer
+            namespace:
+              type: string
+            operations_count:
+              type: integer
+            status:
+              type: string
+          type: object
+        managed_plugins:
+          description: Number of managed plugins
+          type: integer
+        operation:
+          description: Executed operation
+          type: string
+        output:
+          description: Command output
+          type: string
+        plugin_id:
+          description: Plugin instance identifier
+          type: string
+        plugin_name:
+          description: Name of the managed plugin
+          type: string
+        plugin_spec:
+          description: Plugin specification used
+          type: object
+        plugins:
+          description: List of managed plugins
+          items:
+            properties:
+              current_status:
+                type: object
+              deployed_at:
+                type: string
+              name:
+                type: string
+              spec:
+                type: object
+              status:
+                type: string
+            type: object
+          type: array
+        reconciled_plugins:
+          description: Number of successfully reconciled plugins
+          type: integer
+        reconciliation_ratio:
+          description: Ratio of reconciled to total plugins
+          type: number
+        reconciliation_results:
+          description: Results from reconciliation process
+          items:
+            properties:
+              current_replicas:
+                type: integer
+              desired_replicas:
+                type: integer
+              plugin_name:
+                type: string
+              reconciled:
+                type: boolean
+              scale_attempted:
+                type: boolean
+              scale_success:
+                type: boolean
+            type: object
+          type: array
+        replicas:
+          description: Number of replicas for scaling operations
+          type: integer
+        results:
+          description: Results from multiple operations
+          type: array
+        status:
+          description: Plugin deployment status
+          properties:
+            available_replicas:
+              type: integer
+            conditions:
+              type: array
+            deployment_exists:
+              type: boolean
+            managed_by_operator:
+              type: boolean
+            plugin_name:
+              type: string
+            pods:
+              items:
+                properties:
+                  name:
+                    type: string
+                  phase:
+                    type: string
+                  ready:
+                    type: boolean
+                  restart_count:
+                    type: integer
+                type: object
+              type: array
+            ready_replicas:
+              type: integer
+            replicas:
+              type: integer
+          type: object
+        timestamp:
+          description: Operation timestamp
+          format: date-time
+          type: string
+        total_plugins:
+          description: Total number of plugins
+          type: integer
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - Kubernetes Security Benchmarks (CIS)
+  - NIST Cybersecurity Framework
+  - SOC 2 Type II compliance
+  - ISO 27001 cloud security standards
+  - PCI DSS for payment card industry compliance
+  - HIPAA for healthcare workloads
+  - FedRAMP for government cloud deployments
+  dependencies:
+  - description: Kubernetes command-line tool
+    license: Apache-2.0
+    name: kubectl
+    source: https://github.com/kubernetes/kubernetes
+    type: binary
+    version: '>=1.20.0'
+  - description: Container orchestration platform
+    license: Apache-2.0
+    name: kubernetes
+    source: https://github.com/kubernetes/kubernetes
+    type: platform
+    version: '>=1.20.0'
+  - description: Python programming language runtime
+    license: PSF
+    name: python
+    source: https://www.python.org
+    type: runtime
+    version: '>=3.8'
+  - description: YAML parser and emitter for Python
+    license: MIT
+    name: pyyaml
+    source: https://github.com/yaml/pyyaml
+    type: python_package
+    version: '>=6.0'
+  - description: Asynchronous I/O framework
+    license: PSF
+    name: asyncio
+    source: https://docs.python.org/3/library/asyncio.html
+    type: python_package
+    version: '>=3.4.3'
+  integration_capabilities:
+  - Kubernetes native tooling (kubectl, helm, kustomize)
+  - CI/CD pipeline integration for automated deployments
+  - Monitoring and observability (Prometheus, Grafana)
+  - GitOps workflows with ArgoCD and Flux
+  - Service mesh integration (Istio, Linkerd)
+  - Ingress controllers and load balancers
+  - Persistent volume management
+  - Custom Resource Definitions and controllers
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Kubernetes RBAC configuration and service account permissions
+  - Secure kubeconfig handling and cluster access credentials
+  - Network policies for plugin-to-plugin communications
+  - Pod security standards and security contexts
+  - Secrets management for plugin configurations
+  - Container image security and vulnerability scanning
+  - Audit logging for all operator actions
+  - Resource quotas and limits enforcement
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - Ubuntu 20.04+
+    - CentOS 8+
+    - Amazon Linux 2+
+    - RHEL 8+
+    - Debian 10+
+  - name: macOS
+    versions:
+    - macOS 11+
+  - name: Windows
+    versions:
+    - Windows 10+
+    - Windows Server 2019+
+status: active
+stdlib_modules:
+- asyncio
+- base64
+- datetime
+- json
+- logging
+- os
+- subprocess
+- tempfile
+- time
+- typing
+- uuid
+tags:
+- kubernetes
+- operator
+- lifecycle
+- management
+- crd
+- controller
+- reconciliation
+- automation
+- orchestration
+- devops
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

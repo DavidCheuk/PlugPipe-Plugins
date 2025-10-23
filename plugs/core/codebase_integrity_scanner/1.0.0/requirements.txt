@@ -1,0 +1,6 @@
+# Auto-generated requirements for PlugPipe plugin
+# External dependencies detected by dependency analyzer
+
+collections
+inspect
+statistics

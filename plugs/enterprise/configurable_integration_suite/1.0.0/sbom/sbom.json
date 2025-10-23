@@ -1,0 +1,260 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:a0123456-7890-abcd-ef01-234567890abc",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-20T12:00:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "configurable-enterprise-integration-suite@1.0.0",
+      "name": "Configurable Enterprise Integration Suite",
+      "version": "1.0.0",
+      "description": "Highly configurable enterprise integration system designed for business-specific customization without code changes",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "ldap3@2.9.1",
+      "name": "ldap3",
+      "version": "2.9.1",
+      "description": "A strictly RFC 4510 conforming LDAP V3 pure Python client library",
+      "licenses": [
+        {
+          "license": {
+            "id": "LGPL-3.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/ldap3@2.9.1",
+      "scope": "required",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "LDAP and Active Directory authentication integration"
+    },
+    {
+      "type": "library", 
+      "bom-ref": "pyjwt@2.8.0",
+      "name": "PyJWT",
+      "version": "2.8.0",
+      "description": "JSON Web Token implementation in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pyjwt@2.8.0",
+      "scope": "required",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "OIDC and OAuth2 token handling"
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.31.0",
+      "name": "requests",
+      "version": "2.31.0", 
+      "description": "Python HTTP for Humans",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.31.0",
+      "scope": "required",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "HTTP client for API integrations"
+    },
+    {
+      "type": "library",
+      "bom-ref": "cryptography@41.0.7",
+      "name": "cryptography",
+      "version": "41.0.7",
+      "description": "cryptography is a package which provides cryptographic recipes and primitives to Python developers",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0 OR BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/cryptography@41.0.7",
+      "scope": "required",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "SAML certificate handling and encryption"
+    },
+    {
+      "type": "library",
+      "bom-ref": "sqlalchemy@2.0.23",
+      "name": "SQLAlchemy",
+      "version": "2.0.23",
+      "description": "Database Abstraction Library",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/sqlalchemy@2.0.23",
+      "scope": "required",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Database isolation for multi-tenancy"
+    },
+    {
+      "type": "library",
+      "bom-ref": "redis@5.0.1", 
+      "name": "redis",
+      "version": "5.0.1",
+      "description": "Python client for Redis key-value store",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/redis@5.0.1",
+      "scope": "required", 
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Session management and caching"
+    },
+    {
+      "type": "application",
+      "bom-ref": "keycloak",
+      "name": "Keycloak",
+      "version": "latest",
+      "description": "Open Source Identity and Access Management",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "optional",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Enterprise SSO management"
+    },
+    {
+      "type": "application",
+      "bom-ref": "auth0",
+      "name": "Auth0",
+      "version": "latest",
+      "description": "Universal Identity Platform",
+      "scope": "optional",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Cloud-based SSO management"
+    },
+    {
+      "type": "application",
+      "bom-ref": "splunk",
+      "name": "Splunk",
+      "version": "latest",
+      "description": "Data Platform for Security and Observability",
+      "scope": "optional",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Enterprise monitoring and SIEM integration"
+    },
+    {
+      "type": "application",
+      "bom-ref": "datadog",
+      "name": "DataDog",
+      "version": "latest",
+      "description": "Monitoring and Analytics Platform",
+      "scope": "optional",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Cloud monitoring integration"
+    },
+    {
+      "type": "application",
+      "bom-ref": "prometheus",
+      "name": "Prometheus",
+      "version": "latest",
+      "description": "Open-source monitoring system",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "optional",
+      "reused_infrastructure": true,
+      "security_vetted": true,
+      "purpose": "Metrics collection and monitoring"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "configurable-enterprise-integration-suite@1.0.0",
+      "dependsOn": [
+        "ldap3@2.9.1",
+        "pyjwt@2.8.0", 
+        "requests@2.31.0",
+        "cryptography@41.0.7",
+        "sqlalchemy@2.0.23",
+        "redis@5.0.1"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "configurable-enterprise-integration-suite@1.0.0",
+      "annotationType": "other",
+      "annotator": "PlugPipe Security Team",
+      "timestamp": "2025-08-20T12:00:00Z",
+      "text": "All dependencies are battle-tested enterprise tools following PlugPipe 'reuse, never reinvent' principle"
+    }
+  ],
+  "properties": [
+    {
+      "name": "plugpipe:reused_infrastructure",
+      "value": "100%"
+    },
+    {
+      "name": "plugpipe:security_vetted", 
+      "value": "true"
+    },
+    {
+      "name": "plugpipe:revolutionary_capabilities",
+      "value": "business_specific_configuration_without_code_changes,dynamic_adapter_composition,flexible_compliance_rule_engine,configurable_multi_tenant_isolation,universal_monitoring_integration"
+    },
+    {
+      "name": "plugpipe:market_position",
+      "value": "configuration_driven_enterprise_integration"
+    },
+    {
+      "name": "plugpipe:business_variability_support",
+      "value": "high"
+    }
+  ]
+}

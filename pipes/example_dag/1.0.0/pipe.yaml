@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: example-dag
+  owner: PlugPipe Team
+  version: 1.0.0
+  tags:
+  - pipeline
+  - migrated
+  - dag
+  doc: DAG pipeline converted from example_dag
+inputs: {}
+pipeline:
+- id: pii_scan
+  uses: pii_scan
+  with: {}
+  next: jira
+- id: jira
+  uses: jira
+  with: {}
+summary:
+  format: table
+  doc: DAG pipeline execution summary
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

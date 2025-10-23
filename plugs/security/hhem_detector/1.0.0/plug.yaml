@@ -1,0 +1,112 @@
+config_defaults:
+  mode: api
+  threshold: 0.5
+  timeout: 30
+config_schema:
+  properties:
+    api_key:
+      description: Vectara API key
+      type: string
+    mode:
+      default: api
+      enum:
+      - api
+      - local
+      - hybrid
+      type: string
+    threshold:
+      default: 0.5
+      maximum: 1
+      minimum: 0
+      type: number
+  type: object
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:47'
+  stdlib_modules_declared: true
+description: Production-ready hallucination detection using Vectara's HHEM-2.1 model
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  - psutil
+  - torch
+  - transformers
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      description: Optional context for analysis
+      type: string
+    text:
+      description: Text to analyze for hallucinations
+      type: string
+  required:
+  - text
+  type: object
+metadata:
+  capabilities:
+  - api_service
+  - local_model
+  - batch_processing
+  category: security
+  max_tokens: 4096
+  memory_mb: 600
+  type: detector
+name: hhem_detector
+display_name: HhemDetector
+output_schema:
+  properties:
+    confidence:
+      description: Confidence score (0-1)
+      type: number
+    factuality_rate:
+      description: HHEM-2.1 factuality rate
+      type: number
+    found:
+      description: Whether hallucination was detected
+      type: boolean
+    processing_time_ms:
+      description: Processing time in milliseconds
+      type: number
+  required:
+  - found
+  - confidence
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- enum
+- hashlib
+- json
+- logging
+- os
+- re
+- sys
+- time
+- typing
+- uuid
+tags:
+- security
+- hallucination
+- detection
+- hhem
+- vectara
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

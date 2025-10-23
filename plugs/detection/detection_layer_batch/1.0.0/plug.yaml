@@ -1,0 +1,97 @@
+name: detection_layer_batch
+display_name: DetectionLayerBatch
+version: 1.0.0
+description: Comprehensive batch execution of all detection layer plugins for automated
+  plugin change analysis and issue identification
+author: PlugPipe Detection Team
+category: detection
+type: plugin
+tags:
+- detection
+- batch
+- automation
+- validation
+- analysis
+requirements:
+  python: []
+  system: []
+compatibility:
+  min_plugpipe_version: 1.0.0
+  python_version: '>=3.8'
+security:
+  requires_secrets: false
+  network_access: false
+documentation:
+  readme: "# Detection Layer Batch Plugin\n\nComprehensive batch execution of all\
+    \ detection layer plugins for automated plugin change analysis and issue identification.\n\
+    \n## Features\n- Environment setup coordination\n- Detection layer orchestration\n\
+    - Result consolidation\n- Post-detection actions\n\n## Usage\n```yaml\nsteps:\n\
+    \  - plugin: detection_layer_batch\n    config:\n      trigger_reason: \"manual\"\
+    \n      change_scope: \"ecosystem_wide\"\n      detection_sensitivity: \"medium\"\
+    \n```"
+input_schema:
+  type: object
+  properties:
+    trigger_reason:
+      type: string
+      default: manual
+      description: Reason for triggering detection batch
+    change_scope:
+      type: string
+      default: ecosystem_wide
+      description: Scope of changes to analyze
+    detection_sensitivity:
+      type: string
+      default: medium
+      description: Detection sensitivity level
+    plugin_filter:
+      type: string
+      description: Optional plugin filter
+  additionalProperties: false
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    processing_time_ms:
+      type: number
+      description: Processing time in milliseconds
+    pipeline_metadata:
+      type: object
+      description: Pipeline orchestration metadata
+    environment_status:
+      type: object
+      description: Environment readiness status
+    ready_for_execution:
+      type: boolean
+      description: Whether ready for pipeline execution
+    recommended_execution_mode:
+      type: string
+      description: Recommended execution mode
+    timestamp:
+      type: string
+      description: Execution timestamp
+    error:
+      type: string
+      description: Error message if operation failed
+  required:
+  - success
+  - processing_time_ms
+  - timestamp
+performance:
+  rate_limit:
+    requests_per_hour: 100
+    requests_per_minute: 10
+  caching:
+    enabled: true
+    ttl: 300
+owner: PlugPipe Detection Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

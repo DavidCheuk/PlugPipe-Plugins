@@ -1,0 +1,42 @@
+author: PlugPipe Security Team
+capabilities:
+- secret_detection
+- pattern_matching
+- threat_scoring
+- cooperative_security
+category: security
+config_schema:
+  enable_logging:
+    default: true
+    description: Enable detailed logging
+    type: boolean
+  threat_threshold:
+    default: 0.5
+    description: Minimum threat score to trigger BLOCK action
+    type: float
+dependency_analysis:
+  analyzer_notes: All imports (base64) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Simple, fast secret detection plugin for MCP Guardian cooperative testing
+discovery: public
+external_dependencies:
+  python_packages: []
+integration:
+  async_compatible: false
+  mcp_guardian: true
+name: simple_secret_scanner
+display_name: QuickSecretScanner
+stdlib_modules:
+- base64
+type: security_scanner
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

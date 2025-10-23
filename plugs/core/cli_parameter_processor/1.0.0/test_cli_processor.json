@@ -1,0 +1,1 @@
+{"operation": "convert_params_to_json", "plugin_name": "governance.ai_resource_governance", "cli_arguments": {"operation": "status", "user": "demo-user", "budget": 1000, "period": "monthly"}}

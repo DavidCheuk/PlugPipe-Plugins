@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enterprise_knowledge_validation_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:12.543483Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enterprise_knowledge_validation_agent_factory@1.0.0",
+      "name": "enterprise_knowledge_validation_agent_factory",
+      "version": "1.0.0",
+      "description": "Enterprise Knowledge Validation Agent Factory - generates specialized enterprise knowledge validation agents using selective agent factory reuse (Core, RAG, Consistency) for knowledge base accuracy validation, content freshness verification, compliance documentation checking, internal policy validation, training material accuracy, knowledge graph consistency, document version control, and enterprise search optimization"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

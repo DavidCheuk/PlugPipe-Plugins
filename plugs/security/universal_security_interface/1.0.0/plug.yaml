@@ -1,0 +1,266 @@
+author: PlugPipe Security Team
+category: security
+config_schema:
+  additionalProperties: false
+  properties:
+    strict_mode:
+      default: true
+      description: Enable strict interface validation
+      type: boolean
+    validation_level:
+      default: standard
+      description: Interface validation level
+      enum:
+      - basic
+      - standard
+      - strict
+      type: string
+  type: object
+dependencies:
+  external_dependencies:
+  - name: pydantic
+    version: '>=2.5.0'
+  - name: structlog
+    version: '>=23.2.0'
+  internal_dependencies:
+  - description: MCP Guardian Enterprise Security Proxy
+    name: mcp_guardian
+    optional: true
+    version: '>=1.0.0'
+  python_version: '>=3.8'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:48'
+  stdlib_modules_declared: true
+description: Universal Security Plugin Interface Standard for PlugPipe with MCP Guardian
+  enterprise integration - provides standardized format and interface for all security
+  plugins
+discovery: public
+documentation:
+  description: "Universal Security Plugin Interface Standard for PlugPipe\n\nThis\
+    \ plugin provides the foundational interface that all security plugins should\
+    \ follow,\nensuring consistent format, standardized operations, and seamless integration.\n\
+    \nKey Features:\n- Standardized SecurityPluginResult format\n- Universal SecurityPluginContext\n\
+    - Consistent ThreatDetection structure  \n- Legacy plugin wrapper support\n- Plugin\
+    \ template generation\n"
+  examples:
+  - input:
+      operation: create_plugin_template
+      plugin_name: ExampleSecurityPlugin
+    name: Generate Plugin Template
+    output:
+      status: completed
+      template_path: /path/to/template
+  - input:
+      operation: validate_plugin_interface
+      plugin_path: /path/to/plugin
+    name: Validate Plugin Interface
+    output:
+      compliant: true
+      issues: []
+      status: completed
+  usage: "# Create new universal security plugin\nawait pp(\"universal_security_interface\"\
+    ).process({\n    \"operation\": \"create_plugin_template\",\n    \"plugin_name\"\
+    : \"MySecurityPlugin\"\n}, {})\n\n# Wrap legacy plugin\nawait pp(\"universal_security_interface\"\
+    ).process({\n    \"operation\": \"wrap_legacy_plugin\", \n    \"plugin_path\"\
+    : \"/path/to/legacy/plugin\",\n    \"plugin_name\": \"legacy_plugin\"\n}, {})\n"
+enterprise_features:
+  audit_logging: true
+  enterprise_authentication: true
+  multi_tenant_support: true
+  oauth2_integration: true
+  policy_enforcement: true
+  standardized_security_context: true
+  tenant_isolation: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+interface_version: 1.0.0
+mcp_guardian_integration:
+  compatible_versions:
+  - '>=1.0.0'
+  proxy_modes:
+  - load_balancer
+  - client_proxy
+  - gateway
+  role: core_interface_standard
+  security_profiles:
+  - basic
+  - standard
+  - enterprise
+  supported_features:
+  - standardized_plugin_responses
+  - universal_threat_detection_format
+  - enterprise_audit_integration
+  - multi_tenant_isolation
+  - oauth2_token_context
+  - policy_based_access_control
+mcp_guardian_operations:
+- description: Generate MCP Guardian compatible security plugin template
+  input_schema:
+    properties:
+      mcp_guardian_version:
+        default: 1.0.0
+        type: string
+      plugin_name:
+        type: string
+      security_profile:
+        default: standard
+        enum:
+        - basic
+        - standard
+        - enterprise
+        type: string
+    required:
+    - plugin_name
+    type: object
+  name: create_mcp_guardian_plugin_template
+- description: Validate plugin compatibility with MCP Guardian architecture
+  input_schema:
+    properties:
+      plugin_name:
+        type: string
+      plugin_path:
+        type: string
+      security_profile:
+        default: standard
+        enum:
+        - basic
+        - standard
+        - enterprise
+        type: string
+    required:
+    - plugin_path
+    - plugin_name
+    type: object
+  name: validate_mcp_guardian_compatibility
+- description: Wrap legacy security plugin for MCP Guardian integration
+  input_schema:
+    properties:
+      enable_multi_tenant:
+        default: false
+        type: boolean
+      enable_oauth2:
+        default: true
+        type: boolean
+      plugin_name:
+        type: string
+      plugin_path:
+        type: string
+      security_profile:
+        default: standard
+        enum:
+        - basic
+        - standard
+        - enterprise
+        type: string
+    required:
+    - plugin_path
+    - plugin_name
+    type: object
+  name: wrap_legacy_for_mcp_guardian
+monitoring:
+  health_checks:
+  - interface_standard_health
+  - template_generation_health
+  - mcp_guardian_integration_health
+  metrics:
+  - interface_validation_count
+  - plugin_template_generation_count
+  - mcp_guardian_compatibility_checks
+  - legacy_plugin_wrapper_count
+name: universal_security_interface
+display_name: UniversalSecurityInterface
+operations:
+- description: Generate template for new universal security plugin
+  input_schema:
+    properties:
+      plugin_name:
+        type: string
+      plugin_version:
+        default: 1.0.0
+        type: string
+    required:
+    - plugin_name
+    type: object
+  name: create_plugin_template
+- description: Validate plugin follows universal interface
+  input_schema:
+    properties:
+      plugin_name:
+        type: string
+      plugin_path:
+        type: string
+    required:
+    - plugin_path
+    - plugin_name
+    type: object
+  name: validate_plugin_interface
+- description: Create wrapper for legacy plugin to use universal interface
+  input_schema:
+    properties:
+      plugin_name:
+        type: string
+      plugin_path:
+        type: string
+    required:
+    - plugin_path
+    - plugin_name
+    type: object
+  name: wrap_legacy_plugin
+- description: Get the universal interface standard classes and types
+  input_schema:
+    properties:
+      format:
+        default: classes
+        enum:
+        - classes
+        - schema
+        - documentation
+        type: string
+    type: object
+  name: get_interface_standard
+security:
+  data_handling: No sensitive data processed - only interface definitions
+  permissions:
+  - read
+  - create_templates
+  - validate_interfaces
+  threat_model: Interface standardization - no direct security processing
+stdlib_modules:
+- abc
+- asyncio
+- dataclasses
+- enum
+- importlib
+- json
+- os
+- re
+- time
+- typing
+- uuid
+tags:
+- interface
+- standard
+- security
+- base
+- mcp-guardian
+- enterprise
+type: interface
+universal_standard: true
+validation:
+  development: true
+  runtime: true
+version: 1.0.0
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

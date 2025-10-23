@@ -1,0 +1,298 @@
+name: aws_s3_storage
+display_name: AWSS3Storage
+version: 1.0.0
+description: Enterprise AWS S3 cloud storage integration with security and lifecycle
+  management
+author: PlugPipe Team
+license: MIT
+category: storage
+tags:
+- aws
+- s3
+- storage
+- cloud
+- backup
+- cdn
+- data_lake
+requirements:
+  python:
+  - boto3>=1.26.0
+  - botocore>=1.29.0
+  system: []
+external_dependencies:
+- name: boto3
+  version: '>=1.26.0'
+  purpose: AWS SDK for Python providing S3 service integration and authentication
+- name: botocore
+  version: '>=1.29.0'
+  purpose: Low-level core functionality for AWS services and error handling
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+security:
+  requires_secrets: true
+  secret_fields:
+  - aws_access_key_id
+  - aws_secret_access_key
+  - aws_session_token
+  network_access: true
+  external_domains:
+  - '*.amazonaws.com'
+  - s3.amazonaws.com
+documentation:
+  readme: "# AWS S3 Storage Plug\n\nEnterprise-grade AWS S3 integration providing\
+    \ comprehensive cloud storage\noperations with security, encryption, and lifecycle\
+    \ management.\n\n## Features\n- Complete bucket and object management\n- Server-side\
+    \ encryption support\n- Presigned URL generation for secure access\n- Bulk operations\
+    \ for efficiency\n- Directory synchronization\n- Metadata management\n- Multiple\
+    \ authentication methods\n- Cross-region operations\n\n## Authentication Methods\n\
+    \n### IAM Credentials\nUse AWS Access Key and Secret Access Key.\n\n### IAM Roles\n\
+    Recommended for EC2/ECS/Lambda environments.\n\n### Profiles\nUse AWS CLI configured\
+    \ profiles.\n\n### Session Tokens\nFor temporary credentials and cross-account\
+    \ access.\n\n## Usage Examples\n\n### Upload File with Encryption\n```yaml\nsteps:\n\
+    \  - plugin: aws_s3_storage\n    config:\n      region: \"us-west-2\"\n      aws_access_key_id:\
+    \ \"${AWS_ACCESS_KEY_ID}\"\n      aws_secret_access_key: \"${AWS_SECRET_ACCESS_KEY}\"\
+    \n      default_encryption: \"AES256\"\n    input:\n      operation: \"put_object\"\
+    \n      bucket: \"my-secure-bucket\"\n      key: \"documents/report.pdf\"\n  \
+    \    file_path: \"/local/path/report.pdf\"\n      content_type: \"application/pdf\"\
+    \n      metadata:\n        department: \"finance\"\n        classification: \"\
+    confidential\"\n```\n\n### Generate Presigned Upload URL\n```yaml\nsteps:\n  -\
+    \ plugin: aws_s3_storage\n    input:\n      operation: \"generate_upload_url\"\
+    \n      bucket: \"uploads-bucket\"\n      key: \"user-uploads/${user_id}/${filename}\"\
+    \n      expiration: 3600\n      conditions:\n        - [\"content-length-range\"\
+    , 0, 10485760]  # Max 10MB\n        - [\"starts-with\", \"$Content-Type\", \"\
+    image/\"]\n```\n\n### Sync Directory to S3\n```yaml\nsteps:\n  - plugin: aws_s3_storage\n\
+    \    input:\n      operation: \"sync_directory\"\n      local_path: \"/local/website/\"\
+    \n      bucket: \"my-website-bucket\"\n      s3_prefix: \"static/\"\n      delete:\
+    \ false\n```\n"
+  examples:
+  - name: Backup database dump
+    description: Upload and encrypt database backup to S3
+    config:
+      region: us-east-1
+      default_encryption: aws:kms
+    input:
+      operation: put_object
+      bucket: db-backups
+      key: mysql/daily/backup-2025-01-14.sql.gz
+      file_path: /backups/mysql/backup-2025-01-14.sql.gz
+      metadata:
+        backup_type: daily
+        database: production
+        retention_days: '30'
+  - name: List recent uploads
+    description: Get list of recently uploaded files
+    input:
+      operation: list_objects
+      bucket: user-uploads
+      prefix: 2025/01/
+      max_keys: 100
+  - name: Create secure download link
+    description: Generate time-limited download URL
+    input:
+      operation: generate_presigned_url
+      bucket: secure-files
+      key: reports/quarterly-report.pdf
+      expiration: 1800
+      method: GET
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - list_buckets
+      - create_bucket
+      - delete_bucket
+      - get_bucket_info
+      - list_objects
+      - get_object
+      - put_object
+      - delete_object
+      - copy_object
+      - get_object_metadata
+      - generate_presigned_url
+      - generate_upload_url
+      - bulk_delete
+      - sync_directory
+      description: S3 operation to perform
+    bucket:
+      type: string
+      description: S3 bucket name
+    key:
+      type: string
+      description: S3 object key (path)
+    region:
+      type: string
+      description: AWS region for bucket creation
+    bucket_config:
+      type: object
+      properties:
+        versioning:
+          type: boolean
+          description: Enable bucket versioning
+        encryption:
+          type: boolean
+          description: Enable default encryption
+      description: Bucket configuration options
+    force:
+      type: boolean
+      default: false
+      description: Force bucket deletion (empties bucket first)
+    prefix:
+      type: string
+      description: Object key prefix filter
+    delimiter:
+      type: string
+      description: Delimiter for grouping object keys
+    max_keys:
+      type: integer
+      minimum: 1
+      maximum: 1000
+      default: 1000
+      description: Maximum number of objects to return
+    download_path:
+      type: string
+      description: Local path to download object
+    body:
+      type: string
+      description: Object content as string
+    file_path:
+      type: string
+      description: Local file path for upload/download
+    content_type:
+      type: string
+      description: MIME type of the object
+    metadata:
+      type: object
+      description: Object metadata key-value pairs
+    encryption:
+      type: string
+      enum:
+      - AES256
+      - aws:kms
+      - aws:kms:dsse
+      description: Server-side encryption method
+    source_bucket:
+      type: string
+      description: Source bucket for copy operation
+    source_key:
+      type: string
+      description: Source object key for copy operation
+    expiration:
+      type: integer
+      minimum: 1
+      maximum: 604800
+      default: 3600
+      description: URL expiration time in seconds
+    method:
+      type: string
+      enum:
+      - GET
+      - PUT
+      default: GET
+      description: HTTP method for presigned URL
+    conditions:
+      type: array
+      items:
+        type: array
+      description: Conditions for presigned POST
+    keys:
+      type: array
+      items:
+        type: string
+      description: List of object keys for bulk operations
+    local_path:
+      type: string
+      description: Local directory path for sync operation
+    s3_prefix:
+      type: string
+      default: ''
+      description: S3 prefix for sync operation
+    delete:
+      type: boolean
+      default: false
+      description: Delete objects not present locally during sync
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    s3_result:
+      type:
+      - object
+      - 'null'
+      description: Operation result data
+    s3_status:
+      type: string
+      enum:
+      - success
+      - error
+      description: Operation status
+    s3_error:
+      type: string
+      description: Error message if operation failed
+config_schema:
+  type: object
+  properties:
+    region:
+      type: string
+      default: us-east-1
+      description: AWS region
+    aws_access_key_id:
+      type: string
+      description: AWS Access Key ID
+    aws_secret_access_key:
+      type: string
+      description: AWS Secret Access Key
+    aws_session_token:
+      type: string
+      description: AWS Session Token (for temporary credentials)
+    profile:
+      type: string
+      description: AWS CLI profile name
+    default_encryption:
+      type: string
+      enum:
+      - AES256
+      - aws:kms
+      - aws:kms:dsse
+      default: AES256
+      description: Default server-side encryption method
+  required:
+  - region
+health_check:
+  operation: list_buckets
+  timeout: 30
+performance:
+  rate_limit:
+    requests_per_second: 3500
+    put_requests_per_second: 3500
+    get_requests_per_second: 5500
+  caching:
+    enabled: true
+    ttl: 300
+  bulk_operations:
+    max_batch_size: 1000
+    recommended_batch_size: 500
+  transfer:
+    multipart_threshold: 8388608
+    max_concurrency: 10
+    multipart_chunksize: 8388608
+compliance:
+  gdpr_compliant: true
+  data_retention: Configurable via S3 lifecycle policies
+  encryption: Server-side encryption available
+  audit_logging: CloudTrail integration
+  data_sovereignty: Region-specific storage
+owner: PlugPipe Integration Team
+status: stable
+sbom:
+  summary: sbom/aws_s3_storage-sbom.json
+  complete: sbom/aws_s3_storage-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

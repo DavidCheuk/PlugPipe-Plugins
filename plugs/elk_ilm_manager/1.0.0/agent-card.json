@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:elk_ilm_manager",
+    "name": "Elk Ilm Manager Agent",
+    "description": "Programmatic Index Lifecycle Management (ILM) for Elasticsearch indices. Create, apply, and manage retention policies for PlugPipe audit and security indices.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/elk_ilm_manager",
+    "skills": [
+      {
+        "id": "elk_ilm_manager-primary",
+        "name": "Elk Ilm Manager",
+        "description": "Programmatic Index Lifecycle Management (ILM) for Elasticsearch indices. Create, apply, and manage retention policies for PlugPipe audit and security indices.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "elk_ilm_manager",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "elasticsearch",
+          "ilm",
+          "lifecycle",
+          "retention",
+          "infrastructure"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.208080Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

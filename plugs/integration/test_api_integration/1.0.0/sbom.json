@@ -1,0 +1,61 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:TestAPI-plugin-1758674775",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-24T00:46:15.462209Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "Enhanced Plugin Creation Agent",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "TestAPI_api_plugin",
+      "version": "1.0.0",
+      "description": "Auto-generated plugin for TestAPI API integration"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "requests",
+      "version": ">=2.25.1",
+      "purl": "pkg:pypi/requests@2.25.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "typing",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - typing support"
+    },
+    {
+      "type": "library",
+      "name": "logging",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - logging support"
+    }
+  ],
+  "vulnerabilities": [],
+  "dependencies": [
+    {
+      "ref": "TestAPI_api_plugin",
+      "dependsOn": [
+        "pkg:pypi/requests@2.25.1"
+      ]
+    }
+  ]
+}

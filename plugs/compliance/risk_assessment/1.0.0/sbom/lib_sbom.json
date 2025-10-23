@@ -1,0 +1,71 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:risk_assessment-lib-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-01-24T15:35:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "library",
+      "bom-ref": "risk_assessment@1.0.0",
+      "name": "risk_assessment",
+      "version": "1.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pandas@1.5.0",
+      "name": "pandas",
+      "version": ">=1.5.0",
+      "purl": "pkg:pypi/pandas@1.5.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "numpy@1.21.0",
+      "name": "numpy",
+      "version": ">=1.21.0",
+      "purl": "pkg:pypi/numpy@1.21.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "scikit-learn@1.2.0",
+      "name": "scikit-learn",
+      "version": ">=1.2.0",
+      "purl": "pkg:pypi/scikit-learn@1.2.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "matplotlib@3.5.0",
+      "name": "matplotlib",
+      "version": ">=3.5.0",
+      "purl": "pkg:pypi/matplotlib@3.5.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "networkx@2.8.0",
+      "name": "networkx",
+      "version": ">=2.8.0",
+      "purl": "pkg:pypi/networkx@2.8.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "risk_assessment@1.0.0",
+      "dependsOn": [
+        "pandas@1.5.0",
+        "numpy@1.21.0",
+        "scikit-learn@1.2.0",
+        "matplotlib@3.5.0",
+        "networkx@2.8.0"
+      ]
+    }
+  ]
+}

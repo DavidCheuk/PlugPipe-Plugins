@@ -1,0 +1,82 @@
+name: pp_registry_ecosystem
+display_name: RegistryHub
+version: 1.0.0
+description: Central orchestrator for complete PlugPipe registry ecosystem
+author: PlugPipe Core Team
+license: MIT
+category: core
+tags:
+- registry
+- ecosystem
+- orchestrator
+- core
+type: orchestration
+capabilities:
+- plugin_coordination
+- registry_management
+- ecosystem_orchestration
+dependencies:
+- name: plugin_registry_scanner
+  version: 1.0.0
+  required: false
+- name: universal_registry_scanner
+  version: 1.0.0
+  required: false
+- name: pp_registry_comprehensive_reporter
+  version: 1.0.0
+  required: false
+- name: database_plugin_registry
+  version: 1.0.0
+  required: false
+- name: pipe_sharing_system
+  version: 1.0.0
+  required: false
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - full_ecosystem
+      default: full_ecosystem
+    output_format:
+      type: string
+      enum:
+      - json
+      - yaml
+      - cli
+      default: json
+    include_metadata:
+      type: boolean
+      default: true
+  required: []
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+      enum:
+      - success
+      - error
+    timestamp:
+      type: string
+    ecosystem_status:
+      type: string
+    orchestrated_components:
+      type: object
+    summary:
+      type: object
+    errors:
+      type: array
+metadata:
+  maintainer: PlugPipe Core Team
+  repository: plugpipe-core
+  documentation: Orchestrates complete registry ecosystem
+status: stable
+owner: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

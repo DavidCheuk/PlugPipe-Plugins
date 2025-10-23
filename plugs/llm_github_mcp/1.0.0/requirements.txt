@@ -1,0 +1,5 @@
+# LLM GitHub MCP Plugin Requirements
+# AI-powered GitHub automation with MCP integration
+#
+# External dependencies:
+requests>=2.25.0  # HTTP client for GitHub API interactions

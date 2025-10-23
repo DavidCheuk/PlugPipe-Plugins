@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:web_search_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:38:59.461423Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "web_search_agent_factory@1.0.0",
+      "name": "web_search_agent_factory",
+      "version": "1.0.0",
+      "description": "Web Search Agent Factory - generates specialized web search verification agents using core Agent Factory plugin"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

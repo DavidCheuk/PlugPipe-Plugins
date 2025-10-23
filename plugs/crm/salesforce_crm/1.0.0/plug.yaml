@@ -1,0 +1,266 @@
+author: PlugPipe Team
+category: crm
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Managed by Salesforce
+  encryption: In transit and at rest
+  gdpr_compliant: true
+config_schema:
+  oneOf:
+  - properties:
+      auth_method:
+        const: oauth2
+    required:
+    - client_secret
+    - password
+  - properties:
+      auth_method:
+        const: jwt
+    required:
+    - private_key
+  properties:
+    auth_method:
+      default: oauth2
+      description: Authentication method
+      enum:
+      - oauth2
+      - jwt
+      type: string
+    client_id:
+      description: Connected App Client ID
+      type: string
+    client_secret:
+      description: Connected App Client Secret (for OAuth2)
+      type: string
+    instance_url:
+      description: Salesforce instance URL (e.g., https://mycompany.salesforce.com)
+      type: string
+    password:
+      description: Salesforce password (for OAuth2)
+      type: string
+    private_key:
+      description: Private key for JWT authentication
+      type: string
+    security_token:
+      description: Security token (for OAuth2, optional if IP is trusted)
+      type: string
+    username:
+      description: Salesforce username
+      type: string
+  required:
+  - instance_url
+  - client_id
+  - username
+  type: object
+description: Enterprise Salesforce CRM integration with full CRUD operations, authentication,
+  and error handling
+documentation:
+  examples:
+  - config:
+      auth_method: oauth2
+      instance_url: https://mycompany.salesforce.com
+    description: Retrieve all active accounts with key fields
+    input:
+      fields:
+      - Id
+      - Name
+      - Industry
+      - Type
+      - Phone
+      - Website
+      filters: Type != null AND IsDeleted = false
+      limit: 100
+      operation: list
+      sobject: Account
+    name: List all active accounts
+  - description: Create a new lead from web form data
+    input:
+      data:
+        Company: Example Corp
+        Email: jane.smith@example.com
+        FirstName: Jane
+        LastName: Smith
+        LeadSource: Website
+        Phone: +1-555-0123
+        Status: Open - Not Contacted
+      operation: create
+      sobject: Lead
+    name: Create lead from form submission
+  - description: Update an opportunity to next stage
+    input:
+      data:
+        CloseDate: '2025-03-15'
+        Probability: 75
+        StageName: Proposal/Price Quote
+      operation: update
+      record_id: 006XX000004TmiQ
+      sobject: Opportunity
+    name: Update opportunity stage
+  readme: "# Salesforce CRM Plug\n\nEnterprise-grade Salesforce integration plugin\
+    \ providing full CRUD operations\nwith secure authentication and comprehensive\
+    \ error handling.\n\n## Features\n- Full CRUD operations (Create, Read, Update,\
+    \ Delete)\n- Multiple authentication methods (OAuth2, JWT)\n- SOQL query support\n\
+    - SOSL search capabilities\n- Comprehensive error handling\n- Rate limiting awareness\n\
+    - Bulk operations support\n\n## Authentication Methods\n\n### OAuth2 Username-Password\
+    \ Flow\nSuitable for server-to-server integrations with user credentials.\n\n\
+    ### JWT Bearer Token Flow\nRecommended for server-to-server integrations without\
+    \ user interaction.\n\n## Usage Examples\n\n### List Accounts\n```yaml\nsteps:\n\
+    \  - plugin: salesforce_crm\n    config:\n      instance_url: \"https://mycompany.salesforce.com\"\
+    \n      auth_method: \"oauth2\"\n      client_id: \"${SALESFORCE_CLIENT_ID}\"\n\
+    \      client_secret: \"${SALESFORCE_CLIENT_SECRET}\"\n      username: \"${SALESFORCE_USERNAME}\"\
+    \n      password: \"${SALESFORCE_PASSWORD}\"\n    input:\n      operation: \"\
+    list\"\n      sobject: \"Account\"\n      fields: [\"Id\", \"Name\", \"Industry\"\
+    , \"Phone\"]\n      limit: 100\n```\n\n### Create Contact\n```yaml\nsteps:\n \
+    \ - plugin: salesforce_crm\n    input:\n      operation: \"create\"\n      sobject:\
+    \ \"Contact\"\n      data:\n        FirstName: \"John\"\n        LastName: \"\
+    Doe\"\n        Email: \"john.doe@example.com\"\n        AccountId: \"001XX000003DHPt\"\
+    \n```\n\n### Search Records\n```yaml\nsteps:\n  - plugin: salesforce_crm\n   \
+    \ input:\n      operation: \"search\"\n      query: \"FIND {John} IN Name FIELDS\
+    \ RETURNING Contact(Id, Name, Email)\"\n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+health_check:
+  endpoint: /services/data/v57.0/
+  expected_status: 200
+  method: GET
+  timeout: 30
+input_schema:
+  properties:
+    data:
+      description: Data for create/update operations
+      type: object
+    fields:
+      description: Fields to retrieve
+      items:
+        type: string
+      type: array
+    filters:
+      description: WHERE clause for list operations
+      type: string
+    limit:
+      default: 50
+      description: Maximum number of records to return
+      maximum: 2000
+      minimum: 1
+      type: integer
+    operation:
+      description: CRM operation to perform
+      enum:
+      - list
+      - get
+      - create
+      - update
+      - delete
+      - search
+      type: string
+    query:
+      description: SOSL search query
+      type: string
+    record_id:
+      description: Record ID for get, update, delete operations
+      type: string
+    sobject:
+      default: Account
+      description: Salesforce object name (e.g., Account, Contact, Lead)
+      type: string
+  required:
+  - operation
+  type: object
+license: MIT
+name: salesforce_crm
+display_name: SalesforceCrm
+output_schema:
+  properties:
+    salesforce_error:
+      description: Error message if operation failed
+      type: string
+    salesforce_result:
+      description: Operation result data
+      type:
+      - object
+      - 'null'
+    salesforce_status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      type: string
+  type: object
+owner: PlugPipe Integration Team
+performance:
+  bulk_operations:
+    max_batch_size: 200
+    recommended_batch_size: 100
+  caching:
+    enabled: true
+    ttl: 300
+  rate_limit:
+    burst_limit: 100
+    requests_per_day: 15000
+    requests_per_hour: 1000
+requirements:
+  python:
+  - requests>=2.28.0
+  - PyJWT>=2.6.0
+  system: []
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - os
+    - sys
+    - json
+    - re
+    - logging
+    - typing
+    - datetime
+    name: Python Standard Library
+    notes: Uses standard library modules for HTTP client operations and data handling
+    purpose: Core functionality for Salesforce API integration, authentication, and
+      data processing
+    risk_level: low
+    version: 3.8+
+  - name: requests
+    notes: Well-established HTTP library for API communications with Salesforce platform
+    purpose: HTTP client library for Salesforce REST API communication
+    risk_level: low
+    version: '>=2.28.0'
+  - name: PyJWT
+    notes: Industry standard JWT library for secure token-based authentication
+    purpose: JWT token generation for Salesforce JWT Bearer authentication flow
+    risk_level: low
+    version: '>=2.6.0'
+  summary: Enterprise Salesforce CRM integration with security hardening using Python
+    standard library and external dependencies
+security:
+  external_domains:
+  - '*.salesforce.com'
+  - '*.force.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - client_secret
+  - password
+  - security_token
+  - private_key
+status: stable
+tags:
+- salesforce
+- crm
+- enterprise
+- oauth2
+- jwt
+- api
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

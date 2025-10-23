@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:backend_server:generic_fastapi_server",
+    "name": "Generic Fastapi Server Agent",
+    "description": "Universal FastAPI server plugin for custom REST/GraphQL API hosting with dynamic endpoint registration and plugin orchestration routing",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/generic_fastapi_server",
+    "skills": [
+      {
+        "id": "generic_fastapi_server-primary",
+        "name": "Generic Fastapi Server",
+        "description": "Universal FastAPI server plugin for custom REST/GraphQL API hosting with dynamic endpoint registration and plugin orchestration routing",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "generic_fastapi_server",
+        "category": "backend_server",
+        "subcategory": "",
+        "tags": [
+          "fastapi",
+          "server",
+          "api",
+          "rest",
+          "graphql",
+          "universal",
+          "custom",
+          "dynamic",
+          "orchestration"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:29.636777Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

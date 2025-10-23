@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:database_plugin_registry-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-30T07:14:49.388144Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "database_plugin_registry@1.0.0",
+      "name": "database_plugin_registry",
+      "version": "1.0.0",
+      "description": "Database Plugin Registry Populator that bridges filesystem plugin discovery with database storage via Database Factory abstraction"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

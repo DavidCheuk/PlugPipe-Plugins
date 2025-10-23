@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:llm_cost_fact_finder-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:35.781249Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "llm_cost_fact_finder@1.0.0",
+      "name": "llm_cost_fact_finder",
+      "version": "1.0.0",
+      "description": "AI-powered fact-finder agents for dynamic LLM cost discovery and real-time pricing updates from multiple sources including APIs, web scraping, and LLM analysis"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:vault_certificate_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-28T07:46:48.035045Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "vault_certificate_manager@1.0.0",
+      "name": "vault_certificate_manager",
+      "version": "1.0.0",
+      "description": "HashiCorp Vault PKI certificate management plugin with dynamic certificate generation and enterprise security features"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,166 @@
+name: auth_jwt_manager
+display_name: JWTManager
+version: 1.0.0
+type: token
+category: jwt
+title: JWT Token Management Plug
+description: Enterprise JWT token generation, validation, and lifecycle management
+  with RS256 security
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-jwt-manager
+auth_type: token
+token_type: jwt
+algorithm: RS256
+supports_refresh: true
+supports_revocation: true
+provides:
+- token_generation
+- token_validation
+- token_refresh
+- token_revocation
+- key_management
+requires:
+- redis_client
+- user_manager
+configuration:
+- name: private_key
+  type: string
+  required: false
+  secure: true
+  description: RSA private key for token signing (PEM format)
+- name: public_key
+  type: string
+  required: false
+  secure: false
+  description: RSA public key for token validation (PEM format)
+- name: algorithm
+  type: string
+  required: false
+  secure: false
+  default: RS256
+  description: JWT signing algorithm
+  enum:
+  - RS256
+  - HS256
+- name: issuer
+  type: string
+  required: false
+  secure: false
+  default: plugpipe.dev
+  description: JWT issuer claim
+- name: audience
+  type: string
+  required: false
+  secure: false
+  default: plugpipe-api
+  description: JWT audience claim
+- name: access_token_expire_minutes
+  type: integer
+  required: false
+  secure: false
+  default: 60
+  description: Access token expiration in minutes
+- name: refresh_token_expire_days
+  type: integer
+  required: false
+  secure: false
+  default: 30
+  description: Refresh token expiration in days
+- name: redis_url
+  type: string
+  required: false
+  secure: false
+  default: redis://localhost:6379/0
+  description: Redis URL for token blacklist
+actions:
+- generate_token
+- validate_token
+- refresh_token
+- revoke_token
+- create_api_token
+- validate_api_token
+dependencies:
+- PyJWT >= 2.8.0
+- cryptography >= 3.4.8
+- redis >= 4.5.0
+external_dependencies:
+- name: PyJWT
+  version: '>=2.8.0'
+  purpose: JWT token generation and validation for enterprise authentication
+- name: cryptography
+  version: '>=3.4.8'
+  purpose: RSA key pair generation and cryptographic operations for token security
+- name: redis
+  version: '>=4.5.0'
+  purpose: Redis integration for token blacklist and revocation management
+security:
+- RS256 asymmetric signing
+- Token revocation blacklist
+- Configurable expiration policies
+- Secure key pair generation
+- JWT claims validation
+enterprise:
+- API key management
+- Long-lived service tokens
+- Token usage analytics
+- Custom claims support
+- Key rotation capabilities
+performance:
+  priority: 20
+  timeout: 10
+  retries: 1
+compliance:
+- JWT RFC 7519
+- JWS RFC 7515
+- JWK RFC 7517
+- Industry best practices
+monitoring:
+  metrics:
+  - jwt_tokens_generated_total
+  - jwt_tokens_validated_total
+  - jwt_token_validation_failures_total
+  - jwt_tokens_revoked_total
+  events:
+  - jwt_token_generated
+  - jwt_token_validated
+  - jwt_token_refreshed
+  - jwt_token_revoked
+  - jwt_validation_failed
+features:
+  key_management:
+  - Automatic RSA key pair generation
+  - Key rotation support
+  - Multiple key support for gradual rotation
+  token_lifecycle:
+  - Access token generation with custom claims
+  - Refresh token management
+  - Token revocation with Redis blacklist
+  - Bulk token revocation for users
+  security:
+  - RS256 asymmetric signing prevents token forgery
+  - Configurable expiration for different token types
+  - Token blacklist prevents revoked token reuse
+  - Comprehensive claims validation
+documentation:
+  setup_guide: docs/jwt-setup.md
+  configuration_guide: docs/jwt-configuration.md
+  key_management: docs/key-management.md
+  examples: docs/examples/
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_jwt_manager-sbom.json
+  complete: sbom/auth_jwt_manager-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

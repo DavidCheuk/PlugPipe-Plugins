@@ -1,0 +1,40 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:core:dependency_manager",
+    "name": "Dependency Manager Agent",
+    "description": "Manages external dependencies for PlugPipe plugins",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/dependency_manager",
+    "skills": [
+      {
+        "id": "dependency_manager-primary",
+        "name": "Dependency Manager",
+        "description": "Manages external dependencies for PlugPipe plugins",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "dependency_manager",
+        "category": "core",
+        "subcategory": "",
+        "tags": [
+          "dependencies",
+          "package-management",
+          "installation",
+          "core"
+        ],
+        "author": "PlugPipe Core Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:30.573023Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

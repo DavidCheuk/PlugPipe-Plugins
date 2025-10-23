@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:intelligence:agent_learning_adaptation_system",
+    "name": "Agent Learning Adaptation System Agent",
+    "description": "Agent Learning & Adaptation System - Enables agents to learn from patterns, auto-tune capabilities, retain context, A/B test configurations, and adapt autonomously through continuous learning",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/agent_learning_adaptation_system",
+    "skills": [
+      {
+        "id": "agent_learning_adaptation_system-primary",
+        "name": "Agent Learning Adaptation System",
+        "description": "Agent Learning & Adaptation System - Enables agents to learn from patterns, auto-tune capabilities, retain context, A/B test configurations, and adapt autonomously through continuous learning",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "agent_learning_adaptation_system",
+        "category": "intelligence",
+        "subcategory": "",
+        "tags": [
+          "intelligence",
+          "learning",
+          "adaptation",
+          "ai",
+          "agent",
+          "performance",
+          "optimization",
+          "autonomous",
+          "ml"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.761732Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

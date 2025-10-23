@@ -1,0 +1,471 @@
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Comprehensive issue tracking system for plugin validation results with
+  multiple storage backends including database factory, S3, and local file systems
+documentation:
+  examples:
+  - examples/storage_configs.yaml
+  - examples/basic_usage.yaml
+  - examples/test_issue_tracker.json
+  - examples/test_issue_tracker_local.json
+  - examples/test_issue_tracker_configurable.json
+  readme: README.md
+input_schema:
+  properties:
+    export_format:
+      default: json
+      description: Export format for issue data
+      enum:
+      - json
+      - csv
+      - yaml
+      - html
+      - pdf
+      type: string
+    export_path:
+      description: Path where to save exported data
+      type: string
+    issues:
+      description: Issue data to store
+      properties:
+        change_type:
+          description: Type of change that triggered validation
+          enum:
+          - created
+          - modified
+          - deleted
+          - unknown
+          type: string
+        issues_list:
+          description: List of validation issues found
+          items:
+            properties:
+              category:
+                description: Issue category (security, integrity, compliance, etc.)
+                type: string
+              description:
+                description: Human-readable issue description
+                type: string
+              details:
+                description: Additional issue details
+                type: object
+              file_path:
+                description: File path where issue was found
+                type: string
+              recommendation:
+                description: Recommended fix for the issue
+                type: string
+              severity:
+                description: Issue severity level
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        metadata:
+          description: Additional metadata about the validation run
+          type: object
+        pipeline_score:
+          description: Overall validation score
+          maximum: 100
+          minimum: 0
+          type: integer
+        target_plugin:
+          description: Plugin that was validated
+          type: string
+        timestamp:
+          description: When the validation was performed
+          format: date-time
+          type: string
+        validation_run_id:
+          description: Unique identifier for the validation run
+          type: string
+      type: object
+    operation:
+      default: store_issues
+      description: Issue tracking operation to perform
+      enum:
+      - store_issues
+      - get_issues
+      - get_latest_issues
+      - search_issues
+      - get_issue_summary
+      - get_issue_history
+      - delete_issues
+      - export_issues
+      - get_health_status
+      type: string
+    query:
+      description: Query parameters for search operations
+      properties:
+        category:
+          description: Filter by issue categories
+          items:
+            type: string
+          type: array
+        date_from:
+          description: Filter issues from this date
+          format: date-time
+          type: string
+        date_to:
+          description: Filter issues up to this date
+          format: date-time
+          type: string
+        limit:
+          default: 100
+          description: Maximum number of results to return
+          maximum: 1000
+          minimum: 1
+          type: integer
+        offset:
+          default: 0
+          description: Number of results to skip
+          minimum: 0
+          type: integer
+        plugin_name:
+          description: Filter by plugin name
+          type: string
+        severity:
+          description: Filter by severity levels
+          items:
+            enum:
+            - critical
+            - high
+            - medium
+            - low
+            type: string
+          type: array
+      type: object
+    storage_backend:
+      default: auto
+      description: Storage backend to use (auto selects best available)
+      enum:
+      - auto
+      - database_factory
+      - sqlite
+      - postgresql
+      - mongodb
+      - mysql
+      - aws_s3
+      - azure_blob
+      - gcs
+      - local_file
+      - nfs
+      - hdfs
+      type: string
+    storage_config:
+      description: Configuration for different storage backends
+      properties:
+        aws_s3:
+          description: AWS S3 storage configuration
+          properties:
+            access_key_id:
+              type: string
+            bucket:
+              description: S3 bucket for issue storage
+              type: string
+            prefix:
+              default: plugpipe/validation-issues/
+              type: string
+            region:
+              default: us-east-1
+              type: string
+            secret_access_key:
+              type: string
+          type: object
+        azure_blob:
+          description: Azure Blob Storage configuration
+          properties:
+            account_key:
+              type: string
+            account_name:
+              type: string
+            container_name:
+              default: plugpipe-issues
+              type: string
+            prefix:
+              default: validation-issues/
+              type: string
+          type: object
+        custom_backends:
+          additionalProperties:
+            properties:
+              config:
+                description: Backend-specific configuration
+                type: object
+              health_check:
+                default:
+                  operation: health_check
+                description: Health check configuration for the backend
+                type: object
+              plugin_name:
+                description: Name of the storage plugin to use
+                type: string
+              priority:
+                default: 5
+                description: Backend priority (lower = higher priority)
+                type: integer
+            type: object
+          description: Custom storage backend configurations
+          type: object
+        database_factory:
+          description: Database factory plugin configuration
+          properties:
+            factory_config:
+              properties:
+                enable_failover:
+                  default: true
+                  type: boolean
+                primary_database:
+                  default: sqlite
+                  enum:
+                  - sqlite
+                  - postgresql
+                  - mongodb
+                  type: string
+              type: object
+            table_name:
+              default: validation_issues
+              type: string
+          type: object
+        gcs:
+          description: Google Cloud Storage configuration
+          properties:
+            bucket_name:
+              type: string
+            credentials_path:
+              type: string
+            prefix:
+              default: plugpipe/validation-issues/
+              type: string
+            project_id:
+              type: string
+          type: object
+        hdfs:
+          description: Hadoop Distributed File System
+          properties:
+            hdfs_path:
+              default: /plugpipe/validation-issues
+              type: string
+            namenode_url:
+              type: string
+            replication_factor:
+              default: 3
+              type: integer
+          type: object
+        local_file:
+          description: Local file system storage
+          properties:
+            backup_enabled:
+              default: true
+              type: boolean
+            max_history:
+              default: 100
+              minimum: 1
+              type: integer
+            storage_path:
+              default: validation_issues_storage.json
+              type: string
+          type: object
+        mongodb:
+          description: MongoDB plugin configuration
+          properties:
+            collection:
+              default: validation_issues
+              type: string
+            connection_string:
+              default: mongodb://localhost:27017
+              type: string
+            database:
+              default: plugpipe
+              type: string
+          type: object
+        mysql:
+          description: MySQL plugin configuration
+          properties:
+            database:
+              default: plugpipe
+              type: string
+            host:
+              default: localhost
+              type: string
+            password:
+              type: string
+            port:
+              default: 3306
+              type: integer
+            table_name:
+              default: validation_issues
+              type: string
+            username:
+              type: string
+          type: object
+        nfs:
+          description: Network File System storage
+          properties:
+            backup_enabled:
+              default: true
+              type: boolean
+            mount_path:
+              description: NFS mount point path
+              type: string
+            storage_path:
+              default: validation_issues_storage.json
+              type: string
+          type: object
+        postgresql:
+          description: PostgreSQL plugin configuration
+          properties:
+            database:
+              default: plugpipe
+              type: string
+            host:
+              default: localhost
+              type: string
+            password:
+              type: string
+            port:
+              default: 5432
+              type: integer
+            table_name:
+              default: validation_issues
+              type: string
+            username:
+              type: string
+          type: object
+        sqlite:
+          description: Direct SQLite plugin configuration
+          properties:
+            connection_timeout:
+              default: 30
+              type: integer
+            database_path:
+              default: issues.db
+              type: string
+            table_name:
+              default: validation_issues
+              type: string
+          type: object
+      type: object
+  type: object
+name: issue_tracker
+display_name: IssueTracker
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    health_status:
+      description: Health status of the issue tracker system
+      properties:
+        error_count:
+          description: Number of recent errors
+          minimum: 0
+          type: integer
+        last_successful_operation:
+          description: Timestamp of last successful operation
+          format: date-time
+          type: string
+        storage_backend:
+          description: Currently active storage backend
+          type: string
+        storage_healthy:
+          description: Whether storage backend is healthy
+          type: boolean
+      type: object
+    issue_summary:
+      description: Summary statistics about tracked issues
+      properties:
+        average_score:
+          description: Average validation score across all runs
+          maximum: 100
+          minimum: 0
+          type: number
+        critical_issues:
+          description: Number of critical issues
+          minimum: 0
+          type: integer
+        high_issues:
+          description: Number of high severity issues
+          minimum: 0
+          type: integer
+        issues_by_category:
+          description: Issue counts grouped by category
+          type: object
+        latest_validation_run:
+          description: Timestamp of most recent validation
+          format: date-time
+          type: string
+        low_issues:
+          description: Number of low severity issues
+          minimum: 0
+          type: integer
+        medium_issues:
+          description: Number of medium severity issues
+          minimum: 0
+          type: integer
+        total_issues:
+          description: Total number of issues
+          minimum: 0
+          type: integer
+      type: object
+    issues_data:
+      description: Retrieved issue data for get/search operations
+      type: object
+    operation_result:
+      properties:
+        operation:
+          description: Operation that was performed
+          type: string
+        records_affected:
+          description: Number of records stored/retrieved/affected
+          minimum: 0
+          type: integer
+        storage_backend_used:
+          description: Actual storage backend that was used
+          type: string
+        timestamp:
+          description: When the operation was completed
+          format: date-time
+          type: string
+      type: object
+    success:
+      description: Whether the operation completed successfully
+      type: boolean
+  type: object
+owner: plugpipe-core
+sbom: sbom/
+status: active
+stdlib_modules:
+- uuid
+usage_examples:
+- config_key: local_storage
+  description: Store issues in local JSON file for development
+  file: examples/basic_usage.yaml
+  name: Local file storage
+- config_key: auto_with_fallback
+  description: Automatically select best available storage with fallback
+  file: examples/basic_usage.yaml
+  name: Auto-selection with fallback
+- config_key: enterprise_postgresql
+  description: Production database configuration
+  file: examples/storage_configs.yaml
+  name: Enterprise PostgreSQL
+- config_key: multi_cloud_strategy
+  description: Multiple cloud storage backends with failover
+  file: examples/storage_configs.yaml
+  name: Multi-cloud strategy
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

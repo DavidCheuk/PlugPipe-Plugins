@@ -1,0 +1,74 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:presidio_dlp",
+    "name": "Presidio Dlp Agent",
+    "description": "Microsoft Presidio-powered data leakage prevention and PII detection for enterprise LLM security",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/presidio_dlp",
+    "skills": [
+      {
+        "id": "presidio_dlp-primary",
+        "name": "Presidio Dlp",
+        "description": "Microsoft Presidio-powered data leakage prevention and PII detection for enterprise LLM security",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "presidio_dlp-example-1",
+        "name": "Basic PII detection",
+        "description": "Basic PII detection",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "presidio_dlp-example-2",
+        "name": "GDPR compliance scanning",
+        "description": "GDPR compliance scanning",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "presidio_dlp-example-3",
+        "name": "High sensitivity financial data",
+        "description": "High sensitivity financial data",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "presidio_dlp",
+        "category": "security",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.818325Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,249 @@
+name: integration_full_system
+display_name: IntegrationFullSystem
+version: 1.0.0
+description: Complete enterprise system integration orchestrator coordinating ALL
+  available PlugPipe integration plugins with health monitoring, load balancing, and
+  circuit breaker patterns
+owner: PlugPipe Integration Team
+status: stable
+category: integration
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: orchestration
+  capabilities:
+  - universal_integration_hub
+  - service_discovery
+  - health_monitoring
+  - load_balancing
+  - circuit_breaker
+  - performance_analytics
+  - graceful_degradation
+  - multi_cloud
+  - enterprise_systems
+  - dynamic_routing
+  - retry_logic
+  - metrics_collection
+  memory_mb: 1024
+  dependencies:
+  - name: salesforce_crm
+    version: 1.0.0
+    required: false
+  - name: github_integration
+    version: 1.0.0
+    required: false
+  - name: slack_messaging
+    version: 1.0.0
+    required: false
+  - name: stripe_payments
+    version: 1.0.0
+    required: false
+  - name: aws_factory
+    version: 1.0.0
+    required: false
+  - name: azure_factory
+    version: 1.0.0
+    required: false
+  - name: gcp_factory
+    version: 1.0.0
+    required: false
+  - name: database_factory_plugin
+    version: 1.0.0
+    required: false
+  - name: security_orchestrator
+    version: 1.0.0
+    required: false
+  - name: agent_workflow_manager
+    version: 1.0.0
+    required: false
+  - name: task_queue_orchestrator
+    version: 1.0.0
+    required: false
+tags:
+- integration
+- orchestration
+- enterprise
+- full-system
+- health-monitoring
+- load-balancing
+- circuit-breaker
+- multi-cloud
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      description: Integration orchestration action
+      enum:
+      - execute
+      - status
+      - list_services
+      default: status
+    request:
+      type: object
+      description: Integration request details (for execute action)
+      properties:
+        integration_type:
+          type: string
+          enum:
+          - enterprise
+          - cloud
+          - communication
+          - database
+          - storage
+          - api
+          - security
+          - orchestration
+          - monitoring
+          description: Type of integration to execute
+        operation:
+          type: string
+          description: Operation to perform
+        data:
+          type: object
+          description: Request data for the operation
+        routing_preferences:
+          type: object
+          description: Service routing preferences
+        timeout:
+          type: number
+          minimum: 1
+          maximum: 300
+          default: 30
+          description: Request timeout in seconds
+        retry_count:
+          type: integer
+          minimum: 0
+          maximum: 10
+          default: 3
+          description: Number of retries on failure
+        require_healthy:
+          type: boolean
+          default: true
+          description: Whether to require healthy services only
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    message:
+      type: string
+      description: Operation result message
+    orchestration_result:
+      type: object
+      description: Integration execution results (for execute action)
+    system_status:
+      type: object
+      description: System integration status (for status action)
+      properties:
+        system_health:
+          type: string
+          enum:
+          - healthy
+          - degraded
+        total_services:
+          type: integer
+        healthy_services:
+          type: integer
+        failed_services:
+          type: integer
+        global_stats:
+          type: object
+        services:
+          type: object
+    services:
+      type: object
+      description: Available integration services (for list_services action)
+    total_services:
+      type: integer
+      description: Total number of services
+    error:
+      type: string
+      description: Error message if operation failed
+  required:
+  - success
+config_defaults:
+  health_check_interval: 300
+  circuit_breaker_threshold: 0.5
+  max_retry_count: 3
+  enable_load_balancing: true
+  enable_metrics: true
+config_schema:
+  type: object
+  properties:
+    health_check_interval:
+      type: integer
+      default: 300
+      minimum: 60
+      maximum: 3600
+      description: Health check interval in seconds
+    circuit_breaker_threshold:
+      type: number
+      default: 0.5
+      minimum: 0.1
+      maximum: 1.0
+      description: Circuit breaker failure threshold
+    max_retry_count:
+      type: integer
+      default: 3
+      minimum: 0
+      maximum: 10
+      description: Maximum retry attempts
+    enable_load_balancing:
+      type: boolean
+      default: true
+      description: Enable load balancing across services
+    enable_metrics:
+      type: boolean
+      default: true
+      description: Enable performance metrics collection
+    service_timeouts:
+      type: object
+      description: Per-service timeout configurations
+      additionalProperties:
+        type: number
+        minimum: 1
+        maximum: 300
+sbom:
+  package_name: integration_full_system
+  version: 1.0.0
+  supplier: PlugPipe Integration Team
+  download_location: plugs/integration_full_system/1.0.0/
+  description: Complete enterprise system integration orchestrator coordinating ALL
+    available PlugPipe integration plugins with health monitoring, load balancing,
+    and circuit breaker patterns
+  copyright: Copyright 2024 PlugPipe Integration Team
+  license: MIT
+  components:
+  - name: integration_full_system_orchestrator
+    version: 1.0.0
+    type: library
+    supplier: PlugPipe Integration Team
+    description: Full system integration orchestrator main component
+    licenses:
+    - MIT
+    dependencies: []
+    security:
+      vulnerabilities: []
+      risk_assessment: low
+      security_features:
+      - circuit_breaker_pattern
+      - health_monitoring
+      - graceful_degradation
+      - service_isolation
+      - load_balancing
+      - retry_logic
+    compliance:
+      standards:
+      - PlugPipe Universal Integration Standard
+      - Enterprise System Integration Guidelines
+      certifications: []
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

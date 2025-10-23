@@ -1,0 +1,87 @@
+name: backend_health_monitor
+display_name: BackendHealthMonitor
+version: 1.0.0
+description: P0-3 Service Layer Health Orchestration - Distributed backend health
+  monitoring via service abstractions
+category: monitoring
+tags:
+- health
+- monitoring
+- service-layer
+- distributed
+- p0-3
+author: PlugPipe Architecture Team
+license: MIT
+architecture_compliance:
+  trinity_registry_interface: true
+  service_layer_abstraction: true
+  plugin_first: true
+  microservices_patterns: true
+plugin_type: monitoring
+entry_point: main.py
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - comprehensive_health_check
+      - component_health
+      - recovery_assessment
+      description: Health monitoring operation to perform
+    service_layer:
+      type: string
+      description: Service layer identifier for context
+    components:
+      type: array
+      items:
+        type: string
+      description: Components to monitor (trinity_registry, cache, coordinator)
+    monitoring_config:
+      type: object
+      description: Health monitoring configuration
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Health monitoring operation success
+    health_status:
+      type: string
+      enum:
+      - healthy
+      - degraded
+      - unhealthy
+      description: Overall health status
+    component_health:
+      type: object
+      description: Individual component health details
+    recommendations:
+      type: array
+      items:
+        type: string
+      description: Health improvement recommendations
+    monitoring_timestamp:
+      type: string
+      description: Health monitoring timestamp
+  required:
+  - success
+  - health_status
+external_dependencies:
+- name: python
+  version: '>=3.8'
+  description: Python runtime
+metadata:
+  p0_3_compliance: true
+  service_layer_health: true
+  distributed_monitoring: true
+  architecture_layer: service_abstraction
+  created_date: '2025-09-25'
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:customer_support_verification_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:10.925052Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "customer_support_verification_agent_factory@1.0.0",
+      "name": "customer_support_verification_agent_factory",
+      "version": "1.0.0",
+      "description": "Customer Support Verification Agent Factory - generates specialized customer service verification agents using selective agent factory reuse (Core, RAG, Consistency, Web Search) for support ticket classification, response quality verification, customer satisfaction prediction, SLA compliance monitoring, multi-channel support coordination, agent performance evaluation, and knowledge base accuracy verification"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

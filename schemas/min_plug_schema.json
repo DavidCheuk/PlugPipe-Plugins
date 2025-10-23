@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlugPipe Plug Manifest Schema (Minimal)",
+  "type": "object",
+  "required": [
+    "name",
+    "owner",
+    "version",
+    "status",
+    "description",
+    "input_schema",
+    "output_schema",
+    "sbom"
+  ],
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-zA-Z0-9_-]+$" },
+    "owner": { "type": "string" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": { "type": "string", "enum": ["experimental", "stable", "deprecated"] },
+    "description": { "type": "string" },
+    "input_schema": { "type": "object" },
+    "output_schema": { "type": "object" },
+    "config_schema": { "type": "object" },
+    "config_defaults": { "type": "object" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "sbom": {
+      "type": "object",
+      "properties": {
+        "summary": { "type": "string" },
+        "complete": { "type": "string" }
+      },
+      "required": ["summary", "complete"]
+    },
+    "entrypoint": { "type": "string" },
+    "discoverability": { "type": "string", "enum": ["public", "private"], "default": "public" },
+    "metadata": { "type": "object", "additionalProperties": true },
+    "mcp_context": { "type": "object", "additionalProperties": true },
+    "mandatory_dependencies": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/dependency_categories",
+      "description": "Mandatory dependency requirements for this plugin"
+    },
+    "security_requirements": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/security_requirements", 
+      "description": "Security-specific dependency requirements"
+    }
+  },
+  "additionalProperties": true
+}

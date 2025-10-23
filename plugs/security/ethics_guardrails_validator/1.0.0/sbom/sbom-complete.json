@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:security_ethics_guardrails_validator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:25:23.423199Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "security.ethics_guardrails_validator@1.0.0",
+      "name": "security.ethics_guardrails_validator",
+      "version": "1.0.0",
+      "description": "Comprehensive ethics and safety validation system for plugin generation requests. Prevents generation of harmful, unethical, or dangerous plugins by leveraging existing PlugPipe validation infrastructure including legal validation agents and security orchestrator."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,65 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:cli_parameter_mapping_coordinator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-27T20:43:05.850387Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "cli_parameter_mapping_coordinator@1.0.0",
+      "name": "cli_parameter_mapping_coordinator",
+      "version": "1.0.0",
+      "description": "Intelligent coordinator for CLI parameter mappings that automatically detects plugin changes, manages versioning, and maintains synchronized parameter mappings across the entire plugin ecosystem."
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pydantic@2.0.0",
+      "name": "pydantic",
+      "version": "2.0.0",
+      "purl": "pkg:pypi/pydantic@2.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "typing-extensions@4.0.0",
+      "name": "typing-extensions",
+      "version": "4.0.0",
+      "purl": "pkg:pypi/typing-extensions@4.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "watchdog@3.0.0",
+      "name": "watchdog",
+      "version": "3.0.0",
+      "purl": "pkg:pypi/watchdog@3.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "deepdiff@6.0.0",
+      "name": "deepdiff",
+      "version": "6.0.0",
+      "purl": "pkg:pypi/deepdiff@6.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "cli_parameter_mapping_coordinator@1.0.0",
+      "dependsOn": [
+        "pydantic@2.0.0",
+        "typing-extensions@4.0.0",
+        "watchdog@3.0.0",
+        "deepdiff@6.0.0"
+      ]
+    }
+  ],
+  "vulnerabilities": []
+}

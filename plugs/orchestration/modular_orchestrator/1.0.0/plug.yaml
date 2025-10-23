@@ -1,0 +1,248 @@
+category: orchestration
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:46'
+  stdlib_modules_declared: true
+description: Modular Orchestrator Service - replaces monolithic orchestrator with
+  properly separated services for improved maintainability and testability
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    config_path:
+      default: config.yaml
+      description: Path to PlugPipe configuration file
+      type: string
+    enable_service_fallback:
+      default: true
+      description: Enable fallback mechanisms when services unavailable
+      type: boolean
+    enterprise_enabled:
+      default: false
+      description: Enable enterprise features (DAG, advanced workflows)
+      type: boolean
+    global_retries:
+      default: 1
+      description: Global retry count for all steps
+      type: integer
+    global_timeout:
+      default: 0
+      description: Global timeout in seconds (0 = no timeout)
+      type: integer
+    initial_context:
+      description: Optional initial context to extend
+      type: object
+    materialize:
+      default: true
+      description: Enable result materialization and storage
+      type: boolean
+    materialize_dir:
+      default: pipe_runs
+      description: Base directory for result materialization
+      type: string
+    orchestrator_type:
+      default: airflow
+      description: External orchestrator type
+      enum:
+      - airflow
+      - argo
+      type: string
+    pipeline_yaml_path:
+      description: Path to pipeline YAML file to execute
+      type: string
+    registry:
+      description: Plugin registry instance for service discovery
+    secret_config:
+      default: {}
+      description: Secret configuration for pipeline injection
+      type: object
+    service_timeout:
+      default: 300
+      description: Timeout for service operations in seconds
+      type: integer
+    use_enhanced_orchestrator:
+      default: false
+      description: Fallback to enhanced orchestrator if available
+      type: boolean
+    use_external_orchestrator:
+      default: false
+      description: Use external orchestrator (Airflow/Argo) if available
+      type: boolean
+  required:
+  - pipeline_yaml_path
+  - registry
+  type: object
+name: modular_orchestrator
+display_name: ModularOrchestrator
+output_schema:
+  properties:
+    context:
+      description: Final pipeline execution context
+      properties:
+        execution_id:
+          type: string
+        inputs:
+          type: object
+        pipeline_path:
+          type: string
+        step_outputs:
+          type: object
+      type: object
+    enterprise_analysis:
+      description: Enterprise feature analysis
+      properties:
+        compatibility_level:
+          type: string
+        detected_features:
+          items:
+            type: string
+          type: array
+        requires_enterprise:
+          type: boolean
+      type: object
+    error:
+      description: Error message if execution failed
+      type: string
+    execution_metadata:
+      description: Comprehensive execution metadata and timing
+      properties:
+        completed_steps:
+          type: integer
+        duration_seconds:
+          type: number
+        execution_end:
+          type: string
+        execution_mode:
+          type: string
+        execution_start:
+          type: string
+        services_used:
+          items:
+            type: string
+          type: array
+        total_steps:
+          type: integer
+      type: object
+    execution_mode:
+      description: Execution mode that was used
+      enum:
+      - modular
+      - fallback_enhanced
+      - fallback_monolithic
+      type: string
+    materialization:
+      description: Result materialization information
+      properties:
+        output_directory:
+          type: string
+        success:
+          type: boolean
+        total_results:
+          type: integer
+      type: object
+    pipeline_path:
+      description: Path to the executed pipeline file
+      type: string
+    results:
+      description: Step execution results mapped by step ID
+      type: object
+    success:
+      description: Pipeline execution success indicator
+      type: boolean
+    validation_result:
+      description: Pipeline validation results
+      properties:
+        errors:
+          items:
+            type: string
+          type: array
+        valid:
+          type: boolean
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+  type: object
+owner: plugpipe-orchestration
+revolutionary_capabilities:
+- service_oriented_orchestration
+- modular_architecture_composition
+- separation_of_concerns_execution
+- backward_compatibility_maintenance
+- graceful_service_degradation
+- comprehensive_fallback_mechanisms
+sbom:
+  dependencies:
+  - description: Pipeline loading and validation service
+    internal: true
+    name: Pipeline Loader Validator
+    version: '>=1.0.0'
+  - description: Context resolution and environment setup service
+    internal: true
+    name: Context Resolver
+    version: '>=1.0.0'
+  - description: DAG and linear execution service
+    internal: true
+    name: Execution Engine
+    version: '>=1.0.0'
+  - description: Result materialization and artifact management service
+    internal: true
+    name: Result Materializer
+    version: '>=1.0.0'
+  - description: Plugin discovery via pp() function
+    internal: true
+    name: PlugPipe Core Loader
+    version: '>=1.0.0'
+  - description: Fallback orchestrator for compatibility
+    internal: true
+    name: Enhanced Orchestrator
+    optional: true
+    version: '>=1.0.0'
+  - description: Legacy orchestrator for ultimate fallback
+    internal: true
+    name: Monolithic Orchestrator
+    optional: true
+    version: '>=1.0.0'
+  security_considerations:
+  - Composes multiple services - inherits security considerations of all components
+  - Handles service discovery - requires validated plugin ecosystem
+  - Manages fallback mechanisms - secure degradation required
+  - Pipeline execution orchestration - comprehensive security validation
+  usage_patterns:
+  - Primary orchestration service replacing monolithic orchestrator
+  - Service-oriented pipeline execution architecture
+  - Fallback-capable orchestration with graceful degradation
+  - Modular orchestration service composition
+status: production
+stdlib_modules:
+- asyncio
+- concurrent
+- datetime
+- json
+- logging
+- os
+- pathlib
+- tempfile
+- threading
+- typing
+tags:
+- orchestration
+- modular
+- service-composition
+- pipeline
+- separation-of-concerns
+- architecture
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

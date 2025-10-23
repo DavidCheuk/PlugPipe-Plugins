@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enhanced_plug_creation_agent-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:06.322120Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_plug_creation_agent@1.0.0",
+      "name": "enhanced_plug_creation_agent",
+      "version": "1.0.0",
+      "description": "Intelligent agent that researches APIs, analyzes documentation, and automatically creates comprehensive PlugPipe plugins with testing and release automation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

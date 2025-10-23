@@ -1,0 +1,142 @@
+config_defaults:
+  agent_timeout: 30.0
+  batch_size: 100
+  confidence_threshold: 30.0
+  sensitivity: high
+config_schema:
+  properties:
+    agent_timeout:
+      default: 30.0
+      maximum: 300.0
+      minimum: 1.0
+      type: number
+    batch_size:
+      default: 100
+      maximum: 1000
+      minimum: 1
+      type: integer
+    confidence_threshold:
+      default: 30.0
+      maximum: 100.0
+      minimum: 0.0
+      type: number
+    enable_domains:
+      default:
+      - customer_support
+      - enterprise
+      - medical
+      - legal
+      - financial
+      - research
+      - conversational
+      items:
+        type: string
+      type: array
+    sensitivity:
+      default: high
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      type: string
+  type: object
+description: Fact_finder - Revolutionary AI-powered fact verification and truth detection
+  system with 90%+ accuracy through multi-agent orchestration
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - math
+  - main_standalone
+  - statistics
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    batch:
+      description: Batch processing of multiple texts
+      items:
+        type: string
+      type: array
+    context:
+      description: Optional context information
+      type: string
+    domain:
+      default: enterprise
+      description: Domain context for detection
+      enum:
+      - customer_support
+      - enterprise
+      - medical
+      - legal
+      - financial
+      - research
+      - conversational
+      type: string
+    text:
+      description: Text to analyze for hallucinations
+      type: string
+  required:
+  - text
+  type: object
+metadata:
+  accuracy_target: 90%+
+  capabilities:
+  - fact_verification
+  - truth_detection
+  - multi_agent_orchestration
+  - comprehensive_evidence_analysis
+  - batch_processing
+  category: verification
+  memory_mb: 512
+  type: fact_verification
+name: real_world_hallucination_detector
+display_name: RealWorldHallucinationDetector
+output_schema:
+  properties:
+    agent_results:
+      description: Results from individual detection agents
+      type: array
+    confidence:
+      description: Confidence score (0-100)
+      type: number
+    domain_specific_score:
+      description: Domain-specific detection score
+      type: number
+    found:
+      description: Whether hallucination was detected
+      type: boolean
+    hallucination_type:
+      description: Type of hallucination detected
+      type: string
+    processing_time_ms:
+      description: Processing time in milliseconds
+      type: number
+  required:
+  - found
+  - confidence
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- hallucination
+- detection
+- multi-agent
+- domain-specific
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

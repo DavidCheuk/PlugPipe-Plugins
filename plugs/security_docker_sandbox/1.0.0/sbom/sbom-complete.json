@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:security_docker_sandbox-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:01:26.423407Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "security_docker_sandbox@1.0.0",
+      "name": "security_docker_sandbox",
+      "version": "1.0.0",
+      "description": "Enhanced Docker-based plugin sandbox with cryptographic signing verification, static analysis security controls, and fail-secure architecture for enterprise-grade plugin execution isolation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

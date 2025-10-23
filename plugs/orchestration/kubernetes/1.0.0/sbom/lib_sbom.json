@@ -1,0 +1,115 @@
+{
+  "kubernetes_plugin": {
+    "name": "kubernetes_plugin",
+    "version": "1.0.0",
+    "owner": "PlugPipe Core Team",
+    "type": "plugin",
+    "category": "orchestration",
+    "dependencies": {
+      "system": [
+        {
+          "name": "kubectl",
+          "version": "latest",
+          "type": "tool",
+          "required": true,
+          "description": "Kubernetes command-line tool"
+        }
+      ],
+      "python_builtin": [
+        {
+          "name": "asyncio",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "Asynchronous I/O framework"
+        },
+        {
+          "name": "subprocess",
+          "version": "builtin", 
+          "type": "library",
+          "required": true,
+          "description": "Process management utilities"
+        },
+        {
+          "name": "json",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "JSON serialization library"
+        },
+        {
+          "name": "logging",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "Python logging framework"
+        },
+        {
+          "name": "uuid",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "UUID generation library"
+        },
+        {
+          "name": "yaml",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "YAML parsing library"
+        },
+        {
+          "name": "base64",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "Base64 encoding/decoding library"
+        },
+        {
+          "name": "tempfile",
+          "version": "builtin",
+          "type": "library",
+          "required": true,
+          "description": "Temporary file management"
+        }
+      ]
+    },
+    "capabilities": [
+      "service_discovery",
+      "auto_scaling",
+      "load_balancing", 
+      "health_monitoring",
+      "plugin_deployment",
+      "resource_management",
+      "kubernetes_native"
+    ],
+    "kubernetes_features": [
+      "deployment_management",
+      "service_creation",
+      "configmap_management",
+      "secret_management",
+      "horizontal_pod_autoscaling",
+      "rbac_integration",
+      "namespace_management",
+      "network_policies"
+    ],
+    "enterprise_features": [
+      "production_ready",
+      "kubernetes_native",
+      "high_availability",
+      "auto_scaling",
+      "service_discovery",
+      "load_balancing",
+      "health_monitoring",
+      "resource_management"
+    ],
+    "security_features": [
+      "namespace_isolation",
+      "rbac_required",
+      "security_context",
+      "network_policies",
+      "secrets_management",
+      "audit_logging"
+    ]
+  }
+}

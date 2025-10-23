@@ -1,0 +1,438 @@
+name: github_mcp_compatible
+display_name: GitHubMcpCompatible
+version: 1.0.0
+description: GitHub MCP-Compatible Plug - Full GitHub API compatibility with official
+  MCP server features
+author: PlugPipe Team
+license: MIT
+category: version_control
+tags:
+- github
+- mcp
+- git
+- version_control
+- cicd
+- security
+- automation
+- workflows
+- dependabot
+- code_scanning
+config_schema:
+  type: object
+  properties:
+    github:
+      type: object
+      properties:
+        token:
+          type: string
+          description: GitHub personal access token or use GITHUB_TOKEN env var
+        base_url:
+          type: string
+          default: https://api.github.com
+          description: GitHub API base URL (for GitHub Enterprise)
+      required:
+      - token
+    toolsets:
+      type: array
+      items:
+        type: string
+        enum:
+        - repos
+        - issues
+        - pull_requests
+        - actions
+        - code_security
+        - discussions
+        - context
+      default:
+      - repos
+      - issues
+      - pull_requests
+      - actions
+      - code_security
+      description: Enable specific GitHub toolsets (MCP-compatible)
+    read_only:
+      type: boolean
+      default: false
+      description: Enable read-only mode for safe exploration
+    auto_branch_creation:
+      type: boolean
+      default: true
+      description: Automatically create branches for file operations
+    rate_limit_handling:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+        max_retries:
+          type: integer
+          default: 3
+        backoff_factor:
+          type: number
+          default: 1.5
+      default:
+        enabled: true
+        max_retries: 3
+        backoff_factor: 1.5
+  required:
+  - github
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - list_repositories
+      - search_repositories
+      - get_repository
+      - create_repository
+      - create_or_update_file
+      - push_files
+      - get_file_content
+      - search_code
+      - search_users
+      - list_issues
+      - create_issue
+      - update_issue
+      - list_pull_requests
+      - create_pull_request
+      - merge_pull_request
+      - list_workflow_runs
+      - get_workflow_run
+      - rerun_workflow
+      - list_code_scanning_alerts
+      - list_dependabot_alerts
+      - dismiss_dependabot_alert
+      - get_me
+      - get_user
+      - get_organization
+      description: GitHub operation to perform
+    owner:
+      type: string
+      description: Repository owner/organization
+    repo:
+      type: string
+      description: Repository name
+    org:
+      type: string
+      description: Organization name
+    path:
+      type: string
+      description: File path in repository
+    content:
+      type: string
+      description: File content
+    message:
+      type: string
+      description: Commit message
+    branch:
+      type: string
+      description: Target branch (auto-created if missing)
+    sha:
+      type: string
+      description: File SHA for update operations
+    files:
+      type: array
+      items:
+        type: object
+        properties:
+          path:
+            type: string
+          content:
+            type: string
+          sha:
+            type: string
+        required:
+        - path
+        - content
+      description: Multiple files for push_files operation
+    query:
+      type: string
+      description: Search query
+    sort:
+      type: string
+      enum:
+      - stars
+      - forks
+      - updated
+      default: stars
+      description: Sort order for search results
+    order:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+    title:
+      type: string
+      description: Title for issues/PRs
+    body:
+      type: string
+      description: Body/description for issues/PRs
+    state:
+      type: string
+      enum:
+      - open
+      - closed
+      - all
+      default: open
+      description: Filter by state
+    labels:
+      type: array
+      items:
+        type: string
+      description: Labels for filtering or assignment
+    assignees:
+      type: array
+      items:
+        type: string
+      description: Assignees for issues/PRs
+    assignee:
+      type: string
+      description: Single assignee filter
+    head:
+      type: string
+      description: Head branch for PR
+    base:
+      type: string
+      default: main
+      description: Base branch for PR
+    draft:
+      type: boolean
+      default: false
+      description: Create as draft PR
+    pr_number:
+      type: integer
+      description: Pull request number
+    issue_number:
+      type: integer
+      description: Issue number
+    merge_method:
+      type: string
+      enum:
+      - merge
+      - squash
+      - rebase
+      default: merge
+      description: PR merge method
+    workflow_id:
+      type: string
+      description: Workflow ID or filename
+    run_id:
+      type: integer
+      description: Workflow run ID
+    status:
+      type: string
+      enum:
+      - queued
+      - in_progress
+      - completed
+      description: Workflow run status filter
+    alert_number:
+      type: integer
+      description: Alert number for security operations
+    reason:
+      type: string
+      enum:
+      - no_bandwidth
+      - tolerable_risk
+      - inaccurate
+      - not_used
+      default: no_bandwidth
+      description: Reason for dismissing alerts
+    username:
+      type: string
+      description: GitHub username
+    limit:
+      type: integer
+      default: 30
+      maximum: 100
+      description: Maximum number of results
+    type:
+      type: string
+      enum:
+      - all
+      - owner
+      - public
+      - private
+      - member
+      default: all
+      description: Repository type filter
+    ref:
+      type: string
+      default: main
+      description: Git reference (branch, tag, commit SHA)
+    repo_data:
+      type: object
+      description: Repository data for creation/updates
+    issue_data:
+      type: object
+      description: Issue data for updates
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    github_mcp_result:
+      type: object
+      description: GitHub operation results
+    github_mcp_status:
+      type: string
+      enum:
+      - success
+      - error
+      description: Operation status
+    operation_performed:
+      type: string
+      description: Operation that was executed
+    github_mcp_error:
+      type: string
+      description: Error message if operation failed
+dependencies: []
+resources:
+  cpu: low
+  memory: 256MB
+  network: high
+  storage: minimal
+security:
+  requires_secrets:
+  - GITHUB_TOKEN
+  network_access:
+  - api.github.com
+  - github.com
+  permissions:
+  - repository_read
+  - repository_write
+  - issues_write
+  - pull_requests_write
+  - actions_read
+  - security_read
+performance:
+  execution_time: 1-10 seconds
+  rate_limits: Respects GitHub API rate limits with automatic retry
+  caching: Supports caching for read operations
+mcp_compatibility:
+  server_version: '>=1.0.0'
+  protocol_version: '2025-06-18'
+  compatible_tools:
+  - create_or_update_file
+  - push_files
+  - search_repositories
+  - create_repository
+  - create_issue
+  - create_pull_request
+examples:
+- name: Repository Search
+  description: Search for repositories with advanced filtering
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - repos
+  input:
+    operation: search_repositories
+    query: language:python stars:>100
+    sort: stars
+    order: desc
+    limit: 10
+- name: MCP-Compatible File Creation
+  description: Create file with automatic branch creation (MCP feature)
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - repos
+    auto_branch_creation: true
+  input:
+    operation: create_or_update_file
+    owner: myorg
+    repo: myrepo
+    path: src/new_feature.py
+    content: '# New feature implementation
+
+      print(''Hello World'')'
+    message: Add new feature implementation
+    branch: feature/new-feature
+- name: Batch File Operations
+  description: Push multiple files in single operation
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - repos
+  input:
+    operation: push_files
+    owner: myorg
+    repo: myrepo
+    files:
+    - path: src/file1.py
+      content: print('File 1')
+    - path: src/file2.py
+      content: print('File 2')
+    message: Add multiple files
+    branch: feature/batch-update
+- name: Security Monitoring
+  description: Monitor security alerts and vulnerabilities
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - code_security
+  input:
+    operation: list_dependabot_alerts
+    owner: myorg
+    repo: myrepo
+    state: open
+    limit: 20
+- name: CI/CD Workflow Management
+  description: Monitor and manage GitHub Actions workflows
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - actions
+  input:
+    operation: list_workflow_runs
+    owner: myorg
+    repo: myrepo
+    status: completed
+    limit: 10
+- name: Read-Only Mode
+  description: Safe exploration with read-only access
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - repos
+    - issues
+    - pull_requests
+    read_only: true
+  input:
+    operation: get_repository
+    owner: myorg
+    repo: myrepo
+- name: Advanced Code Search
+  description: Search code across repositories
+  config:
+    github:
+      token: ${GITHUB_TOKEN}
+    toolsets:
+    - repos
+  input:
+    operation: search_code
+    query: function authenticate language:python
+    owner: myorg
+    repo: myrepo
+    limit: 15
+owner: PlugPipe Integration Team
+status: stable
+sbom:
+  summary: sbom/github_mcp_compatible-sbom.json
+  complete: sbom/github_mcp_compatible-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

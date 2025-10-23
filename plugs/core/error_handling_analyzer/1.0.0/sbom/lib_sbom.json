@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:error_handling_analyzer-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-28T12:09:16.443448Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "error_handling_analyzer@1.0.0",
+      "name": "error_handling_analyzer",
+      "version": "1.0.0",
+      "description": "Analyzes and fixes error handling patterns in Python code with automated remediation capabilities"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

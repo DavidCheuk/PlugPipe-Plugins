@@ -1,0 +1,72 @@
+name: structured_test_api
+display_name: StructuredTestAPI
+version: 1.0.0
+description: Auto-generated plugin for structured_test API integration
+owner: PlugPipe Enhanced Generation Agent
+status: deprecated
+discoverability: public
+deprecation:
+  date: "2025-10-18"
+  removal_date: "2026-10-18"
+  reason: "Auto-generated test API wrapper; not production-ready. Use api2mcp_factory for production integrations."
+  migration_path: "Use plugs/integration/api2mcp_factory/1.0.0 for production API integrations"
+entrypoint: main.py
+tags:
+- api-integration
+- auto-generated
+- structured_test_LOWER
+revolutionary_capabilities:
+- real_api_integration
+- auto_generated_functionality
+- ultimate_fix_pattern
+config_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - health_check
+      - list
+      default: health_check
+    endpoint:
+      type: string
+      description: API endpoint to call
+    api_key:
+      type: string
+      description: API authentication key
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+    endpoint:
+      type: string
+    api_key:
+      type: string
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+    operation:
+      type: string
+    data:
+      type: object
+    processing_time_ms:
+      type: number
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+stdlib_modules:
+- logging
+- time
+- typing
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:api2mcp_factory",
+    "name": "Api2Mcp Factory Agent",
+    "description": "Enterprise-grade factory plugin that converts existing API specifications (OpenAPI, GraphQL, RAML) into MCP servers, leveraging proven conversion tools and PlugPipe components for effortless API-to-MCP migration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/api2mcp_factory",
+    "skills": [
+      {
+        "id": "api2mcp_factory-primary",
+        "name": "Api2Mcp Factory",
+        "description": "Enterprise-grade factory plugin that converts existing API specifications (OpenAPI, GraphQL, RAML) into MCP servers, leveraging proven conversion tools and PlugPipe components for effortless API-to-MCP migration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "api2mcp_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "integration",
+          "factory",
+          "mcp",
+          "api-conversion",
+          "openapi",
+          "graphql",
+          "enterprise",
+          "llm-tooling",
+          "automation"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.436392Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

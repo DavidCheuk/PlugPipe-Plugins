@@ -1,0 +1,305 @@
+description: Auto-triggering hook system for plugin change validation - monitors plugin
+  directory changes and automatically triggers validation pipeline with issue tracking
+documentation:
+  examples:
+  - examples/hook_configs.yaml
+  - examples/git_hook_examples.yaml
+  readme: README.md
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  - fnmatch
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    git_hooks_config:
+      properties:
+        fail_on_validation_error:
+          default: false
+          description: Fail git operations if validation fails
+          type: boolean
+        hook_script_template:
+          description: Custom hook script template
+          type: string
+        install_post_commit:
+          default: false
+          description: Install post-commit git hook
+          type: boolean
+        install_pre_commit:
+          default: true
+          description: Install pre-commit git hook
+          type: boolean
+        install_pre_push:
+          default: true
+          description: Install pre-push git hook
+          type: boolean
+      type: object
+    monitoring_config:
+      properties:
+        debounce_seconds:
+          default: 5
+          description: Seconds to wait before triggering validation after changes
+          minimum: 1
+          type: integer
+        enable_filesystem_watch:
+          default: true
+          description: Enable real-time filesystem monitoring
+          type: boolean
+        enable_git_hooks:
+          default: true
+          description: Enable git pre-commit and post-commit hooks
+          type: boolean
+        ignore_patterns:
+          default:
+          - __pycache__
+          - '*.pyc'
+          - .git
+          - '*.tmp'
+          description: Patterns to ignore during monitoring
+          items:
+            type: string
+          type: array
+        validation_on_startup:
+          default: false
+          description: Run validation on all plugins when monitoring starts
+          type: boolean
+        watch_paths:
+          default:
+          - plugs
+          description: Paths to monitor for plugin changes
+          items:
+            type: string
+          type: array
+        watch_patterns:
+          default:
+          - '*.py'
+          - '*.yaml'
+          - '*.yml'
+          - '*.json'
+          description: File patterns to watch for changes
+          items:
+            type: string
+          type: array
+      type: object
+    operation:
+      default: start_monitoring
+      description: Hook system operation to perform
+      enum:
+      - start_monitoring
+      - stop_monitoring
+      - get_status
+      - setup_git_hooks
+      - setup_filesystem_watch
+      - trigger_validation
+      - list_hooks
+      - remove_hooks
+      type: string
+    trigger_options:
+      properties:
+        change_type:
+          default: unknown
+          description: Type of change for manual triggers
+          enum:
+          - created
+          - modified
+          - deleted
+          - unknown
+          type: string
+        force_validation:
+          default: false
+          description: Force validation even if no changes detected
+          type: boolean
+        target_plugin:
+          description: Specific plugin to validate (for manual triggers)
+          type: string
+        validation_categories:
+          default:
+          - all
+          description: Categories of validation to run
+          items:
+            enum:
+            - integrity
+            - security
+            - compliance
+            - all
+            type: string
+          type: array
+      type: object
+    validation_config:
+      properties:
+        async_validation:
+          default: true
+          description: Run validation asynchronously in background
+          type: boolean
+        trigger_issue_tracker:
+          default: true
+          description: Store validation results in issue tracker
+          type: boolean
+        trigger_validation_pipeline:
+          default: true
+          description: Trigger the plugin change validation pipeline
+          type: boolean
+        validation_scope:
+          default: changed_plugin_only
+          description: Scope of validation to trigger
+          enum:
+          - changed_plugin_only
+          - affected_plugins
+          - full_validation
+          type: string
+        validation_timeout:
+          default: 300
+          description: Maximum seconds to wait for validation completion
+          minimum: 30
+          type: integer
+      type: object
+  type: object
+name: plugin_change_hooks
+display_name: PluginChangeHooks
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    hook_installation:
+      properties:
+        git_hooks_failed:
+          description: Git hooks that failed to install
+          items:
+            type: string
+          type: array
+        git_hooks_installed:
+          description: Successfully installed git hooks
+          items:
+            type: string
+          type: array
+        hook_scripts_created:
+          description: Hook script files that were created
+          items:
+            type: string
+          type: array
+      type: object
+    monitoring_status:
+      properties:
+        files_monitored:
+          description: Number of files being monitored
+          minimum: 0
+          type: integer
+        filesystem_watch_active:
+          description: Whether filesystem watching is active
+          type: boolean
+        git_hooks_installed:
+          description: List of installed git hooks
+          items:
+            type: string
+          type: array
+        triggers_executed:
+          description: Number of validation triggers executed in this session
+          minimum: 0
+          type: integer
+        watch_paths:
+          description: Paths currently being monitored
+          items:
+            type: string
+          type: array
+      type: object
+    operation_result:
+      properties:
+        hooks_active:
+          description: Whether hook monitoring is currently active
+          type: boolean
+        operation:
+          description: Operation that was performed
+          type: string
+        session_id:
+          description: Unique session identifier for monitoring
+          type: string
+        timestamp:
+          description: When the operation completed
+          format: date-time
+          type: string
+      type: object
+    success:
+      description: Whether the hook operation completed successfully
+      type: boolean
+    validation_triggers:
+      properties:
+        active_validations:
+          description: Number of validations currently running
+          minimum: 0
+          type: integer
+        failed_validations:
+          description: Number of recent validation failures
+          minimum: 0
+          type: integer
+        recent_triggers:
+          description: Recent validation triggers and their status
+          items:
+            properties:
+              duration_seconds:
+                type: number
+              status:
+                enum:
+                - pending
+                - running
+                - completed
+                - failed
+                type: string
+              target_plugin:
+                type: string
+              timestamp:
+                format: date-time
+                type: string
+              trigger_type:
+                enum:
+                - filesystem_change
+                - git_hook
+                - manual
+                type: string
+              validation_id:
+                type: string
+            type: object
+          type: array
+      type: object
+  type: object
+owner: plugpipe-core
+sbom: sbom/
+status: active
+usage_examples:
+- config:
+    monitoring_config:
+      enable_filesystem_watch: true
+      enable_git_hooks: true
+      watch_paths:
+      - plugs
+    operation: start_monitoring
+  description: Start filesystem and git hook monitoring
+  name: Start basic monitoring
+- config:
+    git_hooks_config:
+      fail_on_validation_error: true
+      install_pre_commit: true
+      install_pre_push: true
+    operation: setup_git_hooks
+  description: Install and use git hooks without filesystem monitoring
+  name: Git hooks only
+- config:
+    monitoring_config:
+      debounce_seconds: 2
+      validation_on_startup: false
+    operation: start_monitoring
+    validation_config:
+      async_validation: true
+      validation_scope: changed_plugin_only
+  description: Lightweight monitoring for development
+  name: Development monitoring
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

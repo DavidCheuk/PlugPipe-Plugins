@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:comprehensive_auth",
+    "name": "Comprehensive Auth Agent",
+    "description": "Comprehensive authentication and authorization plugin demonstrating all common auth mechanisms",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/comprehensive_auth",
+    "skills": [
+      {
+        "id": "comprehensive_auth-primary",
+        "name": "Comprehensive Auth",
+        "description": "Comprehensive authentication and authorization plugin demonstrating all common auth mechanisms",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "comprehensive_auth",
+        "category": "security",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.827889Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

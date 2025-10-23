@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:mcp_security_policy_engine-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:01:19.929482Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_security_policy_engine@1.0.0",
+      "name": "mcp_security_policy_engine",
+      "version": "1.0.0",
+      "description": "MCP Protocol Security Policy Engine - Extends existing RBAC and OPA enterprise plugins with MCP-specific authorization"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

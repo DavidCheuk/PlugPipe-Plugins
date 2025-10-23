@@ -1,0 +1,90 @@
+name: enterprise_metrics_collector
+display_name: EnterpriseMetricsCollector
+owner: Enterprise Team
+version: 1.0.0
+status: stable
+description: Enterprise metrics orchestrator that aggregates data from ecosystem_monitor,
+  business_compliance_auditor, and health diagnostics plugins for comprehensive enterprise
+  dashboard metrics
+category: enterprise
+type: enterprise_metrics_collector
+metadata:
+  created_at: '2025-10-05T15:55:00Z'
+  updated_at: '2025-10-05T15:55:00Z'
+  license: MIT
+  keywords:
+  - enterprise
+  - metrics
+  - orchestration
+  - monitoring
+  - compliance
+input_schema:
+  type: object
+  properties:
+    include_compliance:
+      type: boolean
+      description: Include compliance framework status
+      default: true
+    include_health:
+      type: boolean
+      description: Include health diagnostics
+      default: true
+    include_security:
+      type: boolean
+      description: Include security metrics
+      default: true
+  additionalProperties: true
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    plugin_name:
+      type: string
+    timestamp:
+      type: string
+      format: date-time
+    message:
+      type: string
+    processed_data:
+      type: object
+      properties:
+        compliance_status:
+          type: array
+        health_metrics:
+          type: object
+        security_metrics:
+          type: object
+    metadata:
+      type: object
+  required:
+  - success
+  - plugin_name
+  - timestamp
+capabilities:
+- enterprise_metrics_collection
+- compliance_aggregation
+- health_monitoring
+- security_monitoring
+operations:
+- aggregate_metrics
+- collect_compliance
+- collect_health
+- collect_security
+plugpipe_principles:
+  everything_is_plugin: true
+  write_once_use_everywhere: true
+  no_glue_code: true
+  secure_by_design: true
+  reuse_not_reinvent: true
+compliance:
+  follows_foundation_pattern: true
+  uses_pp_discovery: true
+  reuse_not_reinvent: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

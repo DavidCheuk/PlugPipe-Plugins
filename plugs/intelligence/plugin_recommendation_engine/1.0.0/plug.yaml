@@ -1,0 +1,96 @@
+name: plugin_recommendation_engine
+display_name: PluginRecommendationEngine
+version: 1.0.0
+description: Intelligent plugin recommendation engine that suggests optimal plugin
+  combinations based on requirements and available capabilities. Extracted from orchestrator
+  to maintain single responsibility principle.
+owner: PlugPipe Intelligence Team
+status: production
+discoverability: public
+entrypoint: main.py
+tags:
+- intelligence
+- recommendation
+- plugin-matching
+- architecture-compliance
+revolutionary_capabilities:
+- intelligent_plugin_matching
+- capability_based_recommendations
+- domain_aware_suggestions
+- single_responsibility_compliance
+config_schema:
+  type: object
+  properties:
+    recommendation_settings:
+      type: object
+      properties:
+        max_suggestions_per_type:
+          type: integer
+          default: 3
+        include_reasoning:
+          type: boolean
+          default: true
+        prefer_domain_matches:
+          type: boolean
+          default: true
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - suggest_combinations
+      - match_by_domain
+      - match_by_capability
+      - evaluate_compatibility
+      description: Type of recommendation operation
+    requirements:
+      type: object
+      description: Analyzed requirements data
+    capabilities:
+      type: object
+      description: Available plugin capabilities index
+    context:
+      type: object
+      description: Additional context for recommendations
+  required:
+  - operation
+  - requirements
+  - capabilities
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    operation_completed:
+      type: string
+    recommendations:
+      type: array
+      items:
+        type: object
+    reasoning:
+      type: array
+    compatibility_scores:
+      type: object
+    timestamp:
+      type: string
+external_dependencies:
+  install_method: pip
+  packages: []
+  requirements_file: requirements.txt
+stdlib_modules:
+- os
+- sys
+- json
+- logging
+- asyncio
+- typing
+- dataclasses
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

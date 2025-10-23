@@ -1,0 +1,5 @@
+# REFACTORED (October 16, 2025): Part of hybrid signature architecture
+# Now uses UniversalSignatureEngine from cores/security/universal_signer.py
+# This eliminates algorithm duplication
+
+cryptography>=42.0.0

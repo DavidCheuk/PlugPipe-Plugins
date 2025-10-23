@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:performance_bottleneck_detector-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T08:53:39.946482Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "performance_bottleneck_detector@1.0.0",
+      "name": "performance_bottleneck_detector",
+      "version": "1.0.0",
+      "description": "Advanced performance bottleneck detection and analysis for PlugPipe ecosystem with comprehensive profiling, resource monitoring, and optimization recommendations"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

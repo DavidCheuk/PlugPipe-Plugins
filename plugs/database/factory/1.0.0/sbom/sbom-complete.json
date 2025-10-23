@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:database_factory_plugin-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:06.909207Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "database_factory_plugin@1.0.0",
+      "name": "database_factory_plugin",
+      "version": "1.0.0",
+      "description": "Orchestrates multiple database plugins (SQLite, PostgreSQL, MongoDB) and provides unified database interface with failover, switching, and health monitoring capabilities."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,420 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_consistency_results:
+      default: true
+      type: boolean
+    citation_agent_factory:
+      default: agents/citation_agent_factory
+      description: Reference to Citation Agent Factory for source verification
+      type: string
+    default_consistency_method:
+      default: selfcheckgpt
+      enum:
+      - selfcheckgpt
+      - semantic_similarity
+      - statistical_significance
+      - cross_model_validation
+      - multi_agent_consensus
+      type: string
+    default_num_samples:
+      default: 5
+      maximum: 20
+      minimum: 3
+      type: integer
+    domain_specific_settings:
+      properties:
+        financial:
+          properties:
+            consistency_threshold:
+              default: 0.85
+              type: number
+            critical_inconsistency_patterns:
+              default:
+              - compliance
+              - regulation
+              - risk
+              - valuation
+              - audit
+              items:
+                type: string
+              type: array
+            mandatory_web_search_validation:
+              default: true
+              type: boolean
+            required_significance_level:
+              default: 0.02
+              type: number
+          type: object
+        legal:
+          properties:
+            consistency_threshold:
+              default: 0.95
+              type: number
+            critical_inconsistency_patterns:
+              default:
+              - statute
+              - precedent
+              - liability
+              - jurisdiction
+              - ruling
+              items:
+                type: string
+              type: array
+            mandatory_citation_validation:
+              default: true
+              type: boolean
+            mandatory_web_search_validation:
+              default: true
+              type: boolean
+            required_significance_level:
+              default: 0.01
+              type: number
+          type: object
+        medical:
+          properties:
+            consistency_threshold:
+              default: 0.9
+              type: number
+            critical_inconsistency_patterns:
+              default:
+              - dosage
+              - contraindication
+              - side_effect
+              - diagnosis
+              - treatment
+              items:
+                type: string
+              type: array
+            mandatory_citation_validation:
+              default: true
+              type: boolean
+            mandatory_rag_validation:
+              default: true
+              type: boolean
+            required_significance_level:
+              default: 0.01
+              type: number
+          type: object
+      type: object
+    enable_multi_agent_coordination:
+      default: true
+      type: boolean
+    enable_statistical_tests:
+      default: true
+      type: boolean
+    max_parallel_checks:
+      default: 3
+      maximum: 10
+      minimum: 1
+      type: integer
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for web verification
+      type: string
+  type: object
+description: Self-Consistency Agent Factory - generates specialized multi-generation
+  consistency checking agents using SelfCheckGPT methodology with RAG, Citation, and
+  Web Search agent dependencies
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - math
+  - statistics
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        consistency_method:
+          default: selfcheckgpt
+          enum:
+          - selfcheckgpt
+          - semantic_similarity
+          - statistical_significance
+          - cross_model_validation
+          - multi_agent_consensus
+          type: string
+        consistency_threshold:
+          default: 0.8
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        detailed_reporting:
+          default: true
+          type: boolean
+        domain:
+          enum:
+          - general
+          - medical
+          - legal
+          - financial
+          - technical
+          - creative
+          - academic
+          type: string
+        enable_citation_validation:
+          default: true
+          type: boolean
+        enable_rag_validation:
+          default: true
+          type: boolean
+        enable_web_search_validation:
+          default: true
+          type: boolean
+        num_samples:
+          default: 5
+          maximum: 20
+          minimum: 3
+          type: integer
+        sampling_strategy:
+          default: temperature_variation
+          enum:
+          - temperature_variation
+          - prompt_paraphrasing
+          - model_diversity
+          - stochastic_sampling
+          type: string
+        significance_level:
+          default: 0.05
+          maximum: 0.1
+          minimum: 0.01
+          type: number
+      required:
+      - domain
+      type: object
+    consistency_task:
+      properties:
+        context:
+          type: string
+        expected_answer:
+          type: string
+        input_text:
+          type: string
+        question:
+          type: string
+        validation_sources:
+          items:
+            type: string
+          type: array
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_consistency_check
+      type: string
+    template_id:
+      enum:
+      - text_consistency
+      - code_consistency
+      - factual_consistency
+      - translation_consistency
+      - reasoning_consistency
+      - general_consistency
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - dynamic-agent-creation
+  - selfcheckgpt-implementation
+  - multi-generation-sampling
+  - statistical-significance-testing
+  - semantic-similarity-analysis
+  - cross-model-validation
+  - multi-agent-coordination
+  - inconsistency-detection
+  - detailed-reporting
+  - domain-specialization
+  category: agent-factory
+  dependencies:
+    optional:
+    - scipy
+    - numpy
+    - scikit-learn
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/citation_agent_factory
+    - agents/web_search_agent_factory
+  domain: consistency-verification
+  performance:
+    cpu_usage: high
+    io_usage: high
+    memory_usage: high
+    network_usage: medium
+  security:
+    file_system_access: read-only
+    isolation_required: true
+    network_access: limited
+name: consistency_agent_factory
+display_name: ConsistencyAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    consistency_results:
+      properties:
+        agent_validations:
+          properties:
+            citation_validation:
+              properties:
+                citations_checked:
+                  type: integer
+                fake_citations_detected:
+                  type: integer
+                invalid_citations:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+            rag_validation:
+              properties:
+                consistency_score:
+                  type: number
+                knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            web_search_validation:
+              properties:
+                conflicting_information:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+                sources_verified:
+                  type: integer
+              type: object
+          type: object
+        consistency_method:
+          type: string
+        inconsistencies:
+          items:
+            properties:
+              confidence:
+                type: number
+              description:
+                type: string
+              inconsistency_type:
+                enum:
+                - semantic
+                - factual
+                - logical
+                - citation
+                - source
+                type: string
+              sample_id:
+                type: integer
+              severity:
+                enum:
+                - low
+                - medium
+                - high
+                - critical
+                type: string
+              validation_source:
+                enum:
+                - rag_agent
+                - citation_agent
+                - web_search_agent
+                - self_check
+                type: string
+            type: object
+          type: array
+        individual_scores:
+          items:
+            type: number
+          type: array
+        overall_consistency_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          items:
+            type: string
+          type: array
+        sample_count:
+          type: integer
+        statistical_analysis:
+          properties:
+            confidence_interval:
+              items:
+                type: number
+              type: array
+            mean_score:
+              type: number
+            p_value:
+              type: number
+            significant:
+              type: boolean
+            std_deviation:
+              type: number
+          type: object
+      type: object
+    error:
+      type: string
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        average_consistency_score:
+          type: number
+        checks_performed:
+          type: integer
+        last_updated:
+          type: string
+        processing_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- agents
+- consistency
+- selfcheckgpt
+- validation
+- multi-agent
+- fact-checking
+- factory
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

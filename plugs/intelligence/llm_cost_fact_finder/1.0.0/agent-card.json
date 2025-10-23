@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:llm_cost_fact_finder",
+    "name": "Llm Cost Fact Finder Agent",
+    "description": "AI-powered fact-finder agents for dynamic LLM cost discovery and real-time pricing updates from multiple sources including APIs, web scraping, and LLM analysis",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/llm_cost_fact_finder",
+    "skills": [
+      {
+        "id": "llm_cost_fact_finder-primary",
+        "name": "Llm Cost Fact Finder",
+        "description": "AI-powered fact-finder agents for dynamic LLM cost discovery and real-time pricing updates from multiple sources including APIs, web scraping, and LLM analysis",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "llm_cost_fact_finder",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.081838Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

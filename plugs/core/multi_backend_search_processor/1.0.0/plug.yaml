@@ -1,0 +1,119 @@
+name: multi_backend_search_processor
+display_name: MultiBackendSearchProcessor
+version: 1.0.0
+type: plugin
+category: core
+title: Multi-Backend Search Processing Plugin
+description: Plugin-first search processing for multi-backend registry services -
+  extracts search coordination logic from core services
+author: PlugPipe Core Team
+owner: PlugPipe Core Team
+status: stable
+license: MIT
+operations:
+- process_search_query
+- aggregate_search_results
+- rank_search_results
+- filter_search_results
+- deduplicate_search_results
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - process_search
+      - aggregate_results
+      - rank_results
+      - filter_results
+      - deduplicate_results
+    search_query:
+      type: string
+      description: Search query to process
+    backends:
+      type: array
+      description: List of backend instances to search across
+    search_config:
+      type: object
+      properties:
+        limit:
+          type: integer
+          default: 50
+        cursor:
+          type: string
+        component_type:
+          type: string
+          enum:
+          - plug
+          - pipe
+          - glue
+          - all
+        fuzzy_search:
+          type: boolean
+          default: false
+        ranking_algorithm:
+          type: string
+          enum:
+          - relevance
+          - popularity
+          - date
+          - alphabetical
+          default: relevance
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+      enum:
+      - success
+      - error
+      - partial
+    search_results:
+      type: array
+      description: Processed and ranked search results
+    result_metadata:
+      type: object
+      properties:
+        total_found:
+          type: integer
+        processing_time_ms:
+          type: number
+        backends_searched:
+          type: integer
+        ranking_algorithm_used:
+          type: string
+    next_cursor:
+      type: string
+      description: Pagination cursor for next results
+    errors:
+      type: array
+      description: Any errors encountered during search processing
+performance:
+  priority: 10
+  timeout: 15
+  retries: 2
+  concurrent_backends: true
+tags:
+- core
+- search
+- processing
+- multi-backend
+- coordination
+- performance
+architecture_compliance:
+  plugin_first: true
+  extracted_from: MultiBackendRegistryService
+  purpose: Extract complex search processing logic into reusable plugin
+  principles:
+  - DEFAULT TO CREATING PLUGINS
+  - REUSE EVERYTHING, REINVENT NOTHING
+  - GRACEFUL DEGRADATION
+dependencies:
+- registry_backend_coordinator
+- universal_sanitizer
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

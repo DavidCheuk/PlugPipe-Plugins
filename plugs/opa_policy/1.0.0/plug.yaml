@@ -1,0 +1,119 @@
+config_defaults:
+  fallback_mode: deny
+  opa_url: http://localhost:8181
+  policy_package: plugpipe.authz
+  timeout: 5.0
+config_schema:
+  properties:
+    fallback_mode:
+      default: deny
+      enum:
+      - deny
+      - allow
+      - basic
+      type: string
+    opa_url:
+      default: http://localhost:8181
+      type: string
+    policy_package:
+      default: plugpipe.authz
+      type: string
+    timeout:
+      default: 5.0
+      type: number
+  type: object
+description: Open Policy Agent integration for advanced policy evaluation in PlugPipe
+  authorization framework
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    basic_decision:
+      description: Basic RBAC decision from previous layer
+      properties:
+        allow:
+          type: boolean
+        reason:
+          type: string
+      required:
+      - allow
+      type: object
+    request:
+      description: Authorization request object
+      properties:
+        action:
+          type: string
+        resource:
+          type: string
+        resource_type:
+          type: string
+        subject:
+          type: string
+      required:
+      - subject
+      - action
+      - resource
+      - resource_type
+      type: object
+  required:
+  - request
+  - basic_decision
+  type: object
+metadata:
+  capabilities:
+  - policy_evaluation
+  - compliance_checking
+  - constraint_generation
+  category: policy-engine
+  memory_mb: 256
+  type: policy
+name: opa_policy
+display_name: OpaPolicy
+output_schema:
+  properties:
+    allow:
+      description: Policy decision result
+      type: boolean
+    confidence:
+      description: Confidence level in decision (0.0-1.0)
+      type: number
+    engine:
+      description: Policy engine identifier
+      type: string
+    evaluation_time_ms:
+      description: Time taken for policy evaluation in milliseconds
+      type: number
+    reason:
+      description: Human-readable reason for decision
+      type: string
+  required:
+  - allow
+  - engine
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- policy
+- authorization
+- opa
+- compliance
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

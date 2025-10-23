@@ -1,0 +1,142 @@
+config_defaults:
+  elasticsearch_url: http://localhost:9200
+  index_prefix: plugpipe-audit
+  kibana_url: http://localhost:5601
+config_schema:
+  properties:
+    elasticsearch_url:
+      default: http://localhost:9200
+      description: Elasticsearch cluster URL
+      type: string
+    index_prefix:
+      default: plugpipe-audit
+      type: string
+    kibana_url:
+      default: http://localhost:5601
+      description: Kibana server URL
+      type: string
+    password:
+      description: Authentication password
+      type: string
+    username:
+      description: Authentication username
+      type: string
+  type: object
+description: Event logging and searching for PlugPipe audit events using Elasticsearch.
+  For infrastructure management (ILM, Logstash, Kibana), use specialized plugins (elk_ilm_manager,
+  elk_logstash_manager, elk_kibana_manager)
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    event_config:
+      description: Event logging configuration
+      properties:
+        action:
+          description: Action performed
+          type: string
+        event_type:
+          enum:
+          - security
+          - audit
+          - system
+          - application
+          - compliance
+          type: string
+        message:
+          description: Event message
+          type: string
+        source:
+          description: Event source identifier
+          type: string
+        user_id:
+          description: User associated with the event
+          type: string
+      type: object
+    operation:
+      description: Audit logging operation to perform
+      enum:
+      - log_event
+      - search_logs
+      - health_check
+      type: string
+    search_config:
+      description: Search configuration
+      properties:
+        index_pattern:
+          default: plugpipe-audit-*
+          type: string
+        query:
+          description: Elasticsearch query string
+          type: string
+        size:
+          default: 100
+          type: integer
+      type: object
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - audit_logging
+  - event_search
+  category: security
+  memory_mb: 256
+  type: audit
+  notes: 'Focused on event logging and searching only. Infrastructure management (ILM,
+    Kibana, Logstash) moved to specialized plugins: elk_ilm_manager, elk_logstash_manager,
+    elk_kibana_manager'
+name: audit_elk_stack
+display_name: AuditELKStack
+output_schema:
+  properties:
+    error:
+      description: Error message if failed
+      type: string
+    events:
+      description: Retrieved events for search operations
+      type: array
+    message:
+      description: Result message
+      type: string
+    result:
+      description: Operation result data
+      type: object
+    success:
+      description: Whether operation succeeded
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- audit
+- logging
+- elk
+- elasticsearch
+version: 1.0.0
+external_dependencies:
+- name: elasticsearch
+  version: '>=7.14.0'
+  purpose: Elasticsearch client for audit log storage and search
+- name: requests
+  version: '>=2.25.1'
+  purpose: HTTP client for ELK Stack REST API calls
+- name: urllib3
+  version: '>=1.26.0'
+  purpose: Enhanced security for HTTP requests
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

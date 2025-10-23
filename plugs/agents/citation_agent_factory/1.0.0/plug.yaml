@@ -1,0 +1,342 @@
+config_schema:
+  properties:
+    academic_api_keys:
+      properties:
+        crossref_api_key:
+          type: string
+        ieee_api_key:
+          type: string
+        pubmed_api_key:
+          type: string
+      type: object
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_validation_results:
+      default: true
+      type: boolean
+    default_validation_timeout:
+      default: 30
+      maximum: 300
+      minimum: 5
+      type: integer
+    domain_specific_settings:
+      properties:
+        academic:
+          properties:
+            min_validity_score:
+              default: 0.85
+              type: number
+            require_doi:
+              default: true
+              type: boolean
+            required_databases:
+              default:
+              - crossref
+              - pubmed
+              items:
+                type: string
+              type: array
+          type: object
+        legal:
+          properties:
+            min_validity_score:
+              default: 0.95
+              type: number
+            require_jurisdiction_match:
+              default: true
+              type: boolean
+            required_sources:
+              default:
+              - westlaw
+              - lexis_nexis
+              - court_records
+              items:
+                type: string
+              type: array
+          type: object
+        medical:
+          properties:
+            min_validity_score:
+              default: 0.9
+              type: number
+            require_peer_review:
+              default: true
+              type: boolean
+            required_databases:
+              default:
+              - pubmed
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+    enable_academic_databases:
+      default: true
+      type: boolean
+    max_parallel_validations:
+      default: 3
+      maximum: 10
+      minimum: 1
+      type: integer
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for URL validation
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Citation Validation Agent Factory - generates specialized agents for
+  source verification using RAG and Web Search agent dependencies
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        academic_databases:
+          default:
+          - crossref
+          items:
+            enum:
+            - pubmed
+            - arxiv
+            - google_scholar
+            - crossref
+            - dblp
+            - ieee
+            type: string
+          type: array
+        domain:
+          enum:
+          - academic
+          - medical
+          - legal
+          - news
+          - general
+          - technical
+          type: string
+        enable_fake_detection:
+          default: true
+          type: boolean
+        enable_real_time_validation:
+          default: true
+          type: boolean
+        max_validation_timeout:
+          default: 30
+          maximum: 300
+          minimum: 5
+          type: integer
+        paywall_handling:
+          default: abstract_only
+          enum:
+          - skip
+          - abstract_only
+          - full_attempt
+          - metadata_only
+          type: string
+        strictness_level:
+          default: standard
+          enum:
+          - permissive
+          - standard
+          - strict
+          - academic
+          type: string
+        validation_methods:
+          default:
+          - url_accessibility
+          - citation_format
+          items:
+            enum:
+            - url_accessibility
+            - author_verification
+            - journal_legitimacy
+            - doi_resolution
+            - citation_format
+            - content_matching
+            type: string
+          type: array
+      required:
+      - domain
+      type: object
+    citations_to_validate:
+      items:
+        properties:
+          citation_format:
+            enum:
+            - apa
+            - mla
+            - chicago
+            - ieee
+            - vancouver
+            - harvard
+            type: string
+          citation_text:
+            type: string
+          doi:
+            type: string
+          expected_content:
+            type: string
+          source_url:
+            type: string
+        type: object
+      type: array
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - validate_citations
+      type: string
+    template_id:
+      enum:
+      - academic_citation
+      - web_citation
+      - medical_citation
+      - legal_citation
+      - news_citation
+      - general_citation
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - dynamic-agent-creation
+  - citation-format-validation
+  - url-accessibility-checking
+  - author-verification
+  - journal-legitimacy-checking
+  - doi-resolution
+  - fake-citation-detection
+  - academic-database-integration
+  category: agent-factory
+  dependencies:
+    optional:
+    - requests
+    - beautifulsoup4
+    - crossref-commons
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/web_search_agent_factory
+  domain: citation-verification
+  performance:
+    cpu_usage: medium
+    io_usage: high
+    memory_usage: medium
+    network_usage: high
+  security:
+    file_system_access: read-only
+    isolation_required: true
+    network_access: required
+name: citation_agent_factory
+display_name: CitationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    performance_metrics:
+      properties:
+        average_validation_time:
+          type: number
+        citations_validated:
+          type: integer
+        last_updated:
+          type: string
+        success_rate:
+          type: number
+      type: object
+    success:
+      type: boolean
+    validation_results:
+      properties:
+        overall_validity_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        validated_citations:
+          items:
+            properties:
+              citation_id:
+                type: string
+              recommendations:
+                items:
+                  type: string
+                type: array
+              validation_details:
+                properties:
+                  author_verified:
+                    type: boolean
+                  content_matches:
+                    type: boolean
+                  doi_resolved:
+                    type: boolean
+                  fake_indicators:
+                    items:
+                      type: string
+                    type: array
+                  format_correct:
+                    type: boolean
+                  journal_legitimate:
+                    type: boolean
+                  url_accessible:
+                    type: boolean
+                type: object
+              validation_status:
+                enum:
+                - valid
+                - invalid
+                - suspicious
+                - unreachable
+                - fake
+                type: string
+              validity_score:
+                type: number
+            type: object
+          type: array
+      type: object
+  required:
+  - success
+  type: object
+owner: PlugPipe AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- citation-validation
+- source-verification
+- academic-integrity
+- fact-checking
+- factory
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

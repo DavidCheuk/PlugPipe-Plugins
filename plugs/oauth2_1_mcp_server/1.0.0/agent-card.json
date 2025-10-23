@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:oauth2_1_mcp_server",
+    "name": "Oauth2 1 Mcp Server Agent",
+    "description": "OAuth 2.1 Resource Server for MCP Protocol Compliance",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/oauth2_1_mcp_server",
+    "skills": [
+      {
+        "id": "oauth2_1_mcp_server-primary",
+        "name": "Oauth2 1 Mcp Server",
+        "description": "OAuth 2.1 Resource Server for MCP Protocol Compliance",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "oauth2_1_mcp_server",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "oauth2.1",
+          "mcp",
+          "resource-server",
+          "authentication",
+          "security",
+          "enterprise"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:33.879505Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

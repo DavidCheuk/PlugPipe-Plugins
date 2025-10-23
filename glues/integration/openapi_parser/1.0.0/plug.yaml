@@ -1,0 +1,71 @@
+name: openapi_parser
+version: 1.0.0
+description: OpenAPI/Swagger specification parser and validator leveraging proven
+  JSON Schema validation and OpenAPI tools
+owner: PlugPipe Integration Team
+status: stable
+discoverability: public
+entrypoint: main.py
+metadata:
+  category: integration
+  type: parser
+  glue_specification: glue.yaml
+  capabilities:
+  - openapi_parsing
+  - swagger_parsing
+  - json_schema_validation
+  - yaml_parsing
+  - specification_validation
+  - endpoint_extraction
+  - authentication_analysis
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - parse
+      - validate
+      - extract_endpoints
+      - analyze_auth
+    openapi_spec:
+      type: object
+      description: OpenAPI specification (JSON/YAML)
+    source_url:
+      type: string
+      description: URL to OpenAPI specification
+  oneOf:
+  - required:
+    - operation
+    - openapi_spec
+  - required:
+    - operation
+    - source_url
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    parsed_spec:
+      type: object
+    validation_results:
+      type: object
+    error:
+      type: string
+  required:
+  - success
+tags:
+- integration
+- parsing
+- openapi
+- swagger
+- api-specification
+- validation
+- glue-component
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

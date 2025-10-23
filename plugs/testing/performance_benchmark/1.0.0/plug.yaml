@@ -1,0 +1,320 @@
+author: PlugPipe Performance Team
+category: testing
+contract:
+  input_schema:
+    properties:
+      analysis_config:
+        description: Analysis and reporting configuration
+        properties:
+          export_format:
+            default: json
+            description: Export format for results
+            enum:
+            - json
+            - csv
+            - html
+            - markdown
+            type: string
+          generate_charts:
+            default: true
+            description: Generate performance charts and graphs
+            type: boolean
+          include_recommendations:
+            default: true
+            description: Include performance optimization recommendations
+            type: boolean
+        type: object
+      benchmark_config:
+        properties:
+          comparison_baseline:
+            description: Name of the target to use as baseline for comparison
+            type: string
+          load_test_config:
+            description: Load testing configuration
+            properties:
+              concurrent_users:
+                default:
+                - 1
+                - 5
+                - 10
+                - 25
+                - 50
+                description: Concurrent user levels to test
+                items:
+                  type: integer
+                type: array
+              duration_seconds:
+                default: 60
+                description: Load test duration in seconds
+                type: integer
+              endpoints_to_test:
+                default:
+                - /
+                - /health
+                - /diagnostics
+                description: Endpoints to include in load testing
+                items:
+                  type: string
+                type: array
+              requests_per_second:
+                default:
+                - 10
+                - 50
+                - 100
+                - 200
+                description: Requests per second levels to test
+                items:
+                  type: integer
+                type: array
+            type: object
+          metrics:
+            default:
+            - response_time
+            - throughput
+            - memory_usage
+            - cpu_usage
+            description: Performance metrics to measure
+            items:
+              enum:
+              - response_time
+              - throughput
+              - memory_usage
+              - cpu_usage
+              - error_rate
+              - latency_percentiles
+              - concurrent_users
+              type: string
+            type: array
+          targets:
+            description: List of systems to benchmark
+            items:
+              properties:
+                config:
+                  description: Target-specific configuration
+                  type: object
+                endpoint:
+                  description: Base URL or endpoint to benchmark
+                  type: string
+                name:
+                  description: Target system name
+                  type: string
+                port:
+                  description: Port number for the target
+                  type: integer
+                type:
+                  description: Target system type
+                  enum:
+                  - fastapi_server
+                  - plugin
+                  - service
+                  type: string
+              type: object
+            type: array
+        required:
+        - targets
+        type: object
+      operation:
+        default: benchmark_comparison
+        description: Performance benchmarking operation to perform
+        enum:
+        - benchmark_single_target
+        - benchmark_comparison
+        - analyze_results
+        - generate_report
+        - run_load_test
+        - measure_response_time
+        - check_resource_usage
+        type: string
+    required:
+    - operation
+    type: object
+  output_schema:
+    properties:
+      analysis_results:
+        properties:
+          optimization_recommendations:
+            items:
+              type: string
+            type: array
+          performance_scores:
+            type: object
+          resource_efficiency:
+            type: object
+          scaling_analysis:
+            type: object
+        type: object
+      benchmark_results:
+        properties:
+          baseline_target:
+            type: string
+          metrics_collected:
+            items:
+              type: string
+            type: array
+          performance_comparison:
+            properties:
+              overall_ranking:
+                items:
+                  type: object
+                type: array
+              resource_usage_comparison:
+                type: object
+              response_time_comparison:
+                type: object
+              throughput_comparison:
+                type: object
+            type: object
+          targets_tested:
+            type: integer
+          test_duration_seconds:
+            type: number
+          total_requests:
+            type: integer
+        type: object
+      error:
+        type: string
+      load_test_results:
+        properties:
+          bottlenecks_identified:
+            items:
+              type: string
+            type: array
+          concurrent_user_tests:
+            items:
+              type: object
+            type: array
+          endpoint_performance:
+            type: object
+          rps_tests:
+            items:
+              type: object
+            type: array
+        type: object
+      operation_completed:
+        type: string
+      report_results:
+        properties:
+          charts_generated:
+            type: integer
+          file_path:
+            type: string
+          report_format:
+            type: string
+          report_generated:
+            type: boolean
+          summary:
+            type: string
+        type: object
+      success:
+        type: boolean
+      timestamp:
+        type: string
+    required:
+    - success
+    type: object
+dependencies:
+  python:
+  - aiohttp>=3.8.0
+  - psutil>=5.8.0
+  - numpy>=1.21.0
+  - matplotlib>=3.5.0
+  - pandas>=1.3.0
+  system:
+  - curl
+  - htop
+description: Universal performance benchmarking and comparison framework for PlugPipe
+  infrastructure components with comprehensive metrics, load testing, and analysis
+  capabilities
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - statistics
+  requirements_file: requirements.txt
+input_schema:
+  properties: {}
+  type: object
+license: MIT
+metadata:
+  business_value:
+    competitive_advantages:
+    - Universal performance benchmarking for any PlugPipe infrastructure
+    - Automated performance comparison and analysis framework
+    - Plugin-based load testing for scalable performance validation
+    - Enterprise-grade performance optimization recommendations
+    infrastructure_benefits:
+    - Standardized performance testing across all PlugPipe components
+    - Automated bottleneck identification and optimization guidance
+    - Comprehensive metrics collection and analysis
+    - Scalable load testing framework for enterprise deployments
+    user_experience:
+    - One-click performance comparison between infrastructure versions
+    - Automated generation of performance reports and recommendations
+    - Visual performance charts and trend analysis
+    - Easy integration with existing PlugPipe testing workflows
+name: performance_benchmark
+display_name: PerformanceBenchmark
+orchestration_architecture:
+  analysis_orchestration:
+    capabilities: Statistical analysis, trend identification, optimization recommendations
+    purpose: Processes and analyzes performance data
+    reuses: numpy/pandas for data processing, matplotlib for visualization
+  reporting_orchestration:
+    capabilities: Multi-format export, visual charts, actionable insights
+    purpose: Generates comprehensive performance reports
+    reuses: Standard reporting libraries and frameworks
+  testing_orchestration:
+    capabilities: Multi-target testing, concurrent load generation, metrics aggregation
+    purpose: Coordinates performance testing across multiple targets
+    reuses: aiohttp async capabilities, psutil system monitoring
+output_schema:
+  properties: {}
+  type: object
+owner: PlugPipe Performance Team
+plugin_type: testing_framework
+pure_orchestration: true
+reused_infrastructure:
+- aiohttp for asynchronous HTTP performance testing
+- psutil for system resource monitoring and analysis
+- numpy and pandas for statistical analysis and data processing
+- matplotlib for performance visualization and charting
+- curl for baseline HTTP testing and validation
+revolutionary_capabilities:
+- universal_infrastructure_performance_benchmarking
+- automated_multi_target_comparison_analysis
+- enterprise_grade_load_testing_framework
+- intelligent_performance_optimization_recommendations
+- plugin_based_scalable_testing_architecture
+- comprehensive_metrics_collection_and_analysis
+- automated_bottleneck_identification_system
+- visual_performance_reporting_and_charting
+sbom:
+  complete: sbom/performance_benchmark-sbom-complete.json
+  summary: sbom/performance_benchmark-sbom.json
+status: stable
+subcategory: performance
+tags:
+- performance
+- benchmarking
+- load-testing
+- metrics
+- comparison
+- analysis
+universal_use_cases:
+- pp_hub_server_performance_comparison
+- plugin_performance_validation
+- enterprise_deployment_scaling_analysis
+- infrastructure_optimization_testing
+- continuous_performance_monitoring
+- regression_testing_for_performance
+- capacity_planning_and_analysis
+- multi_environment_performance_comparison
+version: 1.0.0
+zero_business_logic_overlap: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:privacy_verification_agent_factory",
+    "name": "Privacy Verification Agent Factory Agent",
+    "description": "Privacy Verification Agent Factory - generates specialized privacy verification agents using all 8 core agent factories (core, RAG, citation, web_search, consistency, medical, legal, financial) for regulatory-compliant privacy AI validation with PII detection, consent validation, data breach assessment, privacy impact analysis, cross-border data transfer compliance, privacy policy validation, data retention compliance, and anonymization verification",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/privacy_verification_agent_factory",
+    "skills": [
+      {
+        "id": "privacy_verification_agent_factory-primary",
+        "name": "Privacy Verification Agent Factory",
+        "description": "Privacy Verification Agent Factory - generates specialized privacy verification agents using all 8 core agent factories (core, RAG, citation, web_search, consistency, medical, legal, financial) for regulatory-compliant privacy AI validation with PII detection, consent validation, data breach assessment, privacy impact analysis, cross-border data transfer compliance, privacy policy validation, data retention compliance, and anonymization verification",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "privacy_verification_agent_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "agents",
+          "privacy",
+          "verification",
+          "regulatory-compliance",
+          "pii-detection",
+          "data-protection",
+          "factory",
+          "multi-agent"
+        ],
+        "author": "PlugPipe Agent Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.150697Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

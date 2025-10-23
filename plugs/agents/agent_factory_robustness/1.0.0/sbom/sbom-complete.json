@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:agent_factory_robustness-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-27T07:50:29.706206Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "agent_factory_robustness@1.0.0",
+      "name": "agent_factory_robustness",
+      "version": "1.0.0",
+      "description": "Enterprise-grade robustness layer for agent factory operations with comprehensive error handling, retry mechanisms, circuit breaker patterns, and reliability monitoring"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

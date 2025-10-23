@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:automation:plugin_creation_orchestrator",
+    "name": "Plugin Creation Orchestrator Agent",
+    "description": "AI-powered high-level plugin creation factory orchestrator that continuously researches popular applications/technologies and creates plugins using pragmatic approach with existing plugin reuse",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/plugin_creation_orchestrator",
+    "skills": [
+      {
+        "id": "plugin_creation_orchestrator-primary",
+        "name": "Plugin Creation Orchestrator",
+        "description": "AI-powered high-level plugin creation factory orchestrator that continuously researches popular applications/technologies and creates plugins using pragmatic approach with existing plugin reuse",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "plugin_creation_orchestrator",
+        "category": "automation",
+        "subcategory": "",
+        "tags": [
+          "automation",
+          "ai-powered",
+          "plugin-generation",
+          "market-research",
+          "orchestration",
+          "llm-required"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.603160Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

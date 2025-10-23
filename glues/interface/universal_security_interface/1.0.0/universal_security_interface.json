@@ -1,0 +1,40 @@
+{
+  "name": "universal_security_interface",
+  "version": "1.0.0",
+  "description": "Universal Security Plugin Interface Standard that provides standardized format and interface for all security plugins",
+  "category": "interface",
+  "status": "stable",
+  "source_schema": "legacy_security_plugin",
+  "target_schema": "universal_security_interface",
+  "mappings": [
+    {
+      "source_field": "legacy_security_plugin.result",
+      "target_field": "universal_security_interface.security_result",
+      "transform": {
+        "operation": "standardize_security_result",
+        "format": "SecurityPluginResult",
+        "validation": "strict_interface_compliance"
+      }
+    },
+    {
+      "source_field": "legacy_security_plugin.context",
+      "target_field": "universal_security_interface.security_context",
+      "transform": {
+        "operation": "normalize_security_context",
+        "format": "SecurityPluginContext",
+        "enterprise_features": true
+      }
+    },
+    {
+      "source_field": "legacy_security_plugin.threats",
+      "target_field": "universal_security_interface.threat_detection",
+      "transform": {
+        "operation": "standardize_threat_detection",
+        "format": "ThreatDetection",
+        "mcp_guardian_integration": true
+      }
+    }
+  ],
+  "error_policy": "fail_fast",
+  "tags": ["interface", "security", "standardization", "universal"]
+}

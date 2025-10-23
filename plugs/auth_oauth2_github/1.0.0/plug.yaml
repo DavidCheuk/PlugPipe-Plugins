@@ -1,0 +1,113 @@
+name: auth_oauth2_github
+display_name: AuthOAuth2GitHub
+version: 1.0.0
+type: authentication
+category: oauth2
+title: GitHub OAuth 2.0 Authentication
+description: GitHub OAuth 2.0 authentication with organization access control
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-oauth2-github
+auth_type: oauth2
+provider: github
+supports_pkce: true
+supports_refresh_token: false
+provides:
+- oauth2_flow
+- user_profile
+- organization_access
+- repository_permissions
+requires:
+- session_manager
+- user_manager
+configuration:
+- name: client_id
+  type: string
+  required: true
+  secure: false
+  description: GitHub OAuth App Client ID
+- name: client_secret
+  type: string
+  required: true
+  secure: true
+  description: GitHub OAuth App Client Secret
+- name: redirect_uri
+  type: string
+  required: true
+  secure: false
+  description: OAuth callback redirect URI
+  example: https://your-domain.com/auth/oauth2/github/callback
+- name: scope
+  type: string
+  required: false
+  secure: false
+  default: user:email
+  description: OAuth scopes to request
+- name: allowed_organizations
+  type: array
+  required: false
+  secure: false
+  description: Restrict to specific GitHub organizations
+actions:
+- initiate_flow
+- handle_callback
+- get_user_profile
+- validate_credentials
+- check_organization_membership
+dependencies:
+- httpx >= 0.24.0
+- cryptography >= 3.4.8
+external_dependencies:
+- name: httpx
+  version: '>=0.24.0'
+  purpose: HTTP client for GitHub OAuth 2.0 API requests and token exchange
+- name: cryptography
+  version: '>=3.4.8'
+  purpose: Cryptographic operations for OAuth PKCE challenge generation and state
+    validation
+security:
+- PKCE (Proof Key for Code Exchange)
+- State parameter CSRF protection
+- Organization membership validation
+- Repository access control
+enterprise:
+- GitHub Enterprise Server support
+- Organization-based access control
+- Team membership validation
+- Repository permission mapping
+performance:
+  priority: 10
+  timeout: 30
+  retries: 2
+compliance:
+- OAuth 2.0 RFC 6749
+- PKCE RFC 7636
+- GitHub OAuth Best Practices
+monitoring:
+  metrics:
+  - github_auth_requests_total
+  - github_auth_success_rate
+  - github_org_validations_total
+  events:
+  - github_oauth_initiated
+  - github_callback_received
+  - github_org_validated
+  - github_auth_success
+  - github_auth_failure
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_oauth2_github-sbom.json
+  complete: sbom/auth_oauth2_github-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

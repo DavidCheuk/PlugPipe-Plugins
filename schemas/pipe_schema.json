@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlugPipe Pipeline Schema",
+  "type": "object",
+  "required": ["apiVersion", "kind", "metadata", "pipeline"],
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "description": "Pipeline specification version"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["PipeSpec"],
+      "description": "Resource type identifier"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name", "owner", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Pipeline name"
+        },
+        "owner": {
+          "type": "string",
+          "description": "Pipeline owner"
+        },
+        "version": {
+          "type": "string",
+          "description": "Pipeline version"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Pipeline tags"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Pipeline documentation"
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Pipeline input parameters"
+    },
+    "secrets": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Pipeline secrets configuration"
+    },
+    "middleware": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["uses"],
+        "properties": {
+          "uses": {
+            "type": "string",
+            "description": "Middleware plugin name"
+          },
+          "config": {
+            "type": "object",
+            "description": "Middleware configuration"
+          }
+        }
+      },
+      "description": "Pipeline middleware stack"
+    },
+    "pipeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "uses"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Step identifier"
+          },
+          "uses": {
+            "type": "string",
+            "description": "Plugin name to execute"
+          },
+          "with": {
+            "type": "object",
+            "description": "Step input parameters"
+          },
+          "env": {
+            "type": "object",
+            "description": "Environment variables for step"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step tags"
+          },
+          "doc": {
+            "type": "string",
+            "description": "Step documentation"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Step owner"
+          },
+          "version": {
+            "type": "string",
+            "description": "Plugin version to use"
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Step dependencies"
+          },
+          "foreach": {
+            "description": "Iteration configuration"
+          },
+          "when": {
+            "description": "Conditional execution expression"
+          },
+          "exit_if": {
+            "description": "Early exit condition"
+          },
+          "config": {
+            "type": "object",
+            "description": "Step configuration"
+          },
+          "next": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Single next step (DAG)"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["target"],
+                  "properties": {
+                    "target": {
+                      "type": "string",
+                      "description": "Target step ID"
+                    },
+                    "when": {
+                      "type": "string",
+                      "description": "Condition for this branch"
+                    }
+                  }
+                },
+                "description": "Conditional branching"
+              }
+            ],
+            "description": "Next step configuration (Enterprise DAG feature)"
+          },
+          "branches": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Named branches for fan-out (Enterprise DAG feature)"
+          },
+          "join": {
+            "oneOf": [
+              {
+                "type": "string",
+                "description": "Single join target (fan-in)"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Multiple join targets"
+              }
+            ],
+            "description": "Join configuration for fan-in (Enterprise DAG feature)"
+          },
+          "mandatory_dependencies": {
+            "$ref": "mandatory_dependencies_schema.json#/definitions/dependency_categories",
+            "description": "Step-specific mandatory dependency requirements"
+          },
+          "security_requirements": {
+            "$ref": "mandatory_dependencies_schema.json#/definitions/security_requirements",
+            "description": "Step-specific security dependency requirements"
+          }
+        }
+      },
+      "description": "Pipeline steps"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "Summary output format"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Summary columns"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Summary documentation"
+        }
+      },
+      "description": "Pipeline execution summary configuration"
+    },
+    "mandatory_dependencies": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/dependency_categories",
+      "description": "Pipeline-level mandatory dependency requirements"
+    },
+    "security_requirements": {
+      "$ref": "mandatory_dependencies_schema.json#/definitions/security_requirements",
+      "description": "Pipeline-level security dependency requirements"
+    }
+  },
+  "additionalProperties": false
+}

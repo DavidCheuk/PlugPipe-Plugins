@@ -1,0 +1,221 @@
+category: intelligence
+config_defaults:
+  alert_retention_hours: 168
+  default_daily_requests: 1000
+  default_requests_per_second: 1.0
+  enabled: true
+  metrics_retention_hours: 24
+config_schema:
+  properties:
+    alert_retention_hours:
+      default: 168
+      description: Hours to retain alerts
+      maximum: 8760
+      minimum: 1
+      type: integer
+    default_daily_requests:
+      default: 1000
+      description: Default daily request quota
+      maximum: 1000000
+      minimum: 1
+      type: integer
+    default_requests_per_second:
+      default: 1.0
+      description: Default rate limit for providers without specific config
+      maximum: 100.0
+      minimum: 0.1
+      type: number
+    enabled:
+      default: true
+      description: Whether rate limiting is globally enabled
+      type: boolean
+    metrics_retention_hours:
+      default: 24
+      description: Hours to retain usage metrics
+      maximum: 720
+      minimum: 1
+      type: integer
+    providers:
+      additionalProperties:
+        properties:
+          quota:
+            properties:
+              max_cost:
+                minimum: 0
+                type: number
+              max_requests:
+                minimum: 1
+                type: integer
+              max_tokens:
+                minimum: 1
+                type: integer
+            type: object
+          rate_limiting:
+            properties:
+              burst_capacity:
+                minimum: 1
+                type: integer
+              requests_per_hour:
+                minimum: 1
+                type: number
+              requests_per_minute:
+                minimum: 1
+                type: number
+              requests_per_second:
+                minimum: 0.1
+                type: number
+            type: object
+        type: object
+      description: Provider-specific rate limiting and quota configurations
+      type: object
+  type: object
+description: Production-ready centralized LLM rate limiting and quota management service
+  with advanced analytics and circuit breaker patterns
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    cost_incurred:
+      description: Cost of the request in USD
+      minimum: 0
+      type: number
+    error_type:
+      description: Type of error if request failed
+      type: string
+    hours:
+      default: 24
+      description: Time window for statistics/alerts in hours
+      maximum: 720
+      minimum: 1
+      type: integer
+    operation:
+      default: check_limit
+      description: Rate limiter operation to perform
+      enum:
+      - check_limit
+      - record_usage
+      - get_stats
+      - get_quotas
+      - get_alerts
+      type: string
+    plugin_id:
+      description: ID of plugin requesting rate limit check
+      type: string
+    provider:
+      description: LLM provider (openai, anthropic, ollama)
+      enum:
+      - openai
+      - anthropic
+      - ollama
+      type: string
+    rate_limiter_config:
+      description: Rate limiter configuration
+      properties:
+        enabled:
+          default: true
+          type: boolean
+        providers:
+          description: Provider-specific configurations
+          type: object
+      type: object
+    response_time:
+      description: Response time in seconds
+      minimum: 0
+      type: number
+    severity:
+      description: Alert severity filter
+      enum:
+      - info
+      - warning
+      - critical
+      - emergency
+      type: string
+    success:
+      default: true
+      description: Whether the request was successful
+      type: boolean
+    tokens_requested:
+      default: 1
+      description: Number of tokens requested
+      minimum: 1
+      type: integer
+    tokens_used:
+      description: Actual tokens consumed (for usage recording)
+      minimum: 0
+      type: integer
+  type: object
+metadata:
+  capabilities:
+  - rate_limiting
+  - quota_management
+  - cost_tracking
+  - usage_analytics
+  - circuit_breaker
+  - alert_system
+  - multi_provider_support
+  - budget_controls
+  memory_mb: 256
+  type: infrastructure
+name: ai_rate_limiter
+display_name: AIRateLimiter
+output_schema:
+  properties:
+    alerts:
+      description: Recent alerts (for get_alerts)
+      items:
+        type: object
+      type: array
+    allowed:
+      description: Whether request is allowed (for check_limit)
+      type: boolean
+    error:
+      description: Error message if operation failed
+      type: string
+    message:
+      description: Operation result message
+      type: string
+    metadata:
+      description: Additional metadata about rate limit decision
+      type: object
+    operation:
+      description: Operation that was performed
+      type: string
+    quotas:
+      description: Current quota information (for get_quotas)
+      type: object
+    statistics:
+      description: Usage statistics (for get_stats)
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    total_alerts:
+      description: Total number of alerts returned
+      type: integer
+  required:
+  - success
+  type: object
+owner: PlugPipe Infrastructure Team
+status: stable
+tags:
+- rate-limiting
+- quota-management
+- cost-control
+- llm
+- infrastructure
+- analytics
+- circuit-breaker
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

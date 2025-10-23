@@ -1,0 +1,641 @@
+author: PlugPipe Security Team
+capabilities:
+  detection_methods:
+  - fact_checking_api
+  - knowledge_base_lookup
+  - confidence_analysis
+  - pattern_matching
+  - consistency_checking
+  - source_verification
+  primary:
+  - hallucination_detection
+  - fact_checking
+  - confidence_analysis
+  - source_validation
+  secondary:
+  - knowledge_base_validation
+  - citation_verification
+  - uncertainty_estimation
+  - misinformation_prevention
+  validation_sources:
+  - wikipedia
+  - wikidata
+  - mathematical_verification
+  - temporal_consistency
+  - physical_laws
+  - heuristic_analysis
+category: security
+compatibility:
+  breaking_changes:
+  - description: Initial release
+    version: 1.0.0
+  deprecation_notices: []
+  plugpipe_versions: '>=1.0.0'
+  python_versions: '>=3.8'
+  wikipedia_api_versions: '>=0.6.0'
+config_schema:
+  properties:
+    confidence_analyzer:
+      description: Confidence analysis configuration
+      properties:
+        confidence_threshold:
+          default: 0.3
+          description: Minimum confidence threshold for reliability
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        enable_analysis:
+          default: true
+          description: Enable confidence level analysis
+          type: boolean
+      type: object
+    fact_checker:
+      description: Fact-checking configuration
+      properties:
+        api_timeout:
+          default: 10
+          description: Timeout for external API calls in seconds
+          type: number
+        fact_check_apis:
+          default: {}
+          description: External fact-checking API configurations
+          type: object
+        knowledge_bases:
+          description: Available knowledge bases for validation
+          properties:
+            wikidata:
+              default: true
+              description: Enable Wikidata validation
+              type: boolean
+            wikipedia:
+              default: true
+              description: Enable Wikipedia validation
+              type: boolean
+          type: object
+        rate_limit_delay:
+          default: 1.0
+          description: Delay between API calls to respect rate limits
+          type: number
+      type: object
+    hallucination_detection:
+      description: Hallucination detection settings
+      properties:
+        enable_mathematical_validation:
+          default: true
+          description: Enable mathematical fact validation
+          type: boolean
+        enable_physical_validation:
+          default: true
+          description: Enable physical impossibility detection
+          type: boolean
+        enable_temporal_validation:
+          default: true
+          description: Enable temporal consistency checking
+          type: boolean
+        hallucination_threshold:
+          default: 6.0
+          description: Score threshold for hallucination warnings
+          maximum: 10.0
+          minimum: 0.0
+          type: number
+        max_claims_to_check:
+          default: 10
+          description: Maximum number of claims to fact-check per text
+          type: integer
+      type: object
+    performance:
+      description: Performance and optimization settings
+      properties:
+        cache_enabled:
+          default: true
+          description: Enable result caching
+          type: boolean
+        cache_ttl:
+          default: 3600
+          description: Cache time-to-live in seconds
+          type: integer
+        concurrent_checks:
+          default: 5
+          description: Maximum concurrent fact-checking operations
+          type: integer
+        max_text_length:
+          default: 50000
+          description: Maximum text length for analysis
+          type: integer
+      type: object
+    source_validator:
+      description: Source validation configuration
+      properties:
+        require_sources:
+          default: false
+          description: Require sources for all factual claims
+          type: boolean
+        validate_citations:
+          default: true
+          description: Enable citation format validation
+          type: boolean
+        validate_urls:
+          default: true
+          description: Enable URL format validation
+          type: boolean
+      type: object
+  type: object
+defaults:
+  confidence_analyzer:
+    confidence_threshold: 0.3
+    enable_analysis: true
+  fact_checker:
+    api_timeout: 10
+    fact_check_apis: {}
+    knowledge_bases:
+      wikidata: true
+      wikipedia: true
+    rate_limit_delay: 1.0
+  hallucination_detection:
+    enable_mathematical_validation: true
+    enable_physical_validation: true
+    enable_temporal_validation: true
+    hallucination_threshold: 6.0
+    max_claims_to_check: 10
+  performance:
+    cache_enabled: true
+    cache_ttl: 3600
+    concurrent_checks: 5
+    max_text_length: 50000
+  source_validator:
+    require_sources: false
+    validate_citations: true
+    validate_urls: true
+dependencies:
+  external_services:
+  - description: Wikipedia knowledge base for fact verification
+    name: wikipedia_api
+    optional: true
+  - description: External fact-checking services (configurable)
+    name: fact_check_apis
+    optional: true
+  python_packages:
+  - description: Wikipedia API for knowledge base validation
+    name: wikipedia-api
+    optional: true
+    version: '>=0.6.0'
+  - description: HTTP requests for external API access
+    name: requests
+    optional: false
+    version: '>=2.25.0'
+  - description: Async HTTP client for concurrent fact-checking
+    name: aiohttp
+    optional: false
+    version: '>=3.8.0'
+  - description: Natural language processing for claim extraction
+    name: nltk
+    optional: true
+    version: '>=3.7.0'
+  - description: Semantic similarity for fact verification
+    name: sentence-transformers
+    optional: true
+    version: '>=2.2.0'
+description: Advanced hallucination detection and prevention for LLM outputs using
+  fact-checking and validation techniques
+examples:
+  basic_fact_checking:
+    description: Basic hallucination detection
+    expected_output:
+      hallucinations_detected: 1
+      is_reliable: false
+      overall_score: 7.5
+    input:
+      scan_type: output
+      text: The Great Wall of China is visible from space and was built in 1969.
+  confidence_analysis:
+    description: Confidence level analysis
+    expected_output:
+      confidence_level: low
+      is_reliable: true
+      overall_score: 2.0
+    input:
+      scan_type: output
+      text: I think the capital of France might be Paris, but I'm not entirely sure.
+  mathematical_validation:
+    description: Mathematical fact verification
+    expected_output:
+      hallucinations_detected: 2
+      is_reliable: false
+      overall_score: 8.0
+    input:
+      scan_type: output
+      text: 'Simple math: 2 + 2 = 5 and the square root of 16 is 3.'
+  source_validation:
+    description: Citation and source verification
+    expected_output:
+      invalid_citations: 1
+      overall_score: 6.5
+      requires_verification: true
+      total_citations: 1
+    input:
+      scan_type: output
+      text: According to a 2025 study (Smith et al., 2025), time travel was invented
+        yesterday.
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      description: Additional context for analysis
+      properties:
+        domain:
+          description: Subject domain (medical, scientific, historical, etc.)
+          type: string
+        fact_check_level:
+          default: standard
+          description: Level of fact-checking to perform
+          enum:
+          - basic
+          - standard
+          - comprehensive
+          type: string
+        language:
+          default: en
+          description: Text language
+          type: string
+        require_sources:
+          description: Override global source requirement setting
+          type: boolean
+      type: object
+    scan_type:
+      default: output
+      description: Type of scan (typically output for hallucination detection)
+      enum:
+      - input
+      - output
+      type: string
+    text:
+      description: Text to analyze for hallucinations
+      maxLength: 50000
+      type: string
+  required:
+  - text
+  type: object
+installation:
+  requirements:
+  - Python 3.8+
+  - Internet connection for knowledge base access
+  - 'Optional: External fact-checking API keys'
+  setup_commands:
+  - pip install wikipedia-api requests aiohttp
+  - '# Optional: pip install nltk sentence-transformers'
+  - python -c 'import wikipedia; print("Wikipedia API available")'
+  validation_script: "import asyncio\nimport sys\nsys.path.append('.')\nimport main\n\
+    \n# Test basic functionality\nguard = main.HallucinationGuard({})\ntest_text =\
+    \ \"The Earth is flat and gravity doesn't exist.\"\n\nasync def test():\n    assessment\
+    \ = await guard.assess_hallucination_risk(test_text)\n    print(f\"Hallucination\
+    \ score: {assessment.overall_hallucination_score}/10\")\n    print(f\"Detected\
+    \ {len(assessment.detected_hallucinations)} hallucinations\")\n\nasyncio.run(test())\n"
+integration:
+  standalone_usage:
+    description: Standalone hallucination assessment
+    example: 'guard = HallucinationGuard(config)
+
+      assessment = await guard.assess_hallucination_risk(text)
+
+      print(f"Reliability: {assessment.is_reliable}")
+
+      '
+  with_content_filter:
+    description: Integration with content filtering pipelines
+    example: "# Pre-publication fact-checking\nassessment = await guard.assess_hallucination_risk(content)\n\
+      if assessment.overall_hallucination_score > 6.0:\n    return reject_content(assessment.recommendations)\n"
+  with_llm_security:
+    description: Integration with LLM Security Coordinator
+    example: '# Register with security coordinator
+
+      coordinator.register_security_plugin("hallucination_guard", guard)
+
+
+      # Automatic scanning during LLM output validation
+
+      scan_result = await coordinator.scan_output(user_id, output_text)
+
+      '
+license: MIT
+metadata:
+  display_name: Hallucination Guard
+  documentation: https://docs.plugpipe.dev/plugins/hallucination-guard
+  homepage: https://github.com/plugpipe/hallucination-guard
+  keywords:
+  - hallucination detection
+  - fact checking
+  - misinformation prevention
+  - content validation
+  - source verification
+  - confidence analysis
+  - knowledge base validation
+  - citation verification
+  long_description: 'Advanced hallucination detection and prevention system for LLM
+    outputs using multiple validation
+
+    techniques including fact-checking APIs, knowledge base validation, confidence
+    scoring,
+
+    uncertainty estimation, and source citation verification. Provides real-time hallucination
+
+    scoring and actionable recommendations for content reliability.
+
+    '
+  repository: https://github.com/plugpipe/plugpipe
+  short_description: AI hallucination detection and fact-checking for LLM outputs
+  tags:
+  - security
+  - hallucination
+  - fact-checking
+  - misinformation
+  - validation
+  - rag
+  - knowledge-base
+  - confidence-analysis
+  - source-verification
+  - llm-safety
+monitoring:
+  alerts:
+  - condition: hallucination_score > 8.0
+    name: high_hallucination_score
+    severity: critical
+  - condition: fact_check_errors / fact_checks_total > 0.2
+    name: fact_check_failure_rate
+    severity: warning
+  - condition: processing_duration > 5s
+    name: processing_timeout
+    severity: warning
+  metrics:
+  - hallucinations_detected_total
+  - hallucination_score_histogram
+  - fact_checks_performed_total
+  - processing_duration_seconds
+  - knowledge_base_lookups_total
+  - api_calls_external_total
+name: hallucination_guard
+display_name: HallucinationGuard
+output_schema:
+  properties:
+    confidence_analysis:
+      description: Analysis of confidence indicators in the text
+      properties:
+        confidence_level:
+          description: Confidence level classification
+          enum:
+          - very_low
+          - low
+          - medium
+          - high
+          - very_high
+          type: string
+        confidence_score:
+          description: Overall confidence score
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        high_confidence_indicators:
+          description: Count of high confidence language indicators
+          type: integer
+        low_confidence_indicators:
+          description: Count of low confidence language indicators
+          type: integer
+        uncertainty_indicators:
+          description: Count of uncertainty indicators
+          type: integer
+      type: object
+    detected_hallucinations:
+      description: Detailed information about detected hallucinations
+      items:
+        properties:
+          confidence:
+            description: Detection confidence
+            maximum: 1.0
+            minimum: 0.0
+            type: number
+          detection_method:
+            description: Method used to detect the hallucination
+            type: string
+          hallucination_id:
+            description: Unique hallucination identifier
+            type: string
+          severity:
+            description: Hallucination severity level
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          suggested_correction:
+            description: Suggested correction or improvement
+            type: string
+          text:
+            description: Text segment containing the hallucination
+            type: string
+          type:
+            description: Type of hallucination detected
+            enum:
+            - factual_error
+            - fabricated_source
+            - temporal_error
+            - numerical_error
+            - contradiction
+            - impossible_claim
+            - unsupported_claim
+            type: string
+        type: object
+      type: array
+    external_apis_available:
+      description: Whether external APIs are available
+      type: boolean
+    hallucination_assessment:
+      description: Comprehensive hallucination risk assessment
+      properties:
+        fact_checks_performed:
+          description: Number of fact-checks performed
+          type: integer
+        hallucinations_detected:
+          description: Number of hallucinations detected
+          type: integer
+        is_reliable:
+          description: Whether content is considered reliable
+          type: boolean
+        overall_score:
+          description: Overall hallucination risk score
+          maximum: 10.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          description: Actionable recommendations for content improvement
+          items:
+            type: string
+          type: array
+        requires_verification:
+          description: Whether content requires additional verification
+          type: boolean
+        text_hash:
+          description: Hash of analyzed text for tracking
+          type: string
+      type: object
+    plugin_version:
+      description: Plugin version
+      type: string
+    scan_type:
+      description: Type of scan performed
+      type: string
+    security_threats:
+      description: Security threats generated from hallucination analysis
+      items:
+        properties:
+          confidence:
+            description: Threat confidence score
+            type: number
+          description:
+            description: Threat description
+            type: string
+          level:
+            description: Threat severity level
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          recommendation:
+            description: Recommended security action
+            enum:
+            - allow
+            - sanitize
+            - block
+            - quarantine
+            - audit_only
+            type: string
+          threat_id:
+            description: Unique threat identifier
+            type: string
+          threat_type:
+            description: Type of security threat
+            type: string
+        type: object
+      type: array
+    source_validation:
+      description: Validation of sources and citations
+      properties:
+        invalid_citations:
+          description: Number of invalid citations
+          type: integer
+        requires_verification:
+          description: Whether sources require verification
+          type: boolean
+        total_citations:
+          description: Total number of citations found
+          type: integer
+        total_urls:
+          description: Total number of URLs found
+          type: integer
+        validated_citations:
+          description: Number of validated citations
+          type: integer
+      type: object
+    status:
+      description: Processing status
+      enum:
+      - success
+      - error
+      - warning
+      type: string
+    timestamp:
+      description: Analysis timestamp
+      format: date-time
+      type: string
+  type: object
+owner: PlugPipe Security Team
+performance:
+  cpu_requirements:
+    minimum: 1 core
+    recommended: 2 cores
+  memory_requirements:
+    minimum: 128MB
+    recommended: 256MB
+    with_external_apis: 512MB
+  throughput:
+    concurrent_analysis: 5
+    fact_checks_per_minute: 100
+    requests_per_second: 20
+  typical_latency:
+    basic_analysis: < 200ms
+    comprehensive: < 3000ms
+    standard_analysis: < 1000ms
+sbom:
+  complete: sbom/hallucination_guard-sbom-complete.json
+  summary: sbom/hallucination_guard-sbom.json
+security:
+  owasp_coverage:
+    llm:
+    - coverage: primary
+      description: Comprehensive hallucination detection and misinformation prevention
+      id: LLM09
+      name: Misinformation
+    - coverage: secondary
+      description: Detection of false claims about sensitive information
+      id: LLM02
+      name: Sensitive Information Disclosure
+    web:
+    - coverage: secondary
+      description: Detection of misinformation in injection attempts
+      id: A03
+      name: Injection
+  threat_categories:
+  - description: Detection of incorrect facts and statistics
+    name: Factual Errors
+    severity: high
+  - description: Identification of non-existent citations and references
+    name: Fabricated Sources
+    severity: high
+  - description: Detection of outdated or impossible timeline claims
+    name: Temporal Errors
+    severity: medium
+  - description: Validation of statistics and mathematical claims
+    name: Numerical Errors
+    severity: medium
+  - description: Identification of self-contradictory statements
+    name: Contradictions
+    severity: medium
+  - description: Detection of physically or logically impossible statements
+    name: Impossible Claims
+    severity: high
+  - description: Identification of claims without adequate evidence
+    name: Unsupported Claims
+    severity: low
+status: stable
+support:
+  community:
+    discussions: https://github.com/plugpipe/plugpipe/discussions
+    examples: https://github.com/plugpipe/examples
+    wiki: https://github.com/plugpipe/plugpipe/wiki
+  contact:
+    email: security@plugpipe.dev
+    issues: https://github.com/plugpipe/plugpipe/issues
+    maintainer: PlugPipe Security Team
+  documentation: docs/plugins/hallucination_guard.md
+  examples: examples/hallucination_guard_examples.py
+  troubleshooting: docs/troubleshooting/hallucination_guard.md
+testing:
+  integration_tests: tests/integration/test_hallucination_integration.py
+  performance_tests: tests/performance/test_hallucination_performance.py
+  test_data:
+    fact_samples: tests/data/fact_test_samples.json
+    hallucination_cases: tests/data/hallucination_test_cases.json
+    mathematical_validation: tests/data/math_validation_samples.json
+  unit_tests: tests/test_hallucination_guard_plugin.py
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

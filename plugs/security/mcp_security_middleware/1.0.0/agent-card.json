@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:mcp_security_middleware",
+    "name": "Mcp Security Middleware Agent",
+    "description": "MCP Security Middleware - Centralized security orchestration for all MCP operations",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/mcp_security_middleware",
+    "skills": [
+      {
+        "id": "mcp_security_middleware-primary",
+        "name": "Mcp Security Middleware",
+        "description": "MCP Security Middleware - Centralized security orchestration for all MCP operations",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "mcp_security_middleware",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "security",
+          "middleware",
+          "orchestration",
+          "pipeline",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.588088Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

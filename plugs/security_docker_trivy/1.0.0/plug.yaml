@@ -1,0 +1,467 @@
+author: PlugPipe Team
+capabilities:
+  compliance_frameworks:
+  - cis_benchmarks
+  - nist_cybersecurity_framework
+  - pci_dss
+  - hipaa
+  - gdpr
+  integrations:
+  - trivy_scanner
+  - docker_registry
+  - kubernetes_api
+  - git_repositories
+  - vulnerability_databases
+  performance:
+    caching: true
+    incremental_scanning: true
+    large_file_support: true
+    parallel_scanning: true
+  security_scanning:
+  - container_vulnerability_detection
+  - filesystem_vulnerability_detection
+  - secret_detection
+  - configuration_scanning
+  - kubernetes_security_analysis
+  - sbom_generation
+  - compliance_checking
+  supported_formats:
+    input:
+    - docker_images
+    - filesystems
+    - git_repositories
+    - kubernetes_manifests
+    output:
+    - json
+    - yaml
+    - sarif
+    - spdx
+    - cyclonedx
+category: security_scanning
+compatibility:
+  plugpipe_version: '>=1.0.0'
+  python_version: '>=3.8'
+  trivy_version: '>=0.40.0'
+config_schema:
+  properties:
+    trivy_config:
+      properties:
+        cache_dir:
+          default: /tmp/trivy-cache
+          description: Trivy cache directory
+          type: string
+        cache_ttl:
+          default: 86400
+          description: Cache TTL in seconds
+          type: integer
+        compliance:
+          default:
+          - cis
+          - nist
+          description: Default compliance frameworks
+          items:
+            type: string
+          type: array
+        custom_policies_dir:
+          description: Directory containing custom security policies
+          type: string
+        db_repository:
+          default: ghcr.io/aquasecurity/trivy-db
+          description: Trivy vulnerability database repository
+          type: string
+        include_dev_dependencies:
+          default: false
+          description: Include development dependencies in scans
+          type: boolean
+        integrate_registry:
+          default: true
+          description: Enable container registry integration
+          type: boolean
+        offline_mode:
+          default: false
+          description: Enable offline scanning mode
+          type: boolean
+        output_format:
+          default: json
+          description: Default output format
+          type: string
+        parallel_scans:
+          default: 4
+          description: Number of parallel scans to run
+          type: integer
+        registry_credentials:
+          description: Container registry authentication credentials
+          type: object
+        scan_timeout:
+          default: 300
+          description: Scan timeout in seconds
+          type: integer
+        severity_levels:
+          default:
+          - CRITICAL
+          - HIGH
+          - MEDIUM
+          - LOW
+          description: Default severity levels to include
+          items:
+            type: string
+          type: array
+        skip_dirs:
+          default:
+          - .git
+          - node_modules
+          - __pycache__
+          description: Directories to skip during scanning
+          items:
+            type: string
+          type: array
+        trivy_binary:
+          default: trivy
+          description: Path to Trivy binary
+          type: string
+        update_db:
+          default: true
+          description: Update vulnerability database on startup
+          type: boolean
+      type: object
+  type: object
+dependencies:
+- name: dependency_manager
+  required: false
+  version: 1.0.0
+dependency_analysis:
+  analyzer_notes: All imports (shutil, tempfile, subprocess) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Trivy-based vulnerability scanning plugin leveraging Aqua Security's
+  proven security scanning engine instead of custom implementations
+documentation:
+  description: "This plugin provides comprehensive security scanning capabilities\
+    \ by leveraging \nAqua Security's Trivy vulnerability scanner. It demonstrates\
+    \ PlugPipe's \"reuse \neverything, reinvent nothing\" principle by wrapping proven\
+    \ security tools rather \nthan implementing custom vulnerability detection.\n\n\
+    Features:\n- Container image vulnerability scanning\n- Filesystem and repository\
+    \ scanning  \n- Kubernetes configuration security analysis\n- Software Bill of\
+    \ Materials (SBOM) generation\n- Compliance framework checking (CIS, NIST, PCI-DSS,\
+    \ HIPAA)\n- Secret detection and configuration analysis\n- Real-time vulnerability\
+    \ database updates\n- Multiple output formats (JSON, YAML, SARIF, SPDX)\n\nThe\
+    \ plugin integrates with existing CI/CD pipes and security workflows,\nproviding\
+    \ enterprise-grade vulnerability assessment without reinventing \nsecurity scanning\
+    \ capabilities.\n"
+  examples:
+  - context:
+      image_name: nginx:latest
+      operation: scan_image
+      scan_config:
+        format: json
+        severity:
+        - HIGH
+        - CRITICAL
+    description: Scan a Docker image for vulnerabilities
+    name: Container Image Scan
+  - context:
+      operation: scan_filesystem
+      scan_config:
+        security_checks:
+        - vuln
+        - secret
+        - config
+        skip_dirs:
+        - .git
+        - node_modules
+      target_path: /app/source
+    description: Scan a directory for vulnerabilities and secrets
+    name: Filesystem Security Scan
+  - context:
+      manifest_path: /k8s/deployment.yaml
+      operation: scan_kubernetes
+      scan_config:
+        compliance:
+        - cis
+        - nist
+        severity:
+        - HIGH
+        - CRITICAL
+    description: Analyze Kubernetes manifests for security issues
+    name: Kubernetes Security Analysis
+  - context:
+      operation: generate_sbom
+      sbom_config:
+        format: spdx-json
+        save_to_file: true
+      target: myapp:latest
+      target_type: image
+    description: Generate Software Bill of Materials
+    name: SBOM Generation
+external_dependencies:
+- description: Aqua Security Trivy vulnerability scanner
+  install_method: curl
+  name: trivy
+  required: true
+  type: binary
+  url: https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh
+  version: 0.65.0
+health_check:
+  checks:
+  - trivy_binary_available
+  - cache_directory_writable
+  - vulnerability_database_fresh
+  - configuration_valid
+  enabled: true
+  interval_seconds: 300
+input_schema:
+  properties:
+    image_name:
+      description: Container image name for image scanning
+      type: string
+    manifest_path:
+      description: Kubernetes manifest path for configuration scanning
+      type: string
+    operation:
+      description: Type of security scanning operation to perform
+      enum:
+      - scan_image
+      - scan_filesystem
+      - scan_repository
+      - scan_kubernetes
+      - generate_sbom
+      - scan_config
+      - compliance_check
+      type: string
+    sbom_config:
+      properties:
+        file_path:
+          description: Path to save SBOM file
+          type: string
+        format:
+          description: SBOM output format
+          enum:
+          - spdx-json
+          - cyclonedx-json
+          - github
+          type: string
+        include_dev_deps:
+          description: Include development dependencies in SBOM
+          type: boolean
+        include_sbom:
+          description: Include SBOM content in response
+          type: boolean
+        save_to_file:
+          description: Save SBOM to file
+          type: boolean
+      type: object
+    scan_config:
+      properties:
+        compliance:
+          description: Compliance frameworks to check against
+          items:
+            enum:
+            - cis
+            - nist
+            - pci-dss
+            - hipaa
+            type: string
+          type: array
+        format:
+          description: Output format for scan results
+          enum:
+          - json
+          - yaml
+          - table
+          - sarif
+          type: string
+        hash_files:
+          description: Generate file hashes for integrity checking
+          type: boolean
+        policy_types:
+          description: Policy types for configuration scanning
+          items:
+            type: string
+          type: array
+        security_checks:
+          description: Types of security checks to perform
+          items:
+            enum:
+            - vuln
+            - secret
+            - config
+            type: string
+          type: array
+        severity:
+          description: Severity levels to include in scan
+          items:
+            enum:
+            - CRITICAL
+            - HIGH
+            - MEDIUM
+            - LOW
+            - UNKNOWN
+            type: string
+          type: array
+        skip_dirs:
+          description: Directories to skip during scanning
+          items:
+            type: string
+          type: array
+        vuln_types:
+          description: Types of vulnerabilities to scan for
+          items:
+            enum:
+            - os
+            - library
+            type: string
+          type: array
+      type: object
+    target:
+      description: Target for SBOM generation (image name or path)
+      type: string
+    target_path:
+      description: File system path for filesystem scanning
+      type: string
+    target_type:
+      description: Type of target for SBOM generation
+      enum:
+      - image
+      - filesystem
+      - repository
+      type: string
+  required:
+  - operation
+  type: object
+license: MIT
+lifecycle:
+  health_checks:
+  - verify_trivy_installation
+  - check_database_freshness
+  - validate_cache_directory
+  shutdown:
+  - cleanup_temporary_files
+  - save_cache_state
+  startup:
+  - initialize_trivy_environment
+  - update_vulnerability_database
+  - setup_cache_directory
+monitoring:
+  alerts:
+  - scan_failure_rate_high
+  - vulnerability_database_outdated
+  - cache_storage_low
+  - scan_timeout_exceeded
+  metrics:
+  - scan_duration_seconds
+  - vulnerabilities_found_total
+  - scan_success_rate
+  - database_update_frequency
+name: security_docker_trivy
+display_name: SecurityDockerTrivy
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    result:
+      properties:
+        execution_time_seconds:
+          type: number
+        file_hashes:
+          description: File hashes for integrity checking
+          type: object
+        sbom:
+          description: Software Bill of Materials
+          type: string
+        sbom_file_path:
+          description: Path where SBOM was saved
+          type: string
+        scan_timestamp:
+          format: date-time
+          type: string
+        security_metrics:
+          properties:
+            affected_packages:
+              type: array
+            risk_level:
+              enum:
+              - LOW
+              - MEDIUM
+              - HIGH
+              - CRITICAL
+              type: string
+            security_score:
+              maximum: 100
+              minimum: 0
+              type: integer
+            severity_breakdown:
+              type: object
+            total_vulnerabilities:
+              type: integer
+            vulnerability_types:
+              type: object
+          type: object
+        vulnerabilities:
+          description: Vulnerability scan results from Trivy
+          type: object
+      type: object
+    success:
+      description: Whether the scanning operation succeeded
+      type: boolean
+    trivy_metadata:
+      properties:
+        operation:
+          type: string
+        scan_type:
+          type: string
+        severity_filter:
+          type: array
+        trivy_version:
+          type: string
+      type: object
+  type: object
+owner: PlugPipe Security Team
+requirements:
+  python:
+  - aiofiles>=0.8.0
+  - pyyaml>=6.0
+  system:
+  - trivy
+sbom:
+  complete: sbom/security_docker_trivy-sbom-complete.json
+  summary: sbom/security_docker_trivy-sbom.json
+security:
+  filesystem_access: read_write
+  isolation_level: process
+  network_access: true
+  required_capabilities:
+  - file_read
+  - process_execution
+  - network_access
+  - cache_management
+  resource_limits:
+    cpu_limit: 2.0
+    memory_mb: 2048
+    timeout_seconds: 600
+  sensitive_operations:
+  - vulnerability_scanning
+  - sbom_generation
+  - configuration_analysis
+  - compliance_checking
+status: stable
+stdlib_modules:
+- shutil
+- tempfile
+- subprocess
+tags:
+- security
+- vulnerability_scanning
+- container_security
+- trivy
+- sbom_generation
+- compliance
+- kubernetes_security
+- plugin_composition
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

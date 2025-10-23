@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enhanced_mcp_audit_integration-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:01:18.151198Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "name": "enhanced_mcp_audit_integration",
+      "version": "1.0.0",
+      "description": "Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific audit events and security monitoring"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

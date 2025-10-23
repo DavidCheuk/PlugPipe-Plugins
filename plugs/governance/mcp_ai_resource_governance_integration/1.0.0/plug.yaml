@@ -1,0 +1,210 @@
+name: mcp_ai_resource_governance_integration
+display_name: McpAIResourceGovernanceIntegration
+version: 1.0.0
+description: MCP-Aware AI Resource Governance Integration - Extends existing AI resource
+  governance with MCP-specific cost tracking and controls
+author: PlugPipe Governance Team
+license: MIT
+category: Governance
+tags:
+- mcp
+- ai
+- governance
+- resource
+- cost
+- budget
+- enterprise
+capabilities:
+- mcp_aware_cost_tracking
+- per_tool_resource_limits
+- ai_model_quota_enforcement
+- cost_prediction_for_tool_calls
+- integration_with_existing_ai_governance
+- emergency_stop_mechanisms
+- mcp_budget_controls
+dependencies:
+  external_dependencies:
+  - name: pydantic
+    version: '>=2.0.0'
+  - name: asyncio
+    version: builtin
+  plugin_dependencies:
+  - name: ai_resource_governance
+    version: '>=1.0.0'
+    optional: false
+  - name: ai_rate_limiter_mcp_integration
+    version: '>=1.0.0'
+    optional: true
+  - name: enhanced_mcp_audit_integration
+    version: '>=1.0.0'
+    optional: true
+configuration:
+  required:
+  - mcp_governance_mode
+  optional:
+  - cost_tracking_enabled: true
+  - per_tool_limits: {}
+  - emergency_thresholds: {}
+  - budget_alerts: {}
+  - model_quotas: {}
+mcp_governance_modes:
+  basic:
+    description: Basic cost tracking for MCP operations
+    features:
+    - mcp_cost_tracking
+    - simple_budget_alerts
+  standard:
+    description: Advanced MCP resource governance
+    features:
+    - mcp_cost_tracking
+    - per_tool_resource_limits
+    - model_quota_enforcement
+    - predictive_cost_analysis
+  enterprise:
+    description: Full enterprise MCP resource governance
+    features:
+    - mcp_cost_tracking
+    - per_tool_resource_limits
+    - model_quota_enforcement
+    - predictive_cost_analysis
+    - emergency_controls
+    - advanced_analytics
+    - compliance_reporting
+mcp_cost_tracking:
+  granularity:
+  - per_tool_call
+  - per_user_session
+  - per_client_id
+  - per_mcp_endpoint
+  metrics:
+  - token_consumption
+  - api_call_costs
+  - processing_time_costs
+  - storage_costs
+  - bandwidth_costs
+  providers:
+    anthropic_claude:
+      pricing_model: per_token
+      input_cost_per_1k_tokens: 0.008
+      output_cost_per_1k_tokens: 0.024
+      max_context_tokens: 200000
+    openai_gpt4:
+      pricing_model: per_token
+      input_cost_per_1k_tokens: 0.03
+      output_cost_per_1k_tokens: 0.06
+      max_context_tokens: 8192
+    local_llm:
+      pricing_model: compute_time
+      cost_per_second: 0.001
+      max_context_tokens: 4096
+per_tool_limits:
+  default:
+    max_cost_per_call: 1.0
+    max_tokens_per_call: 10000
+    max_calls_per_hour: 100
+    max_daily_cost: 50.0
+  tool_categories:
+    safe:
+      examples:
+      - calculator
+      - timer
+      - weather
+      max_cost_per_call: 0.1
+      max_tokens_per_call: 1000
+    standard:
+      examples:
+      - file_reader
+      - api_caller
+      max_cost_per_call: 0.5
+      max_tokens_per_call: 5000
+    sensitive:
+      examples:
+      - database_query
+      - user_manager
+      max_cost_per_call: 2.0
+      max_tokens_per_call: 20000
+      approval_required: true
+    destructive:
+      examples:
+      - file_deleter
+      - system_admin
+      max_cost_per_call: 5.0
+      max_tokens_per_call: 50000
+      approval_required: true
+      admin_only: true
+emergency_controls:
+  cost_thresholds:
+    daily_limit: 500.0
+    hourly_limit: 100.0
+    per_tool_limit: 10.0
+  automatic_actions:
+  - rate_limiting_activation
+  - expensive_tool_blocking
+  - admin_notifications
+  - audit_logging_increase
+  override_permissions:
+  - admin
+  - emergency_operator
+budget_management:
+  allocation_models:
+    per_user:
+      daily_budget: 10.0
+      weekly_budget: 50.0
+      monthly_budget: 200.0
+    per_client:
+      basic_tier: 5.0
+      standard_tier: 25.0
+      premium_tier: 100.0
+      enterprise_tier: 500.0
+    per_tool_category:
+      safe_tools: 1.0
+      standard_tools: 10.0
+      sensitive_tools: 50.0
+      destructive_tools: 100.0
+monitoring:
+  metrics:
+  - mcp_tool_costs_total
+  - mcp_token_usage_total
+  - mcp_cost_by_user
+  - mcp_cost_by_tool
+  - mcp_budget_utilization
+  - mcp_emergency_stops_total
+  alerts:
+    budget_warnings:
+    - threshold: 0.7
+      level: warning
+    - threshold: 0.9
+      level: critical
+    - threshold: 1.0
+      level: emergency
+    cost_anomalies:
+    - sudden_cost_spike
+    - unusual_tool_usage_pattern
+    - suspicious_high_cost_requests
+    quota_violations:
+    - per_tool_quota_exceeded
+    - user_quota_exceeded
+    - client_quota_exceeded
+integration_features:
+  with_existing_governance:
+  - unified_budget_tracking
+  - shared_quota_management
+  - coordinated_emergency_stops
+  - consolidated_reporting
+  with_mcp_security:
+  - security_cost_correlation
+  - threat_response_budgeting
+  - audit_trail_cost_tracking
+  with_rate_limiting:
+  - cost_aware_rate_limits
+  - dynamic_limit_adjustment
+  - budget_based_throttling
+public: true
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

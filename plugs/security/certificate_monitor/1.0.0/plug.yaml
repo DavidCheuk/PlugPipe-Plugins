@@ -1,0 +1,295 @@
+alert_types:
+  certificate_expired:
+    description: Certificate has expired and needs immediate replacement
+    severity: critical
+  certificate_expiring:
+    description: Certificate is expiring soon and needs renewal
+    severity: high/medium/low
+  certificate_revoked:
+    description: Certificate has been revoked
+    severity: critical
+  provider_error:
+    description: Certificate provider is unavailable or misconfigured
+    severity: high
+category: security
+compliance_frameworks:
+- SOC 2 Type II
+- HIPAA
+- PCI DSS
+- GDPR
+- ISO 27001
+- NIST Cybersecurity Framework
+description: Enterprise certificate monitoring and validation plugin with multi-provider
+  support, expiry alerting, and compliance checking
+discoverability: public
+enterprise_capabilities:
+- Centralized certificate lifecycle visibility
+- Multi-tenant certificate monitoring
+- Automated compliance reporting
+- Integration with SIEM and monitoring systems
+- Custom alert routing and escalation
+- Certificate inventory and asset tracking
+- Risk assessment and prioritization
+- Audit trail and historical reporting
+external_dependencies:
+  install_method: pip
+  packages:
+  - socket
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    alert_channels:
+      description: Alert notification channels
+      items:
+        properties:
+          config:
+            type: object
+          type:
+            enum:
+            - log
+            - webhook
+            - email
+            - slack
+            type: string
+          url:
+            type: string
+        type: object
+      type: array
+    check_interval_hours:
+      default: 24
+      description: Hours between monitoring checks
+      type: integer
+    days_ahead:
+      default: 30
+      description: Days ahead to look for expiring certificates
+      type: integer
+    enable_compliance_checks:
+      default: true
+      description: Enable certificate compliance validation
+      type: boolean
+    enable_external_monitoring:
+      default: true
+      description: Enable integration with external monitoring systems
+      type: boolean
+    expiry_warning_days:
+      default:
+      - 30
+      - 14
+      - 7
+      - 1
+      description: Days before expiry to generate warnings
+      items:
+        type: integer
+      type: array
+    hostname:
+      description: Hostname for remote certificate validation
+      type: string
+    monitored_providers:
+      description: Certificate providers to monitor
+      items:
+        enum:
+        - hashicorp_vault
+        - lets_encrypt_acme
+        - certificate_factory
+        type: string
+      type: array
+    monitoring_endpoints:
+      description: External monitoring system endpoints
+      items:
+        type: string
+      type: array
+    operation:
+      default: get_status
+      description: Operation to perform
+      enum:
+      - get_status
+      - monitor_certificates
+      - get_dashboard
+      - validate_remote_cert
+      - get_expiring_certificates
+      - generate_report
+      type: string
+    port:
+      default: 443
+      description: Port for remote certificate validation
+      type: integer
+    provider_configs:
+      description: Configuration for each monitored provider
+      type: object
+    report_period:
+      default: current
+      description: Report time period
+      enum:
+      - current
+      - daily
+      - weekly
+      - monthly
+      type: string
+  type: object
+key_metrics:
+- Total certificates under management
+- Certificate health score
+- Certificates expiring in 30/14/7/1 days
+- Expired certificates requiring action
+- Provider availability and performance
+- Alert volume and resolution time
+- Certificate renewal success rate
+- Compliance status and violations
+monitoring_features:
+- Multi-provider certificate monitoring
+- Real-time certificate status validation
+- Expiry monitoring and alerting
+- Certificate compliance checking
+- Health dashboard and metrics
+- Remote SSL certificate validation
+- Automated renewal recommendations
+- Comprehensive reporting
+name: certificate_monitor
+display_name: CertificateMonitor
+output_schema:
+  properties:
+    dashboard:
+      description: Monitoring dashboard data
+      properties:
+        alerts:
+          description: Alert summary and recent alerts
+          type: object
+        health_score:
+          description: Overall certificate health score (0-100)
+          type: number
+        overview:
+          description: Certificate overview metrics
+          type: object
+        provider_status:
+          description: Status of each monitored provider
+          type: object
+        recommendations:
+          description: Actionable recommendations
+          type: array
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    expiring_certificates:
+      description: List of certificates expiring soon
+      items:
+        type: object
+      type: array
+    operation:
+      description: Operation performed
+      type: string
+    report:
+      description: Comprehensive monitoring report
+      properties:
+        alert_summary:
+          type: object
+        detailed_metrics:
+          type: object
+        executive_summary:
+          type: object
+        next_actions:
+          type: array
+        provider_health:
+          type: object
+        recommendations:
+          type: array
+        report_timestamp:
+          format: date-time
+          type: string
+      type: object
+    results:
+      description: Certificate monitoring results
+      properties:
+        alerts_generated:
+          type: array
+        certificates_expired:
+          type: integer
+        certificates_expiring:
+          type: integer
+        certificates_healthy:
+          type: integer
+        provider_results:
+          type: object
+        providers_checked:
+          type: integer
+        recommendations:
+          type: array
+        timestamp:
+          format: date-time
+          type: string
+        total_certificates:
+          type: integer
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    summary:
+      description: Operation summary
+      type: object
+    total_expiring:
+      description: Total number of expiring certificates
+      type: integer
+    validation_result:
+      description: Remote certificate validation result
+      properties:
+        days_until_expiry:
+          type: integer
+        hostname:
+          type: string
+        issuer:
+          type: object
+        not_after:
+          format: date-time
+          type: string
+        not_before:
+          format: date-time
+          type: string
+        port:
+          type: integer
+        status:
+          type: string
+        subject:
+          type: object
+        success:
+          type: boolean
+        validity_status:
+          type: string
+      type: object
+  type: object
+owner: plugpipe-security
+status: stable
+subcategory: certificates
+supported_providers:
+- hashicorp_vault
+- lets_encrypt_acme
+- certificate_factory
+- aws_certificate_manager
+- digicert
+- venafi_cyberark
+- kubernetes_cert_manager
+tags:
+- certificates
+- monitoring
+- validation
+- alerting
+- compliance
+- dashboard
+- enterprise
+use_cases:
+- Enterprise certificate portfolio monitoring
+- Certificate expiry prevention and planning
+- Compliance auditing and reporting
+- Certificate inventory management
+- Automated renewal orchestration
+- Security incident response for certificate issues
+- Multi-cloud certificate governance
+- DevOps certificate lifecycle automation
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

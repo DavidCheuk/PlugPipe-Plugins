@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:hallucination_orchestrator",
+    "name": "Hallucination Orchestrator Agent",
+    "description": "Multi-agent coordination system for hallucination detection with weighted scoring and pipeline management using Agent Factory plugin",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/hallucination_orchestrator",
+    "skills": [
+      {
+        "id": "hallucination_orchestrator-primary",
+        "name": "Hallucination Orchestrator",
+        "description": "Multi-agent coordination system for hallucination detection with weighted scoring and pipeline management using Agent Factory plugin",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "hallucination_orchestrator",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "orchestration",
+          "multi-agent",
+          "hallucination",
+          "coordination"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.429156Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

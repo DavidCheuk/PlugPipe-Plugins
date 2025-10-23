@@ -1,0 +1,799 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_privacy_validation_results:
+      default: true
+      type: boolean
+    citation_agent_factory:
+      default: agents/citation_agent_factory
+      description: Reference to Citation Agent Factory for privacy law source verification
+      type: string
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for privacy consistency
+        checking
+      type: string
+    default_pii_sensitivity_level:
+      default: highly_sensitive
+      enum:
+      - highly_sensitive
+      - sensitive
+      - moderate
+      - low_sensitivity
+      type: string
+    default_privacy_compliance_level:
+      default: gdpr_compliant
+      enum:
+      - gdpr_compliant
+      - ccpa_certified
+      - hipaa_approved
+      - coppa_certified
+      - privacy_shield
+      - general_privacy
+      type: string
+    default_validation_strictness:
+      default: 0.97
+      maximum: 0.99
+      minimum: 0.9
+      type: number
+    enable_multi_agent_privacy_coordination:
+      default: true
+      type: boolean
+    financial_verification_agent_factory:
+      default: agents/financial_verification_agent_factory
+      description: Reference to Financial Agent Factory for financial privacy compliance
+      type: string
+    legal_validation_agent_factory:
+      default: agents/legal_validation_agent_factory
+      description: Reference to Legal Agent Factory for privacy legal compliance
+      type: string
+    max_parallel_privacy_checks:
+      default: 6
+      maximum: 12
+      minimum: 1
+      type: integer
+    medical_verification_agent_factory:
+      default: agents/medical_verification_agent_factory
+      description: Reference to Medical Agent Factory for HIPAA compliance cases
+      type: string
+    privacy_database_timeout:
+      default: 45.0
+      type: number
+    privacy_domain_settings:
+      properties:
+        children_services:
+          properties:
+            mandatory_compliance:
+              default:
+              - coppa
+              - gdpr
+              - ccpa_minors
+              items:
+                type: string
+              type: array
+            parental_consent_required:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.99
+              type: number
+          type: object
+        financial_services:
+          properties:
+            mandatory_compliance:
+              default:
+              - ccpa
+              - gdpr
+              - glba
+              - fair_credit
+              items:
+                type: string
+              type: array
+            pci_dss_required:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.98
+              type: number
+          type: object
+        healthcare:
+          properties:
+            audit_trail_required:
+              default: true
+              type: boolean
+            mandatory_compliance:
+              default:
+              - hipaa
+              - gdpr
+              - state_privacy_laws
+              items:
+                type: string
+              type: array
+            required_encryption:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.99
+              type: number
+          type: object
+        international:
+          properties:
+            cross_border_monitoring:
+              default: true
+              type: boolean
+            mandatory_compliance:
+              default:
+              - gdpr
+              - privacy_shield
+              - adequacy_decisions
+              items:
+                type: string
+              type: array
+            validation_strictness:
+              default: 0.97
+              type: number
+          type: object
+      type: object
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for privacy knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for privacy regulation fact
+        checking
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Privacy Verification Agent Factory - generates specialized privacy verification
+  agents using all 8 core agent factories (core, RAG, citation, web_search, consistency,
+  medical, legal, financial) for regulatory-compliant privacy AI validation with PII
+  detection, consent validation, data breach assessment, privacy impact analysis,
+  cross-border data transfer compliance, privacy policy validation, data retention
+  compliance, and anonymization verification
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        alert_thresholds:
+          properties:
+            consent_violation:
+              default: 0.9
+              type: number
+            cross_border_violation:
+              default: 0.88
+              type: number
+            data_breach_risk:
+              default: 0.85
+              type: number
+            pii_exposure:
+              default: 0.95
+              type: number
+            retention_violation:
+              default: 0.92
+              type: number
+          type: object
+        cross_border_jurisdictions:
+          default:
+          - eu
+          - us
+          items:
+            enum:
+            - eu
+            - us
+            - canada
+            - uk
+            - australia
+            - brazil
+            - singapore
+            - japan
+            type: string
+          type: array
+        enable_breach_assessment:
+          default: true
+          type: boolean
+        enable_consent_validation:
+          default: true
+          type: boolean
+        enable_pii_detection:
+          default: true
+          type: boolean
+        enable_retention_compliance:
+          default: true
+          type: boolean
+        pii_sensitivity_level:
+          default: highly_sensitive
+          enum:
+          - highly_sensitive
+          - sensitive
+          - moderate
+          - low_sensitivity
+          type: string
+        privacy_compliance_level:
+          default: gdpr_compliant
+          enum:
+          - gdpr_compliant
+          - ccpa_certified
+          - hipaa_approved
+          - coppa_certified
+          - pipeda_certified
+          - privacy_shield
+          - general_privacy
+          type: string
+        privacy_domain:
+          enum:
+          - healthcare
+          - financial_services
+          - e_commerce
+          - social_media
+          - children_services
+          - government
+          - education
+          - international
+          - general_business
+          - technology
+          type: string
+        privacy_regulations:
+          default:
+          - gdpr
+          - ccpa
+          items:
+            enum:
+            - gdpr
+            - ccpa
+            - hipaa
+            - coppa
+            - pipeda
+            - privacy_shield
+            - lgpd
+            - privacy_act_australia
+            - data_protection_act_uk
+            type: string
+          type: array
+        validation_strictness:
+          default: 0.97
+          maximum: 0.99
+          minimum: 0.9
+          type: number
+      required:
+      - privacy_domain
+      - privacy_compliance_level
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_privacy_validation
+      type: string
+    privacy_validation_task:
+      properties:
+        content_to_validate:
+          type: string
+        data_details:
+          properties:
+            consent_basis:
+              enum:
+              - explicit_consent
+              - legitimate_interest
+              - contract_performance
+              - legal_obligation
+              - vital_interests
+              - public_task
+              type: string
+            data_sources:
+              items:
+                type: string
+              type: array
+            data_subjects:
+              items:
+                enum:
+                - eu_residents
+                - california_residents
+                - children_under_13
+                - healthcare_patients
+                - financial_customers
+                - employees
+                - website_visitors
+                type: string
+              type: array
+            data_types:
+              items:
+                enum:
+                - personal_identifiers
+                - financial_data
+                - health_records
+                - biometric_data
+                - location_data
+                - behavioral_data
+                - communication_data
+                - device_data
+                type: string
+              type: array
+            processing_purposes:
+              items:
+                enum:
+                - marketing
+                - analytics
+                - service_provision
+                - legal_compliance
+                - security
+                - research
+                - profiling
+                type: string
+              type: array
+            retention_period:
+              type: string
+          type: object
+        privacy_context:
+          type: string
+        urgency_level:
+          default: high
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        validation_focus:
+          items:
+            enum:
+            - pii_detection
+            - consent_validation
+            - breach_assessment
+            - retention_compliance
+            - anonymization_verification
+            - cross_border_compliance
+            - policy_validation
+            type: string
+          type: array
+      type: object
+    template_id:
+      enum:
+      - pii_detector
+      - consent_validator
+      - data_breach_assessor
+      - privacy_impact_analyzer
+      - cross_border_compliance_checker
+      - privacy_policy_validator
+      - data_retention_validator
+      - anonymization_verifier
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - privacy-agent-creation
+  - pii-detection
+  - consent-validation
+  - data-breach-assessment
+  - privacy-impact-analysis
+  - cross-border-compliance
+  - privacy-policy-validation
+  - data-retention-compliance
+  - anonymization-verification
+  - multi-agent-privacy-coordination
+  - privacy-database-integration
+  - regulatory-privacy-compliance
+  - privacy-pattern-analysis
+  category: domain-specific-agent-factory
+  compliance:
+    ccpa_compliant: true
+    coppa_compliant: true
+    cross_border_compliance: required
+    data_protection_regulations: applicable
+    gdpr_compliant: true
+    hipaa_compliant: true
+    pipeda_compliant: true
+    privacy_shield_compliant: true
+  dependencies:
+    optional:
+    - gdpr_compliance_api
+    - ccpa_registry_api
+    - privacy_shield_api
+    - data_protection_apis
+    - anonymization_tools
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/citation_agent_factory
+    - agents/web_search_agent_factory
+    - agents/consistency_agent_factory
+    - agents/medical_verification_agent_factory
+    - agents/legal_validation_agent_factory
+    - agents/financial_verification_agent_factory
+  domain: privacy-verification
+  performance:
+    cpu_usage: very_high
+    io_usage: very_high
+    memory_usage: very_high
+    network_usage: high
+  security:
+    ccpa_compliant: true
+    encryption_required: true
+    file_system_access: read-only
+    gdpr_compliant: true
+    hipaa_compliant: true
+    isolation_required: true
+    network_access: limited
+    privacy_data_protection: required
+name: privacy_verification_agent_factory
+display_name: PrivacyVerificationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        breach_assessment_time:
+          type: number
+        consent_validation_time:
+          type: number
+        pii_detection_time:
+          type: number
+        privacy_databases_consulted:
+          type: integer
+        privacy_sources_reviewed:
+          type: integer
+        validation_time_seconds:
+          type: number
+      type: object
+    privacy_validation_results:
+      properties:
+        agent_coordination_results:
+          properties:
+            citation_privacy_sources:
+              properties:
+                invalid_privacy_citations:
+                  type: integer
+                performed:
+                  type: boolean
+                privacy_citations_verified:
+                  type: integer
+                regulatory_sources_verified:
+                  type: integer
+              type: object
+            consistency_privacy_check:
+              properties:
+                performed:
+                  type: boolean
+                privacy_consistency_score:
+                  type: number
+                privacy_inconsistencies:
+                  items:
+                    type: string
+                  type: array
+              type: object
+            financial_privacy_compliance:
+              properties:
+                financial_privacy_issues:
+                  items:
+                    type: string
+                  type: array
+                pci_dss_compliance_score:
+                  type: number
+                performed:
+                  type: boolean
+              type: object
+            legal_privacy_compliance:
+              properties:
+                performed:
+                  type: boolean
+                privacy_legal_issues:
+                  items:
+                    type: string
+                  type: array
+                regulatory_compliance_score:
+                  type: number
+              type: object
+            medical_privacy_compliance:
+              properties:
+                hipaa_compliance_issues:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+                phi_protection_score:
+                  type: number
+              type: object
+            rag_privacy_knowledge:
+              properties:
+                performed:
+                  type: boolean
+                privacy_facts_verified:
+                  type: integer
+                privacy_knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+              type: object
+            web_privacy_verification:
+              properties:
+                conflicting_privacy_info:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+                privacy_sources_verified:
+                  type: integer
+              type: object
+          type: object
+        consent_validation_results:
+          properties:
+            consent_analysis_performed:
+              type: boolean
+            consent_mechanisms_verified:
+              type: integer
+            consent_violations:
+              items:
+                properties:
+                  affected_data_types:
+                    items:
+                      type: string
+                    type: array
+                  compliance_requirement:
+                    type: string
+                  remediation_required:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  violation_type:
+                    enum:
+                    - missing_consent
+                    - invalid_consent
+                    - expired_consent
+                    - insufficient_consent
+                    - withdrawn_consent
+                    type: string
+                type: object
+              type: array
+          type: object
+        cross_border_compliance:
+          properties:
+            compliance_violations:
+              items:
+                properties:
+                  destination_jurisdiction:
+                    type: string
+                  legal_basis_required:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - major
+                    - minor
+                    type: string
+                  source_jurisdiction:
+                    type: string
+                  violation_type:
+                    enum:
+                    - inadequacy_decision
+                    - missing_safeguards
+                    - invalid_bcr
+                    - insufficient_scc
+                    - privacy_shield_invalid
+                    type: string
+                type: object
+              type: array
+            cross_border_analysis_performed:
+              type: boolean
+            transfer_mechanisms_verified:
+              type: integer
+          type: object
+        data_breach_assessment:
+          properties:
+            breach_analysis_performed:
+              type: boolean
+            breach_risk_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+            potential_breaches:
+              items:
+                properties:
+                  affected_records:
+                    type: string
+                  breach_type:
+                    enum:
+                    - unauthorized_access
+                    - data_exposure
+                    - inadequate_security
+                    - third_party_breach
+                    - insider_threat
+                    - system_vulnerability
+                    type: string
+                  mitigation_steps:
+                    items:
+                      type: string
+                    type: array
+                  notification_required:
+                    type: boolean
+                  notification_timeline:
+                    type: string
+                  risk_level:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+          type: object
+        overall_privacy_confidence_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        pii_detection_results:
+          properties:
+            pii_analysis_performed:
+              type: boolean
+            pii_classifications:
+              items:
+                properties:
+                  confidence_score:
+                    type: number
+                  entity_type:
+                    enum:
+                    - ssn
+                    - email
+                    - phone
+                    - address
+                    - credit_card
+                    - passport
+                    - drivers_license
+                    - ip_address
+                    - name
+                    - dob
+                    - medical_id
+                    - financial_account
+                    type: string
+                  location:
+                    type: string
+                  masking_recommendation:
+                    type: string
+                  sensitivity_level:
+                    enum:
+                    - highly_sensitive
+                    - sensitive
+                    - moderate
+                    - low_sensitivity
+                    type: string
+                type: object
+              type: array
+            pii_entities_found:
+              type: integer
+          type: object
+        privacy_alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - pii_exposure
+                - consent_violation
+                - data_breach_risk
+                - retention_violation
+                - cross_border_violation
+                - policy_inconsistency
+                - anonymization_failure
+                type: string
+              confidence:
+                type: number
+              message:
+                type: string
+              notification_required:
+                type: boolean
+              privacy_authority:
+                type: string
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        privacy_impact_analysis:
+          properties:
+            impact_analysis_performed:
+              type: boolean
+            overall_privacy_impact:
+              enum:
+              - high_risk
+              - medium_risk
+              - low_risk
+              - minimal_risk
+              type: string
+            risk_factors:
+              items:
+                properties:
+                  factor_type:
+                    enum:
+                    - data_sensitivity
+                    - processing_scale
+                    - automated_decisions
+                    - cross_border_transfers
+                    - vulnerable_populations
+                    - new_technology
+                    type: string
+                  impact_level:
+                    enum:
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  mitigation_measures:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: array
+          type: object
+        privacy_validation_method:
+          type: string
+        recommendations:
+          items:
+            type: string
+          type: array
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Privacy AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- privacy
+- verification
+- regulatory-compliance
+- pii-detection
+- data-protection
+- factory
+- multi-agent
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

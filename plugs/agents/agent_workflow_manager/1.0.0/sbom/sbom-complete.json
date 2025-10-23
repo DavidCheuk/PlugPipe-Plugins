@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:agent_workflow_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-27T07:50:31.825407Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "agent_workflow_manager@1.0.0",
+      "name": "agent_workflow_manager",
+      "version": "1.0.0",
+      "description": "Agent workflow orchestration system that coordinates agent_factory, modular_orchestrator, execution_engine, and task_queue_orchestrator plugins for complex multi-agent workflows"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

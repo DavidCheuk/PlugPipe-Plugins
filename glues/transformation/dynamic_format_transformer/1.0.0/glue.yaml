@@ -1,0 +1,19 @@
+name: dynamic_format_transformer
+version: 1.0.0
+description: Dynamic protocol format transformer for security testing that wraps attack payloads in various protocol formats
+author: PlugPipe Integration Team
+category: transformation
+status: active
+source_schema: attack_payload
+target_schema: protocol_wrapped_payload
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- transformation
+- security
+- protocol
+- format-conversion
+- mcp
+- http
+- websocket
+- dynamic

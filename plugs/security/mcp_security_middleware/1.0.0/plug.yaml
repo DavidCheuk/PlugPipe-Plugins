@@ -1,0 +1,171 @@
+author: PlugPipe Security Team
+capabilities:
+- unified_security_pipeline
+- security_plugin_orchestration
+- configurable_policy_enforcement
+- security_event_correlation
+- defense_in_depth_implementation
+- security_bypass_prevention
+category: Security
+circuit_breaker:
+  failure_threshold: 5
+  half_open_max_requests: 3
+  health_check_interval: 30
+  timeout_seconds: 60
+configuration:
+  optional:
+  - bypass_prevention: true
+  - fail_secure_mode: true
+  - correlation_enabled: true
+  - performance_monitoring: true
+  - circuit_breaker_enabled: true
+  required:
+  - security_pipeline_config
+dependencies:
+  external_dependencies:
+  - name: fastapi
+    version: '>=0.104.0'
+  - name: aiohttp
+    version: '>=3.9.0'
+  plugin_dependencies:
+  - name: ai_prompt_injection_guardian
+    optional: true
+    version: '>=1.0.0'
+  - name: ai_rate_limiter_mcp_integration
+    optional: true
+    version: '>=1.0.0'
+  - name: mcp_security_policy_engine
+    optional: true
+    version: '>=1.0.0'
+  - name: enhanced_mcp_audit_integration
+    optional: true
+    version: '>=1.0.0'
+  - name: oauth2_1_mcp_server
+    optional: true
+    version: '>=1.0.0'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:47'
+  stdlib_modules_declared: true
+description: MCP Security Middleware - Centralized security orchestration for all
+  MCP operations
+external_dependencies:
+  install_method: pip
+  packages:
+  - ai_prompt_injection_guardian
+  - ai_rate_limiter_mcp_integration
+  - enhanced_mcp_audit_integration
+  - mcp_security_policy_engine
+  - oauth2_1_mcp_server
+  requirements_file: requirements.txt
+license: MIT
+monitoring:
+  events:
+  - security_pipeline_request
+  - security_pipeline_denial
+  - security_plugin_failure
+  - security_bypass_attempt
+  - circuit_breaker_triggered
+  metrics:
+  - mcp_security_pipeline_requests_total
+  - mcp_security_pipeline_denials_total
+  - mcp_security_pipeline_errors_total
+  - mcp_security_pipeline_latency_ms
+  - mcp_security_plugin_failures_total
+name: mcp_security_middleware
+display_name: McpSecurityMiddleware
+pipeline_modes:
+  development:
+    audit_level: basic
+    bypass_allowed: true
+    description: Relaxed security for development environments
+    fail_secure: false
+  production:
+    audit_level: enterprise
+    bypass_allowed: false
+    circuit_breaker_enabled: true
+    description: Maximum security for production environments
+    fail_secure: true
+  staging:
+    audit_level: standard
+    bypass_allowed: false
+    description: Standard security for testing environments
+    fail_secure: true
+public: true
+sbom:
+  complete: sbom/mcp_security_middleware-sbom-complete.json
+  summary: sbom/mcp_security_middleware-sbom.json
+security_pipeline_stages:
+  audit_logging:
+    bypass_allowed: false
+    order: 5
+    plugins:
+    - enhanced_mcp_audit_integration
+    required: true
+  authentication:
+    bypass_allowed: false
+    order: 1
+    plugins:
+    - oauth2_1_mcp_server
+    required: true
+  authorization:
+    bypass_allowed: false
+    order: 4
+    plugins:
+    - mcp_security_policy_engine
+    required: true
+  input_validation:
+    bypass_allowed: false
+    order: 3
+    plugins:
+    - ai_prompt_injection_guardian
+    required: true
+  rate_limiting:
+    bypass_allowed: true
+    order: 2
+    plugins:
+    - ai_rate_limiter_mcp_integration
+    required: false
+security_policies:
+  bypass_prevention:
+    description: Prevent unauthorized security bypass attempts
+    enabled: true
+  correlation_tracking:
+    description: Track security events across pipeline stages
+    enabled: true
+  fail_secure:
+    description: Block requests when security plugins fail
+    enabled: true
+  performance_limits:
+    circuit_breaker_threshold: 5
+    circuit_breaker_timeout: 60
+    max_pipeline_time_ms: 5000
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- enum
+- json
+- logging
+- os
+- sys
+- time
+- typing
+- uuid
+tags:
+- mcp
+- security
+- middleware
+- orchestration
+- pipeline
+- enterprise
+version: 1.0.0
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

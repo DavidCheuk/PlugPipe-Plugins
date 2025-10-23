@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: redact-api
+  owner: PlugPipe Team
+  version: 1.0.0
+  tags:
+  - pipeline
+  - migrated
+  doc: Pipeline converted from redact_api
+inputs: {}
+pipeline:
+- id: name
+  uses: name
+  with: {}
+- id: description
+  uses: description
+  with: {}
+- id: plugs
+  uses: plugs
+  with: {}
+summary:
+  format: table
+  doc: Pipeline execution summary for redact-api
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,359 @@
+capabilities:
+- version_freezing
+- release_management
+- compatibility_validation
+- integrity_verification
+- dependency_analysis
+- immutability_enforcement
+- hard_soft_freeze
+- automatic_freeze_on_release
+- breaking_change_detection
+configuration:
+  freeze_registry:
+    default: freeze_registry.json
+    description: Path to freeze registry file
+    type: string
+  pipes_dir:
+    default: pipes
+    description: Directory containing pipelines
+    type: string
+  plugs_dir:
+    default: plugs
+    description: Directory containing plugins
+    type: string
+  release_registry:
+    default: release_registry.json
+    description: Path to release registry file
+    type: string
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:41'
+  stdlib_modules_declared: true
+description: Comprehensive freeze and release management for PlugPipe plugins and
+  pipelines to maintain backward compatibility and prevent changes after release
+design_principles:
+- backward_compatibility_first
+- immutability_enforcement
+- comprehensive_dependency_tracking
+- integrity_verification
+- gradual_freeze_levels
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: status
+      description: Action to perform
+      enum:
+      - freeze_version
+      - unfreeze_version
+      - mark_as_released
+      - validate_compatibility
+      - check_freeze_status
+      - check_release_status
+      - get_dependents
+      - verify_integrity
+      - status
+      type: string
+    breaking_changes:
+      description: List of breaking changes in this release
+      items:
+        type: string
+      type: array
+    freeze_level:
+      default: soft
+      description: Level of freeze protection
+      enum:
+      - soft
+      - hard
+      type: string
+    frozen_by:
+      default: system
+      description: Who initiated the freeze
+      type: string
+    name:
+      description: Plugin/pipeline name
+      type: string
+    new_version:
+      description: New version for compatibility comparison
+      type: string
+    old_version:
+      description: Old version for compatibility comparison
+      type: string
+    reason:
+      description: Reason for freeze/unfreeze operation
+      type: string
+    release_notes:
+      description: Release notes and changelog
+      type: string
+    type:
+      description: Type of component
+      enum:
+      - plugin
+      - pipeline
+      type: string
+    unfrozen_by:
+      default: system
+      description: Who initiated the unfreeze
+      type: string
+    version:
+      description: Version to operate on
+      type: string
+  type: object
+integrations:
+  filesystem_integration:
+    capabilities:
+    - read_only_enforcement
+    - checksum_calculation
+    - directory_protection
+    description: Direct file system operations for freeze enforcement
+  registry_integration:
+    capabilities:
+    - registry_updates
+    - metadata_management
+    - dependency_tracking
+    description: Integration with PlugPipe registry systems
+  version_control_integration:
+    description: Integration with version control systems
+    note: Can be extended to work with Git tags and branches
+metadata:
+  advanced_features:
+  - hard_freeze_with_filesystem_protection
+  - automatic_compatibility_validation
+  - comprehensive_dependency_impact_analysis
+  - cryptographic_integrity_verification
+  - multi_level_freeze_protection
+  author: PlugPipe Core Team
+  category: core
+  cpu_cores: 1
+  enterprise_features:
+    approval_workflows: Can be extended with approval workflows for freeze/release
+      operations
+    audit_integration: Can integrate with enterprise audit systems
+    compliance_reporting: Can generate compliance reports for version management
+    integration_hooks: Can integrate with CI/CD systems for automated freeze/release
+  license: MIT
+  memory_mb: 128
+  network_required: false
+  storage_mb: 50
+  tags:
+  - version-control
+  - release-management
+  - compatibility
+  - core
+  - freeze
+  - immutability
+  use_cases:
+  - enterprise_version_control
+  - production_release_management
+  - backward_compatibility_assurance
+  - dependency_impact_analysis
+  - version_integrity_monitoring
+name: freeze_release_manager
+display_name: FreezeReleaseManager
+output_schema:
+  additionalProperties: false
+  properties:
+    analysis_date:
+      description: When compatibility analysis was performed
+      type: string
+    auto_frozen:
+      description: Whether version was auto-frozen on release
+      type: boolean
+    available_actions:
+      description: List of available actions
+      items:
+        type: string
+      type: array
+    compatibility_issues:
+      description: List of compatibility issues found
+      items:
+        properties:
+          added:
+            type: array
+          category:
+            type: string
+          description:
+            type: string
+          removed:
+            type: array
+          type:
+            type: string
+        type: object
+      type: array
+    compatible:
+      description: Whether versions are backward compatible
+      type: boolean
+    current_checksum:
+      description: Current calculated checksum
+      type: string
+    dependents:
+      description: List of dependent plugins/pipelines
+      items:
+        properties:
+          name:
+            type: string
+          path:
+            type: string
+          type:
+            type: string
+          version:
+            type: string
+        type: object
+      type: array
+    dependents_count:
+      description: Number of dependents
+      type: integer
+    error:
+      description: Error message if operation failed
+      type: string
+    expected_checksum:
+      description: Expected checksum from freeze/release
+      type: string
+    freeze_info:
+      description: Information about frozen version
+      properties:
+        checksum:
+          type: string
+        dependencies:
+          items:
+            type: object
+          type: array
+        freeze_level:
+          type: string
+        frozen_by:
+          type: string
+        frozen_date:
+          type: string
+        name:
+          type: string
+        read_only:
+          type: boolean
+        type:
+          type: string
+        version:
+          type: string
+      type: object
+    freeze_level:
+      description: Level of freeze applied
+      type: string
+    frozen:
+      description: Whether version is frozen
+      type: boolean
+    frozen_versions:
+      description: All frozen versions registry
+      type: object
+    has_breaking_changes:
+      description: Whether breaking changes were detected
+      type: boolean
+    integrity_ok:
+      description: Whether integrity check passed
+      type: boolean
+    message:
+      description: Human-readable status message
+      type: string
+    release_info:
+      description: Information about released version
+      properties:
+        auto_frozen:
+          type: boolean
+        checksum:
+          type: string
+        dependents_count:
+          type: integer
+        frozen:
+          type: boolean
+        immutable:
+          type: boolean
+        name:
+          type: string
+        release_date:
+          type: string
+        type:
+          type: string
+        version:
+          type: string
+      type: object
+    released:
+      description: Whether version is released
+      type: boolean
+    released_versions:
+      description: All released versions registry
+      type: object
+    success:
+      description: Whether the operation was successful
+      type: boolean
+    timestamp:
+      description: Operation timestamp
+      format: date-time
+      type: string
+    total_frozen:
+      description: Total number of frozen versions
+      type: integer
+    total_frozen_versions:
+      description: Total frozen versions count
+      type: integer
+    total_released:
+      description: Total number of released versions
+      type: integer
+    total_released_versions:
+      description: Total released versions count
+      type: integer
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+performance:
+  compatibility_check_target: < 30 seconds
+  dependency_analysis_target: < 60 seconds
+  freeze_operation_target: < 5 seconds
+  integrity_verification_target: < 15 seconds
+  release_operation_target: < 10 seconds
+reliability:
+  atomic_operations: true
+  audit_trails: true
+  error_recovery: true
+  integrity_checks: true
+  rollback_support: true
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  access_control: Tracks who performs freeze/unfreeze operations
+  audit_logging: Comprehensive audit trail of all operations
+  checksum_verification: Ensures version integrity through cryptographic checksums
+  freeze_protection: Prevents unauthorized modifications to frozen versions
+status: production
+stdlib_modules:
+- dataclasses
+- datetime
+- hashlib
+- json
+- logging
+- os
+- pathlib
+- shutil
+- typing
+triggers:
+- version_release
+- compatibility_violation
+- integrity_violation
+- dependency_update
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:budget_aware_rate_limiter-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T14:57:03.992578Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "budget_aware_rate_limiter@1.0.0",
+      "name": "budget_aware_rate_limiter",
+      "version": "1.0.0",
+      "description": "Intelligent budget-aware rate limiting system that automatically adjusts rate limits based on budget constraints and cost tracking. Provides progressive throttling, plugin priority management, and tight integration with cost estimator for budget-constrained quota management."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

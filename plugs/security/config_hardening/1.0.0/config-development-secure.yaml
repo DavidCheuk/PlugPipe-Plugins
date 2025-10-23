@@ -1,0 +1,138 @@
+# -----------------------------------------------------------------
+# PlugPipe Secure Development Configuration
+# -----------------------------------------------------------------
+# SECURITY FIRST: Even development environments use secure defaults
+# with explicit opt-in for insecure configurations when needed.
+
+# Schema Validation Configuration
+schema_validation:
+  enable_at_runtime: true
+  enable_at_development: true
+  plug_schema_path: "shares/schemas/min_plug_schema.json"
+  pipe_schema_path: "shares/schemas/pipe_schema.json"
+  fail_on_validation_error: true                # SECURITY: Fail fast in development
+
+# -----------------------------------------------------------------
+# Development Registry Configuration (Secure Local)
+# -----------------------------------------------------------------
+registry:
+  backend: yaml
+  yaml_dir: ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/plugs
+
+# -----------------------------------------------------------------
+# Environment Configuration - SECURE DEFAULTS
+# -----------------------------------------------------------------
+environment:
+  pp_env: development
+  debug: false                                  # SECURITY: Disable debug by default
+  
+# -----------------------------------------------------------------
+# Service Binding - LOCALHOST ONLY (Secure Default)
+# -----------------------------------------------------------------
+services:
+  # API Service - Localhost binding for development security
+  api:
+    host: 127.0.0.1                            # SECURITY: Localhost only
+    port: 8080
+    enable_cors: true
+    cors_origins:
+      - "http://localhost:3000"
+      - "http://127.0.0.1:3000"
+    max_connections: 100
+    
+  # MCP Server - Localhost binding
+  mcp:
+    host: 127.0.0.1                            # SECURITY: Localhost only
+    port: 8081
+    protocol_version: "2025-06-18"
+    max_connections: 50
+    
+  # Frontend Development Server
+  frontend:
+    host: 127.0.0.1                            # SECURITY: Localhost only
+    port: 3000
+
+# -----------------------------------------------------------------
+# LLM Provider Configuration
+# -----------------------------------------------------------------
+llm_provider:
+  default:
+    type: "ollama"
+    endpoint: "http://127.0.0.1:11434"          # SECURITY: Localhost endpoint
+    model: "mistral:latest"
+    api_key_env: ""
+    timeout: 30
+
+# -----------------------------------------------------------------
+# Development Security Configuration
+# -----------------------------------------------------------------
+security:
+  # Authentication (simplified for development)
+  auth:
+    enable_jwt: true
+    jwt_secret_env: "DEV_JWT_SECRET"            # REQUIRED: Must be set
+    jwt_expiry: 3600
+    
+  # Rate limiting (lenient for development)
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 200
+    burst_size: 50
+    
+  # CORS (restricted even in development)
+  cors:
+    allow_origins:
+      - "http://localhost:3000"
+      - "http://127.0.0.1:3000"
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_headers: ["Authorization", "Content-Type", "Accept"]
+    allow_credentials: true
+
+# -----------------------------------------------------------------
+# Logging Configuration
+# -----------------------------------------------------------------
+logging:
+  level: "DEBUG"
+  format: "detailed"
+  handlers:
+    - type: "console"
+      level: "DEBUG"
+      
+  # Security logging
+  security_events:
+    enabled: true
+    log_failed_auth: true
+    log_rate_limit_violations: true
+
+# -----------------------------------------------------------------
+# Development Cache (Optional)
+# -----------------------------------------------------------------
+cache:
+  backend: "memory"                             # Simple in-memory cache
+  policies:
+    plugin_metadata: 300                        # 5 minutes
+    search_results: 180                         # 3 minutes
+
+# -----------------------------------------------------------------
+# Required Environment Variables (Development)
+# -----------------------------------------------------------------
+# Create .env file with these variables:
+# DEV_JWT_SECRET=your-development-jwt-secret-here
+# PP_API_HOST=127.0.0.1                        # Explicit localhost
+# PP_ENV=development
+
+# -----------------------------------------------------------------
+# Secrets File Location
+# -----------------------------------------------------------------
+secrets:
+  file: ~/.env                                  # Development secrets
+
+# -----------------------------------------------------------------
+# SECURITY NOTES FOR DEVELOPMENT:
+# -----------------------------------------------------------------
+# 1. Always use localhost (127.0.0.1) bindings
+# 2. Set explicit JWT secrets even in development
+# 3. Enable CORS only for specific localhost origins
+# 4. Use secure defaults and opt-in for insecure features
+# 5. Test with realistic security constraints
+# 6. Never commit actual secrets to version control

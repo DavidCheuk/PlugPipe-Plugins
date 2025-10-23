@@ -1,0 +1,64 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:storage-backend-abstractor-1.0.0-sbom",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-01T02:35:00Z",
+    "component": {
+      "type": "application",
+      "name": "storage_backend_abstractor",
+      "version": "1.0.0",
+      "description": "Universal storage backend abstraction layer eliminating cross-cutting storage concerns",
+      "author": "PlugPipe"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "sqlite3",
+      "version": "builtin",
+      "description": "SQLite database interface",
+      "licenses": [{"license": {"name": "Public Domain"}}]
+    },
+    {
+      "type": "library", 
+      "name": "json",
+      "version": "builtin",
+      "description": "JSON encoder and decoder",
+      "licenses": [{"license": {"name": "Python Software Foundation License"}}]
+    },
+    {
+      "type": "library",
+      "name": "asyncio", 
+      "version": "builtin",
+      "description": "Asynchronous I/O library",
+      "licenses": [{"license": {"name": "Python Software Foundation License"}}]
+    },
+    {
+      "type": "library",
+      "name": "pathlib",
+      "version": "builtin", 
+      "description": "Object-oriented filesystem paths",
+      "licenses": [{"license": {"name": "Python Software Foundation License"}}]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "sqlite3",
+      "dependsOn": []
+    },
+    {
+      "ref": "json", 
+      "dependsOn": []
+    },
+    {
+      "ref": "asyncio",
+      "dependsOn": []
+    },
+    {
+      "ref": "pathlib",
+      "dependsOn": []
+    }
+  ]
+}

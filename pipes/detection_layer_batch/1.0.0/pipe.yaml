@@ -1,0 +1,159 @@
+name: detection-layer-batch
+version: 1.0.0
+description: Comprehensive batch execution of all detection layer plugins for automated
+  plugin change analysis and issue identification
+author: PlugPipe Team
+owner: PlugPipe Detection Team
+status: stable
+category: detection
+type: pipe
+tags:
+- detection
+- batch
+- automation
+- validation
+- analysis
+inputs:
+  trigger_reason:
+    type: string
+    default: manual
+    description: Reason for triggering detection batch
+  change_scope:
+    type: string
+    default: ecosystem_wide
+    description: Scope of changes to analyze
+  detection_sensitivity:
+    type: string
+    default: medium
+    description: Detection sensitivity level
+pipeline:
+- id: setup_detection_environment
+  uses: core.cli_parameter_mapping_coordinator
+  with:
+    operation: coordinate_parameter_ecosystem
+    include_new_plugins: true
+    auto_resolve_conflicts: true
+  description: Setup detection environment and coordinate plugin parameters
+- id: scan_codebase_integrity
+  uses: core.codebase_integrity_scanner
+  with:
+    operation: scan
+    scan_directories:
+    - cores
+    - plugs
+    - pipes
+    scan_type: comprehensive
+    severity_threshold: medium
+    max_files: 50
+  description: Comprehensive codebase integrity analysis
+  depends_on:
+  - setup_detection_environment
+- id: detect_performance_bottlenecks
+  uses: core.performance_bottleneck_detector
+  with:
+    operation: detect_bottlenecks
+    target_config:
+      scope: full_ecosystem
+      include_patterns:
+      - '**/*.py'
+      - '**/*.yaml'
+    thresholds:
+      cpu_threshold_percent: 75.0
+      memory_threshold_mb: 400.0
+  description: Performance bottleneck detection across ecosystem
+  depends_on:
+  - scan_codebase_integrity
+- id: analyze_security_configuration
+  uses: security.config_hardening
+  with:
+    operation: status_api
+    config_file: config.yaml
+    environment: production
+  description: Security configuration analysis
+  depends_on:
+  - setup_detection_environment
+- id: audit_business_compliance
+  uses: governance.business_compliance_auditor
+  with:
+    operation: execute_compliance_audit
+    audit_scope: ecosystem_wide
+    audit_categories:
+    - security
+    - quality
+    - architecture
+  description: Business compliance audit
+  depends_on:
+  - analyze_security_configuration
+- id: consolidate_detection_results
+  uses: governance.issue_tracker
+  with:
+    operation: store_issues
+    issues:
+    - source: integrity_scan
+      data: '{{scan_codebase_integrity.scan_results.issues_found}}'
+      category: integrity
+    - source: performance_analysis
+      data: '{{detect_performance_bottlenecks.bottlenecks}}'
+      category: performance
+    - source: security_analysis
+      data: '{{analyze_security_configuration.detailed_findings}}'
+      category: security
+    - source: compliance_audit
+      data: '{{audit_business_compliance.compliance_violations}}'
+      category: compliance
+    storage_backend: auto
+  description: Consolidate all detection results
+  depends_on:
+  - detect_performance_bottlenecks
+  - audit_business_compliance
+- id: generate_detection_report
+  uses: governance.pp_registry_comprehensive_reporter
+  with:
+    operation: generate_detection_report
+    report_config:
+      include_all_detection_results: true
+      format: comprehensive
+    data_sources:
+      integrity_scan: '{{scan_codebase_integrity}}'
+      performance_analysis: '{{detect_performance_bottlenecks}}'
+      security_analysis: '{{analyze_security_configuration}}'
+      compliance_audit: '{{audit_business_compliance}}'
+      consolidated_issues: '{{consolidate_detection_results}}'
+  description: Generate comprehensive detection report
+  depends_on:
+  - consolidate_detection_results
+- id: trigger_automated_fixing
+  uses: intelligence.background_ai_fixer_service
+  with:
+    operation: trigger_manual_fix_cycle
+    service_config:
+      auto_fix_enabled: true
+      confidence_threshold: 0.8
+      max_concurrent_fixes: 3
+    fix_targets:
+      include_categories:
+      - security
+      - compliance
+      - performance
+      include_severities:
+      - critical
+      - high
+      max_fixes_per_cycle: 5
+  description: Trigger automated fixing for critical issues
+  depends_on:
+  - consolidate_detection_results
+summary:
+  format: table
+  columns:
+  - step_id
+  - status
+  - duration
+  - issues_found
+  doc: Detection layer batch execution summary with issue counts per detection plugin
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

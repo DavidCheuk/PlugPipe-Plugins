@@ -1,0 +1,68 @@
+id: storage_backend_abstractor
+name: Storage Backend Abstractor
+version: 1.0.0
+category: core
+author: PlugPipe
+description: Universal storage backend abstraction layer eliminating cross-cutting storage concerns
+tags:
+  - storage
+  - abstraction
+  - backend
+  - database
+  - cross-cutting
+privacy: public
+executable: true
+runtime: python
+
+parameters:
+  operation:
+    type: string
+    description: "Operation to perform"
+    required: true
+    enum: ["store", "retrieve", "update", "delete", "list", "health_check", "configure_backend"]
+  
+  backend_type:
+    type: string
+    description: "Storage backend type"
+    required: false
+    enum: ["local_file", "sqlite", "postgresql", "database_factory", "aws_s3", "yaml"]
+    default: "sqlite"
+  
+  data:
+    type: object
+    description: "Data to store/update"
+    required: false
+  
+  query_filters:
+    type: object
+    description: "Query filters for retrieve/list operations"
+    required: false
+  
+  storage_config:
+    type: object
+    description: "Backend-specific storage configuration"
+    required: false
+
+outputs:
+  success:
+    type: boolean
+    description: "Operation success status"
+  
+  data:
+    type: object
+    description: "Retrieved/stored data"
+  
+  backend_used:
+    type: string
+    description: "Actual backend used for operation"
+  
+  records_affected:
+    type: integer
+    description: "Number of records affected"
+
+dependencies:
+  required: []
+  optional: []
+
+compatibility:
+  min_plugpipe_version: "1.0.0"

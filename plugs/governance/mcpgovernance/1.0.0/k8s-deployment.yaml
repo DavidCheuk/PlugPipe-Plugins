@@ -1,0 +1,458 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: plugpipe-governance
+  labels:
+    app: mcpgovernance
+    tier: enterprise
+---
+# ConfigMap for MCPGovernance configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mcpgovernance-config
+  namespace: plugpipe-governance
+data:
+  config.yaml: |
+    server:
+      host: "0.0.0.0"
+      port: 8090
+      workers: 4
+    database:
+      type: "postgresql"
+      connection_string: "postgresql://postgres:governance123@postgres-service:5432/mcpgovernance"
+    cache:
+      redis_url: "redis://redis-service:6379/0"
+      ttl_seconds: 300
+    opa_integration:
+      enabled: true
+      opa_server_url: "http://opa-service:8181"
+      policy_bundle_path: "/policies"
+    monitoring:
+      metrics_enabled: true
+      health_check_interval: 30
+      alert_thresholds:
+        cpu_high: 80.0
+        memory_high: 85.0
+        response_time_high: 1000.0
+---
+# MCPGovernance Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcpgovernance
+  namespace: plugpipe-governance
+  labels:
+    app: mcpgovernance
+    tier: enterprise
+    component: governance
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: mcpgovernance
+  template:
+    metadata:
+      labels:
+        app: mcpgovernance
+        tier: enterprise
+        component: governance
+    spec:
+      serviceAccountName: mcpgovernance
+      containers:
+      - name: mcpgovernance
+        image: plugpipe/mcpgovernance:1.0.0
+        ports:
+        - containerPort: 8090
+          name: governance-api
+        env:
+        - name: SERVER_HOST
+          value: "0.0.0.0"
+        - name: SERVER_PORT
+          value: "8090"
+        - name: DATABASE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: mcpgovernance-secrets
+              key: database-url
+        - name: REDIS_URL
+          value: "redis://redis-service:6379/0"
+        - name: OPA_SERVER_URL
+          value: "http://opa-service:8181"
+        volumeMounts:
+        - name: config
+          mountPath: /app/config
+        - name: policies
+          mountPath: /policies
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8090
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+      volumes:
+      - name: config
+        configMap:
+          name: mcpgovernance-config
+      - name: policies
+        configMap:
+          name: opa-policies
+---
+# Service for MCPGovernance
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcpgovernance-service
+  namespace: plugpipe-governance
+  labels:
+    app: mcpgovernance
+    tier: enterprise
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8090
+    targetPort: 8090
+    protocol: TCP
+    name: governance-api
+  selector:
+    app: mcpgovernance
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mcpgovernance-hpa
+  namespace: plugpipe-governance
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mcpgovernance
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+---
+# Network Policy for Security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mcpgovernance-netpol
+  namespace: plugpipe-governance
+spec:
+  podSelector:
+    matchLabels:
+      app: mcpgovernance
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: plugpipe-registry
+    - podSelector:
+        matchLabels:
+          app: plugpipe-registry
+    ports:
+    - protocol: TCP
+      port: 8090
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgres
+    ports:
+    - protocol: TCP
+      port: 5432
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
+    - podSelector:
+        matchLabels:
+          app: opa
+    ports:
+    - protocol: TCP
+      port: 8181
+---
+# ServiceAccount for RBAC
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mcpgovernance
+  namespace: plugpipe-governance
+---
+# Role for required permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: mcpgovernance
+  namespace: plugpipe-governance
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+# RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mcpgovernance
+  namespace: plugpipe-governance
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mcpgovernance
+subjects:
+- kind: ServiceAccount
+  name: mcpgovernance
+  namespace: plugpipe-governance
+---
+# Ingress for external access
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mcpgovernance-ingress
+  namespace: plugpipe-governance
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - governance.plugpipe.com
+    secretName: mcpgovernance-tls
+  rules:
+  - host: governance.plugpipe.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mcpgovernance-service
+            port:
+              number: 8090
+---
+# PostgreSQL Deployment for persistence
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: plugpipe-governance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15-alpine
+        env:
+        - name: POSTGRES_DB
+          value: mcpgovernance
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mcpgovernance-secrets
+              key: postgres-password
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: plugpipe-governance
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+# Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: plugpipe-governance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+---
+# Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: plugpipe-governance
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+---
+# OPA Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa
+  namespace: plugpipe-governance
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: opa
+  template:
+    metadata:
+      labels:
+        app: opa
+    spec:
+      containers:
+      - name: opa
+        image: openpolicyagent/opa:latest-envoy
+        ports:
+        - containerPort: 8181
+        args:
+        - "run"
+        - "--server"
+        - "--addr=0.0.0.0:8181"
+        - "--bundle"
+        - "/policies"
+        volumeMounts:
+        - name: policies
+          mountPath: /policies
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: policies
+        configMap:
+          name: opa-policies
+---
+# OPA Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: opa-service
+  namespace: plugpipe-governance
+spec:
+  selector:
+    app: opa
+  ports:
+  - port: 8181
+    targetPort: 8181
+---
+# Secrets for sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mcpgovernance-secrets
+  namespace: plugpipe-governance
+type: Opaque
+data:
+  postgres-password: Z292ZXJuYW5jZTEyMw== # governance123
+  database-url: cG9zdGdyZXNxbDovL3Bvc3RncmVzOmdvdmVybmFuY2UxMjNAcG9zdGdyZXMtc2VydmljZTo1NDMyL21jcGdvdmVybmFuY2U= # postgresql://postgres:governance123@postgres-service:5432/mcpgovernance
+---
+# PersistentVolumeClaim for PostgreSQL
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: plugpipe-governance
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: fast-ssd

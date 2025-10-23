@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:research_validation_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:44.507876Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "research_validation_agent_factory@1.0.0",
+      "name": "research_validation_agent_factory",
+      "version": "1.0.0",
+      "description": "Research Validation Agent Factory - Creates specialized research validation agents using selective reuse architecture for academic and scientific research validation with 90%+ accuracy"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

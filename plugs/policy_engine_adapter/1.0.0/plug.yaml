@@ -1,0 +1,262 @@
+name: policy_engine_adapter
+display_name: PolicyEngineAdapter
+version: 1.0.0
+description: Universal adapter plugin for Policy-as-Code engines (OPA, Cedar, Custom)
+  following PlugPipe spirit
+author: PlugPipe Team
+owner: PlugPipe Enterprise Team
+status: stable
+discoverability: public
+category: adapter
+tier: enterprise
+metadata:
+  type: adapter
+  category: policy-engine-adapter
+  capabilities:
+  - opa_integration
+  - cedar_integration
+  - custom_policy_integration
+  - multi_tenant_routing
+  - tier_based_engine_selection
+  memory_mb: 512
+tags:
+- policy
+- adapter
+- opa
+- cedar
+- authorization
+- multi-tenant
+- enterprise
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - pyyaml
+  requirements_file: requirements.txt
+config_schema:
+  type: object
+  properties:
+    default_engine:
+      type: string
+      enum:
+      - opa
+      - cedar
+      - custom
+      - none
+      default: opa
+      description: Default policy engine to use
+    opa_plugin:
+      type: string
+      default: opa_policy_enterprise
+      description: OPA plugin name to use via pp()
+    cedar_plugin:
+      type: string
+      default: cedar_policy
+      description: Cedar plugin name to use via pp()
+    custom_plugin:
+      type: string
+      default: custom_policy
+      description: Custom policy plugin name to use via pp()
+    routing_rules:
+      type: object
+      description: Routing rules for engine selection
+      properties:
+        by_tenant_tier:
+          type: object
+          properties:
+            free:
+              type: string
+              enum:
+              - none
+              - opa
+              - cedar
+              - custom
+              default: none
+            pro:
+              type: string
+              enum:
+              - none
+              - opa
+              - cedar
+              - custom
+              default: cedar
+            enterprise:
+              type: string
+              enum:
+              - none
+              - opa
+              - cedar
+              - custom
+              default: opa
+            custom:
+              type: string
+              enum:
+              - none
+              - opa
+              - cedar
+              - custom
+              - all
+              default: all
+        by_resource_type:
+          type: object
+          description: Route by resource type
+          additionalProperties:
+            type: string
+            enum:
+            - opa
+            - cedar
+            - custom
+        by_complexity:
+          type: object
+          properties:
+            simple:
+              type: string
+              default: cedar
+            medium:
+              type: string
+              default: cedar
+            complex:
+              type: string
+              default: opa
+config_defaults:
+  default_engine: opa
+  opa_plugin: opa_policy_enterprise
+  cedar_plugin: cedar_policy
+  custom_plugin: custom_policy
+  routing_rules:
+    by_tenant_tier:
+      free: none
+      pro: cedar
+      enterprise: opa
+      custom: all
+    by_resource_type:
+      commercial_plugin: opa
+      sensitive_data: opa
+      compliance_resource: opa
+      simple_resource: cedar
+    by_complexity:
+      simple: cedar
+      medium: cedar
+      complex: opa
+input_schema:
+  type: object
+  required:
+  - action
+  properties:
+    action:
+      type: string
+      enum:
+      - evaluate_policy
+      - list_engines
+      - get_engine_health
+      - route_policy
+      description: Action to perform
+    policy_request:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: User/entity making the request
+        action:
+          type: string
+          description: Action being performed
+        resource:
+          type: string
+          description: Resource being accessed
+        resource_type:
+          type: string
+          description: Type of resource
+        context:
+          type: object
+          description: Additional context for policy evaluation
+        tenant_id:
+          type: string
+          description: Tenant identifier
+        tenant_tier:
+          type: string
+          enum:
+          - free
+          - pro
+          - enterprise
+          - custom
+          description: Tenant subscription tier
+        compliance_requirements:
+          type: array
+          items:
+            type: string
+          description: Compliance frameworks required
+        engine_preference:
+          type: string
+          enum:
+          - opa
+          - cedar
+          - custom
+          - auto
+          description: Preferred engine (auto = routing rules)
+    filter_by_tier:
+      type: string
+      enum:
+      - free
+      - pro
+      - enterprise
+      - custom
+      description: Filter engines by tenant tier
+output_schema:
+  type: object
+  properties:
+    decision:
+      type: object
+      properties:
+        allow:
+          type: boolean
+          description: Authorization decision
+        engine:
+          type: string
+          description: Engine that made the decision
+        policy_name:
+          type: string
+          description: Policy that was evaluated
+        reason:
+          type: string
+          description: Human-readable reason
+        confidence:
+          type: number
+          description: Confidence level (0-1)
+        evaluation_time_ms:
+          type: number
+          description: Evaluation time in milliseconds
+        metadata:
+          type: object
+          description: Additional metadata
+    available_engines:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          plugin:
+            type: string
+          available:
+            type: boolean
+          capabilities:
+            type: object
+    health:
+      type: object
+      additionalProperties:
+        type: object
+    selected_engine:
+      type: string
+    routing_reason:
+      type: string
+    success:
+      type: boolean
+    error:
+      type: string
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

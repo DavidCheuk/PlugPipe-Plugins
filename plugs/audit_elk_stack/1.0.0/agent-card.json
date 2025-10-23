@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:audit_elk_stack",
+    "name": "Audit Elk Stack Agent",
+    "description": "Event logging and searching for PlugPipe audit events using Elasticsearch. For infrastructure management (ILM, Logstash, Kibana), use specialized plugins (elk_ilm_manager, elk_logstash_manager, elk_kibana_manager)",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/audit_elk_stack",
+    "skills": [
+      {
+        "id": "audit_elk_stack-primary",
+        "name": "Audit Elk Stack",
+        "description": "Event logging and searching for PlugPipe audit events using Elasticsearch. For infrastructure management (ILM, Logstash, Kibana), use specialized plugins (elk_ilm_manager, elk_logstash_manager, elk_kibana_manager)",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "audit_elk_stack",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "audit",
+          "logging",
+          "elk",
+          "elasticsearch"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.332738Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

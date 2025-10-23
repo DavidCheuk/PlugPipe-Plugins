@@ -1,0 +1,40 @@
+name: Plugin Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+
+jobs:
+  validate:
+    name: Validate Plugin Changes
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install validation tools
+      run: pip install pyyaml jsonschema
+
+    - name: Count plugins
+      run: |
+        echo "Plugin count: $(find plugs -name 'plug.yaml' | wc -l)"
+        echo "Pipe count: $(find pipes -name 'pipe.yaml' 2>/dev/null | wc -l || echo 0)"
+
+    - name: Check copyright compliance
+      run: |
+        echo "Checking Python files for SPDX headers..."
+        find plugs pipes glues -name "*.py" | while read file; do
+          if ! head -5 "$file" | grep -q "SPDX-License-Identifier"; then
+            echo "❌ Missing SPDX header: $file"
+          fi
+        done

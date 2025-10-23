@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:kubernetes_operator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:37.669231Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "kubernetes_operator@1.0.0",
+      "name": "kubernetes_operator",
+      "version": "1.0.0",
+      "description": "Kubernetes Operator plugin for PlugPipe lifecycle management, providing Custom Resource Definitions, controllers, reconciliation loops, and automated plugin deployment and scaling within Kubernetes clusters"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,333 @@
+author: PlugPipe Team
+category: streaming
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Configurable per topic
+  encryption: Configurable SSL/TLS
+  gdpr_compliant: true
+config_schema:
+  properties:
+    admin_timeout_ms:
+      default: 30000
+      description: Admin operation timeout in milliseconds
+      maximum: 300000
+      minimum: 5000
+      type: integer
+    bootstrap_servers:
+      default: localhost:9092
+      description: Kafka cluster bootstrap servers
+      type: string
+    bulk_operations:
+      default: false
+      description: Enable bulk topic operations
+      type: boolean
+    redis_backend:
+      description: Redis configuration for operation coordination
+      properties:
+        enabled:
+          default: false
+          type: boolean
+        operation_log_ttl:
+          default: 86400
+          type: integer
+        redis_url:
+          default: redis://localhost:6379/2
+          type: string
+      type: object
+    request_timeout_ms:
+      default: 10000
+      description: Individual request timeout
+      maximum: 60000
+      minimum: 1000
+      type: integer
+    safety_checks:
+      default: true
+      description: Enable safety checks for destructive operations
+      type: boolean
+    sasl_mechanism:
+      description: SASL authentication mechanism
+      enum:
+      - PLAIN
+      - SCRAM-SHA-256
+      - SCRAM-SHA-512
+      - GSSAPI
+      type: string
+    security_protocol:
+      default: PLAINTEXT
+      description: Security protocol for Kafka connection
+      enum:
+      - PLAINTEXT
+      - SSL
+      - SASL_PLAINTEXT
+      - SASL_SSL
+      type: string
+  required:
+  - bootstrap_servers
+  type: object
+description: Universal Kafka topic lifecycle management plugin for any streaming infrastructure
+documentation:
+  examples:
+  - config:
+      bootstrap_servers: localhost:9092
+    description: Create new Kafka topic with custom configuration
+    input:
+      operation: create_topic
+      partitions: 6
+      replication_factor: 2
+      topic_name: events
+    name: Create single topic
+  - config:
+      bootstrap_servers: kafka-cluster:9092
+    description: Get information about all topics in cluster
+    input:
+      include_internal: false
+      operation: list_topics
+    name: List all topics
+  - config:
+      bootstrap_servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    description: Create multiple topics for PlugPipe ecosystem
+    input:
+      operation: create_topics_batch
+      topics:
+      - name: plugpipe-signals
+        partitions: 12
+      - name: plugpipe-health
+        partitions: 6
+    name: Bulk topic creation
+  readme: "# Universal Kafka Topic Manager Plugin\n\nGeneric Kafka topic management\
+    \ plugin supporting ANY streaming infrastructure administration, from simple topic\
+    \ creation to complex multi-cluster management.\n\n## Universal Use Cases\n- **Topic\
+    \ Lifecycle Management**: Create, configure, and delete topics\n- **Infrastructure\
+    \ Automation**: Programmatic topic provisioning\n- **Multi-Tenant Management**:\
+    \ Namespace and permission management\n- **Capacity Planning**: Topic configuration\
+    \ optimization\n- **Compliance Management**: Data retention and security policies\n\
+    - **DevOps Integration**: CI/CD pipeline topic management\n- **Analytics Infrastructure**:\
+    \ Analytics topic provisioning\n- **PlugPipe Ecosystem Management**: Internal\
+    \ signal topic administration\n\n## Operations Supported\n\n### Topic Administration\n\
+    - Create topics with custom configurations\n- List and inspect existing topics\n\
+    - Update topic configurations\n- Delete topics with safety checks\n- Describe\
+    \ topic metadata and settings\n\n### Configuration Management\n- Partition count\
+    \ optimization\n- Replication factor configuration\n- Retention policy management\n\
+    - Compression settings\n- Cleanup policies\n\n## Configuration Examples\n\n###\
+    \ Create Analytics Topic\n```yaml\nsteps:\n  - plugin: kafka_topic_manager\n \
+    \   config:\n      bootstrap_servers: \"localhost:9092\"\n      admin_timeout_ms:\
+    \ 30000\n    input:\n      operation: \"create_topic\"\n      topic_name: \"analytics-events\"\
+    \n      partitions: 12\n      replication_factor: 3\n      config:\n        retention.ms:\
+    \ 604800000  # 7 days\n        compression.type: \"snappy\"\n```\n\n### PlugPipe\
+    \ Signal Topics Setup\n```yaml\nsteps:\n  - plugin: kafka_topic_manager\n    config:\n\
+    \      bootstrap_servers: \"${KAFKA_SERVERS}\"\n      bulk_operations: true\n\
+    \    input:\n      operation: \"create_topics_batch\"\n      topics:\n       \
+    \ - name: \"plugpipe-health-signals\"\n          partitions: 6\n          replication_factor:\
+    \ 3\n        - name: \"plugpipe-registry-events\"\n          partitions: 3\n \
+    \         replication_factor: 2\n```\n\n### Topic Configuration Update\n```yaml\n\
+    steps:\n  - plugin: kafka_topic_manager\n    config:\n      bootstrap_servers:\
+    \ \"kafka-cluster:9092\"\n    input:\n      operation: \"update_config\"\n   \
+    \   topic_name: \"user-events\"\n      config_updates:\n        retention.ms:\
+    \ 1209600000  # 14 days\n        segment.ms: 86400000      # 1 day\n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - kafka
+  - redis
+  requirements_file: requirements.txt
+features:
+  enterprise:
+  - Role-based access control integration
+  - Comprehensive audit logging
+  - Security protocol support
+  - Multi-tenant namespace management
+  - Compliance policy enforcement
+  performance:
+  - Batch topic operations
+  - Configurable timeouts
+  - Connection reuse and pooling
+  - Async operation support
+  plugpipe_integration:
+  - Signal topic provisioning for PlugPipe ecosystem
+  - Redis coordination for complex workflows
+  - Monitoring integration with existing tools
+  - Plugin lifecycle topic management
+  universal_compatibility:
+  - Multi-cluster topic management
+  - Flexible topic configuration
+  - Batch operations for efficiency
+  - Safety checks for destructive operations
+health_check:
+  expected_response: cluster_info
+  method: cluster_metadata
+  timeout: 10
+input_schema:
+  properties:
+    config:
+      additionalProperties:
+        type:
+        - string
+        - number
+        - boolean
+      description: Topic configuration parameters
+      type: object
+    config_updates:
+      additionalProperties:
+        type:
+        - string
+        - number
+        - boolean
+      description: Configuration updates for existing topics
+      type: object
+    include_internal:
+      default: false
+      description: Include internal topics in listing
+      type: boolean
+    operation:
+      description: Topic management operation to perform
+      enum:
+      - create_topic
+      - delete_topic
+      - list_topics
+      - describe_topic
+      - update_config
+      - create_topics_batch
+      type: string
+    partitions:
+      default: 3
+      description: Number of partitions for topic
+      maximum: 1000
+      minimum: 1
+      type: integer
+    replication_factor:
+      default: 1
+      description: Replication factor for topic
+      maximum: 10
+      minimum: 1
+      type: integer
+    topic_name:
+      description: Topic name for single topic operations
+      type: string
+    topics:
+      description: List of topics for batch operations
+      items:
+        properties:
+          config:
+            type: object
+          name:
+            type: string
+          partitions:
+            minimum: 1
+            type: integer
+          replication_factor:
+            minimum: 1
+            type: integer
+        type: object
+      type: array
+    validate_only:
+      default: false
+      description: Validate operation without executing
+      type: boolean
+  required:
+  - operation
+  type: object
+license: MIT
+monitoring:
+  events:
+  - topic_created
+  - topic_deleted
+  - topic_configured
+  - admin_operation_completed
+  - admin_operation_failed
+  metrics:
+  - kafka_topics_created_total
+  - kafka_topics_deleted_total
+  - kafka_topic_operations_total
+  - kafka_admin_operation_duration_ms
+  - kafka_topic_config_changes_total
+name: kafka_topic_manager
+display_name: KafkaTopicManager
+output_schema:
+  properties:
+    kafka_error:
+      description: Error message if operation failed
+      type: string
+    kafka_result:
+      properties:
+        errors:
+          description: Any errors encountered during operations
+          items:
+            type: object
+          type: array
+        operation:
+          description: Operation that was performed
+          type: string
+        status:
+          enum:
+          - success
+          - error
+          - partial
+          type: string
+        topic_metadata:
+          description: Detailed topic information
+          items:
+            type: object
+          type: array
+        topics_affected:
+          description: Topics that were created, modified, or deleted
+          items:
+            type: string
+          type: array
+      type: object
+    kafka_status:
+      enum:
+      - success
+      - error
+      - partial
+      type: string
+  type: object
+owner: PlugPipe Streaming Team
+performance:
+  caching:
+    enabled: true
+    ttl: 300
+  rate_limit:
+    admin_operations_per_minute: 60
+    bulk_operations_per_hour: 20
+requirements:
+  python:
+  - kafka-python>=2.0.2
+  - confluent-kafka>=2.1.0
+  - redis>=4.5.0
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  external_domains:
+  - '*.kafka.domain'
+  - confluent.cloud
+  - '*.amazonaws.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - kafka_bootstrap_servers
+  - kafka_username
+  - kafka_password
+  - kafka_ssl_cert_path
+  - kafka_ssl_key_path
+status: stable
+tags:
+- kafka
+- streaming
+- topics
+- management
+- universal
+- administration
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

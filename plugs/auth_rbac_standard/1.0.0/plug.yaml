@@ -1,0 +1,251 @@
+name: auth_rbac_standard
+display_name: AuthRBACStandard
+version: 1.0.0
+type: authorization
+category: rbac
+title: Role-Based Access Control Plug
+description: Enterprise RBAC system with hierarchical roles and fine-grained permissions
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-rbac-standard
+auth_type: authorization
+authorization_model: rbac
+supports_hierarchical_roles: true
+supports_custom_permissions: true
+provides:
+- role_based_authorization
+- permission_checking
+- role_management
+- permission_inheritance
+- resource_scoping
+requires:
+- user_manager
+- database
+configuration:
+- name: default_role
+  type: string
+  required: false
+  secure: false
+  default: user
+  description: Default role for new users
+  enum:
+  - admin
+  - developer
+  - user
+  - guest
+- name: role_inheritance
+  type: boolean
+  required: false
+  secure: false
+  default: true
+  description: Enable role inheritance (admin inherits developer permissions)
+- name: custom_roles
+  type: array
+  required: false
+  secure: false
+  description: Custom role definitions beyond standard roles
+- name: resource_types
+  type: array
+  required: false
+  secure: false
+  default:
+  - plugs
+  - pipes
+  - users
+  - admin
+  - analytics
+  description: Resource types for permission scoping
+- name: organization_scoped
+  type: boolean
+  required: false
+  secure: false
+  default: false
+  description: Enable organization-scoped permissions
+actions:
+- check_permission
+- get_user_roles
+- assign_role
+- remove_role
+- get_user_permissions
+- validate_permission
+dependencies:
+- pydantic >= 2.0.0
+external_dependencies:
+- name: pydantic
+  version: '>=2.0.0'
+  purpose: Data validation and settings management for RBAC model definitions and
+    permission validation
+security:
+- Hierarchical role inheritance
+- Fine-grained resource permissions
+- Scope-based access control
+- Permission validation and sanitization
+enterprise:
+- Organization-based role scoping
+- Team-based permissions
+- Custom role definitions
+- Audit trail integration
+- Bulk permission management
+roles:
+  guest:
+    priority: 40
+    description: Read-only access to public resources
+    inherits_from: null
+    permissions:
+    - plugs:read:global
+    - registries:read:global
+  user:
+    priority: 30
+    description: Standard user with pipeline management
+    inherits_from: guest
+    permissions:
+    - plugs:execute:global
+    - pipes:read:own
+    - pipes:write:own
+    - pipes:create:own
+    - pipes:delete:own
+    - pipes:execute:own
+    - users:read:own
+    - users:write:own
+  developer:
+    priority: 20
+    description: Developer with plugin creation capabilities
+    inherits_from: user
+    permissions:
+    - plugs:create:own
+    - plugs:write:own
+    - plugs:delete:own
+    - plugs:publish:own
+    - registries:write:own
+    - analytics:read:own
+    - integrations:read:global
+    - integrations:configure:own
+  admin:
+    priority: 10
+    description: Full system administration
+    inherits_from: developer
+    permissions:
+    - plugs:manage:global
+    - pipes:manage:global
+    - registries:manage:global
+    - users:manage:global
+    - admin:configure:global
+    - analytics:read:global
+    - integrations:manage:global
+scopes:
+  global:
+    description: Access to all resources system-wide
+    priority: 10
+  organization:
+    description: Access within user's organization
+    priority: 20
+  project:
+    description: Access within specific projects
+    priority: 30
+  own:
+    description: Access only to resources owned by user
+    priority: 40
+resources:
+  plugs:
+    actions:
+    - read
+    - write
+    - create
+    - delete
+    - execute
+    - publish
+    - manage
+    scopes:
+    - global
+    - organization
+    - project
+    - own
+  pipes:
+    actions:
+    - read
+    - write
+    - create
+    - delete
+    - execute
+    - manage
+    scopes:
+    - global
+    - organization
+    - project
+    - own
+  users:
+    actions:
+    - read
+    - write
+    - manage
+    scopes:
+    - global
+    - organization
+    - own
+  admin:
+    actions:
+    - configure
+    - manage
+    scopes:
+    - global
+    - organization
+  analytics:
+    actions:
+    - read
+    scopes:
+    - global
+    - organization
+    - own
+performance:
+  priority: 30
+  timeout: 5
+  retries: 1
+compliance:
+- RBAC NIST standard
+- Principle of least privilege
+- Separation of duties
+- Defense in depth
+monitoring:
+  metrics:
+  - rbac_permission_checks_total
+  - rbac_permission_denials_total
+  - rbac_role_assignments_total
+  events:
+  - permission_granted
+  - permission_denied
+  - role_assigned
+  - role_removed
+  - permission_checked
+features:
+  role_management:
+  - Hierarchical role inheritance
+  - Custom role definition capability
+  - Bulk role assignment
+  - Role-based UI customization
+  permission_system:
+  - Resource-action-scope permission model
+  - Permission validation and sanitization
+  - Context-aware permission checking
+  - Permission aggregation and inheritance
+  enterprise_features:
+  - Organization and team scoping
+  - Conditional permissions based on context
+  - Integration with external auth systems
+  - Comprehensive audit logging
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_rbac_standard-sbom.json
+  complete: sbom/auth_rbac_standard-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

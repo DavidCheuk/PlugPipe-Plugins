@@ -1,0 +1,225 @@
+config_schema:
+  properties:
+    github:
+      properties:
+        auth_method:
+          default: token
+          enum:
+          - token
+          - app
+          type: string
+        token:
+          description: GitHub personal access token
+          type: string
+      required:
+      - token
+      type: object
+    llm:
+      properties:
+        api_key:
+          description: LLM provider API key
+          type: string
+        model:
+          description: Model to use for analysis
+          type: string
+        provider:
+          default: openai
+          enum:
+          - openai
+          - anthropic
+          - ollama
+          type: string
+      required:
+      - provider
+      type: object
+  required:
+  - github
+  type: object
+dependencies:
+- description: Core GitHub API integration
+  name: github_integration
+  version: '>=1.0.0'
+- description: Universal LLM orchestration service
+  name: llm_service
+  version: '>=1.0.0'
+- description: Agent creation and management
+  name: agent_factory
+  version: '>=1.0.0'
+description: AI-powered GitHub workflow optimization using foundational PlugPipe plugins
+discoverability: public
+examples:
+- config:
+    github:
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${OPENAI_API_KEY}
+      provider: openai
+  description: Analyze CI/CD workflow performance and get optimization suggestions
+  input:
+    operation: analyze_workflow
+    owner: myorg
+    repo: myproject
+    workflow_name: ci.yml
+  name: Workflow Performance Analysis
+- config:
+    github:
+      token: ${GITHUB_TOKEN}
+    llm:
+      api_key: ${ANTHROPIC_API_KEY}
+      provider: anthropic
+  description: Apply AI-recommended performance optimizations to workflow
+  input:
+    operation: optimize_workflow
+    optimization_type: performance
+    owner: myorg
+    repo: myproject
+    workflow_name: ci.yml
+  name: Performance Optimization
+input_schema:
+  properties:
+    operation:
+      description: The workflow operation to perform
+      enum:
+      - analyze_workflow
+      - optimize_workflow
+      type: string
+    optimization_type:
+      default: performance
+      description: Type of optimization to apply
+      enum:
+      - performance
+      - cost
+      - security
+      - reliability
+      type: string
+    owner:
+      description: Repository owner/organization
+      type: string
+    repo:
+      description: Repository name
+      type: string
+    workflow_name:
+      description: GitHub workflow name or ID
+      type: string
+  required:
+  - operation
+  - owner
+  - repo
+  - workflow_name
+  type: object
+metadata:
+  architecture_pattern: Plugin Composition
+  author: PlugPipe AI Team
+  capabilities:
+  - ai_workflow_analysis
+  - performance_optimization
+  - cost_analysis
+  - security_recommendations
+  - reliability_assessment
+  - efficiency_improvements
+  category: ai_devops
+  follows_plugpipe_principles: true
+  foundational_plugins_composition:
+  - name: LLM Service
+    path: intelligence/llm_service/1.0.0
+    purpose: AI analysis and optimization recommendations
+  - name: GitHub Integration
+    path: github_integration/1.0.0
+    purpose: Repository and workflow operations
+  - name: Agent Factory
+    path: core/agent_factory/1.0.0
+    purpose: Specialized workflow analysis agents
+  license: MIT
+  reuses_foundational_services: true
+  tags:
+  - github
+  - workflows
+  - ai
+  - optimization
+  - devops
+  - automation
+name: github_ai_workflow_integration
+display_name: GitHubAIWorkflowIntegration
+output_schema:
+  properties:
+    analysis:
+      description: Workflow analysis results (for analyze_workflow)
+      properties:
+        ai_confidence:
+          type: number
+        cost_analysis:
+          type: object
+        current_performance:
+          type: object
+        efficiency_improvements:
+          items:
+            type: string
+          type: array
+        optimization_suggestions:
+          items:
+            type: object
+          type: array
+        reliability_score:
+          type: number
+        security_recommendations:
+          items:
+            type: string
+          type: array
+        workflow_name:
+          type: string
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    operation_completed:
+      description: The operation that was performed
+      type: string
+    optimization_result:
+      description: Optimization application results (for optimize_workflow)
+      type: object
+    success:
+      description: Whether the operation was successful
+      type: boolean
+    timestamp:
+      description: Timestamp of the operation
+      format: date-time
+      type: string
+  required:
+  - success
+  - timestamp
+  type: object
+owner: PlugPipe AI Team
+performance:
+  caching: Supports result caching for repeated analyses
+  execution_time: 30-120 seconds
+  rate_limits: Respects GitHub and LLM provider rate limits
+resources:
+  cpu: moderate
+  memory: 256MB
+  network: high
+  storage: minimal
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  network_access:
+  - api.github.com
+  - LLM provider endpoints
+  permissions:
+  - repository_read
+  - actions_read
+  requires_secrets:
+  - GITHUB_TOKEN
+  - LLM_API_KEY
+status: stable
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:security_orchestrator",
+    "name": "Security Orchestrator Agent",
+    "description": "Central orchestrator for comprehensive OWASP-compliant security coverage across LLM and web applications",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/security_orchestrator",
+    "skills": [
+      {
+        "id": "security_orchestrator-primary",
+        "name": "Security Orchestrator",
+        "description": "Central orchestrator for comprehensive OWASP-compliant security coverage across LLM and web applications",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "security_orchestrator",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "orchestrator",
+          "owasp",
+          "compliance",
+          "multi-tool",
+          "coordination"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.918104Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

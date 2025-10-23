@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:registry:pipe_sharing_system",
+    "name": "Pipe Sharing System Agent",
+    "description": "Enterprise pipe sharing orchestrator coordinating registry plugins for comprehensive distribution and collaboration workflows",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/pipe_sharing_system",
+    "skills": [
+      {
+        "id": "pipe_sharing_system-primary",
+        "name": "Pipe Sharing System",
+        "description": "Enterprise pipe sharing orchestrator coordinating registry plugins for comprehensive distribution and collaboration workflows",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "pipe_sharing_system",
+        "category": "registry",
+        "subcategory": "",
+        "tags": [
+          "sharing",
+          "registry",
+          "distribution",
+          "collaboration",
+          "orchestration"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.461696Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

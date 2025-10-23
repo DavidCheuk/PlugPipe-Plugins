@@ -1,0 +1,301 @@
+# -----------------------------------------------------------------
+# PlugPipe SECURE Production Configuration Template
+# -----------------------------------------------------------------
+# SECURITY FIRST: Production-ready configuration with secure defaults
+# and explicit requirements for all security-critical settings.
+
+# Schema Validation Configuration
+schema_validation:
+  enable_at_runtime: true
+  enable_at_development: true
+  plug_schema_path: "shares/schemas/min_plug_schema.json"
+  pipe_schema_path: "shares/schemas/pipe_schema.json"
+  fail_on_validation_error: true                # SECURITY: Strict validation in production
+
+# -----------------------------------------------------------------
+# Production Registry Configuration
+# -----------------------------------------------------------------
+registries:
+  - type: database_factory
+    name: "Production Database Factory Registry"
+    priority: 1
+    config:
+      primary_database: "postgresql"
+      fallback_databases: ["postgresql", "sqlite"]
+      
+      database_configs:
+        postgresql:
+          connection_string: "${POSTGRES_CONNECTION_STRING}"  # REQUIRED
+          table_prefix: "pp_"
+          pool_size: 20
+          max_overflow: 30
+          pool_timeout: 30
+          pool_recycle: 3600
+          ssl_mode: "require"                   # SECURITY: Require SSL
+        sqlite:
+          database_path: "${SQLITE_DATABASE_PATH}"
+          table_prefix: "pp_"
+          timeout: 30
+      
+      enable_failover: true
+      health_check_interval: 30
+      connection_retry_attempts: 3
+      namespace: "plugpipe-production"
+      enable_connection_pooling: true
+      enable_query_optimization: true
+
+# -----------------------------------------------------------------
+# Environment Configuration - PRODUCTION SECURE
+# -----------------------------------------------------------------
+environment:
+  pp_env: production
+  debug: false                                  # SECURITY: Never enable debug in production
+
+# -----------------------------------------------------------------
+# Service Binding - EXPLICIT CONFIGURATION REQUIRED
+# -----------------------------------------------------------------
+# SECURITY WARNING: These settings REQUIRE explicit environment configuration
+# Default localhost bindings are secure but won't work for external access
+services:
+  # Registry Service
+  registry:
+    host: "${PP_REGISTRY_HOST}"                 # REQUIRED: Set explicitly (e.g., "0.0.0.0" for external access)
+    port: "${PP_REGISTRY_PORT:-8000}"
+    workers: "${PP_REGISTRY_WORKERS:-4}"
+    max_connections: 1000
+    keepalive_timeout: 65
+    enable_https: true                          # SECURITY: Force HTTPS in production
+    ssl_cert_path: "${SSL_CERT_PATH}"           # REQUIRED for HTTPS
+    ssl_key_path: "${SSL_KEY_PATH}"             # REQUIRED for HTTPS
+    
+  # MCP Server
+  mcp:
+    host: "${PP_MCP_HOST}"                      # REQUIRED: Set explicitly
+    port: "${PP_MCP_PORT:-8080}"
+    max_connections: 500
+    protocol_version: "2025-06-18"
+    enable_subscriptions: true
+    subscription_timeout: 300
+    enable_https: true                          # SECURITY: Force HTTPS
+    
+  # Frontend (if hosting frontend)
+  frontend:
+    host: "${PP_FRONTEND_HOST}"                 # REQUIRED: Set explicitly
+    port: "${PP_FRONTEND_PORT:-3000}"
+    enable_ssr: true
+    enable_static_optimization: true
+
+# -----------------------------------------------------------------
+# LLM Provider Configuration
+# -----------------------------------------------------------------
+llm_provider:
+  default:
+    type: "${LLM_PRIMARY_TYPE:-ollama}"
+    endpoint: "${LLM_PRIMARY_ENDPOINT}"         # REQUIRED
+    model: "${LLM_PRIMARY_MODEL:-mistral:latest}"
+    api_key_env: "LLM_PRIMARY_API_KEY"         # REQUIRED for remote providers
+    timeout: 60
+  secondary:
+    type: "${LLM_SECONDARY_TYPE:-openai}"
+    endpoint: "${LLM_SECONDARY_ENDPOINT}"
+    model: "${LLM_SECONDARY_MODEL:-gpt-4}"
+    api_key_env: "LLM_SECONDARY_API_KEY"       # REQUIRED for fallback
+
+# -----------------------------------------------------------------
+# Production Cache Configuration
+# -----------------------------------------------------------------
+cache:
+  backend: "redis"
+  redis:
+    url: "${REDIS_URL}"                         # REQUIRED
+    db: 0
+    max_connections: 100
+    socket_timeout: 5
+    socket_connect_timeout: 5
+    retry_on_timeout: true
+    ssl: true                                   # SECURITY: Enable SSL for Redis
+    ssl_cert_reqs: "required"
+    ssl_ca_certs: "${REDIS_SSL_CA_CERTS}"      # REQUIRED for SSL Redis
+    
+  policies:
+    plugin_metadata: 7200      # 2 hours
+    search_results: 1800       # 30 minutes
+    health_checks: 300         # 5 minutes
+    user_sessions: 86400       # 24 hours
+
+# -----------------------------------------------------------------
+# PRODUCTION SECURITY CONFIGURATION
+# -----------------------------------------------------------------
+security:
+  # Authentication - STRICT REQUIREMENTS
+  auth:
+    enable_jwt: true
+    jwt_secret_env: "JWT_SECRET"                # REQUIRED: Must be strong secret
+    jwt_algorithm: "HS256"
+    jwt_expiry: 900                             # SECURITY: 15 minutes (short-lived)
+    jwt_refresh_expiry: 604800                  # 7 days for refresh tokens
+    enable_refresh_tokens: true
+    require_https: true                         # SECURITY: Force HTTPS for auth
+    
+  # Rate limiting - STRICT
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 500                    # Conservative limit
+    burst_size: 50                              # Small burst
+    enable_ip_whitelisting: true
+    trusted_ips: "${TRUSTED_IPS}"               # REQUIRED: Comma-separated IP list
+    
+  # CORS - RESTRICTIVE
+  cors:
+    allow_origins: "${ALLOWED_ORIGINS}"         # REQUIRED: Explicit origins only
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_headers: ["Authorization", "Content-Type", "Accept"]
+    allow_credentials: true
+    max_age: 86400
+    
+  # Additional security headers
+  security_headers:
+    enable_hsts: true                           # Force HTTPS
+    enable_csp: true                            # Content Security Policy
+    enable_x_frame_options: true                # Prevent clickjacking
+    enable_x_content_type_options: true         # Prevent MIME sniffing
+    
+  # API Security
+  api_security:
+    require_api_key: true                       # SECURITY: Require API keys
+    api_key_header: "X-API-Key"
+    enable_request_signing: true                # SECURITY: Request signing
+    max_request_size: "10MB"                    # Prevent DoS
+    timeout: 30                                 # Request timeout
+
+# -----------------------------------------------------------------
+# Production Logging - COMPREHENSIVE
+# -----------------------------------------------------------------
+logging:
+  level: "INFO"
+  format: "json"                                # Structured logging
+  handlers:
+    - type: "console"
+      level: "WARN"                             # Only warnings/errors to console
+    - type: "file"
+      level: "INFO"
+      filename: "/app/logs/plugpipe.log"
+      max_size: "100MB"
+      backup_count: 10
+      rotation: "daily"
+    - type: "syslog"                            # SECURITY: Send to syslog
+      level: "WARN"
+      facility: "local0"
+      
+  # Security event logging
+  security_events:
+    enabled: true
+    handler: "security_file"
+    filename: "/app/logs/security.log"
+    log_failed_auth: true
+    log_rate_limit_violations: true
+    log_unauthorized_access: true
+    log_configuration_changes: true
+
+# -----------------------------------------------------------------
+# Production Monitoring
+# -----------------------------------------------------------------
+monitoring:
+  health_checks:
+    enabled: true
+    interval: 30
+    timeout: 10
+    endpoints: ["/health", "/metrics"]
+    
+  metrics:
+    enabled: true
+    endpoint: "/metrics"
+    include_database_metrics: true
+    include_cache_metrics: true
+    include_security_metrics: true              # SECURITY: Monitor security events
+    
+  alerting:
+    enabled: true
+    webhook_url: "${ALERT_WEBHOOK_URL}"         # REQUIRED for alerts
+    alert_on_errors: true
+    alert_on_security_events: true
+
+# -----------------------------------------------------------------
+# Backup Configuration
+# -----------------------------------------------------------------
+backup:
+  database:
+    enabled: true
+    schedule: "0 2 * * *"                       # Daily at 2 AM
+    retention_days: 30
+    backup_location: "${BACKUP_LOCATION}"       # REQUIRED
+    encryption: true                            # SECURITY: Encrypt backups
+    encryption_key_env: "BACKUP_ENCRYPTION_KEY" # REQUIRED
+    
+  plugins:
+    enabled: true
+    schedule: "0 3 * * *"
+    retention_days: 7
+    include_sbom: true
+
+# -----------------------------------------------------------------
+# REQUIRED ENVIRONMENT VARIABLES FOR PRODUCTION
+# -----------------------------------------------------------------
+# Create /app/secrets/.env with these variables:
+#
+# DATABASE CONFIGURATION:
+# POSTGRES_CONNECTION_STRING=postgresql://user:password@host:5432/database?sslmode=require
+# SQLITE_DATABASE_PATH=/app/data/registry.db
+# 
+# CACHE CONFIGURATION:
+# REDIS_URL=rediss://user:password@host:6380/0
+# REDIS_SSL_CA_CERTS=/app/certs/redis-ca.crt
+#
+# SERVICE BINDING (SECURITY CRITICAL):
+# PP_REGISTRY_HOST=0.0.0.0                    # Only set if external access required
+# PP_MCP_HOST=0.0.0.0                         # Only set if external access required  
+# PP_FRONTEND_HOST=0.0.0.0                    # Only set if external access required
+#
+# SSL/TLS CERTIFICATES:
+# SSL_CERT_PATH=/app/certs/server.crt
+# SSL_KEY_PATH=/app/certs/server.key
+#
+# AUTHENTICATION & SECURITY:
+# JWT_SECRET=your-strong-jwt-secret-256-bits-minimum
+# BACKUP_ENCRYPTION_KEY=your-backup-encryption-key
+#
+# LLM CONFIGURATION:
+# LLM_PRIMARY_ENDPOINT=https://api.openai.com/v1
+# LLM_PRIMARY_API_KEY=your-openai-api-key
+# LLM_SECONDARY_ENDPOINT=https://api.anthropic.com
+# LLM_SECONDARY_API_KEY=your-anthropic-api-key
+#
+# CORS & NETWORKING:
+# ALLOWED_ORIGINS=https://your-frontend-domain.com,https://admin.your-domain.com
+# TRUSTED_IPS=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+#
+# MONITORING & ALERTING:
+# ALERT_WEBHOOK_URL=https://your-monitoring-system.com/webhook
+# BACKUP_LOCATION=/app/backups
+
+# -----------------------------------------------------------------
+# Secrets File Location - PRODUCTION
+# -----------------------------------------------------------------
+secrets:
+  file: /app/secrets/.env                       # SECURITY: Dedicated secrets location
+
+# -----------------------------------------------------------------
+# PRODUCTION SECURITY CHECKLIST:
+# -----------------------------------------------------------------
+# ☐ All REQUIRED environment variables are set
+# ☐ SSL certificates are properly configured and valid
+# ☐ Database connections use SSL/TLS
+# ☐ Redis connections use SSL/TLS
+# ☐ JWT secrets are cryptographically strong (256+ bits)
+# ☐ CORS origins are explicitly configured (no wildcards)
+# ☐ Service bindings are explicitly configured for your network
+# ☐ API keys and secrets are never committed to version control
+# ☐ Log rotation and monitoring are properly configured
+# ☐ Backup encryption keys are securely managed
+# ☐ Rate limiting and IP whitelisting are configured
+# ☐ Security headers and HTTPS are enforced

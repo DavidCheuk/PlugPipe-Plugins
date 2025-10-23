@@ -1,0 +1,375 @@
+alert_rules:
+  high_error_rate:
+    annotations:
+      description: Plug error rate is above 10% for the last 5 minutes
+      summary: High plugin error rate detected
+    duration: 2m
+    expression: rate(plugpipe_plugin_errors_total[5m]) > 0.1
+    severity: warning
+  memory_usage_high:
+    annotations:
+      description: Memory usage is above 80% for the last 5 minutes
+      summary: High memory usage
+    duration: 5m
+    expression: plugpipe_memory_usage_bytes / (1024*1024*1024) > 0.8
+    severity: critical
+  plugin_execution_slow:
+    annotations:
+      description: 95th percentile plugin execution time is above 30 seconds
+      summary: Slow plugin execution
+    duration: 3m
+    expression: histogram_quantile(0.95, rate(plugpipe_plugin_duration_seconds_bucket[5m]))
+      > 30
+    severity: warning
+category: monitoring
+config_templates:
+  development:
+    prometheus_config:
+      gateway_url: http://127.0.0.1:9091
+      grafana_url: http://127.0.0.1:3000
+      job_name: plugpipe-dev
+      prometheus_url: http://127.0.0.1:9090
+    scrape_interval: 5s
+  production:
+    enable_alerting: true
+    prometheus_config:
+      gateway_url: ${PUSHGATEWAY_URL}
+      grafana_url: ${GRAFANA_URL}
+      instance: ${INSTANCE_ID}
+      job_name: plugpipe-prod
+      prometheus_url: ${PROMETHEUS_URL}
+    scrape_interval: 15s
+  testing:
+    prometheus_config:
+      gateway_url: http://prometheus-pushgateway:9091
+      grafana_url: http://grafana:3000
+      job_name: plugpipe-test
+      prometheus_url: http://prometheus:9090
+contract:
+  input_schema:
+    properties:
+      alert_config:
+        properties:
+          alert_name:
+            type: string
+          annotations:
+            default: {}
+            type: object
+          duration:
+            default: 5m
+            type: string
+          expression:
+            description: PromQL expression for alert
+            type: string
+          severity:
+            default: warning
+            enum:
+            - info
+            - warning
+            - critical
+            type: string
+          webhook_url:
+            description: Webhook URL for alert notifications
+            type: string
+        type: object
+      export_format:
+        default: prometheus
+        enum:
+        - prometheus
+        - json
+        - csv
+        type: string
+      labels:
+        default: {}
+        description: Labels to attach to the metric
+        type: object
+      metric_name:
+        description: Name of the metric to record
+        pattern: ^[a-zA-Z_:][a-zA-Z0-9_:]*$
+        type: string
+      metric_type:
+        default: gauge
+        enum:
+        - counter
+        - gauge
+        - histogram
+        - summary
+        type: string
+      metric_value:
+        description: Value of the metric
+        type: number
+      operation:
+        description: Monitoring operation to perform
+        enum:
+        - record_metric
+        - record_counter
+        - record_gauge
+        - record_histogram
+        - query_metrics
+        - create_alert
+        - health_check
+        - export_metrics
+        - scrape_endpoint
+        type: string
+      prometheus_config:
+        default: {}
+        properties:
+          gateway_url:
+            description: Prometheus Pushgateway URL
+            type: string
+          grafana_url:
+            description: Grafana server URL
+            type: string
+          instance:
+            description: Instance identifier
+            type: string
+          job_name:
+            default: plugpipe
+            type: string
+          prometheus_url:
+            description: Prometheus server URL
+            type: string
+        type: object
+      query:
+        description: PromQL query string
+        type: string
+      scrape_config:
+        properties:
+          endpoint_url:
+            type: string
+          interval:
+            default: 15s
+            type: string
+          path:
+            default: /metrics
+            type: string
+          timeout:
+            default: 10s
+            type: string
+        type: object
+      time_range:
+        properties:
+          end:
+            format: date-time
+            type: string
+          start:
+            format: date-time
+            type: string
+          step:
+            default: 15s
+            type: string
+        type: object
+      timestamp:
+        description: Metric timestamp (ISO format)
+        format: date-time
+        type: string
+    required:
+    - operation
+    type: object
+  output_schema:
+    properties:
+      error:
+        type: string
+      monitoring_metadata:
+        properties:
+          job_name:
+            type: string
+          prometheus_url:
+            type: string
+          scrape_interval:
+            type: string
+        type: object
+      result:
+        properties:
+          alert_created:
+            type: boolean
+          alert_id:
+            type: string
+          export_format:
+            type: string
+          exported_data:
+            type: string
+          grafana_status:
+            type: string
+          metric_name:
+            type: string
+          metric_pushed:
+            type: boolean
+          metric_value:
+            type: number
+          prometheus_status:
+            type: string
+          query_result:
+            properties:
+              result:
+                type: array
+              resultType:
+                type: string
+            type: object
+          timestamp:
+            type: string
+        type: object
+      success:
+        type: boolean
+    required:
+    - success
+    type: object
+dependencies:
+  python:
+  - prometheus-client >= 0.15.0
+  - requests >= 2.25.0
+  - grafana-api >= 1.0.3
+  system:
+  - prometheus >= 2.40.0
+  - grafana >= 9.0.0
+  - pushgateway >= 1.5.0
+dependency_analysis:
+  analyzer_notes: All imports (threading) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Monitoring and metrics collection using Prometheus and Grafana for observability
+exporters:
+  custom_exporter:
+    description: PlugPipe-specific application metrics
+    metrics:
+    - plugpipe_*
+    path: /metrics
+    port: 8080
+  docker_exporter:
+    description: Docker container metrics
+    metrics:
+    - docker_container_cpu
+    - docker_container_memory
+    port: 9323
+  node_exporter:
+    description: System metrics (CPU, memory, disk, network)
+    metrics:
+    - node_cpu_usage
+    - node_memory_usage
+    - node_disk_usage
+    port: 9100
+grafana:
+  dashboard_templates:
+    plugin_performance:
+      panels:
+      - Plug execution duration
+      - Memory usage by plugin
+      - Plug error rates
+      - Concurrent plugin executions
+      title: Plug Performance Metrics
+    security_monitoring:
+      panels:
+      - Authentication failures
+      - Authorization violations
+      - Suspicious activity detection
+      - Audit event rates
+      title: Security Monitoring Dashboard
+    system_overview:
+      panels:
+      - Plug execution rates
+      - Error rates by plugin
+      - Resource utilization
+      - Pipe success rates
+      title: PlugPipe System Overview
+input_schema:
+  properties: {}
+  type: object
+metadata:
+  author: PlugPipe Team
+  enterprise_features:
+  - Integration with existing Prometheus infrastructure
+  - Support for Prometheus federation and remote storage
+  - Grafana dashboard templates and provisioning
+  - Enterprise authentication (LDAP, OAuth2, SAML)
+  - Multi-tenant monitoring with Grafana organizations
+  homepage: https://github.com/plugpipe/plugs/monitoring_prometheus
+  license: MIT
+  monitoring_features:
+  - Industry-standard metrics collection using Prometheus
+  - Beautiful dashboards and visualization with Grafana
+  - Powerful alerting with Alertmanager integration
+  - PromQL query language for complex metrics analysis
+  - High availability and scalability through Prometheus federation
+  - Rich ecosystem of exporters for infrastructure monitoring
+  philosophy: "This plugin demonstrates the PlugPipe principle \"reuse, never reinvent\"\
+    \ by \nleveraging the Prometheus ecosystem's proven monitoring and observability\
+    \ stack\ninstead of implementing custom metrics collection and visualization systems.\n"
+metric_categories:
+  pipeline:
+  - plugpipe_pipeline_executions_total
+  - plugpipe_pipeline_duration_seconds
+  - plugpipe_pipeline_success_rate
+  - plugpipe_pipeline_queue_size
+  plugin:
+  - plugpipe_plugin_executions_total
+  - plugpipe_plugin_duration_seconds
+  - plugpipe_plugin_errors_total
+  - plugpipe_plugin_memory_usage_bytes
+  security:
+  - plugpipe_auth_attempts_total
+  - plugpipe_auth_failures_total
+  - plugpipe_capability_violations_total
+  - plugpipe_sandbox_violations_total
+  system:
+  - plugpipe_system_info
+  - plugpipe_uptime_seconds
+  - plugpipe_memory_usage_bytes
+  - plugpipe_cpu_usage_percent
+name: monitoring_prometheus
+display_name: MonitoringPrometheus
+output_schema:
+  properties: {}
+  type: object
+owner: PlugPipe Monitoring Team
+plugin_type: infrastructure
+prometheus:
+  default_config:
+    global:
+      evaluation_interval: 15s
+      scrape_interval: 15s
+    scrape_configs:
+    - job_name: plugpipe
+      metrics_path: /metrics
+      scrape_interval: 15s
+      static_configs:
+      - targets:
+        - localhost:8080
+  metric_types:
+    counter:
+      description: Cumulative metric that only increases
+      use_cases:
+      - request_count
+      - error_count
+      - task_completions
+    gauge:
+      description: Metric that can increase or decrease
+      use_cases:
+      - memory_usage
+      - active_connections
+      - queue_size
+    histogram:
+      description: Samples observations and counts them in configurable buckets
+      use_cases:
+      - request_duration
+      - response_size
+    summary:
+      description: Samples observations and provides count, sum, and quantiles
+      use_cases:
+      - latency_percentiles
+      - payload_sizes
+sbom:
+  complete: sbom/monitoring_prometheus-sbom-complete.json
+  summary: sbom/monitoring_prometheus-sbom.json
+status: stable
+stdlib_modules:
+- threading
+subcategory: metrics
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

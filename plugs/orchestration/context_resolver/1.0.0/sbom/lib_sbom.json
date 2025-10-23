@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:context_resolver-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:32:14.310345Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "context_resolver@1.0.0",
+      "name": "context_resolver",
+      "version": "1.0.0",
+      "description": "Context Resolver Service - handles context resolution, environment setup, and parameter resolution with security-first approach and proper separation of concerns"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,139 @@
+capabilities:
+- budget_tracking
+- progressive_throttling
+- priority_management
+- automatic_adjustment
+- alert_generation
+dependencies:
+  external:
+  - description: Local database storage
+    name: sqlite3
+    version: '>=3.0.0'
+  plugs:
+  - description: Cost tracking and estimation
+    name: llm_cost_estimator
+    version: '>=1.0.0'
+  - description: Core rate limiting functionality
+    name: ai_rate_limiter
+    version: '>=1.0.0'
+description: Intelligent budget-aware rate limiting system that automatically adjusts
+  rate limits based on budget constraints and cost tracking. Provides progressive
+  throttling, plugin priority management, and tight integration with cost estimator
+  for budget-constrained quota management.
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    budget_id:
+      description: Budget identifier (user, project, or global)
+      type: string
+    budget_limit:
+      description: Budget limit in dollars for set_budget operation
+      type: number
+    hours:
+      description: Time window in hours for budget status check
+      type: integer
+    operation:
+      description: Operation to perform
+      enum:
+      - set_budget
+      - check_budget
+      - get_budget_status
+      - adjust_limits
+      - set_priority
+      - get_priority
+      - emergency_throttle
+      - release_throttle
+      type: string
+    period:
+      description: Budget period for set_budget operation
+      enum:
+      - daily
+      - weekly
+      - monthly
+      type: string
+    plugin_name:
+      description: Plugin name for priority operations
+      type: string
+    priority:
+      description: Priority level (1=lowest, 10=highest)
+      maximum: 10
+      minimum: 1
+      type: integer
+  type: object
+name: budget_aware_rate_limiter
+display_name: CostOptimizedRateLimiter
+output_schema:
+  properties:
+    alerts:
+      items:
+        properties:
+          message:
+            type: string
+          severity:
+            type: string
+          timestamp:
+            type: string
+          type:
+            type: string
+        type: object
+      type: array
+    budget_status:
+      properties:
+        alert_level:
+          type: string
+        budget_id:
+          type: string
+        budget_limit:
+          type: number
+        current_usage:
+          type: number
+        rate_limit_adjustment:
+          type: number
+        time_until_reset:
+          type: integer
+        usage_percentage:
+          type: number
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    priority_info:
+      properties:
+        current_priority:
+          type: integer
+        effective_rate_limit:
+          type: number
+        plugin_name:
+          type: string
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: plugpipe-core
+sbom: sbom/sbom.json
+security:
+  file_system: read_write_local
+  isolation: process
+  network_access: false
+  secrets: none
+status: stable
+tags:
+- intelligence
+- rate-limiting
+- budget-management
+- cost-control
+- ai-governance
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,20 @@
+# Integration Full System Orchestrator Plugin Requirements
+# No external dependencies required - uses Python standard library only
+#
+# Standard library modules used:
+# - asyncio: Asynchronous I/O support
+# - logging: Logging facility
+# - time: Time-related functions
+# - json: JSON encoder and decoder
+# - typing: Support for type hints
+# - datetime: Date and time handling
+# - dataclasses: Data class decorator and utilities
+# - enum: Enumeration support
+# - importlib.util: Dynamic module loading utilities
+# - collections: Specialized container datatypes
+
+# Optional dependencies for enhanced orchestration capabilities
+# (These would be handled by individual orchestrated plugins)
+# requests>=2.25.0  # For HTTP client operations in orchestrated plugins
+# asyncio-mqtt>=0.11.0  # For async MQTT if orchestrating messaging plugins
+# prometheus-client>=0.14.0  # For metrics collection if enabled

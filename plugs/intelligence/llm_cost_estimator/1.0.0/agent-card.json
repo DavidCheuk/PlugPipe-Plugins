@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:llm_cost_estimator",
+    "name": "Llm Cost Estimator Agent",
+    "description": "Production-ready LLM cost estimation and budget monitoring plugin for comprehensive cost analysis, budget tracking, and usage optimization across all PlugPipe plugins",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/llm_cost_estimator",
+    "skills": [
+      {
+        "id": "llm_cost_estimator-primary",
+        "name": "Llm Cost Estimator",
+        "description": "Production-ready LLM cost estimation and budget monitoring plugin for comprehensive cost analysis, budget tracking, and usage optimization across all PlugPipe plugins",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "llm_cost_estimator",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.048410Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

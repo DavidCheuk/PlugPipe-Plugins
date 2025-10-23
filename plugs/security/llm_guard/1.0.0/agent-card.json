@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:llm_guard",
+    "name": "Llm Guard Agent",
+    "description": "LLM Guard security toolkit integration for comprehensive LLM protection against OWASP Top 10 threats",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/llm_guard",
+    "skills": [
+      {
+        "id": "llm_guard-primary",
+        "name": "Llm Guard",
+        "description": "LLM Guard security toolkit integration for comprehensive LLM protection against OWASP Top 10 threats",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "llm_guard",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "llm",
+          "prompt-injection",
+          "toxicity",
+          "privacy",
+          "owasp",
+          "threat-detection"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.490961Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:sandboxing:security_docker_sandbox",
+    "name": "Security Docker Sandbox Agent",
+    "description": "Enhanced Docker-based plugin sandbox with cryptographic signing verification, static analysis security controls, and fail-secure architecture for enterprise-grade plugin execution isolation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/security_docker_sandbox",
+    "skills": [
+      {
+        "id": "security_docker_sandbox-primary",
+        "name": "Security Docker Sandbox",
+        "description": "Enhanced Docker-based plugin sandbox with cryptographic signing verification, static analysis security controls, and fail-secure architecture for enterprise-grade plugin execution isolation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "security_docker_sandbox",
+        "category": "security",
+        "subcategory": "sandboxing",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.254444Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

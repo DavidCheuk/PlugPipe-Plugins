@@ -1,0 +1,218 @@
+name: enhanced_mcp_audit_integration
+display_name: EnhancedMcpAuditIntegration
+version: 1.0.0
+description: Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific
+  audit events and security monitoring
+author: PlugPipe Security Team
+license: MIT
+category: Security
+tags:
+- mcp
+- audit
+- elk
+- security
+- monitoring
+- compliance
+- enterprise
+capabilities:
+- mcp_structured_audit_events
+- oauth2_1_token_usage_auditing
+- tool_execution_tracking
+- security_policy_violation_logging
+- real_time_security_monitoring
+- compliance_reporting
+dependencies:
+  external_dependencies:
+  - name: elasticsearch
+    version: '>=8.0.0'
+  - name: logstash-python
+    version: '>=1.0.0'
+  - name: kibana-api
+    version: '>=1.0.0'
+  plugin_dependencies:
+  - name: audit_elk_stack
+    version: '>=1.0.0'
+    optional: false
+  - name: mcp_security_policy_engine
+    version: '>=1.0.0'
+    optional: true
+  - name: oauth2_1_mcp_server
+    version: '>=1.0.0'
+    optional: true
+configuration:
+  required:
+  - mcp_audit_level
+  optional:
+  - real_time_monitoring: true
+  - compliance_frameworks:
+    - sox
+    - gdpr
+    - hipaa
+  - retention_days: 365
+  - alert_thresholds: {}
+  - dashboard_auto_create: true
+audit_levels:
+  basic:
+    description: Essential MCP audit events only
+    events:
+    - mcp_tool_execution
+    - mcp_authentication_failure
+    - mcp_authorization_denial
+  standard:
+    description: Comprehensive MCP audit coverage
+    events:
+    - mcp_tool_execution
+    - mcp_resource_access
+    - mcp_prompt_request
+    - mcp_authentication_events
+    - mcp_authorization_decisions
+    - mcp_policy_violations
+  enterprise:
+    description: Full audit trail with compliance features
+    events:
+    - mcp_tool_execution
+    - mcp_resource_access
+    - mcp_prompt_request
+    - mcp_authentication_events
+    - mcp_authorization_decisions
+    - mcp_policy_violations
+    - mcp_oauth2_token_usage
+    - mcp_rate_limiting_events
+    - mcp_security_threats
+    - mcp_compliance_events
+mcp_audit_event_types:
+  mcp_tool_execution:
+    fields:
+    - timestamp
+    - user_id
+    - tool_name
+    - arguments
+    - result
+    - duration_ms
+    - cost
+    - success
+    index: mcp-tools
+    retention_days: 90
+  mcp_resource_access:
+    fields:
+    - timestamp
+    - user_id
+    - resource_type
+    - resource_id
+    - action
+    - success
+    - data_size
+    index: mcp-resources
+    retention_days: 365
+  mcp_authentication_events:
+    fields:
+    - timestamp
+    - user_id
+    - client_id
+    - oauth_flow
+    - token_type
+    - success
+    - failure_reason
+    index: mcp-auth
+    retention_days: 730
+  mcp_authorization_decisions:
+    fields:
+    - timestamp
+    - user_id
+    - mcp_endpoint
+    - policy_engine
+    - decision
+    - confidence
+    - approval_required
+    index: mcp-authz
+    retention_days: 365
+  mcp_policy_violations:
+    fields:
+    - timestamp
+    - user_id
+    - violation_type
+    - severity
+    - details
+    - action_taken
+    index: mcp-violations
+    retention_days: 2555
+  mcp_security_threats:
+    fields:
+    - timestamp
+    - user_id
+    - threat_type
+    - confidence
+    - indicators
+    - blocked
+    - source_ip
+    index: mcp-threats
+    retention_days: 1095
+compliance_frameworks:
+  sox:
+    name: Sarbanes-Oxley Act
+    retention_years: 7
+    required_events:
+    - mcp_tool_execution
+    - mcp_authorization_decisions
+    - mcp_policy_violations
+  gdpr:
+    name: General Data Protection Regulation
+    retention_years: 6
+    required_events:
+    - mcp_resource_access
+    - mcp_authentication_events
+    - mcp_security_threats
+  hipaa:
+    name: Health Insurance Portability and Accountability Act
+    retention_years: 6
+    required_events:
+    - mcp_resource_access
+    - mcp_authentication_events
+    - mcp_authorization_decisions
+security_monitoring:
+  real_time_alerts:
+  - multiple_authentication_failures
+  - privilege_escalation_attempts
+  - unusual_tool_execution_patterns
+  - policy_violation_spikes
+  - suspicious_resource_access
+  dashboard_metrics:
+  - mcp_operations_per_second
+  - authentication_success_rate
+  - authorization_denial_rate
+  - policy_violation_trends
+  - security_threat_detection_rate
+kibana_dashboards:
+  mcp_security_overview:
+    description: High-level MCP security metrics and trends
+    visualizations:
+    - auth_success_rate
+    - top_tools_used
+    - policy_violations
+    - threat_detection
+  mcp_compliance_dashboard:
+    description: Compliance-focused audit trail visualization
+    visualizations:
+    - retention_compliance
+    - audit_completeness
+    - violation_trends
+    - access_patterns
+  mcp_operations_dashboard:
+    description: Operational MCP metrics and performance
+    visualizations:
+    - tool_execution_stats
+    - resource_usage
+    - response_times
+    - error_rates
+public: true
+sbom:
+  summary: sbom/enhanced_mcp_audit_integration-sbom.json
+  complete: sbom/enhanced_mcp_audit_integration-sbom-complete.json
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,659 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_support_validation_results:
+      default: true
+      type: boolean
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for response quality checking
+      type: string
+    default_response_quality_strictness:
+      default: 0.92
+      maximum: 0.99
+      minimum: 0.8
+      type: number
+    default_sla_tier:
+      default: gold
+      enum:
+      - platinum
+      - gold
+      - silver
+      - bronze
+      type: string
+    default_support_quality_level:
+      default: professional
+      enum:
+      - enterprise_grade
+      - professional
+      - standard
+      - basic
+      type: string
+    enable_selective_agent_coordination:
+      default: true
+      type: boolean
+    max_parallel_support_checks:
+      default: 4
+      maximum: 8
+      minimum: 1
+      type: integer
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for knowledge base verification
+      type: string
+    support_channel_settings:
+      properties:
+        chat:
+          properties:
+            quality_threshold:
+              default: 0.88
+              type: number
+            response_time_sla_seconds:
+              default: 30
+              type: number
+          type: object
+        email:
+          properties:
+            quality_threshold:
+              default: 0.9
+              type: number
+            response_time_sla_hours:
+              default: 24
+              type: number
+          type: object
+        phone:
+          properties:
+            quality_threshold:
+              default: 0.95
+              type: number
+            response_time_sla_seconds:
+              default: 15
+              type: number
+          type: object
+        social_media:
+          properties:
+            quality_threshold:
+              default: 0.85
+              type: number
+            response_time_sla_hours:
+              default: 4
+              type: number
+          type: object
+      type: object
+    support_knowledge_timeout:
+      default: 30.0
+      type: number
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for real-time information
+        validation
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Customer Support Verification Agent Factory - generates specialized customer
+  service verification agents using selective agent factory reuse (Core, RAG, Consistency,
+  Web Search) for support ticket classification, response quality verification, customer
+  satisfaction prediction, SLA compliance monitoring, multi-channel support coordination,
+  agent performance evaluation, and knowledge base accuracy verification
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        customer_segment:
+          enum:
+          - enterprise_customers
+          - small_business
+          - individual_consumers
+          - premium_subscribers
+          - trial_users
+          - vip_customers
+          type: string
+        enable_escalation_prediction:
+          default: true
+          type: boolean
+        enable_satisfaction_scoring:
+          default: true
+          type: boolean
+        enable_sentiment_analysis:
+          default: true
+          type: boolean
+        language_support:
+          default:
+          - english
+          items:
+            enum:
+            - english
+            - spanish
+            - french
+            - german
+            - portuguese
+            - italian
+            - japanese
+            - chinese
+            - arabic
+            type: string
+          type: array
+        response_quality_strictness:
+          default: 0.92
+          maximum: 0.99
+          minimum: 0.8
+          type: number
+        sla_tier:
+          enum:
+          - platinum
+          - gold
+          - silver
+          - bronze
+          type: string
+        support_channels:
+          default:
+          - email
+          - chat
+          items:
+            enum:
+            - email
+            - chat
+            - phone
+            - social_media
+            - self_service
+            - video_call
+            - in_person
+            type: string
+          type: array
+        support_domain:
+          enum:
+          - technical_support
+          - billing_support
+          - product_support
+          - customer_onboarding
+          - account_management
+          - sales_support
+          - general_inquiry
+          - complaint_resolution
+          - enterprise_support
+          - self_service
+          type: string
+        support_quality_level:
+          enum:
+          - enterprise_grade
+          - professional
+          - standard
+          - basic
+          type: string
+      required:
+      - support_domain
+      - support_quality_level
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_support_validation
+      type: string
+    support_validation_task:
+      properties:
+        support_content_to_validate:
+          type: string
+        support_context:
+          type: string
+        ticket_details:
+          properties:
+            channel_source:
+              enum:
+              - email
+              - chat
+              - phone
+              - social_media
+              - self_service
+              type: string
+            customer_history:
+              properties:
+                escalation_history:
+                  type: integer
+                previous_tickets:
+                  type: integer
+                satisfaction_history:
+                  items:
+                    type: number
+                  type: array
+              type: object
+            customer_tier:
+              enum:
+              - vip
+              - premium
+              - standard
+              - basic
+              type: string
+            issue_category:
+              enum:
+              - technical_issue
+              - billing_inquiry
+              - product_question
+              - account_access
+              - feature_request
+              - complaint
+              - compliment
+              - general_inquiry
+              type: string
+            priority_level:
+              enum:
+              - critical
+              - high
+              - medium
+              - low
+              type: string
+            ticket_id:
+              type: string
+          type: object
+        urgency_level:
+          default: medium
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        validation_focus:
+          items:
+            enum:
+            - ticket_classification
+            - response_quality
+            - satisfaction_prediction
+            - sla_compliance
+            - escalation_risk
+            - knowledge_accuracy
+            - agent_performance
+            - sentiment_analysis
+            type: string
+          type: array
+      type: object
+    template_id:
+      enum:
+      - ticket_classifier
+      - response_quality_verifier
+      - satisfaction_predictor
+      - sla_monitor
+      - escalation_predictor
+      - knowledge_base_verifier
+      - agent_performance_evaluator
+      - multi_channel_coordinator
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - customer-support-agent-creation
+  - support-ticket-classification
+  - response-quality-verification
+  - customer-satisfaction-prediction
+  - sla-compliance-monitoring
+  - multi-channel-coordination
+  - agent-performance-evaluation
+  - knowledge-base-verification
+  - customer-sentiment-analysis
+  - escalation-prediction
+  - selective-agent-coordination
+  - support-pattern-analysis
+  category: domain-specific-agent-factory
+  dependencies:
+    optional:
+    - crm_integration_api
+    - support_ticket_system_api
+    - customer_satisfaction_survey_api
+    - sla_monitoring_api
+    - multi_channel_apis
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/consistency_agent_factory
+    - agents/web_search_agent_factory
+  domain: customer-support-verification
+  performance:
+    cpu_usage: high
+    io_usage: medium
+    memory_usage: high
+    network_usage: medium
+  security:
+    customer_data_protection: required
+    file_system_access: read-only
+    isolation_required: true
+    network_access: limited
+    pii_handling: compliant
+name: customer_support_verification_agent_factory
+display_name: CustomerSupportVerificationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        knowledge_bases_consulted:
+          type: integer
+        response_quality_check_time:
+          type: number
+        satisfaction_prediction_time:
+          type: number
+        support_sources_reviewed:
+          type: integer
+        ticket_classification_time:
+          type: number
+        validation_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+    support_validation_results:
+      properties:
+        agent_coordination_results:
+          properties:
+            consistency_quality_check:
+              properties:
+                performed:
+                  type: boolean
+                quality_inconsistencies:
+                  items:
+                    type: string
+                  type: array
+                response_consistency_score:
+                  type: number
+              type: object
+            rag_knowledge_verification:
+              properties:
+                knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+                support_facts_verified:
+                  type: integer
+              type: object
+            web_search_verification:
+              properties:
+                conflicting_info:
+                  items:
+                    type: string
+                  type: array
+                current_info_verified:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+          type: object
+        customer_satisfaction_prediction:
+          properties:
+            predicted_satisfaction_score:
+              maximum: 5.0
+              minimum: 1.0
+              type: number
+            satisfaction_analysis_performed:
+              type: boolean
+            satisfaction_factors:
+              items:
+                properties:
+                  factor:
+                    enum:
+                    - response_time
+                    - solution_effectiveness
+                    - agent_professionalism
+                    - communication_clarity
+                    - issue_resolution
+                    - follow_up_quality
+                    type: string
+                  impact:
+                    enum:
+                    - very_positive
+                    - positive
+                    - neutral
+                    - negative
+                    - very_negative
+                    type: string
+                  weight:
+                    type: number
+                type: object
+              type: array
+          type: object
+        escalation_prediction:
+          properties:
+            escalation_analysis_performed:
+              type: boolean
+            escalation_probability:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+            escalation_risk_factors:
+              items:
+                properties:
+                  mitigation_suggestion:
+                    type: string
+                  risk_factor:
+                    enum:
+                    - customer_history
+                    - issue_complexity
+                    - response_delay
+                    - solution_inadequacy
+                    - agent_inexperience
+                    - policy_limitations
+                    type: string
+                  risk_level:
+                    enum:
+                    - very_high
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+          type: object
+        overall_support_quality_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          items:
+            type: string
+          type: array
+        response_quality_results:
+          properties:
+            quality_analysis_performed:
+              type: boolean
+            quality_issues:
+              items:
+                properties:
+                  description:
+                    type: string
+                  improvement_suggestion:
+                    type: string
+                  issue_type:
+                    enum:
+                    - incomplete_response
+                    - inaccurate_information
+                    - unprofessional_tone
+                    - missing_empathy
+                    - policy_violation
+                    - grammar_issues
+                    - irrelevant_content
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+            quality_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+          type: object
+        sentiment_analysis:
+          properties:
+            customer_sentiment:
+              enum:
+              - very_positive
+              - positive
+              - neutral
+              - negative
+              - very_negative
+              type: string
+            emotion_indicators:
+              items:
+                enum:
+                - satisfaction
+                - frustration
+                - anger
+                - appreciation
+                - confusion
+                - urgency
+                - disappointment
+                type: string
+              type: array
+            sentiment_analysis_performed:
+              type: boolean
+            sentiment_confidence:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+          type: object
+        sla_compliance_results:
+          properties:
+            quality_threshold_compliance:
+              type: boolean
+            response_time_compliance:
+              type: boolean
+            sla_analysis_performed:
+              type: boolean
+            sla_violations:
+              items:
+                properties:
+                  impact_assessment:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - major
+                    - minor
+                    type: string
+                  time_deviation:
+                    type: string
+                  violation_type:
+                    enum:
+                    - response_time_exceeded
+                    - quality_below_threshold
+                    - escalation_not_followed
+                    - resolution_time_exceeded
+                    type: string
+                type: object
+              type: array
+          type: object
+        support_alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - quality_degradation
+                - sla_violation
+                - escalation_risk
+                - customer_dissatisfaction
+                - knowledge_gap
+                - agent_performance_issue
+                type: string
+              confidence:
+                type: number
+              message:
+                type: string
+              notification_required:
+                type: boolean
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        support_validation_method:
+          type: string
+        ticket_classification_results:
+          properties:
+            classification_performed:
+              type: boolean
+            confidence_score:
+              type: number
+            predicted_category:
+              enum:
+              - technical_issue
+              - billing_inquiry
+              - product_question
+              - account_access
+              - feature_request
+              - complaint
+              - compliment
+              - general_inquiry
+              type: string
+            predicted_priority:
+              enum:
+              - critical
+              - high
+              - medium
+              - low
+              type: string
+            routing_recommendation:
+              type: string
+          type: object
+      type: object
+  required:
+  - success
+  type: object
+owner: PlugPipe Customer Experience Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- customer-support
+- verification
+- service-quality
+- ticket-classification
+- satisfaction
+- factory
+- selective-reuse
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,172 @@
+name: orchestrator_security_fixes
+display_name: OrchestratorSecurityFixes
+version: 1.0.0
+description: Specialized security fix orchestrator coordinating security_orchestrator
+  plugin for targeted orchestration security fixes
+owner: PlugPipe Security Team
+status: stable
+category: security
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: orchestration
+  capabilities:
+  - orchestrator_hardening
+  - security_fix_automation
+  - vulnerability_patching
+  - access_control
+  - component_isolation
+  - runtime_protection
+  - configuration_hardening
+  - data_sanitization
+  memory_mb: 384
+  dependencies:
+  - name: security_orchestrator
+    version: 1.0.0
+    required: false
+    description: Core security orchestrator for applying fixes
+tags:
+- security
+- orchestrator
+- fixes
+- hardening
+- vulnerability-patching
+- access-control
+- isolation
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      description: Security fix operation to perform
+      enum:
+      - apply_fixes
+      - status
+      - list_fixes
+      default: apply_fixes
+    filter:
+      type: object
+      description: Filter criteria for applying fixes
+      properties:
+        severity:
+          type: string
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          description: Apply fixes of specific severity only
+        fix_type:
+          type: string
+          enum:
+          - component_isolation
+          - access_control
+          - data_sanitization
+          - vulnerability_patching
+          - configuration_hardening
+          - runtime_protection
+          description: Apply specific type of security fixes
+        target_component:
+          type: string
+          description: Target specific orchestrator component
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    message:
+      type: string
+      description: Operation result message
+    fixes_applied:
+      type: object
+      description: Security fixes application results
+      properties:
+        total_fixes:
+          type: integer
+        applied_fixes:
+          type: array
+          items:
+            type: object
+        failed_fixes:
+          type: array
+          items:
+            type: object
+        orchestrator_available:
+          type: boolean
+    security_status:
+      type: object
+      description: Current security status
+      properties:
+        total_fixes_available:
+          type: integer
+        applied_fixes:
+          type: integer
+        pending_fixes:
+          type: integer
+        security_coverage:
+          type: object
+        orchestrator_integration:
+          type: boolean
+    available_fixes:
+      type: array
+      description: List of available security fixes
+      items:
+        type: object
+    error:
+      type: string
+      description: Error message if operation failed
+  required:
+  - success
+config_defaults:
+  auto_apply_critical: true
+  enable_fallback_mode: true
+  fix_timeout_seconds: 300
+config_schema:
+  type: object
+  properties:
+    auto_apply_critical:
+      type: boolean
+      default: true
+      description: Automatically apply critical security fixes
+    enable_fallback_mode:
+      type: boolean
+      default: true
+      description: Enable fallback mode when orchestrator unavailable
+    fix_timeout_seconds:
+      type: integer
+      default: 300
+      minimum: 30
+      maximum: 1800
+      description: Timeout for applying individual fixes
+sbom:
+  summary: Orchestrator security fix coordinator using Python standard library with
+    optional security_orchestrator plugin integration
+  complete: true
+  dependencies:
+  - name: Python Standard Library
+    version: 3.8+
+    modules:
+    - asyncio
+    - logging
+    - importlib.util
+    - typing
+    - datetime
+    - dataclasses
+    - enum
+    - pathlib
+    - os
+    - sys
+    purpose: Core functionality for orchestrator security fix coordination, async
+      handling, and plugin integration
+    risk_level: low
+    notes: Uses standard library modules for security coordination. Optional dependency
+      on security_orchestrator plugin.
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

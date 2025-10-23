@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:identity:identity_keycloak",
+    "name": "Identity Keycloak Agent",
+    "description": "Enterprise identity and access management using Keycloak for authentication, authorization, and user management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/identity_keycloak",
+    "skills": [
+      {
+        "id": "identity_keycloak-primary",
+        "name": "Identity Keycloak",
+        "description": "Enterprise identity and access management using Keycloak for authentication, authorization, and user management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "identity_keycloak",
+        "category": "security",
+        "subcategory": "identity",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.197613Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

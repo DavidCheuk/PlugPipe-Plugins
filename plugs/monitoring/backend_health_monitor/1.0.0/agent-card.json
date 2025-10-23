@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:monitoring:backend_health_monitor",
+    "name": "Backend Health Monitor Agent",
+    "description": "P0-3 Service Layer Health Orchestration - Distributed backend health monitoring via service abstractions",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/backend_health_monitor",
+    "skills": [
+      {
+        "id": "backend_health_monitor-primary",
+        "name": "Backend Health Monitor",
+        "description": "P0-3 Service Layer Health Orchestration - Distributed backend health monitoring via service abstractions",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "backend_health_monitor",
+        "category": "monitoring",
+        "subcategory": "",
+        "tags": [
+          "health",
+          "monitoring",
+          "service-layer",
+          "distributed",
+          "p0-3"
+        ],
+        "author": "PlugPipe Architecture Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:33.806636Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

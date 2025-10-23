@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:core:storage_backend_abstractor",
+    "name": "Storage Backend Abstractor Agent",
+    "description": "Universal storage abstraction layer eliminating cross-cutting storage concerns. Provides unified interface for all storage backends (SQLite, PostgreSQL, local files, S3, etc.)",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/storage_backend_abstractor",
+    "skills": [
+      {
+        "id": "storage_backend_abstractor-primary",
+        "name": "Storage Backend Abstractor",
+        "description": "Universal storage abstraction layer eliminating cross-cutting storage concerns. Provides unified interface for all storage backends (SQLite, PostgreSQL, local files, S3, etc.)",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "storage_backend_abstractor",
+        "category": "core",
+        "subcategory": "",
+        "tags": [
+          "core",
+          "storage",
+          "abstraction",
+          "infrastructure",
+          "backend-unification"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.965468Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

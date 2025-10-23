@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:pp_hub_fastapi_server-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:51.066221Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "pp_hub_fastapi_server@1.0.0",
+      "name": "pp_hub_fastapi_server",
+      "version": "1.0.0",
+      "description": "Enterprise PP Hub FastAPI Server Plugin - Advanced reusable plugin wrapper around core PlugPipe backend infrastructure with enterprise security, monitoring, governance, and scalability features"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,8 @@
+# Auto-generated requirements for PlugPipe plugin
+# External dependencies detected by dependency analyzer
+
+PyJWT
+authlib
+cryptography
+redis
+secrets

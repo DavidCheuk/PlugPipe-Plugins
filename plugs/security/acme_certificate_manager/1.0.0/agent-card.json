@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:certificates:acme_certificate_manager",
+    "name": "Acme Certificate Manager Agent",
+    "description": "Let's Encrypt ACME certificate management plugin with automated domain validation, renewal, and enterprise features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/acme_certificate_manager",
+    "skills": [
+      {
+        "id": "acme_certificate_manager-primary",
+        "name": "Acme Certificate Manager",
+        "description": "Let's Encrypt ACME certificate management plugin with automated domain validation, renewal, and enterprise features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "acme_certificate_manager",
+        "category": "security",
+        "subcategory": "certificates",
+        "tags": [
+          "acme",
+          "letsencrypt",
+          "certificates",
+          "ssl",
+          "tls",
+          "automation",
+          "domain_validation",
+          "free_certificates"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.571502Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

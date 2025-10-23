@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:llm_service",
+    "name": "Llm Service Agent",
+    "description": "Universal LLM orchestration service with intelligent routing and multi-provider support",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/llm_service",
+    "skills": [
+      {
+        "id": "llm_service-primary",
+        "name": "Llm Service",
+        "description": "Universal LLM orchestration service with intelligent routing and multi-provider support",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "llm_service",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.106585Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:mcp_security:secured_fastmcp_server",
+    "name": "Secured Fastmcp Server Agent",
+    "description": "Enterprise-grade secured FastMCP Server with authentication, encryption, and audit logging",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/secured_fastmcp_server",
+    "skills": [
+      {
+        "id": "secured_fastmcp_server-primary",
+        "name": "Secured Fastmcp Server",
+        "description": "Enterprise-grade secured FastMCP Server with authentication, encryption, and audit logging",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "secured_fastmcp_server",
+        "category": "mcp_security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "server",
+          "security",
+          "authentication",
+          "encryption",
+          "audit",
+          "enterprise"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:34.526146Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

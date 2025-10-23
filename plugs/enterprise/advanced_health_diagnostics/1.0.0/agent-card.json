@@ -1,0 +1,84 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:enterprise:advanced_health_diagnostics",
+    "name": "Advanced Health Diagnostics Agent",
+    "description": "Production-grade predictive failure detection, automated remediation with self-healing agents, performance profiling, and AI-driven cost optimization for enterprise deployments - pure orchestration of proven infrastructure",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/advanced_health_diagnostics",
+    "skills": [
+      {
+        "id": "advanced_health_diagnostics-primary",
+        "name": "Advanced Health Diagnostics",
+        "description": "Production-grade predictive failure detection, automated remediation with self-healing agents, performance profiling, and AI-driven cost optimization for enterprise deployments - pure orchestration of proven infrastructure",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "advanced_health_diagnostics-example-1",
+        "name": "Perform full system health check with AI-powered predictive failure detection",
+        "description": "Perform full system health check with AI-powered predictive failure detection",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "advanced_health_diagnostics-example-2",
+        "name": "Detect issues and orchestrate automated remediation with specialized agents",
+        "description": "Detect issues and orchestrate automated remediation with specialized agents",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "advanced_health_diagnostics-example-3",
+        "name": "Analyze system usage patterns and provide intelligent cost optimization recommendations",
+        "description": "Analyze system usage patterns and provide intelligent cost optimization recommendations",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "advanced_health_diagnostics",
+        "category": "enterprise",
+        "subcategory": "",
+        "tags": [
+          "health_monitoring",
+          "predictive_analytics",
+          "self_healing",
+          "performance_optimization",
+          "cost_optimization",
+          "enterprise_diagnostics",
+          "orchestration",
+          "ai_driven",
+          "automation"
+        ],
+        "author": "PlugPipe Enterprise Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.306780Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

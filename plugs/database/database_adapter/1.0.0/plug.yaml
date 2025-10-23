@@ -1,0 +1,176 @@
+name: database_adapter
+display_name: DatabaseAdapter
+version: 1.0.0
+author: PlugPipe Core Team
+owner: PlugPipe Database Team
+description: Universal database adapter providing abstract interface over any database
+  technology (SQLite, PostgreSQL, MongoDB). Uses pp_instance() for isolated database
+  instances and delegates to existing database plugins.
+status: stable
+category: database
+capabilities:
+- sql_execution
+- sql_query
+- table_creation
+- backend_abstraction
+- instance_isolation
+- multi_backend_support
+- parameterized_queries
+supported_backends:
+- sqlite
+- postgresql
+- mongodb
+uses_pp_instance: true
+delegates_to:
+- sqlite_manager
+- factory
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      description: Database operation to perform
+      enum:
+      - execute
+      - query
+      - create_table
+      - health_check
+    config:
+      type: object
+      description: Database adapter configuration
+      properties:
+        backend:
+          type: string
+          description: Database backend type
+          enum:
+          - sqlite
+          - postgresql
+          - mongodb
+        db_path:
+          type: string
+          description: Database file path (SQLite only)
+        connection:
+          type: object
+          description: Connection configuration (PostgreSQL/MongoDB)
+        instance_name:
+          type: string
+          description: Unique instance name for pp_instance() isolation
+    sql:
+      type: string
+      description: SQL statement to execute (for execute/query actions)
+    params:
+      type: array
+      description: Parameters for parameterized queries (prevents SQL injection)
+    table:
+      type: string
+      description: Table name (for create_table action)
+    schema:
+      type: object
+      description: Table schema as column_name -> column_type mapping
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    action:
+      type: string
+      description: Action performed
+    data:
+      type: array
+      description: Query results (for query action)
+    count:
+      type: integer
+      description: Number of rows returned (for query action)
+    rows_affected:
+      type: integer
+      description: Number of rows affected (for execute action)
+    table:
+      type: string
+      description: Table name (for create_table action)
+    backend:
+      type: string
+      description: Active database backend
+    plugin_available:
+      type: boolean
+      description: Whether backend plugin is available
+    error:
+      type: string
+      description: Error message if operation failed
+security:
+  input_validation: true
+  parameterized_queries: true
+  sql_injection_prevention: true
+  path_traversal_protection: true
+  file_system_access: true
+  network_access: false
+  requires_secrets: false
+compliance:
+  audit_logging: false
+  data_retention: Managed by underlying database plugins
+  encryption: Inherited from database plugins
+  gdpr_compliant: true
+enterprise_features:
+  instance_isolation: true
+  multi_backend_support: true
+  backend_switching: true
+  production_ready: true
+performance:
+  instance_isolation: true
+  connection_reuse: true
+  parameterized_queries: true
+integration:
+  pp_instance_compatible: true
+  plugin_delegation: true
+  auth_system_ready: true
+external_dependencies:
+  packages: []
+  install_method: none
+  requirements_file: requirements.txt
+stdlib_modules:
+- sys
+- os
+- logging
+- typing
+- datetime
+- sqlite3
+sbom:
+  complete: true
+  summary: Universal Database Adapter Plugin with multi-backend abstraction
+  dependencies:
+  - name: Python Standard Library
+    version: 3.8+
+    purpose: Core functionality for database operations
+    risk_level: low
+    modules:
+    - sys
+    - os
+    - logging
+    - typing
+    - datetime
+    - sqlite3
+    notes: Uses standard library for database abstraction
+  - name: sqlite_manager
+    version: 1.0.0
+    purpose: SQLite backend implementation
+    risk_level: low
+    optional: false
+    notes: Delegated via pp_instance() for SQLite operations
+  - name: factory
+    version: 1.0.0
+    purpose: PostgreSQL/MongoDB backend implementation
+    risk_level: low
+    optional: true
+    notes: Delegated via pp_instance() for advanced database backends
+dependency_analysis:
+  auto_generated: false
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+  last_updated: '2025-10-01'
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

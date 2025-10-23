@@ -1,0 +1,74 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:hallucination_guard",
+    "name": "Hallucination Guard Agent",
+    "description": "Advanced hallucination detection and prevention for LLM outputs using fact-checking and validation techniques",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/hallucination_guard",
+    "skills": [
+      {
+        "id": "hallucination_guard-primary",
+        "name": "Hallucination Guard",
+        "description": "Advanced hallucination detection and prevention for LLM outputs using fact-checking and validation techniques",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "hallucination_guard-example-1",
+        "name": "Basic hallucination detection",
+        "description": "Basic hallucination detection",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "hallucination_guard-example-2",
+        "name": "Confidence level analysis",
+        "description": "Confidence level analysis",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "hallucination_guard-example-3",
+        "name": "Mathematical fact verification",
+        "description": "Mathematical fact verification",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "hallucination_guard",
+        "category": "security",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.407236Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

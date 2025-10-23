@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:test_api_integration",
+    "name": "Test Api Integration Agent",
+    "description": "Auto-generated plugin for TestAPI API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/test_api_integration",
+    "skills": [
+      {
+        "id": "test_api_integration-primary",
+        "name": "Test Api Integration",
+        "description": "Auto-generated plugin for TestAPI API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "test_api_integration",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "TestAPI_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.611586Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

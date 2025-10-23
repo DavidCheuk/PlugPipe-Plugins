@@ -1,0 +1,344 @@
+author: PlugPipe Team
+category: streaming
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Configurable per topic
+  encryption: Configurable SSL/TLS
+  gdpr_compliant: true
+config_schema:
+  properties:
+    acks:
+      default: '1'
+      description: Acknowledgment level for message durability
+      enum:
+      - '0'
+      - '1'
+      - all
+      type: string
+    batch_size:
+      default: 100
+      description: Batch size for message publishing
+      maximum: 10000
+      minimum: 1
+      type: integer
+    bootstrap_servers:
+      default: localhost:9092
+      description: Kafka cluster bootstrap servers
+      type: string
+    compression:
+      default: none
+      description: Message compression algorithm
+      enum:
+      - none
+      - gzip
+      - snappy
+      - lz4
+      - zstd
+      type: string
+    enable_idempotence:
+      default: true
+      description: Enable idempotent producer
+      type: boolean
+    max_in_flight:
+      default: 5
+      description: Max in-flight requests per connection
+      maximum: 5
+      minimum: 1
+      type: integer
+    redis_backend:
+      description: Redis configuration for message coordination
+      properties:
+        enabled:
+          default: false
+          type: boolean
+        queue_prefix:
+          default: 'kafka_queue:'
+          type: string
+        redis_url:
+          default: redis://localhost:6379/2
+          type: string
+      type: object
+    retries:
+      default: 3
+      description: Number of retries for failed sends
+      maximum: 10
+      minimum: 0
+      type: integer
+    sasl_mechanism:
+      description: SASL authentication mechanism
+      enum:
+      - PLAIN
+      - SCRAM-SHA-256
+      - SCRAM-SHA-512
+      - GSSAPI
+      type: string
+    security_protocol:
+      default: PLAINTEXT
+      description: Security protocol for Kafka connection
+      enum:
+      - PLAINTEXT
+      - SSL
+      - SASL_PLAINTEXT
+      - SASL_SSL
+      type: string
+    serialization:
+      default: json
+      description: Message serialization format
+      enum:
+      - json
+      - avro
+      - protobuf
+      - string
+      - bytes
+      type: string
+    signal_routing:
+      additionalProperties:
+        type: string
+      description: PlugPipe signal type to topic routing configuration
+      type: object
+    timeout_ms:
+      default: 30000
+      description: Request timeout in milliseconds
+      maximum: 300000
+      minimum: 1000
+      type: integer
+    topic:
+      description: Default topic for messages
+      type: string
+  required:
+  - bootstrap_servers
+  type: object
+description: Universal Kafka message producer plugin for any streaming use case
+documentation:
+  examples:
+  - config:
+      bootstrap_servers: localhost:9092
+      serialization: json
+      topic: events
+    description: Publish single JSON message to Kafka topic
+    input:
+      message:
+        event: user_action
+        timestamp: '2025-08-20T12:00:00Z'
+    name: Simple message publish
+  - config:
+      batch_size: 500
+      bootstrap_servers: kafka-cluster:9092
+      compression: gzip
+      topic: analytics
+    description: Publish multiple messages in batch for efficiency
+    input:
+      messages:
+      - metric: cpu
+        value: 75
+      - metric: memory
+        value: 82
+    name: Batch data upload
+  - config:
+      bootstrap_servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      signal_metadata: true
+      topic: plugpipe-health-signals
+    description: Distribute PlugPipe health monitoring signals
+    input:
+      alert_data:
+        health_score: 0.65
+        recommendation: scale_up
+      signal_type: health_alert
+      source_plugin: advanced_health_diagnostics
+    name: PlugPipe health signal
+  readme: "# Universal Kafka Producer Plugin\n\nGeneric Kafka producer plugin supporting\
+    \ ANY streaming use case, from simple event publishing to complex data pipelines.\n\
+    \n## Universal Use Cases\n- **Event Streaming**: Real-time application events\n\
+    - **Data Pipelines**: ETL and data transformation\n- **Microservice Communication**:\
+    \ Service-to-service messaging  \n- **Log Aggregation**: Centralized logging streams\n\
+    - **IoT Data Ingestion**: Sensor data collection\n- **API Integration**: Async\
+    \ API communication\n- **Analytics Platform**: Real-time data for analytics\n\
+    - **PlugPipe Signals**: Internal ecosystem signal distribution\n\n## Configuration\
+    \ Examples\n\n### Simple Event Producer\n```yaml\nsteps:\n  - plugin: kafka_producer\n\
+    \    config:\n      bootstrap_servers: \"localhost:9092\"\n      topic: \"user-events\"\
+    \n      serialization: \"json\"\n    input:\n      message: {\"user_id\": 123,\
+    \ \"action\": \"login\"}\n```\n\n### High-Throughput Data Pipeline\n```yaml\n\
+    steps:\n  - plugin: kafka_producer  \n    config:\n      bootstrap_servers: \"\
+    kafka-cluster:9092\"\n      topic: \"data-pipeline\"\n      serialization: \"\
+    avro\"\n      batch_size: 1000\n      compression: \"snappy\"\n    input:\n  \
+    \    messages: [{\"data\": \"batch1\"}, {\"data\": \"batch2\"}]\n```\n\n### PlugPipe\
+    \ Signal Distribution\n```yaml\nsteps:\n  - plugin: kafka_producer\n    config:\n\
+    \      bootstrap_servers: \"${KAFKA_SERVERS}\"\n      topic: \"plugpipe-signals\"\
+    \n      signal_routing:\n        health_events: \"plugpipe-health\"\n        registry_events:\
+    \ \"plugpipe-registry\"\n        llm_events: \"plugpipe-llm\"\n    input:\n  \
+    \    signal_type: \"health_event\"\n      plugin_source: \"advanced_health_diagnostics\"\
+    \n      data: {\"health_score\": 0.95}\n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - kafka
+  - redis
+  requirements_file: requirements.txt
+features:
+  enterprise:
+  - High-throughput batch processing
+  - Idempotent message production
+  - Comprehensive error handling and retries
+  - Security protocols (SSL, SASL)
+  - Multi-cluster support
+  performance:
+  - Batching for optimal throughput
+  - Compression for bandwidth optimization
+  - Connection pooling and reuse
+  - Async production with callbacks
+  plugpipe_integration:
+  - Signal type routing for PlugPipe ecosystem
+  - Redis coordination for complex workflows
+  - Metadata enrichment for plugin tracking
+  - Monitoring integration with existing tools
+  universal_compatibility:
+  - JSON, Avro, Protobuf, and raw byte serialization
+  - Configurable compression algorithms
+  - Flexible topic routing and partitioning
+  - Schema registry integration support
+health_check:
+  expected_response: cluster_info
+  method: cluster_metadata
+  timeout: 10
+input_schema:
+  anyOf:
+  - required:
+    - message
+  - required:
+    - messages
+  properties:
+    headers:
+      description: Message headers (key-value pairs)
+      type: object
+    message:
+      description: Single message to publish (JSON object)
+      type: object
+    messages:
+      description: Batch of messages to publish
+      items:
+        type: object
+      type: array
+    partition_key:
+      description: Key for message partitioning
+      type: string
+    signal_metadata:
+      description: Additional signal metadata
+      type: object
+    signal_type:
+      description: PlugPipe signal type for routing
+      type: string
+    source_plugin:
+      description: Source plugin name for signal tracking
+      type: string
+    topic_override:
+      description: Override configured topic for this message
+      type: string
+  type: object
+license: MIT
+monitoring:
+  events:
+  - message_produced
+  - batch_completed
+  - production_error
+  - connection_established
+  - connection_lost
+  metrics:
+  - kafka_messages_produced_total
+  - kafka_production_errors_total
+  - kafka_batch_size_avg
+  - kafka_latency_ms_avg
+  - kafka_throughput_messages_per_sec
+name: kafka_producer
+display_name: KafkaProducer
+output_schema:
+  properties:
+    kafka_error:
+      description: Error message if operation failed
+      type: string
+    kafka_result:
+      properties:
+        error_details:
+          items:
+            type: object
+          type: array
+        failed_count:
+          description: Number of messages that failed
+          type: integer
+        partition_info:
+          items:
+            properties:
+              offset:
+                type: integer
+              partition:
+                type: integer
+            type: object
+          type: array
+        published_count:
+          description: Number of messages successfully published
+          type: integer
+        status:
+          enum:
+          - success
+          - error
+          - partial
+          type: string
+      type: object
+    kafka_status:
+      enum:
+      - success
+      - error
+      - partial
+      type: string
+  type: object
+owner: PlugPipe Streaming Team
+performance:
+  bulk_operations:
+    max_batch_size: 1000
+    recommended_batch_size: 100
+  caching:
+    enabled: false
+  rate_limit:
+    batch_operations_per_minute: 120
+    messages_per_second: 1000
+requirements:
+  python:
+  - kafka-python>=2.0.2
+  - confluent-kafka>=2.1.0
+  - redis>=4.5.0
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  external_domains:
+  - '*.kafka.domain'
+  - confluent.cloud
+  - '*.amazonaws.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - kafka_bootstrap_servers
+  - kafka_username
+  - kafka_password
+  - kafka_ssl_cert_path
+  - kafka_ssl_key_path
+status: stable
+tags:
+- kafka
+- streaming
+- producer
+- messaging
+- universal
+- events
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

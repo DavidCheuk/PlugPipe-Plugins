@@ -1,0 +1,340 @@
+capabilities:
+- cloudformation_stack_management
+- infrastructure_as_code
+- aws_integration
+- template_validation
+- changeset_management
+- drift_detection
+- nested_stacks
+- stack_monitoring
+- enterprise_deployment
+- compliance_reporting
+description: AWS CloudFormation Infrastructure as Code plugin for stack management,
+  template validation, changeset operations, drift detection, and comprehensive deployment
+  automation
+enterprise_features:
+  audit_logging: true
+  aws_native: true
+  changeset_support: true
+  compliance_reporting: true
+  drift_detection: true
+  enterprise_ready: true
+  infrastructure_as_code: true
+  production_ready: true
+  scalable_operations: true
+  secure_deployment: true
+  stack_monitoring: true
+  template_validation: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - botocore
+  - boto3
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    capabilities:
+      description: IAM capabilities required for stack operations
+      items:
+        enum:
+        - CAPABILITY_IAM
+        - CAPABILITY_NAMED_IAM
+        - CAPABILITY_AUTO_EXPAND
+        type: string
+      type: array
+    changeset_name:
+      description: Name for the changeset operation
+      type: string
+    cloudformation:
+      description: CloudFormation plugin configuration
+      properties:
+        auto_rollback:
+          default: true
+          description: Enable automatic rollback on failure
+          type: boolean
+        aws_profile:
+          description: AWS CLI profile to use
+          type: string
+        default_region:
+          default: us-east-1
+          description: Default AWS region
+          type: string
+        default_timeout:
+          default: 60
+          description: Default operation timeout in minutes
+          type: integer
+        use_changeset:
+          default: true
+          description: Use changeset by default for updates
+          type: boolean
+      type: object
+    operation:
+      description: CloudFormation operation to execute
+      enum:
+      - create_stack
+      - update_stack
+      - delete_stack
+      - get_stack_status
+      - validate_template
+      - create_changeset
+      - execute_changeset
+      - detect_drift
+      - health_check
+      type: string
+    parameters:
+      additionalProperties:
+        type: string
+      description: Stack parameters as key-value pairs
+      type: object
+    region:
+      default: us-east-1
+      description: AWS region for the stack operation
+      type: string
+    retain_resources:
+      description: Resources to retain during stack deletion
+      items:
+        type: string
+      type: array
+    stack_name:
+      description: Name of the CloudFormation stack
+      type: string
+    tags:
+      additionalProperties:
+        type: string
+      description: Stack tags as key-value pairs
+      type: object
+    template_content:
+      description: CloudFormation template content (JSON or YAML)
+      type: string
+    timeout_minutes:
+      default: 60
+      description: Stack operation timeout in minutes
+      maximum: 180
+      minimum: 1
+      type: integer
+    use_changeset:
+      default: true
+      description: Whether to use changeset for stack updates
+      type: boolean
+  required:
+  - operation
+  type: object
+kubernetes:
+  deployment:
+    replicas: 2
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+  env:
+  - name: AWS_DEFAULT_REGION
+    value: us-east-1
+  - name: AWS_CLI_VERSION
+    value: latest
+  namespace: plugpipe-infrastructure
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  service:
+    port: 8080
+    type: ClusterIP
+name: cloudformation
+display_name: Cloudformation
+output_schema:
+  properties:
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    operation_completed:
+      description: The operation that was executed
+      type: string
+    plugin_type:
+      description: Plugin type identifier
+      type: string
+    result:
+      description: Detailed operation results
+      properties:
+        capabilities:
+          description: Required IAM capabilities
+          type: array
+        changeset_id:
+          description: Created changeset ID
+          type: string
+        changeset_name:
+          description: Changeset name
+          type: string
+        detection_id:
+          description: Drift detection operation ID
+          type: string
+        drift_status:
+          description: Stack drift detection status
+          type: string
+        drifted_stack_resource_count:
+          description: Number of drifted resources
+          type: integer
+        error:
+          description: Error message if operation failed
+          type: string
+        execution_context:
+          description: Execution context identifier
+          type: string
+        execution_time:
+          description: Operation execution time
+          type: number
+        health_status:
+          description: Plugin health check results
+          properties:
+            aws_cli_version:
+              type: string
+            cloudformation_available:
+              type: boolean
+            default_region:
+              type: string
+            status:
+              type: string
+          type: object
+        operation:
+          description: Executed operation
+          type: string
+        outputs:
+          description: Stack outputs
+          type: array
+        parameters:
+          description: Stack or template parameters
+          type: array
+        plugin_id:
+          description: Plugin instance identifier
+          type: string
+        stack_exists:
+          description: Whether the stack exists
+          type: boolean
+        stack_id:
+          description: CloudFormation stack ID
+          type: string
+        stack_name:
+          description: CloudFormation stack name
+          type: string
+        stack_status:
+          description: Current stack status
+          type: string
+        timestamp:
+          description: Operation timestamp
+          format: date-time
+          type: string
+        valid:
+          description: Template validation result
+          type: boolean
+        validation_errors:
+          description: Template validation errors
+          items:
+            type: string
+          type: array
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - AWS Well-Architected Framework
+  - CIS AWS Foundations Benchmark
+  - NIST Cybersecurity Framework
+  - SOC 2 Type II compliance
+  - ISO 27001 cloud security standards
+  - PCI DSS for payment card industry compliance
+  - HIPAA for healthcare workloads
+  - FedRAMP for government cloud deployments
+  dependencies:
+  - description: Amazon Web Services SDK for Python
+    license: Apache-2.0
+    name: boto3
+    source: https://github.com/boto/boto3
+    type: python_package
+    version: '>=1.26.0'
+  - description: Low-level core functionality for boto3 and awscli
+    license: Apache-2.0
+    name: botocore
+    source: https://github.com/boto/botocore
+    type: python_package
+    version: '>=1.29.0'
+  - description: AWS Command Line Interface
+    license: Apache-2.0
+    name: aws-cli
+    source: https://github.com/aws/aws-cli
+    type: binary
+    version: '>=2.0.0'
+  - description: YAML parser and emitter for Python
+    license: MIT
+    name: pyyaml
+    source: https://github.com/yaml/pyyaml
+    type: python_package
+    version: '>=6.0'
+  - description: Python programming language runtime
+    license: PSF
+    name: python
+    source: https://www.python.org
+    type: runtime
+    version: '>=3.8'
+  integration_capabilities:
+  - AWS Service Catalog integration for governed deployments
+  - AWS Config for compliance monitoring and drift detection
+  - AWS CloudTrail for comprehensive audit logging
+  - AWS Systems Manager for parameter and secret management
+  - AWS CodePipeline and CodeBuild for CI/CD integration
+  - AWS Organizations for multi-account deployments
+  - Third-party tools like Terraform Cloud and Spacelift
+  - Git integration for template version control and collaboration
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - AWS credentials security and IAM permissions management
+  - CloudFormation template validation and security scanning
+  - Stack resource access control and least privilege principles
+  - Secure parameter handling for sensitive configuration values
+  - Audit logging for all CloudFormation operations and changes
+  - Network security for AWS API communications
+  - Template source validation and integrity checking
+  - Cross-stack reference security and access patterns
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - Ubuntu 20.04+
+    - CentOS 8+
+    - Amazon Linux 2+
+    - RHEL 8+
+  - name: macOS
+    versions:
+    - macOS 11+
+  - name: Windows
+    versions:
+    - Windows 10+
+    - Windows Server 2019+
+status: active
+tags:
+- aws
+- cloudformation
+- infrastructure
+- iac
+- deployment
+- stack
+- devops
+- automation
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

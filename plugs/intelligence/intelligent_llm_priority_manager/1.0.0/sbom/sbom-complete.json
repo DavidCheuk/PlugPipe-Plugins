@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:intelligent_llm_priority_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T15:08:01.224704Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "intelligent_llm_priority_manager@1.0.0",
+      "name": "intelligent_llm_priority_manager",
+      "version": "1.0.0",
+      "description": "AI-powered priority management system that intelligently allocates LLM resources based on plugin importance, user-defined priorities, business logic, and real-time demand. Ensures critical processes get LLM access first while optimizing resource utilization through dynamic priority scoring, cost-aware scheduling, and comprehensive policy management."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

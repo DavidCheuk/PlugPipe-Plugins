@@ -1,0 +1,161 @@
+name: auth_session_redis
+display_name: AuthSessionRedis
+version: 1.0.0
+type: session
+category: session_management
+title: Redis Session Management Plug
+description: Enterprise Redis-backed session management with clustering and persistence
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-session-redis
+auth_type: session
+session_store: redis
+supports_clustering: true
+supports_persistence: true
+provides:
+- session_creation
+- session_validation
+- session_destruction
+- session_persistence
+- distributed_sessions
+requires:
+- redis_client
+- user_manager
+configuration:
+- name: redis_url
+  type: string
+  required: false
+  secure: false
+  default: redis://localhost:6379/1
+  description: Redis connection URL for session storage
+- name: session_prefix
+  type: string
+  required: false
+  secure: false
+  default: 'pp_session:'
+  description: Redis key prefix for sessions
+- name: default_ttl_hours
+  type: integer
+  required: false
+  secure: false
+  default: 24
+  description: Default session TTL in hours
+- name: max_ttl_hours
+  type: integer
+  required: false
+  secure: false
+  default: 168
+  description: Maximum session TTL in hours (7 days)
+- name: cleanup_interval_minutes
+  type: integer
+  required: false
+  secure: false
+  default: 60
+  description: Expired session cleanup interval
+- name: secure_sessions
+  type: boolean
+  required: false
+  secure: false
+  default: true
+  description: Enable secure session features
+- name: session_encryption_key
+  type: string
+  required: false
+  secure: true
+  description: Key for session data encryption (optional)
+actions:
+- create_session
+- validate_session
+- destroy_session
+- refresh_session
+- get_session_info
+- cleanup_expired_sessions
+dependencies:
+- redis >= 4.5.0
+- cryptography >= 3.4.8
+external_dependencies:
+- name: redis
+  version: '>=4.5.0'
+  purpose: Redis client for distributed session storage and high-availability clustering
+- name: cryptography
+  version: '>=3.4.8'
+  purpose: Session data encryption and secure token generation for enterprise security
+security:
+- Secure session token generation
+- Session data encryption (optional)
+- IP address validation
+- User agent fingerprinting
+- Session hijacking protection
+enterprise:
+- Redis clustering support
+- Session replication across nodes
+- High availability session storage
+- Session analytics and monitoring
+- Bulk session management
+performance:
+  priority: 25
+  timeout: 5
+  retries: 2
+high_availability:
+- Redis Sentinel support
+- Redis Cluster support
+- Automatic failover
+- Session replication
+- Cross-datacenter sessions
+monitoring:
+  metrics:
+  - sessions_created_total
+  - sessions_validated_total
+  - sessions_destroyed_total
+  - sessions_expired_total
+  - session_validation_failures_total
+  events:
+  - session_created
+  - session_validated
+  - session_destroyed
+  - session_expired
+  - session_validation_failed
+features:
+  session_lifecycle:
+  - Automatic session creation with secure tokens
+  - Configurable session expiration and renewal
+  - Clean session destruction and cleanup
+  - Bulk session management for user operations
+  security:
+  - Secure random session token generation
+  - Optional session data encryption
+  - IP address and user agent validation
+  - Protection against session fixation attacks
+  performance:
+  - Redis-backed for sub-millisecond access
+  - Connection pooling for high throughput
+  - Efficient session cleanup processes
+  - Optimized memory usage patterns
+  enterprise:
+  - Redis clustering for horizontal scalability
+  - Session replication for high availability
+  - Cross-region session synchronization
+  - Comprehensive session analytics
+documentation:
+  setup_guide: docs/redis-session-setup.md
+  configuration_guide: docs/session-configuration.md
+  clustering_guide: docs/redis-clustering.md
+  security_guide: docs/session-security.md
+  examples: docs/examples/
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_session_redis-sbom.json
+  complete: sbom/auth_session_redis-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

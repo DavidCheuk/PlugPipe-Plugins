@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:comprehensive_developer_docs-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T08:38:14.730126Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "comprehensive_developer_docs@1.0.0",
+      "name": "comprehensive_developer_docs",
+      "version": "1.0.0",
+      "description": "Comprehensive developer self-help documentation and knowledge base providing detailed guidance for plugin development, ecosystem understanding, and best practices with intelligent context awareness"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

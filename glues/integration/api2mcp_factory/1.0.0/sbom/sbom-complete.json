@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:api2mcp_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:41:25.524364Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "api2mcp_factory@1.0.0",
+      "name": "api2mcp_factory",
+      "version": "1.0.0",
+      "description": "Enterprise-grade factory plugin that converts existing API specifications (OpenAPI, GraphQL, RAML) into MCP servers, leveraging proven conversion tools and PlugPipe components for effortless API-to-MCP migration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

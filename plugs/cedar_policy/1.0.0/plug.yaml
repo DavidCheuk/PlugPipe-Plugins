@@ -1,0 +1,196 @@
+name: cedar_policy
+display_name: CedarPolicy
+version: 1.0.0
+description: AWS Cedar policy engine plugin for fast, simple policy evaluation with
+  native AWS integration
+author: PlugPipe Team
+owner: PlugPipe Enterprise Team
+status: stable
+discoverability: public
+category: policy-engine
+tier: pro
+metadata:
+  type: policy-engine
+  category: policy-engine
+  capabilities:
+  - cedar_language
+  - aws_native
+  - fast_evaluation
+  - simple_policies
+  - schema_validation
+  memory_mb: 256
+  avg_evaluation_time_ms: 10
+tags:
+- policy
+- cedar
+- aws
+- authorization
+- fast
+- simple
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - pyyaml
+  requirements_file: requirements.txt
+config_schema:
+  type: object
+  properties:
+    aws_region:
+      type: string
+      default: us-west-2
+      description: AWS region for Cedar service
+    schema_validation:
+      type: boolean
+      default: true
+      description: Enable Cedar schema validation
+    policy_store:
+      type: string
+      default: local
+      enum:
+      - local
+      - aws_verified_permissions
+      description: Where to store Cedar policies
+    cache_enabled:
+      type: boolean
+      default: true
+      description: Enable decision caching
+    cache_ttl_seconds:
+      type: integer
+      default: 300
+      description: Cache TTL in seconds
+    default_decision:
+      type: string
+      default: deny
+      enum:
+      - allow
+      - deny
+      description: Default decision when no policies match
+config_defaults:
+  aws_region: us-west-2
+  schema_validation: true
+  policy_store: local
+  cache_enabled: true
+  cache_ttl_seconds: 300
+  default_decision: deny
+input_schema:
+  type: object
+  required:
+  - action
+  properties:
+    action:
+      type: string
+      enum:
+      - evaluate
+      - validate_policy
+      - load_policy
+      - list_policies
+      - delete_policy
+      - health_check
+      description: Action to perform
+    principal:
+      type: object
+      description: Principal (user/entity) in Cedar format
+      properties:
+        type:
+          type: string
+          default: User
+        id:
+          type: string
+    action_request:
+      type: object
+      description: Action being performed in Cedar format
+      properties:
+        type:
+          type: string
+          default: Action
+        id:
+          type: string
+    resource:
+      type: object
+      description: Resource being accessed in Cedar format
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+    context:
+      type: object
+      description: Additional context for policy evaluation
+      additionalProperties: true
+    policy_content:
+      type: string
+      description: Cedar policy content to validate
+    policy_id:
+      type: string
+      description: Policy identifier
+    policy_metadata:
+      type: object
+      description: Policy metadata
+      properties:
+        description:
+          type: string
+        effect:
+          type: string
+          enum:
+          - permit
+          - forbid
+output_schema:
+  type: object
+  properties:
+    decision:
+      type: string
+      enum:
+      - Allow
+      - Deny
+      description: Cedar policy decision
+    policy_id:
+      type: string
+      description: Policy that made the decision
+    reason:
+      type: string
+      description: Human-readable reason
+    diagnostics:
+      type: object
+      description: Cedar evaluation diagnostics
+      properties:
+        matched_policies:
+          type: array
+          items:
+            type: string
+        evaluation_notes:
+          type: array
+          items:
+            type: string
+    valid:
+      type: boolean
+      description: Whether policy is valid
+    error:
+      type: string
+      description: Validation error message
+    policies:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+          effect:
+            type: string
+          loaded_at:
+            type: number
+    healthy:
+      type: boolean
+    policies_count:
+      type: integer
+    success:
+      type: boolean
+    evaluation_time_ms:
+      type: number
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:enhanced_plug_creation_agent",
+    "name": "Enhanced Plug Creation Agent Agent",
+    "description": "Intelligent agent that researches APIs, analyzes documentation, and automatically creates comprehensive PlugPipe plugins with testing and release automation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/enhanced_plug_creation_agent",
+    "skills": [
+      {
+        "id": "enhanced_plug_creation_agent-primary",
+        "name": "Enhanced Plug Creation Agent",
+        "description": "Intelligent agent that researches APIs, analyzes documentation, and automatically creates comprehensive PlugPipe plugins with testing and release automation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "enhanced_plug_creation_agent",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "automation",
+          "ai-powered",
+          "plugin-generation",
+          "api-research",
+          "enterprise"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.529825Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

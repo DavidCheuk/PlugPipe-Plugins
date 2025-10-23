@@ -1,0 +1,48 @@
+name: redis_data_operations
+display_name: RedisDataOperations
+version: 1.0.0
+description: Redis data operations manager for high-performance storage
+author: PlugPipe
+category: data
+type: service
+capabilities:
+- redis_operations
+- data_storage
+- key_value_operations
+- bulk_operations
+- health_monitoring
+operations:
+- store
+- retrieve
+- delete
+- list_keys
+- bulk_store
+- health_check
+external_dependencies:
+- name: redis
+  version: '>=4.0.0'
+  purpose: Redis client library
+  security_notes: Standard Redis Python client
+security:
+  uses_standalone_input_sanitizer: true
+  input_validation: true
+  secure_defaults: true
+schema_validation:
+  enable_at_development: true
+  enable_at_runtime: true
+performance:
+  connection_pooling: true
+  async_ready: true
+  bulk_operations: true
+compliance:
+  plugpipe_principles: true
+  follows_foundation_pattern: sqlite_manager
+  uses_pp_discovery: true
+  reuse_not_reinvent: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

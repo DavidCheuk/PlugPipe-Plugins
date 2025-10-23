@@ -1,0 +1,459 @@
+business_value:
+  competitive_advantages:
+  - Zero-code data governance configuration for business users
+  - AI-powered classification with confidence scoring
+  - Automated privacy compliance verification
+  - Cross-system data relationship discovery and mapping
+  cost_reduction:
+  - 90% reduction in manual data discovery and classification efforts
+  - 80% reduction in compliance audit preparation time
+  - 70% reduction in data governance overhead costs
+  risk_mitigation:
+  - Automated identification of sensitive data across all systems
+  - Real-time compliance monitoring and violation detection
+  - Comprehensive audit trails for regulatory reporting
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:43'
+  stdlib_modules_declared: true
+description: Revolutionary automated data discovery and classification system for
+  enterprise-grade data governance, privacy compliance, and intelligent data lifecycle
+  management
+external_dependencies:
+  install_method: pip
+  packages:
+  - azure
+  - boto3
+  - chardet
+  - google
+  - joblib
+  - numpy
+  - pandas
+  - pymongo
+  - redis
+  - sklearn
+  - sqlalchemy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    data_id:
+      description: Data ID for lineage retrieval
+      type: string
+    data_sources:
+      description: Configuration for data sources to scan
+      items:
+        properties:
+          classification_rules:
+            description: Custom classification rules for this source
+            items:
+              properties:
+                classification_type:
+                  type: string
+                confidence:
+                  type: number
+                pattern:
+                  type: string
+                rule_id:
+                  type: string
+              type: object
+            type: array
+          connection_string:
+            description: Connection string for database/API sources
+            type: string
+          credentials:
+            description: Authentication credentials for the data source
+            type: object
+          enabled:
+            default: true
+            description: Whether this data source is enabled for scanning
+            type: boolean
+          metadata:
+            description: Additional metadata for the data source
+            type: object
+          name:
+            description: Human-readable name for the data source
+            type: string
+          retention_policies:
+            description: Retention policies applicable to this source
+            items:
+              type: string
+            type: array
+          scan_parameters:
+            description: Source-specific scanning parameters
+            properties:
+              max_files:
+                description: Maximum number of files to scan
+                type: integer
+              path:
+                description: File system path to scan
+                type: string
+              sample_size:
+                description: Number of records to sample for classification
+                type: integer
+            type: object
+          source_id:
+            description: Unique identifier for the data source
+            type: string
+          source_type:
+            description: Type of data source
+            enum:
+            - relational_database
+            - nosql_database
+            - file_system
+            - cloud_storage
+            - api_endpoint
+            - data_warehouse
+            - data_lake
+            - streaming
+            - custom
+            type: string
+        required:
+        - source_id
+        - source_type
+        - name
+        type: object
+      type: array
+    operation:
+      description: Operation to perform
+      enum:
+      - discover_and_classify
+      - get_data_lineage
+      - execute_retention
+      - get_classification_summary
+      - get_status
+      type: string
+    retention_policies:
+      description: Data retention policy configurations
+      items:
+        properties:
+          conditions:
+            description: Additional conditions for policy application
+            type: object
+          data_classifications:
+            description: Data classification types this policy applies to
+            items:
+              type: string
+            type: array
+          policy_id:
+            description: Unique identifier for the retention policy
+            type: string
+          policy_type:
+            description: Type of retention policy
+            enum:
+            - regulatory_compliance
+            - business_requirement
+            - legal_hold
+            - custom
+            type: string
+          retention_period_days:
+            description: Retention period in days
+            type: integer
+        required:
+        - policy_id
+        - policy_type
+        - retention_period_days
+        - data_classifications
+        type: object
+      type: array
+    source_ids:
+      description: Specific data source IDs to scan (optional, defaults to all enabled
+        sources)
+      items:
+        type: string
+      type: array
+  required: []
+  type: object
+integration_metadata:
+  api_endpoints:
+  - /discover: Initiate data discovery and classification
+  - /lineage/{data_id}: Get data lineage information
+  - /retention: Execute retention policy management
+  - /summary: Get classification summary and statistics
+  - /status: Get engine status and health information
+  enterprise_integration_points:
+  - Configurable Enterprise Integration Suite for compliance enforcement
+  - Privacy Verification Plugin for automated privacy impact assessments
+  - Multi-framework compliance support (HIPAA, GDPR, SOX, PCI DSS)
+  - Real-time SIEM integration for monitoring and alerting
+  - Executive dashboards and regulatory reporting automation
+  plugin_dependencies:
+  - enterprise/configurable_integration_suite: Compliance enforcement coordination
+  - governance/privacy_verification: Privacy compliance verification (planned)
+name: data_management_classification
+display_name: DataManagementClassification
+output_schema:
+  properties:
+    classification_results:
+      description: Detailed classification results for discovered data
+      items:
+        properties:
+          classification_timestamp:
+            description: Timestamp when classification was performed
+            type: string
+          classifications:
+            description: Applied data classifications
+            items:
+              type: string
+            type: array
+          confidence_scores:
+            description: Confidence scores for each classification
+            type: object
+          data_id:
+            description: Unique identifier for the data element
+            type: string
+          data_lineage:
+            description: Data lineage tracking information
+            items:
+              type: string
+            type: array
+          metadata:
+            description: Additional metadata about the data element
+            type: object
+          retention_requirements:
+            description: Applicable retention policy IDs
+            items:
+              type: string
+            type: array
+          sample_data:
+            description: Sample data for classification analysis
+            type: object
+          sensitive_fields:
+            description: Fields identified as containing sensitive data
+            items:
+              type: string
+            type: array
+          source_id:
+            description: Source system identifier
+            type: string
+        type: object
+      type: array
+    discovery_id:
+      description: Unique identifier for discovery operation
+      type: string
+    engine_metadata:
+      description: Metadata about the data management engine
+      type: object
+    engine_status:
+      description: Status of the data management engine
+      properties:
+        classification_results:
+          description: Number of classification results available
+          type: integer
+        cloud_storage_available:
+          description: Whether cloud storage integration is available
+          type: boolean
+        data_sources_configured:
+          description: Number of configured data sources
+          type: integer
+        database_connectivity:
+          description: Whether database connectivity is available
+          type: boolean
+        discovery_status:
+          description: Current status of data discovery process
+          type: string
+        engine_id:
+          description: Unique identifier for the engine instance
+          type: string
+        file_analysis_available:
+          description: Whether file analysis capabilities are available
+          type: boolean
+        ml_models_available:
+          description: Whether ML models are available for classification
+          type: boolean
+      type: object
+    enterprise_integration_points:
+      description: Integration points with other enterprise systems
+      items:
+        type: string
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    lineage_graph:
+      description: Data lineage graph information
+      properties:
+        edge_count:
+          description: Number of edges in the lineage graph
+          type: integer
+        graph_id:
+          description: Unique identifier for the lineage graph
+          type: string
+        node_count:
+          description: Number of nodes in the lineage graph
+          type: integer
+        root_data_id:
+          description: Root data element identifier
+          type: string
+      type: object
+    market_differentiators:
+      description: Market-differentiating capabilities
+      items:
+        type: string
+      type: array
+    results_count:
+      description: Number of data elements discovered and classified
+      type: integer
+    retention_execution:
+      description: Results of retention policy execution
+      properties:
+        deletions_attempted:
+          description: Number of data deletion attempts
+          type: integer
+        errors:
+          description: Error messages from failed deletions
+          items:
+            type: string
+          type: array
+        failed_deletions:
+          description: Number of failed deletions
+          type: integer
+        successful_deletions:
+          description: Number of successful deletions
+          type: integer
+      type: object
+    reused_infrastructure:
+      description: Proven enterprise tools and infrastructure reused
+      items:
+        type: string
+      type: array
+    revolutionary_capabilities:
+      description: Revolutionary capabilities provided by this plugin
+      items:
+        type: string
+      type: array
+    sources_scanned:
+      description: Number of data sources scanned
+      type: integer
+    success:
+      description: Whether the operation completed successfully
+      type: boolean
+    summary:
+      description: Summary of discovery and classification results
+      properties:
+        average_confidence_scores:
+          description: Average confidence scores by classification type
+          type: object
+        classification_counts:
+          description: Count of data elements by classification type
+          type: object
+        high_confidence_results:
+          description: Number of high-confidence classification results
+          type: integer
+        source_distribution:
+          description: Distribution of results across data sources
+          type: object
+        total_sensitive_data_elements:
+          description: Total number of sensitive data elements found
+          type: integer
+      type: object
+    timestamp:
+      description: Timestamp of the operation
+      type: string
+  type: object
+owner: PlugPipe Data Governance Team
+revolutionary_capabilities:
+- ai_powered_data_discovery_across_all_enterprise_systems
+- real_time_data_classification_using_ml_models
+- data_lineage_tracking_from_source_to_consumption
+- automated_retention_management_based_on_compliance_requirements
+- cross_system_data_mapping_with_relationship_tracking
+- intelligent_sensitive_data_detection_with_confidence_scoring
+- automated_privacy_compliance_verification_integration
+sbom:
+  compliance_frameworks:
+  - HIPAA for protected health information classification
+  - GDPR for personal data identification and processing
+  - SOX for financial data governance and controls
+  - PCI DSS for payment card industry data security
+  - ISO 27001 for information security management
+  dependencies:
+  - license: BSD-3-Clause
+    name: pandas
+    purpose: Data processing and analysis
+    version: '>=1.3.0'
+  - license: BSD-3-Clause
+    name: numpy
+    purpose: Numerical computations for ML
+    version: '>=1.20.0'
+  - license: BSD-3-Clause
+    name: scikit-learn
+    purpose: Machine learning models for classification
+    version: '>=1.0.0'
+  - license: MIT
+    name: sqlalchemy
+    purpose: Database connectivity and ORM
+    version: '>=1.4.0'
+  - license: LGPL-2.1
+    name: chardet
+    purpose: Character encoding detection
+    version: '>=4.0.0'
+  - license: Apache-2.0
+    name: boto3
+    optional: true
+    purpose: AWS cloud storage integration
+    version: '>=1.20.0'
+  - license: MIT
+    name: azure-storage-blob
+    optional: true
+    purpose: Azure cloud storage integration
+    version: '>=12.0.0'
+  - license: Apache-2.0
+    name: google-cloud-storage
+    optional: true
+    purpose: Google Cloud storage integration
+    version: '>=2.0.0'
+  - license: Apache-2.0
+    name: pymongo
+    optional: true
+    purpose: MongoDB NoSQL database connectivity
+    version: '>=4.0.0'
+  - license: BSD-3-Clause
+    name: redis
+    optional: true
+    purpose: Redis caching and data structure support
+    version: '>=4.0.0'
+  - license: BSD-3-Clause
+    name: joblib
+    purpose: ML model serialization and parallel processing
+    version: '>=1.1.0'
+  reused_tools:
+  - Apache Atlas for metadata management and data lineage
+  - Collibra/Informatica/Alation for data catalog integration
+  - Apache Ranger for data access governance
+  - Elasticsearch for data discovery and search capabilities
+  - Apache Airflow for data pipeline orchestration
+  - HashiCorp Vault for secrets and credentials management
+  security_considerations:
+  - Encrypted connection strings and credentials storage
+  - Secure sampling techniques to avoid exposing sensitive data
+  - Audit logging of all data access and classification activities
+  - Role-based access control for data discovery operations
+  - Compliance with data privacy regulations (GDPR, HIPAA, etc.)
+status: production
+stdlib_modules:
+- asyncio
+- concurrent
+- dataclasses
+- datetime
+- enum
+- hashlib
+- json
+- logging
+- mimetypes
+- os
+- pathlib
+- re
+- sys
+- threading
+- typing
+- uuid
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

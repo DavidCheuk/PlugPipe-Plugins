@@ -1,0 +1,121 @@
+category: core
+config_defaults:
+  connection_pooling: true
+  fallback_enabled: true
+  health_monitoring: true
+  preferred_backend: auto
+config_schema:
+  properties:
+    connection_pooling:
+      default: true
+      type: boolean
+    fallback_enabled:
+      default: true
+      type: boolean
+    health_monitoring:
+      default: true
+      type: boolean
+    preferred_backend:
+      default: auto
+      enum:
+      - auto
+      - sqlite
+      - local_file
+      - database_factory
+      - yaml
+      - postgresql
+      type: string
+  type: object
+description: Universal storage abstraction layer eliminating cross-cutting storage
+  concerns. Provides unified interface for all storage backends (SQLite, PostgreSQL,
+  local files, S3, etc.)
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Storage action to perform
+      enum:
+      - get_backend
+      - list_backends
+      - store_data
+      - retrieve_data
+      - health_check
+      type: string
+    backend_type:
+      description: Preferred backend type
+      enum:
+      - sqlite
+      - local_file
+      - database_factory
+      - yaml
+      - postgresql
+      - auto
+      type: string
+    config:
+      description: Backend configuration
+      type: object
+    data:
+      description: Data to store/retrieve
+      type: object
+    key:
+      description: Storage key/identifier
+      type: string
+  required:
+  - action
+  type: object
+metadata:
+  capabilities:
+  - storage_abstraction
+  - backend_unification
+  - graceful_degradation
+  - cross_cutting_elimination
+  memory_mb: 512
+  type: infrastructure
+name: storage_backend_abstractor
+display_name: StorageBackendAbstractor
+output_schema:
+  properties:
+    available_backends:
+      description: List of available backends
+      type: array
+    backend_used:
+      description: Backend that was actually used
+      type: string
+    data:
+      description: Retrieved data or operation result
+      type: object
+    error:
+      description: Error message if failed
+      type: string
+    message:
+      description: Operation message
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+status: stable
+tags:
+- core
+- storage
+- abstraction
+- infrastructure
+- backend-unification
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

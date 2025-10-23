@@ -1,0 +1,476 @@
+advanced_features:
+- automatic_error_pattern_detection
+- impact_scoring_with_severity_weighting
+- time_series_analytics_for_trends
+- multi_database_backend_support
+- query_optimization_for_large_datasets
+- real_time_dashboard_ready_apis
+- integration_with_existing_logging_ecosystem
+capabilities:
+- database_error_logging
+- error_pattern_analytics
+- performance_metrics_storage
+- error_querying
+- trend_analysis
+- multi_database_support
+- real_time_analytics
+- impact_scoring
+compliance:
+  audit_logging: true
+  data_retention: 'Configurable retention policies for error logs and metrics (default:
+    90 days for errors, 365 days for metrics)'
+  encryption: Database file encryption supported via filesystem-level encryption
+  gdpr_compliant: true
+configuration:
+  analytics:
+    enable_pattern_detection:
+      default: true
+      description: Enable automatic error pattern detection
+      type: boolean
+    impact_score_calculation:
+      default: true
+      description: Calculate error impact scores
+      type: boolean
+    trend_analysis_window_days:
+      default: 30
+      description: Time window for trend analysis
+      type: integer
+  database:
+    database:
+      default: plugpipe_errors
+      description: PostgreSQL database name
+      type: string
+    host:
+      default: localhost
+      description: PostgreSQL host (if using PostgreSQL)
+      type: string
+    password:
+      description: PostgreSQL password (use environment variable)
+      type: string
+    path:
+      default: enhanced_errors.db
+      description: SQLite database file path
+      type: string
+    port:
+      default: 5432
+      description: PostgreSQL port
+      type: integer
+    type:
+      default: sqlite
+      description: Database type to use
+      enum:
+      - sqlite
+      - postgresql
+      type: string
+    user:
+      default: postgres
+      description: PostgreSQL username
+      type: string
+  retention:
+    error_retention_days:
+      default: 90
+      description: Keep error logs for N days
+      type: integer
+    metrics_retention_days:
+      default: 365
+      description: Keep metrics for N days
+      type: integer
+database_support:
+  postgresql:
+    description: Enterprise-grade database for production environments
+    features:
+    - enterprise_scale
+    - advanced_analytics
+    - concurrent_access
+    - json_support
+    performance: excellent_for_large_datasets
+  sqlite:
+    description: Lightweight embedded database for local development
+    features:
+    - embedded
+    - zero_config
+    - fast_queries
+    - analytics
+    performance: excellent_for_small_to_medium_datasets
+description: Database logging for enhanced error messages with analytics and querying
+  capabilities, extending beyond pipe_runs to persistent storage
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: log_error
+      description: Action to perform
+      enum:
+      - log_error
+      - query_errors
+      - log_metrics
+      - get_analytics
+      - health_check
+      type: string
+    error_data:
+      description: Enhanced error data to log
+      properties:
+        context:
+          description: Execution context
+          type: object
+        environment_info:
+          description: Environment information
+          type: object
+        error_id:
+          description: Unique error identifier
+          type: string
+        error_message:
+          description: Original error message
+          type: string
+        error_type:
+          description: Error type/class
+          type: string
+        execution_id:
+          description: Execution identifier
+          type: string
+        pipeline_name:
+          description: Pipeline name
+          type: string
+        related_plugs:
+          description: Related plugins
+          items:
+            type: string
+          type: array
+        severity:
+          description: Error severity level
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          - trace
+          type: string
+        stack_trace:
+          description: Error stack trace
+          type: string
+        step_id:
+          description: Step where error occurred
+          type: string
+        suggested_actions:
+          description: Suggested remediation actions
+          items:
+            type: string
+          type: array
+        technical_details:
+          description: Technical error details
+          type: object
+        timestamp:
+          description: Error timestamp
+          format: date-time
+          type: string
+        user_friendly_message:
+          description: User-friendly error message
+          type: string
+      type: object
+    filters:
+      description: Query filters
+      properties:
+        execution_id:
+          description: Filter by execution ID
+          type: string
+        limit:
+          default: 100
+          description: Limit number of results
+          type: integer
+        pipeline_name:
+          description: Filter by pipeline name
+          type: string
+        severity:
+          description: Filter by severity level
+          type: string
+        since:
+          description: Filter errors since timestamp
+          format: date-time
+          type: string
+        step_id:
+          description: Filter by step ID
+          type: string
+      type: object
+    metrics_data:
+      description: Execution metrics data
+      properties:
+        bottlenecks:
+          items:
+            type: string
+          type: array
+        execution_duration:
+          type: number
+        execution_id:
+          type: string
+        failed_steps:
+          type: integer
+        optimization_suggestions:
+          items:
+            type: string
+          type: array
+        performance_grade:
+          type: string
+        pipeline_name:
+          type: string
+        success_rate:
+          type: number
+        successful_steps:
+          type: integer
+        timestamp:
+          type: string
+        total_steps:
+          type: integer
+      type: object
+  type: object
+integrations:
+  enhanced_debugging_system:
+    capabilities:
+    - error_logging
+    - context_preservation
+    - analytics_enhancement
+    description: Direct integration with PlugPipe enhanced debugging system
+  existing_logging_plugins:
+    capabilities:
+    - structured_storage
+    - advanced_queries
+    - historical_analysis
+    description: Complements existing logging plugins like audit_elk_stack
+  plugin_based_materialize:
+    capabilities:
+    - persistent_storage
+    - queryable_logs
+    - metrics_tracking
+    description: Replaces pipe_runs with database logging
+metadata:
+  author: PlugPipe Core Team
+  category: database
+  cpu_cores: 1
+  license: MIT
+  memory_mb: 64
+  network_required: false
+  storage_mb: 100
+  tags:
+  - database
+  - logging
+  - error-tracking
+  - analytics
+  - debugging
+  - pipe_runs_replacement
+name: enhanced_error_logger
+display_name: EnhancedErrorLogger
+output_schema:
+  additionalProperties: false
+  properties:
+    analytics:
+      description: Error analytics data
+      properties:
+        error_trends:
+          description: Error trends over time
+          items:
+            properties:
+              count:
+                type: integer
+              date:
+                type: string
+            type: object
+          type: array
+        severity_distribution:
+          description: Error count by severity
+          type: object
+        top_error_patterns:
+          description: Most frequent error patterns
+          items:
+            properties:
+              impact_score:
+                type: number
+              occurrences:
+                type: integer
+              pattern:
+                type: string
+            type: object
+          type: array
+      type: object
+    available_actions:
+      description: Available actions
+      items:
+        type: string
+      type: array
+    database_path:
+      description: Database file path (SQLite)
+      type: string
+    database_type:
+      description: Database type used for logging
+      type: string
+    error:
+      description: Error message if operation failed
+      type: string
+    error_id:
+      description: Logged error ID
+      type: string
+    errors:
+      description: Retrieved error records
+      items:
+        type: object
+      type: array
+    filters_applied:
+      description: Filters applied to query
+      type: object
+    message:
+      description: Status message
+      type: string
+    performance_trends:
+      description: Performance trends over time
+      items:
+        properties:
+          avg_duration:
+            type: number
+          avg_success_rate:
+            type: number
+          date:
+            type: string
+          executions:
+            type: integer
+        type: object
+      type: array
+    status:
+      description: Health status
+      type: string
+    success:
+      description: Whether the operation was successful
+      type: boolean
+    timestamp:
+      description: Operation timestamp
+      format: date-time
+      type: string
+    top_pipelines:
+      description: Top performing pipelines
+      items:
+        properties:
+          avg_duration:
+            type: number
+          avg_success_rate:
+            type: number
+          executions:
+            type: integer
+          performance_grade:
+            type: string
+          pipeline_name:
+            type: string
+        type: object
+      type: array
+    total_count:
+      description: Total number of errors found
+      type: integer
+    total_errors:
+      description: Total errors in database
+      type: integer
+    total_patterns:
+      description: Total error patterns tracked
+      type: integer
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+performance:
+  postgresql_operations:
+    analytics: < 1000ms
+    error_logging: < 25ms
+    query_complex: < 200ms
+  sqlite_operations:
+    analytics: < 500ms
+    error_logging: < 10ms
+    query_simple: < 50ms
+  storage_efficiency:
+    compression: json_compression_for_large_fields
+    indexing: optimized_for_time_series_queries
+    retention: configurable_retention_policies
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - sqlite3
+    - json
+    - os
+    - logging
+    - asyncio
+    - re
+    - datetime
+    - typing
+    - dataclasses
+    - pathlib
+    - hashlib
+    - sys
+    name: Python Standard Library
+    notes: Uses standard library modules for database operations and security validation
+    purpose: Core functionality for database operations, async processing, input validation,
+      and data structures
+    risk_level: low
+    version: 3.8+
+  - name: psycopg2
+    notes: Well-established PostgreSQL adapter for Python, used for enterprise database
+      support
+    optional: true
+    purpose: PostgreSQL database connectivity and operations
+    risk_level: low
+    version: '>=2.8.0'
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes fallback validation when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    version: 1.0.0
+  - modules: null
+    name: PlugPipe Framework
+    notes: Core PlugPipe framework components for plugin orchestration
+    purpose: Plugin discovery and integration with PlugPipe ecosystem
+    risk_level: low
+    version: '>=1.0.0'
+  summary: Enhanced Error Logger Plugin with comprehensive database logging, analytics,
+    and Universal Input Sanitizer security integration
+security:
+  access_control: Restrict database access to authorized debugging tools only
+  configuration_validation: true
+  data_protection: Database contains debugging information, ensure proper access controls
+  file_paths:
+  - /tmp
+  - /var/tmp
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/logs
+  file_system_access: true
+  input_validation: true
+  network_access: false
+  path_traversal_protection: true
+  requires_secrets: false
+  retention_policies: Implement retention policies for compliance
+  sensitive_data_handling: Stack traces may contain sensitive information - proper
+    sanitization applied
+  sql_injection_protection: true
+  universal_sanitizer_integration: true
+status: production
+triggers:
+- enhanced_error_occurred
+- pipeline_execution_completed
+- metrics_collection_requested
+use_cases:
+- enhanced_error_tracking_beyond_pipe_runs
+- error_pattern_analysis_for_reliability_improvement
+- performance_metrics_historical_analysis
+- debugging_productivity_enhancement
+- production_error_monitoring_and_alerting
+- compliance_and_audit_trail_requirements
+version: 1.0.0
+author: PlugPipe Database Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

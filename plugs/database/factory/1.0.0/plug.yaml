@@ -1,0 +1,302 @@
+capabilities:
+- unified_database_interface
+- database_switching
+- database_failover
+- multi_database_support
+- health_monitoring
+- factory_management
+- kubernetes_orchestration
+- zero_downtime_switching
+- configuration_driven
+- enterprise_ready
+compliance:
+  audit_logging: true
+  data_retention: Managed by underlying database plugins
+  encryption: Inherited from database plugins
+  gdpr_compliant: true
+database_interface:
+  factory_operations:
+  - switch_database
+  - add_database
+  - remove_database
+  - get_status
+  operations:
+  - store_plugin
+  - get_plugin
+  - search_plugins
+  - list_plugins
+  - delete_plugin
+  - health_check
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:42'
+  stdlib_modules_declared: true
+description: Orchestrates multiple database plugins (SQLite, PostgreSQL, MongoDB)
+  and provides unified database interface with failover, switching, and health monitoring
+  capabilities.
+enterprise_features:
+  comprehensive_monitoring: true
+  enterprise_ready: true
+  failover_support: true
+  high_availability: true
+  kubernetes_native: true
+  multi_database_support: true
+  production_ready: true
+  zero_downtime_switching: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    database_factory:
+      properties:
+        enable_failover:
+          description: Enable automatic failover to fallback databases
+          type: boolean
+        fallback_databases:
+          description: Fallback database types for failover
+          items:
+            enum:
+            - sqlite
+            - postgresql
+            - mongodb
+            type: string
+          type: array
+        health_check_interval:
+          description: Health check interval in seconds
+          type: integer
+        kubernetes:
+          properties:
+            namespace:
+              description: Kubernetes namespace for deployment
+              type: string
+          type: object
+        primary_database:
+          description: Primary database type to use
+          enum:
+          - sqlite
+          - postgresql
+          - mongodb
+          type: string
+      type: object
+    databases:
+      additionalProperties:
+        description: Database-specific configuration
+        type: object
+      description: Configuration for individual database plugins
+      type: object
+    filters:
+      description: Search filters for search operations
+      type: object
+    name:
+      description: Plugin name for get/delete operations
+      type: string
+    operation:
+      description: Database factory operation to perform
+      enum:
+      - health_check
+      - switch_database
+      - get_status
+      - store_plugin
+      - get_plugin
+      - search_plugins
+      - list_plugins
+      - delete_plugin
+      type: string
+    plugin_metadata:
+      description: Plugin metadata for store operations
+      type: object
+    query:
+      description: Search query for search operations
+      type: string
+    target_database:
+      description: Target database for switch operations
+      type: string
+    version:
+      description: Plugin version for get/delete operations
+      type: string
+  type: object
+integration:
+  health_monitoring: true
+  metrics_collection: true
+  plugin_discovery: true
+  registry_service: true
+kubernetes:
+  config:
+    database_factory:
+      enable_failover: true
+      fallback_databases:
+      - postgresql
+      health_check_interval: 30
+      primary_database: sqlite
+  deployment:
+    replicas: 1
+    strategy: RollingUpdate
+  namespace: plugpipe
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  service:
+    port: 8080
+    type: ClusterIP
+name: factory
+display_name: Factory
+output_schema:
+  properties:
+    active_database:
+      description: Currently active database type
+      type: string
+    capabilities:
+      description: Factory capabilities
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    factory:
+      description: Database factory instance
+      type: object
+    factory_id:
+      description: Unique factory identifier
+      type: string
+    factory_status:
+      description: Factory configuration and status
+      properties:
+        active_database:
+          type: string
+        available_databases:
+          type: array
+        factory_id:
+          type: string
+        failover_enabled:
+          type: boolean
+        initialized:
+          type: boolean
+        primary_database:
+          type: string
+      type: object
+    factory_type:
+      description: Type of factory (database)
+      type: string
+    health_status:
+      description: Comprehensive factory health information
+      properties:
+        active_database:
+          type: string
+        database_status:
+          type: object
+        factory_healthy:
+          type: boolean
+        factory_id:
+          type: string
+        failover_enabled:
+          type: boolean
+        healthy_databases:
+          type: integer
+        total_databases:
+          type: integer
+      type: object
+    kubernetes_native:
+      description: Kubernetes native support
+      type: boolean
+    message:
+      description: Operation result message
+      type: string
+    operation_completed:
+      description: Name of completed operation
+      type: string
+    result:
+      description: Operation result data
+      type:
+      - object
+      - array
+      - boolean
+      - 'null'
+    status:
+      description: Factory status
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+performance:
+  failover_support: true
+  health_monitoring: true
+  kubernetes_native: true
+  multi_database_support: true
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - asyncio
+    - logging
+    - os
+    - json
+    - importlib.util
+    - re
+    - typing
+    - datetime
+    - pathlib
+    - sys
+    name: Python Standard Library
+    notes: Uses standard library modules for database plugin management and async
+      orchestration
+    purpose: Core functionality for database factory orchestration, async operations,
+      and module loading
+    risk_level: low
+    version: 3.8+
+  - name: PyYAML
+    notes: Well-established YAML library for configuration management
+    purpose: YAML configuration parsing for database configurations
+    risk_level: low
+    version: '>=6.0'
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes fallback validation when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    version: 1.0.0
+  summary: Enterprise Database Factory Plugin with security hardening and multi-database
+    orchestration
+security:
+  configuration_validation: true
+  file_paths:
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/plugs/database/
+  file_system_access: true
+  input_validation: true
+  network_access: false
+  path_traversal_protection: true
+  requires_secrets: false
+status: stable
+stdlib_modules:
+- abc
+- asyncio
+- datetime
+- importlib
+- json
+- logging
+- os
+- pathlib
+- re
+- sys
+- typing
+supported_databases:
+- sqlite
+- postgresql
+- mongodb
+version: 1.0.0
+author: PlugPipe Database Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

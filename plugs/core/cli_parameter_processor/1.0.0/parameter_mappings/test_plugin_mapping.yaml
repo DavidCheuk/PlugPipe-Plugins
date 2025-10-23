@@ -1,0 +1,5 @@
+test.example_plugin:
+  operation: operation
+  user: user
+  test_param: test_param
+  custom_setting: custom_setting

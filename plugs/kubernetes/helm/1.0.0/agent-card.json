@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:helm",
+    "name": "Helm Agent",
+    "description": "Helm Charts plugin for standardized Kubernetes application deployment with comprehensive chart management, values templating, repository operations, and release lifecycle management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/helm",
+    "skills": [
+      {
+        "id": "helm-primary",
+        "name": "Helm",
+        "description": "Helm Charts plugin for standardized Kubernetes application deployment with comprehensive chart management, values templating, repository operations, and release lifecycle management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "helm",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "helm",
+          "kubernetes",
+          "charts",
+          "deployment",
+          "package",
+          "management",
+          "lifecycle",
+          "templating"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.475950Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

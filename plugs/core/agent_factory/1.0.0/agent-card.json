@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:agent_factory",
+    "name": "Agent Factory Agent",
+    "description": "Production-ready core agent factory with comprehensive lifecycle management, health monitoring, fallback mechanisms, and rate limiting",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/agent_factory",
+    "skills": [
+      {
+        "id": "agent_factory-primary",
+        "name": "Agent Factory",
+        "description": "Production-ready core agent factory with comprehensive lifecycle management, health monitoring, fallback mechanisms, and rate limiting",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "agent_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "core",
+          "agent-factory",
+          "lifecycle-management",
+          "production-ready",
+          "enterprise"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.377584Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

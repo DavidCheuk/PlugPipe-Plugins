@@ -1,0 +1,667 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_financial_validation_results:
+      default: true
+      type: boolean
+    citation_agent_factory:
+      default: agents/citation_agent_factory
+      description: Reference to Citation Agent Factory for financial source verification
+      type: string
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for financial consistency
+        checking
+      type: string
+    default_compliance_level:
+      default: sox_compliant
+      enum:
+      - sox_compliant
+      - finra_certified
+      - sec_approved
+      - banking_grade
+      - general_financial
+      type: string
+    default_risk_tolerance:
+      default: conservative
+      enum:
+      - conservative
+      - moderate
+      - aggressive
+      - high_risk
+      type: string
+    default_validation_strictness:
+      default: 0.95
+      maximum: 0.99
+      minimum: 0.85
+      type: number
+    enable_multi_agent_financial_coordination:
+      default: true
+      type: boolean
+    financial_database_timeout:
+      default: 30.0
+      type: number
+    financial_domain_settings:
+      properties:
+        banking:
+          properties:
+            mandatory_databases:
+              default:
+              - bloomberg
+              - reuters
+              - fed_data
+              - fdic
+              items:
+                type: string
+              type: array
+            required_compliance_checks:
+              default:
+              - aml
+              - kyc
+              - bsa
+              - cfpb
+              items:
+                type: string
+              type: array
+            validation_strictness:
+              default: 0.98
+              type: number
+          type: object
+        insurance:
+          properties:
+            mandatory_databases:
+              default:
+              - am_best
+              - moodys
+              - sp_ratings
+              - naic
+              items:
+                type: string
+              type: array
+            solvency_assessment_required:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.96
+              type: number
+          type: object
+        investment:
+          properties:
+            mandatory_databases:
+              default:
+              - bloomberg
+              - reuters
+              - sec_edgar
+              - finra
+              items:
+                type: string
+              type: array
+            required_risk_assessment:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.97
+              type: number
+          type: object
+      type: object
+    legal_validation_agent_factory:
+      default: agents/legal_validation_agent_factory
+      description: Reference to Legal Agent Factory for financial legal compliance
+      type: string
+    max_parallel_financial_checks:
+      default: 8
+      maximum: 15
+      minimum: 1
+      type: integer
+    medical_verification_agent_factory:
+      default: agents/medical_verification_agent_factory
+      description: Reference to Medical Agent Factory for healthcare finance cases
+      type: string
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for financial knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for financial fact checking
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Financial AI Verification Agent Factory - generates specialized financial
+  verification agents using all 7 core agent factories (core, RAG, citation, web_search,
+  consistency, medical, legal) for regulatory-compliant financial AI validation with
+  transaction verification, risk assessment, fraud detection, compliance checking,
+  market data validation, financial statement analysis, and audit trail generation
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        alert_thresholds:
+          properties:
+            compliance_violation:
+              default: 0.9
+              type: number
+            fraud_risk:
+              default: 0.85
+              type: number
+            market_anomaly:
+              default: 0.8
+              type: number
+            transaction_risk:
+              default: 0.75
+              type: number
+          type: object
+        compliance_level:
+          default: sox_compliant
+          enum:
+          - sox_compliant
+          - finra_certified
+          - sec_approved
+          - banking_grade
+          - general_financial
+          type: string
+        enable_compliance_checking:
+          default: true
+          type: boolean
+        enable_fraud_detection:
+          default: true
+          type: boolean
+        enable_risk_assessment:
+          default: true
+          type: boolean
+        enable_transaction_validation:
+          default: true
+          type: boolean
+        financial_database_sources:
+          default:
+          - bloomberg
+          - reuters
+          - sec_edgar
+          - finra
+          items:
+            enum:
+            - bloomberg
+            - reuters
+            - sec_edgar
+            - finra
+            - fed_data
+            - fdic
+            - am_best
+            - moodys
+            - sp_ratings
+            - yahoo_finance
+            type: string
+          type: array
+        financial_domain:
+          enum:
+          - banking
+          - investment
+          - insurance
+          - accounting
+          - taxation
+          - fintech
+          - cryptocurrency
+          - trading
+          - corporate_finance
+          - personal_finance
+          type: string
+        risk_tolerance:
+          default: conservative
+          enum:
+          - conservative
+          - moderate
+          - aggressive
+          - high_risk
+          type: string
+        validation_strictness:
+          default: 0.95
+          maximum: 0.99
+          minimum: 0.85
+          type: number
+      required:
+      - financial_domain
+      - compliance_level
+      type: object
+    financial_validation_task:
+      properties:
+        content_to_validate:
+          type: string
+        financial_context:
+          type: string
+        transaction_details:
+          properties:
+            amount:
+              type: number
+            currency:
+              default: USD
+              type: string
+            parties_involved:
+              items:
+                type: string
+              type: array
+            regulatory_requirements:
+              items:
+                type: string
+              type: array
+            transaction_type:
+              enum:
+              - transfer
+              - payment
+              - investment
+              - loan
+              - insurance
+              - trade
+              - exchange
+              type: string
+          type: object
+        urgency_level:
+          default: high
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        validation_focus:
+          items:
+            enum:
+            - transaction_validity
+            - fraud_detection
+            - compliance_verification
+            - risk_assessment
+            - market_data_accuracy
+            - financial_statement_integrity
+            - audit_compliance
+            type: string
+          type: array
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_financial_validation
+      type: string
+    template_id:
+      enum:
+      - transaction_validator
+      - risk_assessor
+      - fraud_detector
+      - compliance_checker
+      - market_data_verifier
+      - financial_statement_analyzer
+      - audit_trail_generator
+      - regulatory_compliance_validator
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - financial-agent-creation
+  - transaction-verification
+  - risk-assessment
+  - fraud-detection
+  - compliance-checking
+  - market-data-validation
+  - financial-statement-analysis
+  - audit-trail-generation
+  - multi-agent-financial-coordination
+  - financial-database-integration
+  - regulatory-compliance-validation
+  - financial-pattern-analysis
+  category: domain-specific-agent-factory
+  compliance:
+    audit_trail_required: true
+    financial_regulations: applicable
+    gdpr_compliant: true
+    pci_dss_compliant: true
+    sox_compliant: true
+  dependencies:
+    optional:
+    - bloomberg_api
+    - reuters_api
+    - sec_edgar_api
+    - finra_api
+    - banking_apis
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/citation_agent_factory
+    - agents/web_search_agent_factory
+    - agents/consistency_agent_factory
+    - agents/medical_verification_agent_factory
+    - agents/legal_validation_agent_factory
+  domain: financial-verification
+  performance:
+    cpu_usage: very_high
+    io_usage: very_high
+    memory_usage: very_high
+    network_usage: high
+  security:
+    file_system_access: read-only
+    financial_data_protection: required
+    isolation_required: true
+    network_access: limited
+    pci_dss_compliant: true
+    sox_compliant: true
+name: financial_verification_agent_factory
+display_name: FinancialVerificationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    financial_validation_results:
+      properties:
+        agent_coordination_results:
+          properties:
+            citation_financial_sources:
+              properties:
+                financial_citations_verified:
+                  type: integer
+                financial_journal_verified:
+                  type: integer
+                invalid_financial_citations:
+                  type: integer
+                performed:
+                  type: boolean
+                sec_filings_verified:
+                  type: integer
+              type: object
+            consistency_financial_check:
+              properties:
+                financial_consistency_score:
+                  type: number
+                financial_inconsistencies:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            legal_financial_compliance:
+              properties:
+                financial_legal_issues:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+                regulatory_compliance_score:
+                  type: number
+              type: object
+            rag_financial_knowledge:
+              properties:
+                financial_facts_verified:
+                  type: integer
+                financial_knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            web_financial_verification:
+              properties:
+                conflicting_financial_info:
+                  items:
+                    type: string
+                  type: array
+                financial_sources_verified:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+          type: object
+        compliance_analysis:
+          properties:
+            compliance_frameworks_checked:
+              items:
+                type: string
+              type: array
+            compliance_violations:
+              items:
+                properties:
+                  regulation_reference:
+                    type: string
+                  remediation_required:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - major
+                    - minor
+                    type: string
+                  violation_type:
+                    enum:
+                    - sox_violation
+                    - pci_dss_violation
+                    - aml_violation
+                    - kyc_failure
+                    - reporting_failure
+                    type: string
+                type: object
+              type: array
+          type: object
+        financial_alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - fraud_detected
+                - compliance_violation
+                - market_anomaly
+                - transaction_risk
+                - data_quality_issue
+                - regulatory_change
+                type: string
+              confidence:
+                type: number
+              financial_authority:
+                type: string
+              message:
+                type: string
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        financial_validation_method:
+          type: string
+        fraud_detection_results:
+          properties:
+            fraud_analysis_performed:
+              type: boolean
+            fraud_indicators:
+              items:
+                properties:
+                  confidence_level:
+                    type: number
+                  evidence:
+                    type: string
+                  indicator_type:
+                    enum:
+                    - identity_theft
+                    - card_fraud
+                    - wire_fraud
+                    - money_laundering
+                    - account_takeover
+                    - synthetic_identity
+                    type: string
+                  mitigation_steps:
+                    items:
+                      type: string
+                    type: array
+                type: object
+              type: array
+          type: object
+        market_data_validation:
+          properties:
+            data_anomalies:
+              items:
+                properties:
+                  anomaly_type:
+                    enum:
+                    - price_spike
+                    - volume_anomaly
+                    - data_inconsistency
+                    - stale_data
+                    - missing_data
+                    type: string
+                  confidence_level:
+                    type: number
+                  data_source:
+                    type: string
+                  recommendation:
+                    type: string
+                type: object
+              type: array
+            data_sources_verified:
+              type: integer
+          type: object
+        overall_financial_confidence_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          items:
+            type: string
+          type: array
+        risk_assessment:
+          properties:
+            overall_risk_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+            risk_factors:
+              items:
+                properties:
+                  impact_assessment:
+                    type: string
+                  mitigation_strategies:
+                    items:
+                      type: string
+                    type: array
+                  risk_level:
+                    enum:
+                    - very_high
+                    - high
+                    - medium
+                    - low
+                    - very_low
+                    type: string
+                  risk_type:
+                    enum:
+                    - credit_risk
+                    - market_risk
+                    - operational_risk
+                    - liquidity_risk
+                    - compliance_risk
+                    - reputational_risk
+                    type: string
+                type: object
+              type: array
+          type: object
+        transaction_analysis:
+          properties:
+            suspicious_transactions:
+              items:
+                properties:
+                  confidence_score:
+                    type: number
+                  recommendation:
+                    type: string
+                  risk_level:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  suspicion_type:
+                    enum:
+                    - fraud_pattern
+                    - compliance_violation
+                    - unusual_amount
+                    - suspicious_parties
+                    - regulatory_flag
+                    type: string
+                  transaction_id:
+                    type: string
+                type: object
+              type: array
+            transactions_verified:
+              type: integer
+          type: object
+      type: object
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        compliance_check_time:
+          type: number
+        financial_databases_consulted:
+          type: integer
+        financial_sources_reviewed:
+          type: integer
+        fraud_detection_time:
+          type: number
+        transaction_analysis_time:
+          type: number
+        validation_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Financial AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- financial
+- verification
+- regulatory-compliance
+- transaction-validation
+- risk-assessment
+- factory
+- multi-agent
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

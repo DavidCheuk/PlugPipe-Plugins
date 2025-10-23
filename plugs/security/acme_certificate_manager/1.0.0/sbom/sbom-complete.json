@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:acme_certificate_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-28T07:46:52.932967Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "acme_certificate_manager@1.0.0",
+      "name": "acme_certificate_manager",
+      "version": "1.0.0",
+      "description": "Let's Encrypt ACME certificate management plugin with automated domain validation, renewal, and enterprise features"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

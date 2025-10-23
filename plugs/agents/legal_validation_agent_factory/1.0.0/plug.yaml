@@ -1,0 +1,628 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_legal_validation_results:
+      default: true
+      type: boolean
+    citation_agent_factory:
+      default: agents/citation_agent_factory
+      description: Reference to Citation Agent Factory for legal source verification
+      type: string
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for legal consistency checking
+      type: string
+    default_compliance_level:
+      default: bar_certified
+      enum:
+      - bar_certified
+      - law_review
+      - practice_ready
+      - general_legal
+      type: string
+    default_jurisdiction:
+      default: federal
+      enum:
+      - federal
+      - state
+      - local
+      - international
+      - eu
+      - uk
+      - canada
+      - australia
+      type: string
+    default_validation_strictness:
+      default: 0.95
+      maximum: 0.99
+      minimum: 0.9
+      type: number
+    enable_multi_agent_legal_coordination:
+      default: true
+      type: boolean
+    legal_database_timeout:
+      default: 45.0
+      type: number
+    legal_domain_settings:
+      properties:
+        contract_law:
+          properties:
+            mandatory_precedent_check:
+              default: true
+              type: boolean
+            required_jurisdiction_verification:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.96
+              type: number
+          type: object
+        corporate_law:
+          properties:
+            mandatory_databases:
+              default:
+              - westlaw
+              - lexisnexis
+              - sec_gov
+              items:
+                type: string
+              type: array
+            required_citation_format:
+              default: bluebook
+              type: string
+            validation_strictness:
+              default: 0.98
+              type: number
+          type: object
+        intellectual_property:
+          properties:
+            mandatory_databases:
+              default:
+              - westlaw
+              - lexisnexis
+              - uspto
+              - google_patents
+              items:
+                type: string
+              type: array
+            patent_search_required:
+              default: true
+              type: boolean
+            validation_strictness:
+              default: 0.97
+              type: number
+          type: object
+      type: object
+    max_parallel_legal_checks:
+      default: 5
+      maximum: 10
+      minimum: 1
+      type: integer
+    medical_verification_agent_factory:
+      default: agents/medical_verification_agent_factory
+      description: Reference to Medical Agent Factory for medical-legal cases
+      type: string
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for legal knowledge verification
+      type: string
+    web_search_agent_factory:
+      default: agents/web_search_agent_factory
+      description: Reference to Web Search Agent Factory for legal fact checking
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Legal AI Validation Agent Factory - generates specialized legal validation
+  agents using all 6 core agent factories (core, RAG, citation, web_search, consistency,
+  medical) for regulatory-compliant legal AI validation with statute verification,
+  precedent validation, jurisdiction compliance, liability assessment, and legal citation
+  validation
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        alert_thresholds:
+          properties:
+            jurisdiction_violation:
+              default: 0.95
+              type: number
+            liability_risk:
+              default: 0.85
+              type: number
+            precedent_contradiction:
+              default: 0.9
+              type: number
+            statute_conflict:
+              default: 0.95
+              type: number
+          type: object
+        citation_formats:
+          default:
+          - bluebook
+          items:
+            enum:
+            - bluebook
+            - alwd
+            - chicago
+            - mla
+            - harvard_law
+            type: string
+          type: array
+        compliance_level:
+          default: bar_certified
+          enum:
+          - bar_certified
+          - law_review
+          - practice_ready
+          - general_legal
+          type: string
+        enable_case_law_analysis:
+          default: true
+          type: boolean
+        enable_jurisdiction_compliance:
+          default: true
+          type: boolean
+        enable_liability_assessment:
+          default: true
+          type: boolean
+        enable_statute_verification:
+          default: true
+          type: boolean
+        jurisdiction:
+          default: federal
+          enum:
+          - federal
+          - state
+          - local
+          - international
+          - eu
+          - uk
+          - canada
+          - australia
+          type: string
+        legal_database_sources:
+          default:
+          - westlaw
+          - lexisnexis
+          - justia
+          - google_scholar
+          items:
+            enum:
+            - westlaw
+            - lexisnexis
+            - justia
+            - google_scholar
+            - courtlistener
+            - findlaw
+            - law_cornell
+            - govinfo
+            type: string
+          type: array
+        legal_domain:
+          enum:
+          - corporate_law
+          - contract_law
+          - intellectual_property
+          - employment_law
+          - criminal_law
+          - civil_litigation
+          - regulatory_compliance
+          - constitutional_law
+          - tax_law
+          - environmental_law
+          type: string
+        require_legal_precedent_check:
+          default: true
+          type: boolean
+        validation_strictness:
+          default: 0.95
+          maximum: 0.99
+          minimum: 0.9
+          type: number
+      required:
+      - legal_domain
+      - jurisdiction
+      type: object
+    legal_validation_task:
+      properties:
+        case_specifics:
+          properties:
+            applicable_precedents:
+              items:
+                type: string
+              type: array
+            case_type:
+              enum:
+              - civil
+              - criminal
+              - administrative
+              - constitutional
+              - appellate
+              type: string
+            damages_claimed:
+              type: string
+            parties_involved:
+              items:
+                type: string
+              type: array
+            relevant_statutes:
+              items:
+                type: string
+              type: array
+            relief_sought:
+              type: string
+          type: object
+        content_to_validate:
+          type: string
+        legal_context:
+          type: string
+        urgency_level:
+          default: high
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        validation_focus:
+          items:
+            enum:
+            - statute_compliance
+            - precedent_consistency
+            - jurisdiction_authority
+            - liability_assessment
+            - citation_accuracy
+            - regulatory_compliance
+            type: string
+          type: array
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_legal_validation
+      type: string
+    template_id:
+      enum:
+      - statute_verifier
+      - precedent_validator
+      - contract_analyzer
+      - liability_assessor
+      - regulatory_compliance_checker
+      - legal_citation_verifier
+      - jurisdiction_validator
+      - case_law_analyzer
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - legal-agent-creation
+  - statute-verification
+  - precedent-validation
+  - case-law-analysis
+  - jurisdiction-compliance
+  - liability-assessment
+  - legal-citation-validation
+  - regulatory-compliance-checking
+  - multi-agent-legal-coordination
+  - legal-database-integration
+  - contract-analysis
+  - legal-precedent-verification
+  category: domain-specific-agent-factory
+  compliance:
+    attorney_work_product: applicable
+    bar_compliant: true
+    client_confidentiality: required
+    gdpr_compliant: true
+  dependencies:
+    optional:
+    - westlaw_api
+    - lexisnexis_api
+    - court_records_api
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/citation_agent_factory
+    - agents/web_search_agent_factory
+    - agents/consistency_agent_factory
+    - agents/medical_verification_agent_factory
+  domain: legal-validation
+  performance:
+    cpu_usage: very_high
+    io_usage: very_high
+    memory_usage: very_high
+    network_usage: high
+  security:
+    attorney_client_privilege: applicable
+    file_system_access: read-only
+    isolation_required: true
+    network_access: limited
+name: legal_validation_agent_factory
+display_name: LegalValidationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    legal_validation_results:
+      properties:
+        agent_coordination_results:
+          properties:
+            citation_legal_sources:
+              properties:
+                invalid_legal_citations:
+                  type: integer
+                legal_citations_verified:
+                  type: integer
+                lexisnexis_verified:
+                  type: integer
+                performed:
+                  type: boolean
+                westlaw_verified:
+                  type: integer
+              type: object
+            consistency_legal_check:
+              properties:
+                legal_consistency_score:
+                  type: number
+                legal_inconsistencies:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            rag_legal_knowledge:
+              properties:
+                legal_facts_verified:
+                  type: integer
+                legal_knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+            web_legal_verification:
+              properties:
+                conflicting_legal_info:
+                  items:
+                    type: string
+                  type: array
+                legal_sources_verified:
+                  type: integer
+                performed:
+                  type: boolean
+              type: object
+          type: object
+        jurisdiction_compliance:
+          properties:
+            authority_confirmed:
+              type: boolean
+            jurisdiction_verified:
+              type: string
+            jurisdictional_issues:
+              items:
+                properties:
+                  issue_type:
+                    enum:
+                    - lack_of_jurisdiction
+                    - forum_non_conveniens
+                    - venue_improper
+                    - choice_of_law
+                    type: string
+                  resolution_options:
+                    items:
+                      type: string
+                    type: array
+                  severity:
+                    enum:
+                    - fatal
+                    - serious
+                    - minor
+                    type: string
+                type: object
+              type: array
+          type: object
+        legal_alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - statute_conflict
+                - precedent_contradiction
+                - jurisdiction_issue
+                - liability_risk
+                - citation_error
+                - regulatory_violation
+                type: string
+              legal_authority:
+                type: string
+              message:
+                type: string
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        legal_citation_validation:
+          properties:
+            citation_accuracy:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+            citation_format_errors:
+              type: integer
+            citations_checked:
+              type: integer
+            invalid_citations:
+              type: integer
+          type: object
+        legal_validation_method:
+          type: string
+        liability_assessment:
+          properties:
+            liability_analysis_performed:
+              type: boolean
+            potential_liability_areas:
+              items:
+                properties:
+                  legal_basis:
+                    type: string
+                  liability_type:
+                    type: string
+                  mitigation_strategies:
+                    items:
+                      type: string
+                    type: array
+                  risk_level:
+                    enum:
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+          type: object
+        overall_legal_confidence_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        precedent_analysis:
+          properties:
+            binding_precedents:
+              type: integer
+            persuasive_precedents:
+              type: integer
+            precedent_contradictions:
+              items:
+                properties:
+                  case_citation:
+                    type: string
+                  contradiction_type:
+                    enum:
+                    - overruled
+                    - distinguished
+                    - questioned
+                    - superseded
+                    type: string
+                  impact_assessment:
+                    type: string
+                  jurisdiction_authority:
+                    enum:
+                    - binding
+                    - persuasive
+                    - irrelevant
+                    type: string
+                  legal_reasoning:
+                    type: string
+                type: object
+              type: array
+            precedents_analyzed:
+              type: integer
+          type: object
+        recommendations:
+          items:
+            type: string
+          type: array
+        statute_analysis:
+          properties:
+            statute_conflicts:
+              items:
+                properties:
+                  conflict_type:
+                    enum:
+                    - contradiction
+                    - superseded
+                    - repealed
+                    - amended
+                    type: string
+                  current_status:
+                    type: string
+                  recommendation:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - major
+                    - minor
+                    type: string
+                  statute_citation:
+                    type: string
+                type: object
+              type: array
+            statutes_verified:
+              type: integer
+          type: object
+      type: object
+    performance_metrics:
+      properties:
+        agent_coordination_overhead:
+          type: number
+        legal_databases_consulted:
+          type: integer
+        legal_sources_reviewed:
+          type: integer
+        precedent_analysis_time:
+          type: number
+        statute_verification_time:
+          type: number
+        validation_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Legal AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- legal
+- validation
+- regulatory-compliance
+- statute-verification
+- precedent-analysis
+- factory
+- multi-agent
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

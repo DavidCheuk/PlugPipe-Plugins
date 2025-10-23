@@ -1,0 +1,207 @@
+category: monitoring
+description: Continuous monitoring integration for PlugPipe Architecture Guardian
+  agent - ensures real-time enforcement of PlugPipe principles during development
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    enable_git_hooks:
+      default: true
+      description: Enable git hook integration
+      type: boolean
+    enable_realtime_monitoring:
+      default: true
+      description: Enable real-time file system monitoring
+      type: boolean
+    files:
+      description: Files to review (for manual review operation)
+      items:
+        type: string
+      type: array
+    guardian_agent_path:
+      default: .claude/agents/pp-architecture-guardian.md
+      description: Path to the architecture guardian agent configuration
+      type: string
+    monitored_paths:
+      default:
+      - .
+      description: Paths to monitor for changes
+      items:
+        type: string
+      type: array
+    operation:
+      default: start_monitoring
+      description: Operation to perform
+      enum:
+      - start_monitoring
+      - get_dashboard
+      - review_files
+      - stop_monitoring
+      type: string
+    session_id:
+      description: Session ID for dashboard operations
+      type: string
+    setup_git_hooks:
+      default: false
+      description: Set up git hooks during initialization
+      type: boolean
+  type: object
+name: architecture_guardian_watcher
+display_name: ArchitectureGuardianWatcher
+output_schema:
+  properties:
+    compliance_dashboard:
+      description: Compliance monitoring dashboard data
+      properties:
+        compliance_score:
+          description: Overall compliance score (0-100)
+          maximum: 100
+          minimum: 0
+          type: number
+        monitoring:
+          properties:
+            files_monitored:
+              type: integer
+            monitored_paths:
+              items:
+                type: string
+              type: array
+            reviews_conducted:
+              type: integer
+          type: object
+        recommendations:
+          description: Top recommendations for improving compliance
+          items:
+            type: string
+          type: array
+        session:
+          properties:
+            active:
+              type: boolean
+            duration_seconds:
+              type: integer
+            session_id:
+              type: string
+            start_time:
+              format: date-time
+              type: string
+          type: object
+        violations:
+          properties:
+            by_principle:
+              type: object
+            by_severity:
+              type: object
+            recent:
+              type: array
+            total:
+              type: integer
+          type: object
+      type: object
+    dashboard:
+      description: Dashboard data for get_dashboard operation
+      type: object
+    files_reviewed:
+      description: Number of files reviewed
+      type: integer
+    hooks_installed:
+      description: Git hooks that were installed
+      items:
+        type: string
+      type: array
+    message:
+      description: Human-readable status message
+      type: string
+    monitored_paths:
+      description: Paths currently being monitored
+      items:
+        type: string
+      type: array
+    monitoring_active:
+      description: Whether monitoring is currently active
+      type: boolean
+    session_id:
+      description: Unique session identifier
+      type: string
+    status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      - warning
+      type: string
+    violations:
+      description: List of architecture violations
+      items:
+        properties:
+          description:
+            description: Description of the violation
+            type: string
+          file_path:
+            description: Path to the file with violation
+            type: string
+          principle:
+            description: PlugPipe principle that was violated
+            type: string
+          recommendation:
+            description: Recommended fix for the violation
+            type: string
+          severity:
+            enum:
+            - CRITICAL
+            - HIGH
+            - MEDIUM
+            - LOW
+            type: string
+          timestamp:
+            description: When the violation was detected
+            format: date-time
+            type: string
+        type: object
+      type: array
+    violations_found:
+      description: Number of architecture violations found
+      type: integer
+  type: object
+owner: plugpipe-core
+sbom:
+  dependencies:
+  - description: File system monitoring library
+    license: Apache-2.0
+    name: watchdog
+    optional: true
+    version: '>=2.1.0'
+  - description: PlugPipe ecosystem functions
+    internal: true
+    name: PlugPipe Core
+    version: '>=1.0.0'
+  security_considerations:
+  - File system monitoring requires appropriate permissions
+  - Git hooks modify repository configuration
+  - Real-time monitoring may impact system performance
+  - Architecture reviews use heuristic pattern matching
+  usage_patterns:
+  - Continuous development monitoring
+  - Pre-commit validation
+  - Architecture compliance auditing
+  - Real-time principle enforcement
+status: active
+tags:
+- monitoring
+- architecture
+- guardian
+- compliance
+- realtime
+- git-hooks
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,193 @@
+capabilities:
+- budget_management
+- quota_enforcement
+- cost_tracking
+- chain_monitoring
+- alert_management
+- emergency_controls
+- dashboard_visualization
+- audit_compliance
+dependencies:
+- description: AI resource governance configuration with budget controls and rate
+    limiting
+  name: config-ai-governance.yaml
+  type: config
+  version: 1.0.0
+- database/factory/1.0.0
+- configuration/loader/1.0.0
+description: Centralized AI resource governance system that orchestrates budget_aware_rate_limiter,
+  intelligent_llm_priority_manager, llm_cost_estimator and other AI control plugins
+  for unified cost management
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    context:
+      additionalProperties: false
+      properties:
+        chain_context:
+          description: Context for AI plugin chain calls
+          properties:
+            chain_depth:
+              type: integer
+            chain_id:
+              type: string
+            parent_plugin:
+              type: string
+          type: object
+        estimated_cost:
+          description: Estimated cost in USD
+          minimum: 0
+          type: number
+        estimated_tokens:
+          description: Estimated token consumption
+          minimum: 0
+          type: integer
+        governance_config:
+          description: Governance configuration updates
+          type: object
+        plugin_name:
+          description: Plugin requesting AI resources
+          type: string
+        request_id:
+          description: Unique request identifier
+          type: string
+        user_id:
+          description: User making the request
+          type: string
+      type: object
+    operation:
+      default: get_status
+      description: Operation to perform
+      enum:
+      - check_permission
+      - record_usage
+      - get_status
+      - get_dashboard
+      - update_config
+      - emergency_stop
+      type: string
+  required: []
+  type: object
+integrations:
+  limiter_plugins:
+  - ai/budget_aware_rate_limiter/1.0.0
+  - ai/intelligent_llm_priority_manager/1.0.0
+  - ai/llm_cost_estimator/1.0.0
+  monitoring_plugins:
+  - monitoring/prometheus_exporter/1.0.0
+  - monitoring/grafana_dashboard/1.0.0
+  notification_plugins:
+  - notifications/email_alerts/1.0.0
+  - notifications/slack_alerts/1.0.0
+name: ai_resource_governance
+display_name: AIResourceGovernance
+output_schema:
+  additionalProperties: false
+  properties:
+    alerts:
+      description: Active alerts and warnings
+      items:
+        properties:
+          level:
+            enum:
+            - warning
+            - critical
+            - emergency
+            type: string
+          message:
+            type: string
+          timestamp:
+            type: string
+        type: object
+      type: array
+    current_usage:
+      description: Current resource usage statistics
+      properties:
+        budget_percentage:
+          type: number
+        daily_cost_used:
+          type: number
+        daily_tokens_used:
+          type: integer
+        monthly_cost_used:
+          type: number
+        plugin_quotas_status:
+          type: object
+      type: object
+    dashboard_data:
+      description: Dashboard visualization data
+      properties:
+        alerts:
+          type: array
+        cost_trends:
+          type: array
+        plugin_usage_breakdown:
+          type: object
+        real_time_metrics:
+          type: object
+      type: object
+    emergency_status:
+      description: Emergency stop status and actions
+      properties:
+        actions_taken:
+          type: array
+        emergency_mode:
+          type: boolean
+        reason:
+          type: string
+      type: object
+    error:
+      description: Error message if status is error
+      type: string
+    message:
+      description: Human-readable message
+      type: string
+    permission_granted:
+      description: Whether AI resource usage is permitted
+      type: boolean
+    status:
+      description: Operation result status
+      enum:
+      - success
+      - error
+      - denied
+      - warning
+      type: string
+    usage_recorded:
+      description: Whether usage was successfully recorded
+      type: boolean
+  required:
+  - status
+  type: object
+owner: PlugPipe Core Team
+performance:
+  concurrent_requests: 100
+  dashboard_refresh_target: < 5s
+  permission_check_target: < 50ms
+  usage_recording_target: < 100ms
+sbom:
+  complete: sbom/sbom-complete.json
+  lib: sbom/lib_sbom.json
+security:
+  audit_logging: true
+  emergency_override: true
+  permission_validation: true
+  quota_enforcement: true
+status: stable
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

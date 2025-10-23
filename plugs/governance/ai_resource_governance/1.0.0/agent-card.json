@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:ai_resource_governance",
+    "name": "Ai Resource Governance Agent",
+    "description": "Centralized AI resource governance system that orchestrates budget_aware_rate_limiter, intelligent_llm_priority_manager, llm_cost_estimator and other AI control plugins for unified cost management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/ai_resource_governance",
+    "skills": [
+      {
+        "id": "ai_resource_governance-primary",
+        "name": "Ai Resource Governance",
+        "description": "Centralized AI resource governance system that orchestrates budget_aware_rate_limiter, intelligent_llm_priority_manager, llm_cost_estimator and other AI control plugins for unified cost management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "ai_resource_governance",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.672076Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

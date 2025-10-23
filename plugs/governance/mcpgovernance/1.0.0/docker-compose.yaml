@@ -1,0 +1,169 @@
+version: '3.8'
+
+services:
+  mcpgovernance:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: plugpipe-mcpgovernance
+    ports:
+      - "8090:8090"  # Governance API
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8090
+      - DATABASE_TYPE=postgresql
+      - DATABASE_CONNECTION_STRING=postgresql://postgres:governance123@postgres:5432/mcpgovernance
+      - REDIS_URL=redis://redis:6379/0
+      - OPA_SERVER_URL=http://opa:8181
+      - METRICS_ENABLED=true
+    depends_on:
+      - postgres
+      - redis
+      - opa
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: mcpgovernance-postgres
+    environment:
+      - POSTGRES_DB=mcpgovernance
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=governance123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: mcpgovernance-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  opa:
+    image: openpolicyagent/opa:latest-envoy
+    container_name: mcpgovernance-opa
+    ports:
+      - "8181:8181"
+    command:
+      - "run"
+      - "--server"
+      - "--addr=0.0.0.0:8181"
+      - "--bundle"
+      - "/policies"
+    volumes:
+      - ./policies:/policies
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8181/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Integration with PlugPipe registry microservice
+  plugpipe-registry:
+    image: plugpipe/registry:latest
+    container_name: plugpipe-registry
+    ports:
+      - "8080:8080"
+    environment:
+      - GOVERNANCE_PROVIDER=mcpgovernance
+      - GOVERNANCE_ENDPOINT=http://mcpgovernance:8090/governance/v1
+      - DATABASE_URL=postgresql://postgres:registry123@postgres-registry:5432/plugpipe
+    depends_on:
+      - postgres-registry
+      - mcpgovernance
+    networks:
+      - plugpipe-governance
+      - plugpipe-registry
+    restart: unless-stopped
+
+  postgres-registry:
+    image: postgres:15-alpine
+    container_name: plugpipe-registry-postgres
+    environment:
+      - POSTGRES_DB=plugpipe
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=registry123
+    volumes:
+      - registry_postgres_data:/var/lib/postgresql/data
+    networks:
+      - plugpipe-registry
+    restart: unless-stopped
+
+  # Optional: Prometheus monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mcpgovernance-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+
+  # Optional: Grafana dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mcpgovernance-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=governance123
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    networks:
+      - plugpipe-governance
+    restart: unless-stopped
+
+networks:
+  plugpipe-governance:
+    driver: bridge
+    name: plugpipe-governance
+  plugpipe-registry:
+    driver: bridge
+    name: plugpipe-registry
+
+volumes:
+  postgres_data:
+    name: mcpgovernance-postgres-data
+  redis_data:
+    name: mcpgovernance-redis-data
+  registry_postgres_data:
+    name: plugpipe-registry-postgres-data
+  prometheus_data:
+    name: mcpgovernance-prometheus-data
+  grafana_data:
+    name: mcpgovernance-grafana-data

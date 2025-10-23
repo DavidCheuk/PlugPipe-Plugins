@@ -1,0 +1,22 @@
+name: uppercase
+owner: demo
+version: 1.0.0
+status: stable
+description: "Converts input string to uppercase."
+input_schema:
+  type: object
+  properties:
+    text:
+      type: string
+output_schema:
+  type: object
+  properties:
+    uppercased:
+      type: string
+config_schema: {}
+sbom:
+  summary: sbom/sbom.json
+  complete: sbom/sbom-complete.json
+entrypoint: main.py
+discoverability: public
+tags: [demo]

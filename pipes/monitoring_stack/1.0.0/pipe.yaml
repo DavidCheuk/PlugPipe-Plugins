@@ -1,0 +1,274 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: monitoring_stack
+  version: 1.0.0
+  owner: PlugPipe Infrastructure Team
+  description: 'Orchestrates complete monitoring stack deployment including Prometheus,
+    Grafana,
+
+    Pushgateway, and Node Exporter using existing monitoring_prometheus plugin.
+
+
+    Follows PlugPipe principle: "Reuse everything, reinvent nothing" by composing
+
+    existing Docker infrastructure and monitoring plugins.
+
+    '
+category: infrastructure
+subcategory: monitoring
+inputs:
+  operation:
+    type: string
+    enum:
+    - deploy
+    - start
+    - stop
+    - restart
+    - status
+    - health
+    description: Monitoring stack operation
+    required: true
+  environment:
+    type: string
+    enum:
+    - development
+    - production
+    - testing
+    default: production
+    description: Deployment environment
+  grafana_password:
+    type: string
+    default: plugpipe_admin_2025
+    description: Grafana admin password
+    sensitive: true
+outputs:
+  success:
+    type: boolean
+    description: Operation success status
+  services:
+    type: object
+    description: Status of all monitoring services
+    properties:
+      prometheus:
+        type: object
+        properties:
+          status:
+            type: string
+          url:
+            type: string
+          healthy:
+            type: boolean
+      grafana:
+        type: object
+        properties:
+          status:
+            type: string
+          url:
+            type: string
+          healthy:
+            type: boolean
+      pushgateway:
+        type: object
+        properties:
+          status:
+            type: string
+          url:
+            type: string
+      node_exporter:
+        type: object
+        properties:
+          status:
+            type: string
+          url:
+            type: string
+  metrics:
+    type: object
+    description: Monitoring stack metrics
+pipeline:
+- name: validate_environment
+  plug: environment_validator
+  config:
+    check_docker: true
+    check_network: true
+    required_network: plugpipe-network
+  on_error: fail
+- name: deploy_monitoring_stack
+  plug: docker_compose_runner
+  config:
+    compose_file: deployment/docker-compose.monitoring.yaml
+    project_name: plugpipe-monitoring
+    operation: '{{ inputs.operation }}'
+    environment:
+      GRAFANA_ADMIN_PASSWORD: '{{ inputs.grafana_password }}'
+  when: '{{ inputs.operation in [''deploy'', ''start'', ''restart''] }}'
+  on_error: fail
+- name: wait_for_services
+  plug: service_health_checker
+  config:
+    services:
+    - name: prometheus
+      url: http://localhost:9090/-/healthy
+      timeout: 60
+    - name: grafana
+      url: http://localhost:3002/api/health
+      timeout: 60
+    - name: pushgateway
+      url: http://localhost:9091/-/healthy
+      timeout: 30
+    - name: node_exporter
+      url: http://localhost:9100/metrics
+      timeout: 30
+  when: '{{ inputs.operation in [''deploy'', ''start'', ''restart''] }}'
+  on_error: warn
+- name: configure_prometheus
+  plug: monitoring_prometheus
+  config:
+    operation: health_check
+    prometheus_config:
+      prometheus_url: http://localhost:9090
+      grafana_url: http://localhost:3002
+      gateway_url: http://localhost:9091
+      job_name: plugpipe-{{ inputs.environment }}
+  when: '{{ inputs.operation != ''stop'' }}'
+  on_error: warn
+- name: verify_metrics
+  plug: monitoring_prometheus
+  config:
+    operation: query_metrics
+    query: up
+    prometheus_config:
+      prometheus_url: http://localhost:9090
+  when: '{{ inputs.operation == ''status'' }}'
+  on_error: warn
+- name: collect_service_status
+  plug: docker_compose_runner
+  config:
+    compose_file: deployment/docker-compose.monitoring.yaml
+    project_name: plugpipe-monitoring
+    operation: ps
+  always_run: true
+dependencies:
+  plugins:
+  - monitoring_prometheus >= 1.0.0
+  - docker_compose_runner >= 1.0.0
+  - environment_validator >= 1.0.0
+  - service_health_checker >= 1.0.0
+  external:
+  - docker >= 20.10.0
+  - docker-compose >= 2.0.0
+error_handling:
+  retry_policy:
+    max_retries: 2
+    backoff: exponential
+    retry_on:
+    - docker_network_error
+    - service_startup_timeout
+  on_failure:
+  - log_to_elk: true
+  - rollback: true
+  - notify_admin: false
+monitoring:
+  self_monitor: true
+  emit_metrics: true
+  metrics_prefix: plugpipe_monitoring_stack
+  health_indicators:
+  - name: prometheus_up
+    expr: up{job='prometheus'} == 1
+  - name: grafana_up
+    expr: up{job='grafana'} == 1
+  - name: all_targets_scraped
+    expr: prometheus_sd_discovered_targets > 0
+documentation:
+  usage: '# Deploy monitoring stack
+
+    ./pp run monitoring_stack --operation deploy --environment production
+
+
+    # Check status
+
+    ./pp run monitoring_stack --operation status
+
+
+    # Stop monitoring stack
+
+    ./pp run monitoring_stack --operation stop
+
+
+    # Access Grafana
+
+    URL: http://localhost:3002
+
+    Username: admin
+
+    Password: <GRAFANA_ADMIN_PASSWORD from input>
+
+
+    # Access Prometheus
+
+    URL: http://localhost:9090
+
+    '
+  architecture: 'Monitoring Stack Components:
+
+    - Prometheus (9090): Metrics collection and storage
+
+    - Grafana (3002): Visualization and dashboards
+
+    - Pushgateway (9091): Metrics for batch jobs
+
+    - Node Exporter (9100): System metrics
+
+
+    Integration Points:
+
+    - Backend API (8080): /metrics endpoint
+
+    - Terminal Server (8081): /metrics endpoint
+
+    - ELK Stack (9200): Elasticsearch metrics
+
+
+    Pre-configured Dashboards:
+
+    - PlugPipe System Overview
+
+    - Plugin Performance Metrics
+
+    - Security Monitoring
+
+    '
+  troubleshooting: "Common Issues:\n\n1. \"Network plugpipe-network not found\"\n\
+    \   Solution: docker network create plugpipe-network\n\n2. \"Port 3002 already\
+    \ in use\"\n   Solution: Change GRAFANA_PORT in docker-compose.monitoring.yaml\n\
+    \n3. \"Prometheus targets down\"\n   Solution: Ensure backend services expose\
+    \ /metrics endpoints\n\n4. \"Grafana login failed\"\n   Solution: Check GRAFANA_ADMIN_PASSWORD\
+    \ environment variable\n"
+examples:
+- name: Deploy production monitoring
+  input:
+    operation: deploy
+    environment: production
+    grafana_password: SecurePassword123!
+- name: Check monitoring health
+  input:
+    operation: status
+- name: Restart monitoring services
+  input:
+    operation: restart
+    environment: production
+tags:
+- monitoring
+- prometheus
+- grafana
+- observability
+- infrastructure
+- docker
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

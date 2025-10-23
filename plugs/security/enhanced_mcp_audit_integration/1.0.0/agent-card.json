@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:enhanced_mcp_audit_integration",
+    "name": "Enhanced Mcp Audit Integration Agent",
+    "description": "Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific audit events and security monitoring",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/enhanced_mcp_audit_integration",
+    "skills": [
+      {
+        "id": "enhanced_mcp_audit_integration-primary",
+        "name": "Enhanced Mcp Audit Integration",
+        "description": "Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific audit events and security monitoring",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "enhanced_mcp_audit_integration",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "audit",
+          "elk",
+          "security",
+          "monitoring",
+          "compliance",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.079687Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

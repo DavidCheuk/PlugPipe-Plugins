@@ -1,0 +1,39 @@
+{
+  "name": "cli_parameter_processor",
+  "version": "1.0.0",
+  "description": "Universal CLI parameter to JSON converter that transforms command-line arguments to plugin-compatible JSON configurations",
+  "category": "transformation",
+  "status": "stable",
+  "source_schema": "cli_arguments",
+  "target_schema": "json_configuration",
+  "mappings": [
+    {
+      "source_field": "cli_arguments.plugin_name",
+      "target_field": "json_configuration.target_plugin",
+      "transform": {
+        "operation": "plugin_resolution",
+        "validation": "plugin_discovery"
+      }
+    },
+    {
+      "source_field": "cli_arguments.parameters",
+      "target_field": "json_configuration.config",
+      "transform": {
+        "operation": "parameter_conversion",
+        "mapping_type": "intelligent_schema_mapping",
+        "type_inference": "automatic"
+      }
+    },
+    {
+      "source_field": "cli_arguments.flags",
+      "target_field": "json_configuration.options",
+      "transform": {
+        "operation": "flag_to_json_mapping",
+        "boolean_conversion": "standard",
+        "array_handling": "comma_separated"
+      }
+    }
+  ],
+  "error_policy": "fail_fast",
+  "tags": ["transformation", "cli-processing", "parameter-conversion", "json-conversion"]
+}

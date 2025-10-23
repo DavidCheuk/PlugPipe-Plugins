@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:argo_workflow_runner-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:57.392273Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "argo_workflow_runner@1.0.0",
+      "name": "argo_workflow_runner",
+      "version": "1.0.0",
+      "description": "Enterprise Argo Workflows orchestration plugin - submit, monitor, and manage Kubernetes-native workflows with comprehensive lifecycle management and cloud-native integration."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

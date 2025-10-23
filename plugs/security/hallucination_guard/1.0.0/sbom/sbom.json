@@ -1,0 +1,217 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:87654321-4321-8765-4321-876543210987",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-01-17T14:00:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "hallucination_guard@1.0.0",
+      "name": "hallucination_guard",
+      "version": "1.0.0",
+      "description": "Advanced hallucination detection and prevention for LLM outputs",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "wikipedia-api@0.6.0",
+      "name": "wikipedia-api",
+      "version": "0.6.0",
+      "description": "Wikipedia API wrapper for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/wikipedia-api@0.6.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/martin-majlis/Wikipedia-API"
+        },
+        {
+          "type": "documentation",
+          "url": "https://wikipedia-api.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.25.0",
+      "name": "requests",
+      "version": "2.25.0",
+      "description": "Python HTTP library for external API access",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.25.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://requests.readthedocs.io/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "aiohttp@3.8.0",
+      "name": "aiohttp",
+      "version": "3.8.0",
+      "description": "Async HTTP client/server framework",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/aiohttp@3.8.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/aio-libs/aiohttp"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "nltk@3.7.0",
+      "name": "nltk",
+      "version": "3.7.0",
+      "description": "Natural Language Toolkit for text processing",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/nltk@3.7.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://www.nltk.org/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "sentence-transformers@2.2.0",
+      "name": "sentence-transformers",
+      "version": "2.2.0",
+      "description": "Multilingual sentence embeddings using transformers",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/sentence-transformers@2.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/UKPLab/sentence-transformers"
+        }
+      ]
+    }
+  ],
+  "services": [
+    {
+      "bom-ref": "wikipedia-service",
+      "name": "Wikipedia API",
+      "description": "Wikipedia knowledge base service for fact verification",
+      "endpoints": [
+        "https://en.wikipedia.org/api/rest_v1/"
+      ],
+      "authenticated": false,
+      "x-trust-boundary": false
+    },
+    {
+      "bom-ref": "wikidata-service", 
+      "name": "Wikidata API",
+      "description": "Wikidata knowledge base for structured fact checking",
+      "endpoints": [
+        "https://www.wikidata.org/w/api.php"
+      ],
+      "authenticated": false,
+      "x-trust-boundary": false
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "hallucination_guard@1.0.0",
+      "dependsOn": [
+        "wikipedia-api@0.6.0",
+        "requests@2.25.0",
+        "aiohttp@3.8.0",
+        "nltk@3.7.0",
+        "sentence-transformers@2.2.0"
+      ]
+    },
+    {
+      "ref": "wikipedia-api@0.6.0",
+      "dependsOn": [
+        "requests@2.25.0"
+      ]
+    },
+    {
+      "ref": "sentence-transformers@2.2.0",
+      "dependsOn": [
+        "nltk@3.7.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "hallucination_guard@1.0.0",
+      "subjects": ["hallucination_guard@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "hallucination_detection_plugin"
+      }
+    },
+    {
+      "bom-ref": "wikipedia-api@0.6.0",
+      "subjects": ["wikipedia-api@0.6.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "knowledge_source",
+        "value": "wikipedia_knowledge_base"
+      }
+    },
+    {
+      "bom-ref": "wikipedia-service",
+      "subjects": ["wikipedia-service"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "external_dependency",
+        "value": "requires_internet_access"
+      }
+    }
+  ]
+}

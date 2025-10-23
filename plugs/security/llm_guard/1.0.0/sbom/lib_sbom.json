@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:llm_guard-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:00:25.585288Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "llm_guard@1.0.0",
+      "name": "llm_guard",
+      "version": "1.0.0",
+      "description": "LLM Guard security toolkit integration for comprehensive LLM protection against OWASP Top 10 threats"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

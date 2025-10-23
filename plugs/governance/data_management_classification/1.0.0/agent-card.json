@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:data_management_classification",
+    "name": "Data Management Classification Agent",
+    "description": "Revolutionary automated data discovery and classification system for enterprise-grade data governance, privacy compliance, and intelligent data lifecycle management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/data_management_classification",
+    "skills": [
+      {
+        "id": "data_management_classification-primary",
+        "name": "Data Management Classification",
+        "description": "Revolutionary automated data discovery and classification system for enterprise-grade data governance, privacy compliance, and intelligent data lifecycle management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "data_management_classification",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.858773Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+# Multi-backend configuration example for PlugPipe
+# This demonstrates pluggable backend architecture
+
+registries:
+  - type: "yaml"
+    config:
+      yaml_dir: "plugs"
+      pipes_dir: "pipe_specs"
+    priority: 1
+    
+  - type: "yaml"  # Second YAML backend for testing federation
+    config:
+      yaml_dir: "plugs"  # Same directory but demonstrates multi-backend coordination
+    priority: 2

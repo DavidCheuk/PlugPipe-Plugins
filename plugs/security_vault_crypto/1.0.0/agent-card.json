@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:cryptography:security_vault_crypto",
+    "name": "Security Vault Crypto Agent",
+    "description": "Cryptographic operations using HashiCorp Vault for secure key management and encryption",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/security_vault_crypto",
+    "skills": [
+      {
+        "id": "security_vault_crypto-primary",
+        "name": "Security Vault Crypto",
+        "description": "Cryptographic operations using HashiCorp Vault for secure key management and encryption",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "security_vault_crypto",
+        "category": "security",
+        "subcategory": "cryptography",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.360610Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

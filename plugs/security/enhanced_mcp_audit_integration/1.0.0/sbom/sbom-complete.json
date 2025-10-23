@@ -1,0 +1,104 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:enhanced_mcp_audit_integration-1.0.0-mcp-security-enhanced",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:20:24.869364Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "name": "enhanced_mcp_audit_integration",
+      "version": "1.0.0",
+      "description": "Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific audit events and security monitoring"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "elasticsearch@8.0.0",
+      "name": "elasticsearch",
+      "version": "8.0.0",
+      "description": "Official Python client for Elasticsearch",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/elasticsearch@8.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "enhanced_mcp_audit_integration@1.0.0",
+      "dependsOn": [
+        "elasticsearch@8.0.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "CVE-placeholder-enhanced_mcp_audit_integration",
+      "id": "CVE-placeholder-enhanced_mcp_audit_integration",
+      "description": "Placeholder for enhanced_mcp_audit_integration vulnerability tracking",
+      "published": "2025-09-06T09:20:24.869393Z",
+      "severity": "low",
+      "recommendation": "Monitor enhanced_mcp_audit_integration security advisories"
+    }
+  ],
+  "annotations": [
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": [
+        "enhanced_mcp_audit_integration@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "plugpipe_principle_compliance",
+        "value": "REUSE_EVERYTHING_REINVENT_NOTHING"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": [
+        "enhanced_mcp_audit_integration@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "audit_monitoring_layer"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": [
+        "enhanced_mcp_audit_integration@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_audit_plugin"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": [
+        "enhanced_mcp_audit_integration@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "compliance_frameworks",
+        "value": "SOC2_GDPR_HIPAA_ISO27001"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:modular_orchestrator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:38:11.981259Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "modular_orchestrator@1.0.0",
+      "name": "modular_orchestrator",
+      "version": "1.0.0",
+      "description": "Modular Orchestrator Service - replaces monolithic orchestrator with properly separated services for improved maintainability and testability"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,4 @@
+# No external dependencies required
+# All database operations delegated to existing PlugPipe plugins:
+# - sqlite_manager (SQLite)
+# - factory (PostgreSQL, MongoDB)

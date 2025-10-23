@@ -1,0 +1,236 @@
+config_defaults:
+  auto_release: false
+  auto_test: true
+  enable_ai_analysis: true
+  max_research_time_minutes: 20
+  research_depth: comprehensive
+  target_industries: []
+config_schema:
+  properties:
+    auto_release:
+      default: false
+      description: Automatically release pipe if tests pass
+      type: boolean
+    auto_test:
+      default: true
+      description: Automatically run tests after pipe creation
+      type: boolean
+    enable_ai_analysis:
+      default: true
+      description: Use AI for intelligent workflow analysis
+      type: boolean
+    max_research_time_minutes:
+      default: 20
+      description: Maximum time for research phase
+      maximum: 60
+      minimum: 5
+      type: integer
+    pipe_category:
+      default: workflow
+      description: Category for generated pipes
+      type: string
+    research_depth:
+      default: comprehensive
+      description: Depth of workflow pattern research
+      enum:
+      - quick
+      - standard
+      - comprehensive
+      type: string
+    target_industries:
+      description: Specific industries to focus research on
+      items:
+        type: string
+      type: array
+    template_complexity:
+      default: standard
+      description: Complexity level of generated templates
+      enum:
+      - simple
+      - standard
+      - complex
+      type: string
+  type: object
+description: Intelligent agent that researches workflow patterns, analyzes business
+  processes, and automatically creates reusable pipe templates with comprehensive
+  testing and documentation
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - unittest
+  - pytest
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: Action to perform
+      enum:
+      - research_and_create
+      - batch_create
+      - analyze_workflow
+      - list_workflow_patterns
+      - optimize_existing
+      - generate_industry_templates
+      type: string
+    complexity_level:
+      description: Complexity level required
+      enum:
+      - simple
+      - standard
+      - complex
+      type: string
+    existing_pipe_path:
+      description: Path to existing pipe for optimization
+      type: string
+    industry:
+      description: Target industry for workflow
+      type: string
+    required_plugins:
+      description: List of plugins that must be included
+      items:
+        type: string
+      type: array
+    workflow_description:
+      description: Description of the workflow process
+      type: string
+    workflow_name:
+      description: Name of workflow to create pipe for
+      type: string
+    workflow_patterns:
+      description: Batch workflow patterns to create pipes for
+      items:
+        properties:
+          industry:
+            type: string
+          name:
+            type: string
+          priority:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+        type: object
+      type: array
+  required:
+  - action
+  type: object
+metadata:
+  capabilities:
+  - workflow_pattern_research
+  - business_process_analysis
+  - pipe_template_generation
+  - industry_workflow_discovery
+  - automated_testing
+  - documentation_creation
+  - template_optimization
+  category: automation
+  memory_mb: 3072
+  type: intelligence
+name: automatic_pipe_creation_agent
+display_name: AutomaticPipeCreationAgent
+output_schema:
+  properties:
+    batch_results:
+      items:
+        type: object
+      type: array
+    error:
+      description: Error message if failed
+      type: string
+    message:
+      description: Result message
+      type: string
+    pipe_details:
+      properties:
+        complexity:
+          type: string
+        documentation_created:
+          type: boolean
+        name:
+          type: string
+        path:
+          type: string
+        plugins_used:
+          items:
+            type: string
+          type: array
+        test_results:
+          type: object
+        version:
+          type: string
+        workflow_steps:
+          items:
+            type: object
+          type: array
+      type: object
+    recommendations:
+      description: Recommendations for improvement
+      items:
+        type: string
+      type: array
+    research_results:
+      properties:
+        common_plugins:
+          items:
+            type: string
+          type: array
+        industry_patterns:
+          items:
+            type: object
+          type: array
+        optimization_suggestions:
+          items:
+            type: string
+          type: array
+        workflow_analysis:
+          type: object
+      type: object
+    success:
+      description: Whether operation succeeded
+      type: boolean
+    workflow_patterns:
+      items:
+        properties:
+          common_steps:
+            items:
+              type: string
+            type: array
+          description:
+            type: string
+          estimated_complexity:
+            type: string
+          industry:
+            type: string
+          name:
+            type: string
+        type: object
+      type: array
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- automation
+- ai-powered
+- pipe-generation
+- workflow-analysis
+- enterprise
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,164 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:mcp_security_middleware-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T17:15:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "name": "mcp_security_middleware",
+      "version": "1.0.0",
+      "description": "MCP Security Middleware - Centralized security orchestration for all MCP operations",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "fastapi@0.104.0",
+      "name": "fastapi",
+      "version": "0.104.0",
+      "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/fastapi@0.104.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/tiangolo/fastapi"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "aiohttp@3.9.0",
+      "name": "aiohttp",
+      "version": "3.9.0",
+      "description": "Async http client/server framework",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/aiohttp@3.9.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/aio-libs/aiohttp"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pydantic@2.0.0",
+      "name": "pydantic",
+      "version": "2.0.0",
+      "description": "Data validation using Python type hints",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pydantic@2.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "starlette@0.27.0",
+      "name": "starlette",
+      "version": "0.27.0",
+      "description": "The little ASGI library that shines",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/starlette@0.27.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "mcp_security_middleware@1.0.0",
+      "dependsOn": [
+        "fastapi@0.104.0",
+        "aiohttp@3.9.0",
+        "pydantic@2.0.0"
+      ]
+    },
+    {
+      "ref": "fastapi@0.104.0",
+      "dependsOn": [
+        "starlette@0.27.0",
+        "pydantic@2.0.0"
+      ]
+    },
+    {
+      "ref": "aiohttp@3.9.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "subjects": ["mcp_security_middleware@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_orchestration_plugin"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "subjects": ["mcp_security_middleware@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_pipeline_stages",
+        "value": "AUTHENTICATION_RATE_LIMITING_INPUT_VALIDATION_AUTHORIZATION_AUDIT"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "subjects": ["mcp_security_middleware@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "central_orchestration_layer"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_middleware@1.0.0",
+      "subjects": ["mcp_security_middleware@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "defense_in_depth",
+        "value": "FAIL_SECURE_BYPASS_PREVENTION_CIRCUIT_BREAKER"
+      }
+    }
+  ]
+}

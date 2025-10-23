@@ -1,0 +1,93 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:ai_control_advisor-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-01-24T15:40:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "ai_control_advisor@1.0.0",
+      "name": "ai_control_advisor", 
+      "version": "1.0.0",
+      "description": "AI-driven control recommendation engine for intelligent compliance management"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pandas@1.5.0",
+      "name": "pandas",
+      "version": "1.5.0",
+      "description": "Data analysis library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/pandas@1.5.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "numpy@1.21.0",
+      "name": "numpy",
+      "version": "1.21.0", 
+      "description": "Numerical computing library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/numpy@1.21.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "scikit-learn@1.2.0",
+      "name": "scikit-learn",
+      "version": "1.2.0",
+      "description": "Machine learning library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/scikit-learn@1.2.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "networkx@2.8.0",
+      "name": "networkx",
+      "version": "2.8.0",
+      "description": "Graph analysis library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/networkx@2.8.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pulp@2.7.0",
+      "name": "pulp",
+      "version": "2.7.0",
+      "description": "Optimization library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/pulp@2.7.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "scipy@1.9.0",
+      "name": "scipy",
+      "version": "1.9.0",
+      "description": "Scientific computing library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/scipy@1.9.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "ai_control_advisor@1.0.0",
+      "dependsOn": [
+        "pandas@1.5.0",
+        "numpy@1.21.0",
+        "scikit-learn@1.2.0", 
+        "networkx@2.8.0",
+        "pulp@2.7.0",
+        "scipy@1.9.0"
+      ]
+    }
+  ],
+  "vulnerabilities": []
+}

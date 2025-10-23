@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:sqlite_database_plugin-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:07.949962Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "sqlite_database_plugin@1.0.0",
+      "name": "sqlite_database_plugin",
+      "version": "1.0.0",
+      "description": "Kubernetes-native SQLite database plugin with PersistentVolume integration for plugin registry storage. Provides CRUD operations, search, health monitoring, and seamless migration from YAML backend."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

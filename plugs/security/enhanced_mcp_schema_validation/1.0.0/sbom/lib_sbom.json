@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enhanced_mcp_schema_validation-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:01:18.595125Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_mcp_schema_validation@1.0.0",
+      "name": "enhanced_mcp_schema_validation",
+      "version": "1.0.0",
+      "description": "Enhanced MCP Schema Validation - Extends MCP contract testing with security-focused schema hardening and validation patterns"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

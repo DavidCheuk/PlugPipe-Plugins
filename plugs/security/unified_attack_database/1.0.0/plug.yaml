@@ -1,0 +1,259 @@
+ai_pattern_generation:
+  fallback_enabled: true
+  llm_service_integration: true
+  mix_and_match_function: true
+  pattern_variation_count: 5
+  sophistication_levels:
+  - basic
+  - intermediate
+  - advanced
+  - expert
+attack_categories:
+- sql_injection (60+ real-world patterns)
+- prompt_injection (50+ AI-specific patterns)
+- mcp_protocol_abuse (40+ MCP-specific attacks)
+- xss (45+ cross-site scripting patterns)
+- command_injection (35+ OS command patterns)
+- path_traversal (30+ directory traversal patterns)
+- secret_exposure (40+ secret detection patterns)
+- auth_bypass (35+ authentication bypass patterns)
+- file_upload (25+ malicious upload patterns)
+- api_abuse (30+ REST/GraphQL abuse patterns)
+- csrf (20+ cross-site request forgery)
+- xxe_injection (25+ XML external entity)
+- ssti (20+ server-side template injection)
+- ldap_injection (15+ LDAP injection patterns)
+- http_header_injection (20+ header manipulation)
+author: PlugPipe Security
+capabilities:
+- unified_attack_generation
+- protocol_wrapper_auto_detection
+- persistent_sqlite_storage
+- real_github_api_integration
+- ai_powered_pattern_generation
+- mcp_http_websocket_graphql_wrappers
+- comprehensive_attack_patterns
+- reusable_attack_datasets
+- mcp_guardian_test_integration
+- enterprise_security_testing
+- ultimate_fix_async_handling
+category: security
+dependencies:
+  internal_dependencies:
+  - description: MCP Guardian Enterprise Security Proxy
+    name: mcp_guardian
+    optional: true
+    version: '>=1.0.0'
+  - description: Protocol format transformation
+    name: dynamic_format_transformer
+    optional: false
+    version: '>=1.0.0'
+  - description: Universal Security Plugin Interface Standard
+    name: universal_security_interface
+    optional: false
+    version: '>=1.0.0'
+  - description: Persistent SQLite database management
+    name: sqlite_manager
+    optional: false
+    version: '>=1.0.0'
+  - description: AI-powered pattern generation
+    name: llm_service
+    optional: true
+    version: '>=1.0.0'
+  - description: LLM pattern mixing and enhancement
+    name: mix_and_match_llm_function
+    optional: true
+    version: '>=1.0.0'
+description: Unified enterprise attack database combining format-aware protocol wrappers
+  with comprehensive attack patterns - GitHub API integration, AI pattern generation,
+  and persistent SQLite storage
+discovery: public
+enterprise_testing:
+  audit_logging: true
+  compliance_validation: true
+  github_payload_validation: true
+  multi_tenant_support: true
+  oauth2_integration: true
+  performance_monitoring: true
+  threat_intelligence_integration: true
+entry_point: main.py
+external_dependencies: []
+format_detection:
+  api_attacks: Auto-wrap in REST API and GraphQL formats
+  mcp_attacks: Auto-wrap in JSON-RPC 2.0 with appropriate methods (tools/call, resources/read,
+    sampling/createMessage)
+  realtime_attacks: Auto-wrap in WebSocket messages
+  web_attacks: Auto-wrap in HTTP requests and GraphQL queries
+github_integration:
+  api_endpoints:
+  - https://api.github.com/search/code
+  - https://raw.githubusercontent.com
+  authenticity_validation: true
+  caching: true
+  rate_limiting: true
+  search_queries:
+  - SQL injection vulnerability
+  - XSS payload
+  - prompt injection attack
+  - command injection
+  - path traversal
+mcp_guardian_test_framework:
+  compatible_versions:
+  - '>=1.0.0'
+  role: unified_comprehensive_threat_database
+  security_profiles:
+  - basic: 250 attacks
+  - standard: 500 attacks
+  - enterprise: 1000+ attacks
+  supported_features:
+  - multi_protocol_attack_generation
+  - format_aware_threat_simulation
+  - mcp_guardian_compatibility_testing
+  - enterprise_vulnerability_assessment
+  - real_time_security_validation
+  - github_api_payload_integration
+  - ai_powered_pattern_enhancement
+  test_methodologies:
+  - individual_plugin_testing
+  - batch_plugin_evaluation
+  - concurrent_threat_simulation
+  - protocol_format_validation
+  - enterprise_security_assessment
+  - github_payload_validation
+  - ai_generated_pattern_testing
+monitoring:
+  health_checks:
+  - unified_database_health
+  - github_api_connectivity
+  - ai_service_availability
+  - protocol_format_generation_health
+  - mcp_guardian_integration_health
+  - enterprise_testing_framework_health
+  metrics:
+  - attack_generation_count
+  - protocol_format_distribution
+  - github_api_integration_health
+  - ai_pattern_generation_count
+  - mcp_guardian_test_execution_count
+  - enterprise_assessment_count
+  - threat_simulation_duration
+name: unified_attack_database
+display_name: UnifiedAttackDatabase
+operations:
+  generate_test_cases:
+    description: Generate comprehensive test cases with protocol format awareness
+    parameters:
+      categories:
+        default:
+        - all
+        description: Attack categories to include
+        type: array
+      exclude_previous:
+        default: false
+        description: Exclude previously tested patterns
+        type: boolean
+      github_backoff_delay:
+        default: 30.0
+        description: Base backoff delay in seconds for GitHub 403 rate limiting
+        type: number
+      github_max_delay:
+        default: 0.5
+        description: Maximum delay in seconds between GitHub API queries (optimized
+          for single query)
+        type: number
+      github_rate_limit_delay:
+        default: 0.0
+        description: Base delay in seconds between GitHub API queries (optimized for
+          single query)
+        type: number
+      include_github_payloads:
+        default: true
+        description: Include real GitHub security payloads
+        type: boolean
+      protocol_format:
+        default: all
+        description: Filter attacks by protocol format
+        enum:
+        - all
+        - raw
+        - mcp
+        - http
+        - websocket
+        - graphql
+        type: string
+      randomize:
+        default: true
+        description: Randomize attack order
+        type: boolean
+      test_cases:
+        default: 100
+        description: Number of test cases to generate
+        type: integer
+      unique_only:
+        default: false
+        description: Return only unique attack patterns
+        type: boolean
+  get_database_stats:
+    description: Get comprehensive database statistics
+    parameters: {}
+  verify_database_integrity:
+    description: Comprehensive database integrity verification
+    parameters:
+      check_duplicates:
+        default: true
+        description: Check for duplicate attack payloads
+        type: boolean
+      check_storage:
+        default: true
+        description: Verify storage functionality
+        type: boolean
+  verify_duplicates:
+    description: Verify duplicate detection and handling
+    parameters: {}
+  verify_storage:
+    description: Verify storage functionality and persistence
+    parameters: {}
+protocols_supported:
+- raw
+- mcp (JSON-RPC 2.0)
+- http
+- websocket
+- graphql
+- grpc
+- mqtt
+- rest_api
+schema_validation: true
+storage:
+  backend: sqlite
+  deduplication: true
+  format_aware: true
+  github_cache: true
+  location: ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data/plugpipe_unified_security.db
+  persistent: true
+tags:
+- security
+- attack-database
+- mcp
+- protocol-aware
+- persistent
+- sqlite
+- mcp-guardian
+- test-framework
+- enterprise
+- github-integration
+- ai-powered
+ultimate_fix_patterns:
+  async_detection: true
+  coroutine_handling: true
+  graceful_degradation: true
+  performance_optimization: true
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

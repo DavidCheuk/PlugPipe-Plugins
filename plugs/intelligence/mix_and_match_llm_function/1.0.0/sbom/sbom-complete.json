@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:intelligence_mix_and_match_llm_function-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:25:20.188258Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "intelligence.mix_and_match_llm_function@1.0.0",
+      "name": "intelligence.mix_and_match_llm_function",
+      "version": "1.0.0",
+      "description": "Advanced LLM-powered system that automatically generates new plugs and pipes by intelligently combining existing plugin capabilities based on natural language requirements. Core intelligence system for PlugPipe's universal integration capabilities."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

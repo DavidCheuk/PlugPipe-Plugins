@@ -1,0 +1,364 @@
+config_schema:
+  properties:
+    celery_config:
+      description: Celery backend configuration
+      properties:
+        accept_content:
+          default:
+          - json
+          items:
+            type: string
+          type: array
+        broker_url:
+          default: redis://localhost:6379/0
+          type: string
+        result_backend:
+          default: redis://localhost:6379/0
+          type: string
+        result_serializer:
+          default: json
+          type: string
+        task_serializer:
+          default: json
+          type: string
+      type: object
+    circuit_breaker:
+      description: Circuit breaker configuration
+      properties:
+        enabled:
+          default: true
+          type: boolean
+        failure_threshold:
+          default: 5
+          minimum: 1
+          type: integer
+        recovery_timeout:
+          default: 60
+          minimum: 0
+          type: number
+      type: object
+    max_workers:
+      default: 4
+      description: Maximum number of worker threads/processes
+      minimum: 1
+      type: integer
+    monitoring:
+      description: Monitoring and metrics configuration
+      properties:
+        enabled:
+          default: true
+          type: boolean
+        health_check_interval:
+          default: 30
+          minimum: 1
+          type: number
+        metrics_interval:
+          default: 60
+          minimum: 1
+          type: number
+      type: object
+    prefect_config:
+      description: Prefect backend configuration
+      properties:
+        api_url:
+          description: Prefect API URL
+          type: string
+        deployment_name:
+          default: plugpipe-tasks
+          type: string
+        work_pool:
+          default: default
+          type: string
+      type: object
+    queue_type:
+      default: builtin
+      description: Task queue backend to use
+      enum:
+      - celery
+      - prefect
+      - temporal
+      - builtin
+      type: string
+    retry_config:
+      description: Default retry configuration
+      properties:
+        exponential_base:
+          default: 2.0
+          minimum: 1
+          type: number
+        initial_delay:
+          default: 1.0
+          minimum: 0
+          type: number
+        jitter:
+          default: true
+          type: boolean
+        max_delay:
+          default: 300.0
+          minimum: 0
+          type: number
+        max_retries:
+          default: 3
+          minimum: 0
+          type: integer
+      type: object
+    task_timeout:
+      default: 300
+      description: Default task timeout in seconds
+      minimum: 0
+      type: number
+    temporal_config:
+      description: Temporal backend configuration
+      properties:
+        host:
+          default: localhost
+          type: string
+        namespace:
+          default: default
+          type: string
+        port:
+          default: 7233
+          type: integer
+        task_queue:
+          default: plugpipe-tasks
+          type: string
+      type: object
+  type: object
+description: Enterprise-grade task queue orchestration service supporting multiple
+  backends (Celery, Prefect, Temporal, built-in) with robust retry mechanisms, circuit
+  breakers, and comprehensive monitoring for replacing manual concurrency patterns
+external_dependencies:
+  install_method: pip
+  packages:
+  - queue
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    args:
+      description: Function arguments
+      type: array
+    function_name:
+      description: Name of function to execute (required for submit_task)
+      type: string
+    kwargs:
+      description: Function keyword arguments
+      type: object
+    operation:
+      description: Task queue operation to perform
+      enum:
+      - submit_task
+      - get_result
+      - cancel_task
+      - list_tasks
+      - get_stats
+      - health_check
+      type: string
+    priority:
+      default: 5
+      description: Task priority (1=lowest, 10=highest)
+      maximum: 10
+      minimum: 1
+      type: integer
+    queue_config:
+      description: Task queue configuration
+      properties:
+        backend_config:
+          description: Backend-specific configuration
+          type: object
+        queue_type:
+          default: builtin
+          enum:
+          - celery
+          - prefect
+          - temporal
+          - builtin
+          type: string
+      type: object
+    retry_config:
+      description: Retry configuration for task execution
+      properties:
+        exponential_base:
+          default: 2.0
+          minimum: 1
+          type: number
+        initial_delay:
+          default: 1.0
+          minimum: 0
+          type: number
+        jitter:
+          default: true
+          type: boolean
+        max_delay:
+          default: 300.0
+          minimum: 0
+          type: number
+        max_retries:
+          default: 3
+          minimum: 0
+          type: integer
+      type: object
+    task_id:
+      description: Unique task identifier (required for get_result, cancel_task operations)
+      type: string
+    timeout:
+      description: Task timeout in seconds (0=no timeout)
+      minimum: 0
+      type: number
+  required:
+  - operation
+  type: object
+name: task_queue_orchestrator
+display_name: TaskQueueOrchestrator
+output_schema:
+  properties:
+    error:
+      description: Error message if task failed
+      type: string
+    metadata:
+      description: Task execution metadata
+      properties:
+        attempts:
+          description: Number of execution attempts
+          type: integer
+        completed_at:
+          format: date-time
+          type: string
+        duration:
+          description: Execution duration in seconds
+          type: number
+        priority:
+          description: Task priority level
+          type: integer
+        queue_type:
+          description: Task queue backend used
+          type: string
+        started_at:
+          format: date-time
+          type: string
+        submitted_at:
+          format: date-time
+          type: string
+      type: object
+    result:
+      description: Task execution result (any type)
+    stats:
+      description: Task queue statistics (for get_stats operation)
+      properties:
+        backend_status:
+          type: object
+        completed_tasks:
+          type: integer
+        failed_tasks:
+          type: integer
+        pending_tasks:
+          type: integer
+        queue_health:
+          enum:
+          - healthy
+          - degraded
+          - critical
+          type: string
+        running_tasks:
+          type: integer
+        total_tasks:
+          type: integer
+      type: object
+    status:
+      description: Task execution status
+      enum:
+      - pending
+      - running
+      - completed
+      - failed
+      - cancelled
+      - retrying
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+    task_id:
+      description: Task identifier
+      type: string
+  type: object
+owner: plugpipe-core
+sbom:
+  dependencies:
+  - description: Celery distributed task queue support
+    name: celery
+    type: optional
+    version: '>=5.3.0'
+  - description: Redis backend for Celery
+    name: redis
+    type: optional
+    version: '>=4.0.0'
+  - description: Prefect workflow orchestration support
+    name: prefect
+    type: optional
+    version: '>=2.0.0'
+  - description: Temporal workflow platform support
+    name: temporalio
+    type: optional
+    version: '>=1.0.0'
+  - description: Built-in threading and multiprocessing support
+    name: concurrent.futures
+    type: required
+    version: builtin
+  - description: Threading primitives for built-in backend
+    name: threading
+    type: required
+    version: builtin
+  - description: Thread-safe queue implementations
+    name: queue
+    type: required
+    version: builtin
+  - description: Time utilities for scheduling and delays
+    name: time
+    type: required
+    version: builtin
+  - description: Unique task identifier generation
+    name: uuid
+    type: required
+    version: builtin
+  - description: Task result and configuration data structures
+    name: dataclasses
+    type: required
+    version: builtin
+  - description: Task status and queue type enumerations
+    name: enum
+    type: required
+    version: builtin
+  - description: Comprehensive logging and monitoring
+    name: logging
+    type: required
+    version: builtin
+  - description: Jitter for retry delays
+    name: random
+    type: required
+    version: builtin
+  plugin_composition:
+    provides:
+    - Robust task queue orchestration replacing manual concurrency
+    - Enterprise-grade retry and circuit breaker patterns
+    - Multi-backend task queue abstraction layer
+    - Comprehensive task monitoring and health checking
+    uses:
+    - intelligence/llm_priority_manager (for intelligent task prioritization)
+    - monitoring/prometheus_metrics (for task queue monitoring)
+    - security/auth_jwt_manager (for task authentication)
+    - infrastructure/redis_cache (for Celery backend)
+  security_considerations:
+  - Task function execution runs in same process - ensure proper input validation
+  - Optional backends (Celery/Prefect/Temporal) may require network access
+  - Built-in backend provides process isolation for concurrent execution
+  - Retry mechanisms include exponential backoff to prevent resource exhaustion
+  - Circuit breaker patterns prevent cascade failures
+status: production
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:airflow_workflow_runner-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:55.812640Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "airflow_workflow_runner@1.0.0",
+      "name": "airflow_workflow_runner",
+      "version": "1.0.0",
+      "description": "Enterprise Airflow DAG orchestration plugin - trigger, monitor, and manage Apache Airflow workflows with comprehensive status tracking and error handling."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

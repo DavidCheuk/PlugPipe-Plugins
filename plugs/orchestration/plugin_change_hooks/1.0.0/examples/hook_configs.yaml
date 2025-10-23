@@ -1,0 +1,194 @@
+# Plugin Change Hooks Configuration Examples
+# ==========================================
+
+# Example 1: Basic monitoring with filesystem watch and git hooks
+basic_monitoring:
+  operation: start_monitoring
+  monitoring_config:
+    watch_paths: ["plugs"]
+    watch_patterns: ["*.py", "*.yaml", "*.yml", "*.json"]
+    ignore_patterns: ["__pycache__", "*.pyc", ".git", "*.tmp", "node_modules"]
+    debounce_seconds: 5
+    enable_git_hooks: true
+    enable_filesystem_watch: true
+    validation_on_startup: false
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: changed_plugin_only
+    async_validation: true
+    validation_timeout: 300
+  
+  git_hooks_config:
+    install_pre_commit: true
+    install_post_commit: false
+    install_pre_push: true
+    fail_on_validation_error: false
+
+# Example 2: Development-focused configuration
+development_monitoring:
+  operation: start_monitoring
+  monitoring_config:
+    watch_paths: ["plugs", "cores"]
+    debounce_seconds: 2  # Faster response for development
+    enable_git_hooks: true
+    enable_filesystem_watch: true
+    validation_on_startup: false
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: changed_plugin_only
+    async_validation: true
+    validation_timeout: 180
+  
+  git_hooks_config:
+    install_pre_commit: true
+    install_pre_push: false  # Skip for faster commits during development
+    fail_on_validation_error: false
+
+# Example 3: Production/CI configuration
+production_monitoring:
+  operation: start_monitoring
+  monitoring_config:
+    watch_paths: ["plugs", "cores", "shares"]
+    watch_patterns: ["*.py", "*.yaml", "*.yml", "*.json", "*.md"]
+    debounce_seconds: 10  # Longer debounce for stability
+    enable_git_hooks: true
+    enable_filesystem_watch: false  # Disable filesystem watch in CI
+    validation_on_startup: true     # Validate all on startup
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: full_validation  # Comprehensive validation
+    async_validation: false  # Synchronous for CI
+    validation_timeout: 600  # Longer timeout
+  
+  git_hooks_config:
+    install_pre_commit: true
+    install_post_commit: true
+    install_pre_push: true
+    fail_on_validation_error: true  # Strict mode for production
+
+# Example 4: Git hooks only (no filesystem monitoring)
+git_hooks_only:
+  operation: setup_git_hooks
+  git_hooks_config:
+    install_pre_commit: true
+    install_post_commit: false
+    install_pre_push: true
+    fail_on_validation_error: true
+    hook_script_template: |
+      #!/bin/bash
+      echo "🔍 PlugPipe: Running validation for {hook_name}..."
+      cd "$(git rev-parse --show-toplevel)"
+      
+      ./pp run plugin_change_hooks --input '{{"operation": "trigger_validation"}}'
+      exit_code=$?
+      
+      if [ $exit_code -eq 0 ]; then
+          echo "✅ PlugPipe: Validation passed"
+      else
+          echo "❌ PlugPipe: Validation failed"
+          {'exit $exit_code' if '{fail_on_error}' == 'True' else 'echo "⚠️  Continuing despite failure"'}
+      fi
+
+# Example 5: Filesystem watch only (no git hooks)
+filesystem_watch_only:
+  operation: setup_filesystem_watch
+  monitoring_config:
+    watch_paths: ["plugs"]
+    watch_patterns: ["*.py", "*.yaml"]
+    ignore_patterns: ["__pycache__", "*.pyc", ".git", "*.tmp", "node_modules", ".venv"]
+    debounce_seconds: 3
+    enable_filesystem_watch: true
+    enable_git_hooks: false
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: changed_plugin_only
+    async_validation: true
+
+# Example 6: Manual trigger
+manual_validation_trigger:
+  operation: trigger_validation
+  trigger_options:
+    target_plugin: "config_hardening"
+    change_type: "modified"
+    force_validation: true
+    validation_categories: ["security", "integrity"]
+
+# Example 7: Status check
+get_status:
+  operation: get_status
+
+# Example 8: Stop monitoring
+stop_monitoring:
+  operation: stop_monitoring
+
+# Example 9: Comprehensive enterprise configuration
+enterprise_monitoring:
+  operation: start_monitoring
+  monitoring_config:
+    watch_paths: 
+      - "plugs"
+      - "cores" 
+      - "shares"
+      - "pipe_specs"
+    watch_patterns: 
+      - "*.py"
+      - "*.yaml"
+      - "*.yml" 
+      - "*.json"
+      - "*.md"
+      - "*.sh"
+    ignore_patterns:
+      - "__pycache__"
+      - "*.pyc"
+      - "*.pyo"
+      - ".git"
+      - ".gitignore"
+      - "node_modules"
+      - ".venv"
+      - ".env"
+      - "*.log"
+      - "*.tmp"
+      - "*.cache"
+    debounce_seconds: 8
+    enable_git_hooks: true
+    enable_filesystem_watch: true
+    validation_on_startup: true
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: affected_plugins  # Balance between speed and coverage
+    async_validation: true
+    validation_timeout: 450
+  
+  git_hooks_config:
+    install_pre_commit: true
+    install_post_commit: true
+    install_pre_push: true
+    fail_on_validation_error: true
+
+# Example 10: Lightweight monitoring for containers/CI
+container_monitoring:
+  operation: start_monitoring
+  monitoring_config:
+    watch_paths: ["plugs"]
+    watch_patterns: ["*.py", "*.yaml"]
+    debounce_seconds: 15  # Longer debounce to reduce resource usage
+    enable_git_hooks: false  # Git hooks not needed in container environments
+    enable_filesystem_watch: true
+    validation_on_startup: false
+  
+  validation_config:
+    trigger_validation_pipeline: true
+    trigger_issue_tracker: true
+    validation_scope: changed_plugin_only
+    async_validation: true
+    validation_timeout: 240

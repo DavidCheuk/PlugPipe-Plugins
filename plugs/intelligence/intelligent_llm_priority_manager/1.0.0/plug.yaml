@@ -1,0 +1,155 @@
+capabilities:
+- dynamic_priority_scoring
+- multi_factor_analysis
+- user_configurable_policies
+- real_time_demand_prediction
+- cost_aware_scheduling
+- comprehensive_analytics
+- emergency_escalation
+- plugin_reputation_tracking
+dependencies:
+  external:
+  - description: Priority queue and analytics storage
+    name: sqlite3
+    version: '>=3.0.0'
+  plugs:
+  - description: Rate limiting coordination
+    name: ai_rate_limiter
+    version: '>=1.0.0'
+  - description: Budget-constrained processing
+    name: budget_aware_rate_limiter
+    version: '>=1.0.0'
+  - description: Cost estimation and optimization
+    name: llm_cost_estimator
+    version: '>=1.0.0'
+  - description: AI-powered priority analysis agents
+    name: agent_factory
+    version: '>=1.0.0'
+description: AI-powered priority management system that intelligently allocates LLM
+  resources based on plugin importance, user-defined priorities, business logic, and
+  real-time demand. Ensures critical processes get LLM access first while optimizing
+  resource utilization through dynamic priority scoring, cost-aware scheduling, and
+  comprehensive policy management.
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  - collections
+  - heapq
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    business_context:
+      description: Business context for priority calculation (user_tier, urgency,
+        etc.)
+      type: object
+    deadline:
+      description: Request deadline for time-critical operations
+      format: date-time
+      type: string
+    estimated_tokens:
+      description: Estimated token count for the request
+      type: integer
+    hours:
+      description: 'Time window for dashboard data (default: 24)'
+      type: integer
+    model:
+      description: LLM model name
+      type: string
+    operation:
+      description: Operation to perform
+      enum:
+      - submit_request
+      - get_dashboard
+      - update_policy
+      - get_queue_status
+      type: string
+    plugin_id:
+      description: Plugin requesting LLM access
+      type: string
+    priority_level:
+      description: Priority level for the request
+      enum:
+      - EMERGENCY
+      - CRITICAL
+      - HIGH
+      - NORMAL
+      - LOW
+      - BACKGROUND
+      type: string
+    provider:
+      description: LLM provider (openai, anthropic, ollama)
+      type: string
+    user_id:
+      description: User ID making the request
+      type: string
+  type: object
+name: intelligent_llm_priority_manager
+display_name: SmartPriorityManager
+output_schema:
+  properties:
+    active_policies:
+      description: Active priority policies and rules
+      type: array
+    current_status:
+      description: Current queue and processing status
+      type: object
+    dashboard_timestamp:
+      description: Dashboard data timestamp
+      type: string
+    error:
+      description: Error message if operation failed
+      type: string
+    estimated_wait_time_seconds:
+      description: Estimated wait time before processing
+      type: number
+    historical_metrics:
+      description: Historical performance metrics
+      type: array
+    plugin_performance:
+      description: Per-plugin performance analytics
+      type: array
+    priority_score:
+      description: Calculated priority score for the request
+      type: number
+    queue_position:
+      description: Position in priority queue
+      type: integer
+    queue_status:
+      description: Current queue status and details
+      type: object
+    request_id:
+      description: Unique identifier for submitted request
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+    time_window_hours:
+      description: Time window for dashboard metrics
+      type: integer
+  type: object
+owner: plugpipe-ai-team
+sbom: sbom/sbom.json
+security:
+  file_system: read_write_local
+  isolation: process
+  network_access: false
+  secrets: none
+status: stable
+tags:
+- intelligence
+- priority-management
+- resource-allocation
+- ai-powered
+- queue-management
+- business-rules
+- demand-scheduling
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

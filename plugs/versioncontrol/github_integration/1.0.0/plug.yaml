@@ -1,0 +1,295 @@
+name: github_integration
+display_name: GitHubIntegration
+version: 1.0.0
+description: Enterprise GitHub integration for repository, issue, and PR management
+author: PlugPipe Team
+license: MIT
+category: versioncontrol
+tags:
+- github
+- git
+- repository
+- issue
+- pull_request
+- api
+- ci_cd
+requirements:
+  python:
+  - requests>=2.28.0
+  - PyJWT>=2.6.0
+  system: []
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+security:
+  requires_secrets: true
+  secret_fields:
+  - token
+  - private_key
+  network_access: true
+  external_domains:
+  - api.github.com
+  - github.com
+documentation:
+  readme: "# GitHub Integration Plug\n\nEnterprise-grade GitHub API integration providing\
+    \ comprehensive repository,\nissue, and pull request management capabilities.\n\
+    \n## Features\n- Repository management (CRUD operations)\n- Issue tracking and\
+    \ management\n- Pull request workflows\n- File operations (read, create, update,\
+    \ delete)\n- Webhook management\n- Multiple authentication methods\n- Enterprise\
+    \ GitHub support\n\n## Authentication Methods\n\n### Personal Access Token\nStandard\
+    \ token-based authentication for user or organization access.\n\n### GitHub App\n\
+    Recommended for enterprise integrations with fine-grained permissions.\n\n## Usage\
+    \ Examples\n\n### List Repositories\n```yaml\nsteps:\n  - plugin: github_integration\n\
+    \    config:\n      auth_method: \"token\"\n      token: \"${GITHUB_TOKEN}\"\n\
+    \    input:\n      operation: \"list_repos\"\n      org: \"myorg\"\n      type:\
+    \ \"public\"\n      limit: 50\n```\n\n### Create Issue\n```yaml\nsteps:\n  - plugin:\
+    \ github_integration\n    input:\n      operation: \"create_issue\"\n      owner:\
+    \ \"myorg\"\n      repo: \"myrepo\"\n      issue_data:\n        title: \"Bug:\
+    \ Login form validation\"\n        body: \"Description of the issue...\"\n   \
+    \     labels: [\"bug\", \"priority-high\"]\n        assignees: [\"developer1\"\
+    ]\n```\n\n### Create Pull Request\n```yaml\nsteps:\n  - plugin: github_integration\n\
+    \    input:\n      operation: \"create_pr\"\n      owner: \"myorg\"\n      repo:\
+    \ \"myrepo\"\n      pr_data:\n        title: \"Feature: Add user authentication\"\
+    \n        body: \"Implements OAuth2 authentication system\"\n        head: \"\
+    feature/auth\"\n        base: \"main\"\n        draft: false\n```\n"
+  examples:
+  - name: Repository health check
+    description: Get repository information and recent activity
+    config:
+      auth_method: token
+      token: ${GITHUB_TOKEN}
+    input:
+      operation: get_repo
+      owner: myorg
+      repo: myproject
+  - name: Bulk issue creation
+    description: Create multiple issues from a list
+    input:
+      operation: create_issue
+      owner: myorg
+      repo: myproject
+      issue_data:
+        title: 'Feature Request: API Documentation'
+        body: '## Description
+
+          We need comprehensive API documentation for the new endpoints.
+
+
+          ## Requirements
+
+          - OpenAPI specification
+
+          - Interactive documentation
+
+          - Code examples
+
+          '
+        labels:
+        - documentation
+        - enhancement
+        milestone: 5
+  - name: Automated file update
+    description: Update configuration file via API
+    input:
+      operation: update_file
+      owner: myorg
+      repo: myproject
+      path: config/production.yaml
+      content: "api:\n  version: \"2.0\"\n  timeout: 30\n  rate_limit: 1000\n"
+      sha: ${current_file_sha}
+      commit_data:
+        message: Update production config for v2.0
+        branch: main
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - list_repos
+      - get_repo
+      - create_repo
+      - update_repo
+      - delete_repo
+      - list_issues
+      - get_issue
+      - create_issue
+      - update_issue
+      - close_issue
+      - list_prs
+      - get_pr
+      - create_pr
+      - merge_pr
+      - get_file
+      - create_file
+      - update_file
+      - delete_file
+      - list_webhooks
+      - create_webhook
+      - delete_webhook
+      description: GitHub operation to perform
+    owner:
+      type: string
+      description: Repository owner (user or organization)
+    repo:
+      type: string
+      description: Repository name
+    org:
+      type: string
+      description: Organization name (for list operations)
+    type:
+      type: string
+      enum:
+      - all
+      - owner
+      - public
+      - private
+      - member
+      default: all
+      description: Repository type filter
+    state:
+      type: string
+      enum:
+      - open
+      - closed
+      - all
+      default: open
+      description: Issue/PR state filter
+    limit:
+      type: integer
+      minimum: 1
+      maximum: 100
+      default: 30
+      description: Maximum number of items to return
+    issue_number:
+      type: integer
+      description: Issue number
+    pr_number:
+      type: integer
+      description: Pull request number
+    webhook_id:
+      type: integer
+      description: Webhook ID
+    path:
+      type: string
+      description: File path in repository
+    content:
+      type: string
+      description: File content
+    sha:
+      type: string
+      description: File SHA for updates/deletes
+    ref:
+      type: string
+      default: main
+      description: Git reference (branch, tag, commit)
+    repo_data:
+      type: object
+      description: Repository data for create/update operations
+    issue_data:
+      type: object
+      description: Issue data for create/update operations
+    pr_data:
+      type: object
+      description: Pull request data for create operations
+    merge_data:
+      type: object
+      description: Merge data for PR merge operations
+    commit_data:
+      type: object
+      description: Commit data for file operations
+    webhook_data:
+      type: object
+      description: Webhook configuration data
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    github_result:
+      type:
+      - object
+      - 'null'
+      description: Operation result data
+    github_status:
+      type: string
+      enum:
+      - success
+      - error
+      description: Operation status
+    github_error:
+      type: string
+      description: Error message if operation failed
+config_schema:
+  type: object
+  properties:
+    base_url:
+      type: string
+      default: https://api.github.com
+      description: GitHub API base URL (for Enterprise GitHub)
+    auth_method:
+      type: string
+      enum:
+      - token
+      - app
+      default: token
+      description: Authentication method
+    token:
+      type: string
+      description: Personal access token or installation token
+    app_id:
+      type: string
+      description: GitHub App ID (for app authentication)
+    installation_id:
+      type: string
+      description: Installation ID (for app authentication)
+    private_key:
+      type: string
+      description: Private key for GitHub App authentication
+  required:
+  - auth_method
+  oneOf:
+  - properties:
+      auth_method:
+        const: token
+    required:
+    - token
+  - properties:
+      auth_method:
+        const: app
+    required:
+    - app_id
+    - installation_id
+    - private_key
+health_check:
+  endpoint: /rate_limit
+  method: GET
+  expected_status: 200
+  timeout: 10
+performance:
+  rate_limit:
+    requests_per_hour: 5000
+    requests_per_minute: 100
+    search_requests_per_minute: 30
+  caching:
+    enabled: true
+    ttl: 300
+  bulk_operations:
+    max_batch_size: 100
+    recommended_batch_size: 50
+compliance:
+  gdpr_compliant: true
+  data_retention: Managed by GitHub
+  encryption: In transit via HTTPS
+  audit_logging: true
+owner: PlugPipe Integration Team
+status: stable
+sbom:
+  summary: sbom/github_integration-sbom.json
+  complete: sbom/github_integration-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

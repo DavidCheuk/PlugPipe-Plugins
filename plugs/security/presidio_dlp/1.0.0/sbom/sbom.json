@@ -1,0 +1,197 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:12345678-1234-5678-9012-123456789012",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-01-17T12:00:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "presidio_dlp@1.0.0",
+      "name": "presidio_dlp",
+      "version": "1.0.0",
+      "description": "Microsoft Presidio-powered data leakage prevention and PII detection",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "presidio-analyzer@2.2.0",
+      "name": "presidio-analyzer",
+      "version": "2.2.0",
+      "description": "Microsoft Presidio PII detection engine",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/presidio-analyzer@2.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/microsoft/presidio"
+        },
+        {
+          "type": "documentation",
+          "url": "https://microsoft.github.io/presidio/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "presidio-anonymizer@2.2.0",
+      "name": "presidio-anonymizer",
+      "version": "2.2.0",
+      "description": "Microsoft Presidio data anonymization engine",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/presidio-anonymizer@2.2.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/microsoft/presidio"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "spacy@3.4.0",
+      "name": "spacy",
+      "version": "3.4.0",
+      "description": "Industrial-strength NLP library for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/spacy@3.4.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://spacy.io"
+        },
+        {
+          "type": "documentation",
+          "url": "https://spacy.io/usage"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "transformers@4.20.0",
+      "name": "transformers",
+      "version": "4.20.0",
+      "description": "State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/transformers@4.20.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/huggingface/transformers"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "torch@1.12.0",
+      "name": "torch",
+      "version": "1.12.0",
+      "description": "Tensors and Dynamic neural networks in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/torch@1.12.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pytorch.org"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "presidio_dlp@1.0.0",
+      "dependsOn": [
+        "presidio-analyzer@2.2.0",
+        "presidio-anonymizer@2.2.0",
+        "spacy@3.4.0",
+        "transformers@4.20.0",
+        "torch@1.12.0"
+      ]
+    },
+    {
+      "ref": "presidio-analyzer@2.2.0",
+      "dependsOn": [
+        "spacy@3.4.0",
+        "transformers@4.20.0"
+      ]
+    },
+    {
+      "ref": "presidio-anonymizer@2.2.0",
+      "dependsOn": [
+        "presidio-analyzer@2.2.0"
+      ]
+    },
+    {
+      "ref": "transformers@4.20.0",
+      "dependsOn": [
+        "torch@1.12.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "presidio_dlp@1.0.0",
+      "subjects": ["presidio_dlp@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_security_plugin"
+      }
+    },
+    {
+      "bom-ref": "presidio-analyzer@2.2.0",
+      "subjects": ["presidio-analyzer@2.2.0"],
+      "annotationType": "other", 
+      "annotation": {
+        "name": "microsoft_maintained",
+        "value": "true"
+      }
+    }
+  ]
+}

@@ -1,0 +1,375 @@
+capabilities:
+- helm_charts
+- kubernetes_deployment
+- chart_management
+- release_lifecycle
+- repository_management
+- values_templating
+- dependency_management
+- standardized_deployment
+chart_templates:
+  microservice:
+    description: Microservice deployment pattern
+    values:
+      autoscaling:
+        enabled: true
+        maxReplicas: 10
+        minReplicas: 2
+        targetCPUUtilizationPercentage: 70
+      replicaCount: 3
+      resources:
+        limits:
+          cpu: 200m
+          memory: 256Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      service:
+        port: 8080
+        type: ClusterIP
+  web_application:
+    description: Standard web application deployment
+    values:
+      image:
+        pullPolicy: IfNotPresent
+        repository: nginx
+        tag: latest
+      ingress:
+        className: nginx
+        enabled: true
+      replicaCount: 2
+      resources:
+        limits:
+          cpu: 500m
+          memory: 512Mi
+        requests:
+          cpu: 250m
+          memory: 256Mi
+      service:
+        port: 80
+        type: ClusterIP
+compatibility:
+  helm: '>=3.0.0'
+  kubernetes: '>=1.19.0'
+  python: '>=3.8'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:45'
+  stdlib_modules_declared: true
+description: Helm Charts plugin for standardized Kubernetes application deployment
+  with comprehensive chart management, values templating, repository operations, and
+  release lifecycle management
+enterprise_features:
+  chart_management: true
+  compliant: true
+  dependency_management: true
+  enterprise_ready: true
+  monitored: true
+  production_ready: true
+  release_lifecycle: true
+  repository_management: true
+  scalable: true
+  secure: true
+  standardized_deployment: true
+  values_templating: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+helm:
+  chart_repositories:
+  - name: stable
+    url: https://charts.helm.sh/stable
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  default_values:
+    affinity: {}
+    autoscaling:
+      enabled: false
+      maxReplicas: 100
+      minReplicas: 1
+      targetCPUUtilizationPercentage: 80
+    deployment:
+      replicaCount: 1
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
+        type: RollingUpdate
+    global:
+      imagePullSecrets: []
+      imageRegistry: ''
+    ingress:
+      annotations: {}
+      className: ''
+      enabled: false
+      hosts: []
+      tls: []
+    nodeSelector: {}
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+    service:
+      port: 80
+      type: ClusterIP
+    tolerations: []
+input_schema:
+  properties:
+    all_namespaces:
+      default: false
+      description: List releases from all namespaces
+      type: boolean
+    chart:
+      description: Chart name or path
+      type: string
+    create_namespace:
+      default: false
+      description: Create namespace if it doesn't exist
+      type: boolean
+    helm:
+      description: Helm client configuration
+      properties:
+        kubeconfig:
+          description: Path to kubeconfig file
+          type: string
+        namespace:
+          default: default
+          description: Kubernetes namespace
+          type: string
+        timeout:
+          default: 300
+          description: Operation timeout in seconds
+          type: integer
+        wait_for_ready:
+          default: true
+          description: Wait for resources to be ready
+          type: boolean
+      type: object
+    install_if_not_exists:
+      default: true
+      description: Install chart if release doesn't exist during upgrade
+      type: boolean
+    operation:
+      description: Operation to perform
+      enum:
+      - health_check
+      - install_chart
+      - upgrade_chart
+      - uninstall_chart
+      - list_releases
+      - get_release_status
+      - rollback_release
+      - repo_add
+      - repo_update
+      type: string
+    release_name:
+      description: Helm release name
+      type: string
+    repo_name:
+      description: Repository name
+      type: string
+    repo_url:
+      description: Repository URL
+      type: string
+    revision:
+      description: Revision number for rollback
+      type: integer
+    values:
+      description: Values to override in the chart
+      type: object
+  type: object
+name: helm
+display_name: Helm
+operations:
+- description: Check Helm CLI availability and plugin health
+  name: health_check
+  required_params: []
+- description: Install Helm chart with specified values
+  name: install_chart
+  optional_params:
+  - values
+  - create_namespace
+  required_params:
+  - release_name
+  - chart
+- description: Upgrade existing Helm chart or install if not exists
+  name: upgrade_chart
+  optional_params:
+  - values
+  - install_if_not_exists
+  required_params:
+  - release_name
+  - chart
+- description: Uninstall Helm release and remove resources
+  name: uninstall_chart
+  optional_params: []
+  required_params:
+  - release_name
+- description: List all Helm releases in namespace or all namespaces
+  name: list_releases
+  optional_params:
+  - all_namespaces
+  required_params: []
+- description: Get detailed status information for a Helm release
+  name: get_release_status
+  optional_params: []
+  required_params:
+  - release_name
+- description: Rollback Helm release to previous or specified revision
+  name: rollback_release
+  optional_params:
+  - revision
+  required_params:
+  - release_name
+- description: Add Helm chart repository
+  name: repo_add
+  optional_params: []
+  required_params:
+  - repo_name
+  - repo_url
+- description: Update all Helm chart repositories
+  name: repo_update
+  optional_params: []
+  required_params: []
+output_schema:
+  properties:
+    error:
+      description: Error message if plugin failed
+      type: string
+    execution_time:
+      description: Execution timestamp
+      type: number
+    operation:
+      description: Operation performed
+      type: string
+    operation_completed:
+      description: Completed operation name
+      type: string
+    plugin_type:
+      description: Plugin type identifier
+      type: string
+    result:
+      description: Operation result data
+      properties:
+        chart:
+          description: Chart name or path
+          type: string
+        error:
+          description: Error message if operation failed
+          type: string
+        helm_available:
+          description: Helm CLI availability
+          type: boolean
+        helm_version:
+          description: Helm version
+          type: string
+        namespace:
+          description: Kubernetes namespace
+          type: string
+        output:
+          description: Command output
+          type: string
+        plugin_id:
+          description: Plugin instance identifier
+          type: string
+        release_name:
+          description: Helm release name
+          type: string
+        releases:
+          description: List of releases
+          items:
+            type: object
+          type: array
+        repo_name:
+          description: Repository name
+          type: string
+        repo_url:
+          description: Repository URL
+          type: string
+        status:
+          description: Release status information
+          type: object
+        timestamp:
+          description: Operation timestamp
+          type: string
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/sbom-complete.json
+  dependencies:
+  - name: pyyaml
+    purpose: YAML configuration parsing
+    type: python
+    version: '>=6.0'
+  - name: asyncio
+    purpose: Asynchronous operations
+    type: python
+    version: '>=3.4.3'
+  - name: helm
+    purpose: Helm CLI for chart operations
+    type: external
+    version: '>=3.0.0'
+  - name: kubernetes
+    purpose: Kubernetes cluster for deployment target
+    type: external
+    version: '>=1.19.0'
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  metadata:
+    created_by: PlugPipe Core Team
+    created_date: '2025-08-22'
+    data_classification: public
+    purpose: Standardized Kubernetes application deployment using Helm charts
+  security_info:
+    compliance:
+    - Kubernetes Security Best Practices
+    - Helm Security Guidelines
+    - Container Runtime Security
+    scan_date: '2025-08-22'
+    vulnerabilities: []
+  summary: sbom/sbom.json
+status: active
+stdlib_modules:
+- asyncio
+- datetime
+- json
+- logging
+- os
+- shutil
+- subprocess
+- tempfile
+- time
+- typing
+- uuid
+tags:
+- helm
+- kubernetes
+- charts
+- deployment
+- package
+- management
+- lifecycle
+- templating
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

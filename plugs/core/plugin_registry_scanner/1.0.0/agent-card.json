@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:core:plugin_registry_scanner",
+    "name": "Plugin Registry Scanner Agent",
+    "description": "Comprehensive PlugPipe plugin registry scanner that provides accurate plugin counts and metadata by scanning the file system directly",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/plugin_registry_scanner",
+    "skills": [
+      {
+        "id": "plugin_registry_scanner-primary",
+        "name": "Plugin Registry Scanner",
+        "description": "Comprehensive PlugPipe plugin registry scanner that provides accurate plugin counts and metadata by scanning the file system directly",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "plugin_registry_scanner",
+        "category": "core",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Core Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:30.892164Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

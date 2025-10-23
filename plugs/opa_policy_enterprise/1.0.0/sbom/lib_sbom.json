@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:opa_policy_enterprise-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:54.158196Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "opa_policy_enterprise@1.0.0",
+      "name": "opa_policy_enterprise",
+      "version": "1.0.0",
+      "description": "Enterprise-grade Open Policy Agent integration with ecosystem monitoring, advanced multi-tenancy, security, and compliance features"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: demo_customer_support
+  owner: Automatic Pipe Creation Agent
+  version: 1.0.0
+  description: Automated customer support workflow that receives tickets, categorizes
+    them, assigns to appropriate teams, tracks resolution, and sends notifications
+    to customers
+  industry: general
+  complexity: standard
+  estimated_duration: 30 minutes
+  tags:
+  - auto-generated
+  - workflow
+  - general
+  - standard
+  created_at: '2025-08-20T19:27:19.697546'
+pipeline:
+- id: step_1_notification
+  uses: notification_service
+  with:
+    action: notification
+    timeout: 30
+  description: Execute notification step
+config:
+  retry_policy:
+    max_retries: 2
+    backoff: exponential
+  timeout: 600
+  parallel_execution: false
+success_criteria:
+- All steps completed successfully
+- No errors or exceptions thrown
+- Expected outputs generated
+required_plugins:
+- notification_service
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

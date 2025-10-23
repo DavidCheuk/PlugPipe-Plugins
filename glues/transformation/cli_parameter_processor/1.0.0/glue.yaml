@@ -1,0 +1,35 @@
+name: cli_parameter_processor
+version: 1.0.0
+description: Universal CLI parameter to JSON converter that transforms command-line arguments to plugin-compatible JSON configurations
+author: PlugPipe Integration Team
+category: transformation
+status: active
+source_schema: cli_arguments
+target_schema: json_configuration
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- transformation
+- cli-processing
+- parameter-conversion
+- json-conversion
+- user-experience
+
+# Glue mappings for CLI parameter processing
+mappings:
+  - source_field: "args"
+    target_field: "parameters"
+    error_policy: "default"
+    default: []
+
+  - source_field: "command"
+    target_field: "base_command"
+    error_policy: "default"
+    default: "unknown"
+
+  - source_field: "format"
+    target_field: "output_format"
+    default: "json"
+    error_policy: "default"
+
+error_policy: "skip"

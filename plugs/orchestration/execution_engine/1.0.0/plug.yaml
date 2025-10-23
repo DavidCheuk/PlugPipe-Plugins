@@ -1,0 +1,173 @@
+category: orchestration
+description: Execution Engine Service - handles both DAG and linear pipeline execution
+  with proper separation of concerns and integration with external orchestrators
+external_dependencies:
+  install_method: pip
+  packages:
+  - copy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      description: Execution context with inputs, outputs, and environment
+      properties:
+        env:
+          type: object
+        execution_id:
+          type: string
+        inputs:
+          type: object
+        step_outputs:
+          type: object
+      type: object
+    enterprise_enabled:
+      default: false
+      description: Enable enterprise features (DAG, advanced workflows)
+      type: boolean
+    execution_mode:
+      description: Execution mode override (auto-detected if not specified)
+      enum:
+      - linear
+      - dag
+      - hybrid
+      type: string
+    global_retries:
+      default: 1
+      description: Global retry count for all steps
+      type: integer
+    global_timeout:
+      default: 0
+      description: Global timeout in seconds (0 = no timeout)
+      type: integer
+    orchestrator_type:
+      default: airflow
+      description: External orchestrator type
+      enum:
+      - airflow
+      - argo
+      type: string
+    registry:
+      description: Plugin registry instance for step execution
+    steps:
+      description: Pipeline steps to execute
+      items:
+        type: object
+      type: array
+    use_external_orchestrator:
+      default: false
+      description: Use external orchestrator (Airflow/Argo) if available
+      type: boolean
+  required:
+  - steps
+  - context
+  - registry
+  type: object
+name: execution_engine
+display_name: ExecutionEngine
+output_schema:
+  properties:
+    completed_steps:
+      description: Number of successfully completed steps
+      type: integer
+    error:
+      description: Error message if execution failed
+      type: string
+    execution_mode:
+      description: Execution mode that was used
+      enum:
+      - linear
+      - dag
+      - external_airflow
+      - external_argo
+      type: string
+    orchestrator_result:
+      description: Result from external orchestrator (if used)
+      type: object
+    results:
+      description: Step execution results mapped by step ID
+      type: object
+    success:
+      description: Execution success indicator
+      type: boolean
+    summary:
+      description: Execution summary with step statuses
+      items:
+        properties:
+          id:
+            type: string
+          reason:
+            type: string
+          status:
+            enum:
+            - completed
+            - skipped
+            - failed
+            - paused
+            - exited
+            type: string
+        type: object
+      type: array
+    total_steps:
+      description: Total number of steps in pipeline
+      type: integer
+  type: object
+owner: plugpipe-orchestration
+revolutionary_capabilities:
+- modular_execution_engine
+- dag_linear_execution_strategies
+- external_orchestrator_integration
+- enterprise_workflow_support
+- service_oriented_architecture
+- separation_of_concerns
+sbom:
+  dependencies:
+  - description: Core step execution utilities
+    internal: true
+    name: PlugPipe Step Executor
+    version: '>=1.0.0'
+  - description: Condition and expression evaluation
+    internal: true
+    name: Safe Evaluator
+    version: '>=1.0.0'
+  - description: Airflow orchestrator integration
+    internal: true
+    name: Airflow Workflow Runner
+    optional: true
+    version: '>=1.0.0'
+  - description: Argo orchestrator integration
+    internal: true
+    name: Argo Workflow Runner
+    optional: true
+    version: '>=1.0.0'
+  - description: Asynchronous execution support
+    license: Python
+    name: Python asyncio
+    version: '>=3.7'
+  security_considerations:
+  - Executes user-defined pipeline steps - requires step validation
+  - Integrates with external orchestrators - network security required
+  - Handles pause/resume functionality - secure state management
+  - Enterprise DAG features - license compliance validation
+  usage_patterns:
+  - Linear pipeline execution for simple workflows
+  - DAG pipeline execution for complex enterprise workflows
+  - Integration with external orchestration systems
+  - Resume/pause functionality for long-running pipelines
+status: production
+tags:
+- orchestration
+- execution
+- dag
+- linear
+- engine
+- service
+- modular
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

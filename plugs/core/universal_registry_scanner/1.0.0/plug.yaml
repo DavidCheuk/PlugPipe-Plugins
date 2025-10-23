@@ -1,0 +1,142 @@
+author: PlugPipe Core Team
+category: core
+dependencies:
+- python: '>=3.8'
+- pyyaml: '>=5.4.0'
+- requests: '>=2.25.0'
+- aiohttp: '>=3.8.0'
+description: Universal PlugPipe registry scanner that works with all supported registry
+  types - filesystem, remote, GitHub, database, API-based registries. Provides accurate
+  plugin/pipe counts and metadata across the entire PlugPipe ecosystem.
+entry_point: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  - requests
+  - sqlite3
+  requirements_file: requirements.txt
+interface:
+  discovery:
+  - list_all_plugins
+  - search_plugins
+  - filter_by_category
+  metadata:
+  - get_plugin_manifest
+  - get_plugin_dependencies
+  - get_plugin_health_status
+  validation:
+  - validate_manifest_schema
+  - check_plugin_availability
+  - verify_dependencies
+license: MIT
+name: universal_registry_scanner
+display_name: UniversalScanner
+operations:
+  count_by_registry:
+    description: Get accurate plugin and pipe counts by registry type
+    parameters:
+      breakdown_by_category:
+        default: true
+        description: Include breakdown by plugin category
+        type: boolean
+      include_health_status:
+        default: true
+        description: Include health/validation status
+        type: boolean
+  registry_health_check:
+    description: Comprehensive health check of all registry endpoints
+    parameters:
+      deep_validation:
+        default: false
+        description: Perform deep validation of plugin manifests
+        type: boolean
+      timeout_seconds:
+        default: 30
+        description: Timeout for each registry check
+        type: integer
+  scan_all_registries:
+    description: Scan all configured registries for comprehensive plugin/pipe inventory
+    parameters:
+      include_metadata:
+        default: true
+        description: Include detailed metadata from manifest files
+        type: boolean
+      output_format:
+        default: json
+        description: Output format
+        enum:
+        - json
+        - summary
+        - detailed
+        - csv
+        type: string
+      registry_types:
+        default:
+        - filesystem
+        - database
+        - remote
+        - github
+        description: Types of registries to scan
+        type: array
+  verify_registry_consistency:
+    description: Verify consistency across all registry types
+    parameters:
+      fix_inconsistencies:
+        default: false
+        description: Attempt to fix found inconsistencies
+        type: boolean
+      show_discrepancies:
+        default: true
+        description: Show plugins found in some registries but missing from others
+        type: boolean
+runtime:
+  memory_limit: 256MB
+  timeout: 120
+schema_version: '1.0'
+security:
+  permissions:
+  - read_filesystem: true
+  - network_access: true
+  - execute_commands: false
+supported_registries:
+  artifactory:
+    config_required:
+    - server_url
+    - repository
+    - credentials
+    description: JFrog Artifactory registry
+  database:
+    config_required:
+    - db_connection
+    - schema
+    description: Database-backed registry (SQLite, PostgreSQL, etc.)
+  docker:
+    config_required:
+    - registry_url
+    - namespace
+    description: Docker registry for containerized plugins
+  filesystem:
+    config_required:
+    - base_path
+    description: Local filesystem-based registry
+  github:
+    config_required:
+    - repo_url
+    - branch
+    - token
+    description: GitHub repository-based registry
+  remote_api:
+    config_required:
+    - api_endpoint
+    - auth_config
+    description: Remote API-based registry
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

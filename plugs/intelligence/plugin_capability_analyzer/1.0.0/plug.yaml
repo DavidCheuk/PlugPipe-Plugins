@@ -1,0 +1,95 @@
+name: plugin_capability_analyzer
+display_name: PluginCapabilityAnalyzer
+version: 1.0.0
+description: Analyzes and indexes plugin capabilities for intelligent composition.
+  Extracted from monolithic mix_and_match to follow PlugPipe's single responsibility
+  principle.
+owner: PlugPipe Intelligence Team
+status: production
+discoverability: public
+entrypoint: main.py
+tags:
+- intelligence
+- plugin-analysis
+- capability-indexing
+- architecture-refactoring
+config_schema:
+  type: object
+  properties:
+    analysis_settings:
+      type: object
+      properties:
+        cache_metadata:
+          type: boolean
+          default: true
+        scan_depth:
+          type: string
+          enum:
+          - basic
+          - comprehensive
+          - deep
+          default: comprehensive
+        include_experimental:
+          type: boolean
+          default: false
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - analyze_plugin
+      - build_capability_index
+      - search_capabilities
+      - get_plugin_metadata
+      description: Type of capability analysis operation
+    plugin_fqn:
+      type: string
+      description: Fully qualified plugin name (for single plugin analysis)
+    search_query:
+      type: string
+      description: Search query for capability search
+    context:
+      type: object
+      description: Additional context for analysis
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    operation_completed:
+      type: string
+    plugin_capabilities:
+      type: array
+      items:
+        type: object
+    capability_index:
+      type: object
+    metadata:
+      type: object
+    timestamp:
+      type: string
+external_dependencies:
+  install_method: pip
+  packages:
+  - pyyaml
+  requirements_file: requirements.txt
+stdlib_modules:
+- os
+- sys
+- json
+- logging
+- asyncio
+- typing
+- dataclasses
+- pathlib
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,40 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:plugin_recommendation_engine",
+    "name": "Plugin Recommendation Engine Agent",
+    "description": "Intelligent plugin recommendation engine that suggests optimal plugin combinations based on requirements and available capabilities. Extracted from orchestrator to maintain single responsibility principle.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/plugin_recommendation_engine",
+    "skills": [
+      {
+        "id": "plugin_recommendation_engine-primary",
+        "name": "Plugin Recommendation Engine",
+        "description": "Intelligent plugin recommendation engine that suggests optimal plugin combinations based on requirements and available capabilities. Extracted from orchestrator to maintain single responsibility principle.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "plugin_recommendation_engine",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "intelligence",
+          "recommendation",
+          "plugin-matching",
+          "architecture-compliance"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.267659Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

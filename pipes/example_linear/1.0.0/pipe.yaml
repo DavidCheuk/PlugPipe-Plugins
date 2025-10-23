@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: example-linear
+  owner: PlugPipe Team
+  version: 1.0.0
+  tags:
+  - pipeline
+  - migrated
+  doc: Pipeline converted from example_linear
+inputs: {}
+pipeline:
+- id: pii_scan_step
+  uses: pii_scan
+  with: {}
+- id: jira_step
+  uses: jira
+  with: {}
+summary:
+  format: table
+  doc: Linear pipeline execution summary
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

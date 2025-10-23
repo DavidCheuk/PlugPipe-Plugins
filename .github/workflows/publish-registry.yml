@@ -1,0 +1,37 @@
+name: Publish Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+
+jobs:
+  publish:
+    name: Generate Registry
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Count plugins
+      run: |
+        PLUGIN_COUNT=$(find plugs -name "plug.yaml" | wc -l)
+        echo "Total plugins: $PLUGIN_COUNT"
+        echo "{\"total_plugins\": $PLUGIN_COUNT}" > registry/stats.json
+
+    - name: Commit registry
+      run: |
+        git config user.name "PlugPipe Bot"
+        git config user.email "bot@plugpipe.com"
+        git add registry/
+        git diff --staged --quiet || git commit -m "chore: update registry [skip ci]"
+        git push || true

@@ -1,0 +1,24 @@
+name: user_profile_transformer
+version: 1.0.0
+description: Transform user profile between System A and System B formats with field
+  mapping
+author: PlugPipe Integration Team
+category: integration
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  original_glue: true
+tags:
+- glue-component
+- integration
+- user-profile
+- transformation
+- system-bridge
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

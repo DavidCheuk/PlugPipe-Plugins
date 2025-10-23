@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:57.324987Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "agent_factory@1.0.0",
+      "name": "agent_factory",
+      "version": "1.0.0",
+      "description": "Production-ready core agent factory with comprehensive lifecycle management, health monitoring, fallback mechanisms, and rate limiting"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

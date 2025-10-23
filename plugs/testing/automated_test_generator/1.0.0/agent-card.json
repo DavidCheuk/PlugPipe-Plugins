@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:testing:automated_test_generator",
+    "name": "Automated Test Generator Agent",
+    "description": "Comprehensive automated test generation orchestrator that leverages existing PlugPipe abstractions for intelligent, multi-layered test creation including unit tests, integration tests, performance tests, and security tests. Enhanced with mission-critical plugin detection and performance/stress/redundancy testing using the performance_benchmark plugin for enterprise-grade availability assurance.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/automated_test_generator",
+    "skills": [
+      {
+        "id": "automated_test_generator-primary",
+        "name": "Automated Test Generator",
+        "description": "Comprehensive automated test generation orchestrator that leverages existing PlugPipe abstractions for intelligent, multi-layered test creation including unit tests, integration tests, performance tests, and security tests. Enhanced with mission-critical plugin detection and performance/stress/redundancy testing using the performance_benchmark plugin for enterprise-grade availability assurance.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "automated_test_generator",
+        "category": "testing",
+        "subcategory": "",
+        "tags": [
+          "automated-testing",
+          "test-generation",
+          "plugin-ecosystem",
+          "llm-powered",
+          "enterprise-quality",
+          "security-testing",
+          "performance-testing",
+          "compliance-automation"
+        ],
+        "author": "PlugPipe Testing Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.671082Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

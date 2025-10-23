@@ -1,0 +1,50 @@
+name: api2mcp_factory
+version: 1.0.0
+description: Enterprise-grade factory that converts API specifications (OpenAPI, GraphQL, RAML) into MCP servers
+author: PlugPipe Integration Team
+category: integration
+status: active
+source_schema: api_specification
+target_schema: mcp_server
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- integration
+- factory
+- mcp
+- api-conversion
+- openapi
+- graphql
+- enterprise
+- transformation
+
+# Glue mappings for API to MCP conversion
+mappings:
+  - source_field: "spec_type"
+    target_field: "conversion_type"
+    default: "openapi"
+    error_policy: "default"
+
+  - source_field: "api_spec"
+    target_field: "source_specification"
+    error_policy: "fail"
+
+  - source_field: "output_format"
+    target_field: "target_format"
+    default: "mcp_server"
+    error_policy: "default"
+
+enum_maps:
+  - source_enum:
+      openapi: "openapi_v3"
+      swagger: "openapi_v2"
+      graphql: "graphql_schema"
+      raml: "raml_spec"
+    target_enum:
+      openapi_v3: "mcp_openapi"
+      openapi_v2: "mcp_openapi"
+      graphql_schema: "mcp_graphql"
+      raml_spec: "mcp_raml"
+    default_value: "mcp_openapi"
+
+error_policy: "fail"

@@ -1,0 +1,5 @@
+# MCP AI Resource Governance Integration Plugin Requirements
+# MCP-Aware AI Resource Governance with cost tracking and controls
+#
+# External dependencies:
+pydantic>=2.0.0  # Data validation and settings management with typing support

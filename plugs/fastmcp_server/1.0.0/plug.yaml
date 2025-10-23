@@ -1,0 +1,177 @@
+name: fastmcp_server
+display_name: FastmcpServer
+version: 1.0.0
+description: FastMCP Server - Complete MCP protocol implementation for LLM integration
+author: PlugPipe Team
+license: MIT
+category: mcp
+tags:
+- mcp
+- server
+- llm
+- tools
+- resources
+- prompts
+- protocol
+status: stable
+discoverability: public
+owner: plugpipe-team
+entrypoint: main.py
+input_context:
+  type: object
+  properties:
+    host:
+      type: string
+      description: Server host address
+      default: 127.0.0.1
+    port:
+      type: integer
+      description: Server port number
+      default: 8002
+    server_name:
+      type: string
+      description: MCP server name
+      default: PlugPipe FastMCP Server
+    start_server:
+      type: boolean
+      description: Whether to start the server immediately
+      default: true
+    custom_tools:
+      type: array
+      description: Custom tools to add to server
+      items:
+        type: object
+    custom_resources:
+      type: array
+      description: Custom resources to add to server
+      items:
+        type: object
+    custom_prompts:
+      type: array
+      description: Custom prompts to add to server
+      items:
+        type: object
+output_context:
+  type: object
+  properties:
+    fastmcp_server:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - started
+          - configured
+          - error
+        host:
+          type: string
+        port:
+          type: integer
+        server_name:
+          type: string
+        endpoints:
+          type: object
+          description: Available MCP endpoints
+        tools_count:
+          type: integer
+        resources_count:
+          type: integer
+        prompts_count:
+          type: integer
+        error:
+          type: string
+          description: Error message if status is error
+external_dependencies:
+- fastapi>=0.68.0
+- uvicorn>=0.15.0
+- pydantic>=1.8.0
+requirements:
+- fastapi>=0.100.0
+- uvicorn>=0.22.0
+- pydantic>=2.0.0
+sbom:
+  summary: sbom/sbom.json
+  complete: sbom/sbom-complete.json
+documentation:
+  description: 'FastMCP Server Plug provides a complete Model Context Protocol (MCP)
+    implementation
+
+    for seamless LLM integration. The server supports the full MCP specification including
+
+    tools, resources, and prompts with real-time capabilities.
+
+
+    Features:
+
+    - Complete MCP protocol compliance (2025-06-18)
+
+    - RESTful API endpoints for LLM clients
+
+    - Built-in tools: echo, timestamp, calculate
+
+    - Server resources: status, configuration
+
+    - System prompts: system_info, code_review
+
+    - Extensible architecture for custom capabilities
+
+    - Production-ready with error handling and logging
+
+    '
+  usage: "# Basic usage\ncontext = {\n  \"host\": \"0.0.0.0\",\n  \"port\": 8002,\n\
+    \  \"start_server\": true\n}\n\n# With custom tools\ncontext = {\n  \"custom_tools\"\
+    : [\n    {\n      \"name\": \"custom_tool\",\n      \"description\": \"Custom\
+    \ tool description\",\n      \"input_schema\": {\"type\": \"object\", \"properties\"\
+    : {...}}\n    }\n  ]\n}\n"
+  endpoints: 'POST /mcp/initialize     - Initialize MCP session
+
+    POST /mcp/tools/list     - List available tools
+
+    POST /mcp/tools/call     - Execute a tool
+
+    POST /mcp/resources/list - List available resources
+
+    POST /mcp/resources/read - Read resource content
+
+    POST /mcp/prompts/list   - List available prompts
+
+    POST /mcp/prompts/get    - Get prompt with arguments
+
+    GET  /mcp/ping          - Health check
+
+    '
+  examples:
+  - name: Start MCP server
+    input:
+      host: 127.0.0.1
+      port: 8002
+      start_server: true
+    output:
+      fastmcp_server:
+        status: started
+        endpoints:
+          initialize: http://127.0.0.1:8002/mcp/initialize
+  - name: Configure with custom tools
+    input:
+      custom_tools:
+      - name: file_reader
+        description: Read file contents
+        input_schema:
+          type: object
+          properties:
+            path:
+              type: string
+          required:
+          - path
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

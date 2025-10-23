@@ -1,0 +1,309 @@
+author: PlugPipe Team
+category: communication
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Configurable per workspace
+  encryption: In transit and at rest
+  gdpr_compliant: true
+config_schema:
+  oneOf:
+  - properties:
+      auth_method:
+        const: bot_token
+    required:
+    - bot_token
+  - properties:
+      auth_method:
+        const: oauth
+    required:
+    - access_token
+  properties:
+    access_token:
+      description: User OAuth access token (starts with xoxp-)
+      type: string
+    auth_method:
+      default: bot_token
+      description: Authentication method
+      enum:
+      - bot_token
+      - oauth
+      type: string
+    bot_token:
+      description: Slack bot user OAuth token (starts with xoxb-)
+      type: string
+  required:
+  - auth_method
+  type: object
+description: Enterprise Slack messaging and team communication integration
+documentation:
+  examples:
+  - config:
+      auth_method: bot_token
+      bot_token: ${SLACK_BOT_TOKEN}
+    description: Send alert notification to monitoring channel
+    input:
+      channel: '#alerts'
+      operation: send_message
+      text: ':warning: System alert: High CPU usage detected'
+    name: Alert notification
+  - description: Send daily standup reminder with interactive buttons
+    input:
+      blocks:
+      - text:
+          text: 'Good morning team! :sun_with_face: Time for daily standup!'
+          type: mrkdwn
+        type: section
+      - elements:
+        - style: primary
+          text:
+            text: Join Standup
+            type: plain_text
+          type: button
+          url: https://meet.google.com/xyz-abc-def
+        type: actions
+      channel: '#team-standup'
+      operation: send_message
+    name: Daily standup reminder
+  - description: Update message with pipeline progress
+    input:
+      blocks:
+      - text:
+          text: '*Build Status Update*'
+          type: mrkdwn
+        type: section
+      - fields:
+        - text: '*Pipe:*
+
+            CI/CD Pipe'
+          type: mrkdwn
+        - text: '*Status:*
+
+            :white_check_mark: Completed'
+          type: mrkdwn
+        - text: '*Duration:*
+
+            5m 32s'
+          type: mrkdwn
+        - text: '*Branch:*
+
+            main'
+          type: mrkdwn
+        type: section
+      channel: '#ci-cd'
+      operation: update_message
+      ts: ${original_message_timestamp}
+    name: Pipe status update
+  readme: "# Slack Messaging Plug\n\nEnterprise-grade Slack integration providing\
+    \ comprehensive messaging,\nchannel management, and workflow automation capabilities.\n\
+    \n## Features\n- Send and manage messages\n- Channel creation and management\n\
+    - User management and status updates\n- File upload and sharing\n- Workflow automation\n\
+    - Rich message formatting with blocks\n- Thread management\n\n## Authentication\
+    \ Methods\n\n### Bot Token\nRecommended for most integrations. Requires a Slack\
+    \ app with bot user.\n\n### OAuth Access Token\nFor user-acting applications requiring\
+    \ user permissions.\n\n## Usage Examples\n\n### Send Simple Message\n```yaml\n\
+    steps:\n  - plugin: slack_messaging\n    config:\n      auth_method: \"bot_token\"\
+    \n      bot_token: \"${SLACK_BOT_TOKEN}\"\n    input:\n      operation: \"send_message\"\
+    \n      channel: \"#general\"\n      text: \"Hello from PlugPipe! \U0001F680\"\
+    \n```\n\n### Send Rich Message with Blocks\n```yaml\nsteps:\n  - plugin: slack_messaging\n\
+    \    input:\n      operation: \"send_message\"\n      channel: \"#alerts\"\n \
+    \     blocks:\n        - type: \"section\"\n          text:\n            type:\
+    \ \"mrkdwn\"\n            text: \"*Deployment Status* :rocket:\"\n        - type:\
+    \ \"section\"\n          fields:\n            - type: \"mrkdwn\"\n           \
+    \   text: \"*Environment:*\\nProduction\"\n            - type: \"mrkdwn\"\n  \
+    \            text: \"*Status:*\\n:white_check_mark: Success\"\n```\n\n### Create\
+    \ Channel and Invite Users\n```yaml\nsteps:\n  - plugin: slack_messaging\n   \
+    \ input:\n      operation: \"create_channel\"\n      name: \"project-alpha\"\n\
+    \      is_private: false\n  - plugin: slack_messaging\n    input:\n      operation:\
+    \ \"invite_to_channel\"\n      channel: \"project-alpha\"\n      users: [\"U1234567890\"\
+    , \"U0987654321\"]\n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+health_check:
+  endpoint: auth.test
+  expected_status: 200
+  method: POST
+  timeout: 10
+input_schema:
+  properties:
+    attachments:
+      description: Message attachments (legacy format)
+      items:
+        type: object
+      type: array
+    blocks:
+      description: Rich message blocks (Block Kit format)
+      items:
+        type: object
+      type: array
+    channel:
+      description: 'Channel ID or name (e.g., #general, C1234567890)'
+      type: string
+    channels:
+      description: Channels to share file with
+      items:
+        type: string
+      type: array
+    file_id:
+      description: File ID for file operations
+      type: string
+    file_path:
+      description: Path to file for upload
+      type: string
+    filename:
+      description: Filename for upload
+      type: string
+    initial_comment:
+      description: Initial comment for file upload
+      type: string
+    inputs:
+      description: Workflow input data
+      type: object
+    is_private:
+      default: false
+      description: Whether to create private channel
+      type: boolean
+    latest:
+      description: End of time range for message history
+      type: string
+    limit:
+      default: 100
+      description: Maximum number of items to return
+      maximum: 1000
+      minimum: 1
+      type: integer
+    name:
+      description: Channel name for creation
+      type: string
+    oldest:
+      description: Start of time range for message history
+      type: string
+    operation:
+      description: Slack operation to perform
+      enum:
+      - send_message
+      - update_message
+      - delete_message
+      - get_message_history
+      - list_channels
+      - create_channel
+      - join_channel
+      - leave_channel
+      - invite_to_channel
+      - kick_from_channel
+      - get_user_info
+      - list_users
+      - set_user_status
+      - upload_file
+      - get_file_info
+      - delete_file
+      - trigger_workflow
+      type: string
+    status_emoji:
+      description: User status emoji
+      type: string
+    status_expiration:
+      description: Status expiration timestamp
+      type: integer
+    status_text:
+      description: User status text
+      type: string
+    text:
+      description: Message text (plain text or markdown)
+      type: string
+    thread_ts:
+      description: Thread timestamp for threaded messages
+      type: string
+    title:
+      description: File title
+      type: string
+    trigger_id:
+      description: Workflow trigger ID
+      type: string
+    ts:
+      description: Message timestamp for update/delete operations
+      type: string
+    types:
+      default: public_channel,private_channel
+      description: Channel types to list
+      type: string
+    user:
+      description: User ID
+      type: string
+    users:
+      description: List of user IDs
+      items:
+        type: string
+      type: array
+  required:
+  - operation
+  type: object
+license: MIT
+name: slack_messaging
+display_name: SlackMessaging
+output_schema:
+  properties:
+    slack_error:
+      description: Error message if operation failed
+      type: string
+    slack_result:
+      description: Operation result data
+      type:
+      - object
+      - 'null'
+    slack_status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      type: string
+  type: object
+owner: PlugPipe Integration Team
+performance:
+  bulk_operations:
+    max_batch_size: 20
+    recommended_batch_size: 10
+  caching:
+    enabled: true
+    ttl: 300
+  rate_limit:
+    tier1_methods_per_minute: 50
+    tier2_methods_per_minute: 20
+    tier3_methods_per_minute: 100
+    tier4_methods_per_minute: 10
+requirements:
+  python:
+  - requests>=2.28.0
+  system: []
+sbom:
+  complete: sbom/slack_messaging-sbom-complete.json
+  summary: sbom/slack_messaging-sbom.json
+security:
+  external_domains:
+  - slack.com
+  - '*.slack.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - bot_token
+  - access_token
+status: stable
+tags:
+- slack
+- messaging
+- team
+- communication
+- workflow
+- notifications
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

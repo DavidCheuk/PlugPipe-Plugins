@@ -1,0 +1,26 @@
+name: oauth2_google
+version: 1.0.0
+description: Enterprise-grade Google OAuth 2.0 authentication with PKCE security and
+  G Suite domain restriction
+author: PlugPipe Auth Team
+category: authentication
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/auth_oauth2_google
+  original_name: auth_oauth2_google
+tags:
+- glue-component
+- authentication
+- oauth2
+- google
+- bridge
+- enterprise
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

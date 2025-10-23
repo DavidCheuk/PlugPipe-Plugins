@@ -1,0 +1,24 @@
+name: cli_parameter_processor
+version: 1.0.0
+description: Universal CLI parameter to JSON converter for enhanced PlugPipe command
+  line experience with intelligent parameter mapping
+author: PlugPipe Core Team
+category: transformation
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/core/cli_parameter_processor
+tags:
+- glue-component
+- transformation
+- cli-processing
+- parameter-conversion
+- user-experience
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

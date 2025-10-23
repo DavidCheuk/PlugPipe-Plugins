@@ -1,0 +1,97 @@
+azure_factory:
+  name: "azure_factory"
+  version: "1.0.0" 
+  owner: "PlugPipe Core Team"
+  type: "plugin"
+  category: "cloud"
+  
+  dependencies:
+    system:
+      - name: "az"
+        version: "latest"
+        type: "tool"
+        required: true
+        description: "Azure CLI"
+    
+    python_builtin:
+      - name: "asyncio"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Asynchronous I/O framework"
+      - name: "subprocess"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Process management utilities"
+      - name: "json"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "JSON serialization library"
+      - name: "logging"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Python logging framework"
+      - name: "uuid"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "UUID generation library"
+      - name: "os"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Operating system interface"
+      - name: "datetime"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Date and time handling"
+      - name: "tempfile"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Temporary file management"
+      - name: "base64"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Base64 encoding/decoding library"
+  
+  capabilities:
+    - "multi_cloud_service"
+    - "resource_management"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_configuration"
+    - "enterprise_features"
+  
+  azure_services:
+    - "virtual_machines"
+    - "storage_accounts"
+    - "azure_sql"
+    - "azure_functions"
+    - "azure_kubernetes_service"
+    - "key_vault"
+    - "cosmos_db"
+    - "service_bus"
+  
+  enterprise_features:
+    - "production_ready"
+    - "multi_region_support"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_best_practices"
+    - "compliance_ready"
+  
+  security_features:
+    - "rbac_integration"
+    - "virtual_networks"
+    - "network_security_groups"
+    - "encryption_at_rest"
+    - "encryption_in_transit"
+    - "activity_logging"

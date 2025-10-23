@@ -1,0 +1,327 @@
+author: PlugPipe Orchestration Team
+category: orchestration
+compatibility:
+  argo_workflows_version: '>=3.3'
+  kubernetes_version: '>=1.20'
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+config_schema:
+  properties:
+    argo_url:
+      description: Argo Workflows server URL
+      examples:
+      - http://argo-server.argo:2746
+      - https://argo-workflows.company.com
+      type: string
+    auth_token:
+      description: Authentication token for Argo server
+      type: string
+    delete_on_completion:
+      default: false
+      description: Delete workflow after successful completion
+      type: boolean
+    kubeconfig:
+      description: Kubeconfig content for cluster access
+      type: string
+    max_retries:
+      default: 3
+      description: Maximum retry attempts for failed workflows
+      maximum: 10
+      minimum: 0
+      type: integer
+    namespace:
+      default: default
+      description: Kubernetes namespace for workflow execution
+      examples:
+      - default
+      - argo-workflows
+      - data-processing
+      type: string
+    poll_interval:
+      default: 5
+      description: Status polling interval in seconds
+      maximum: 300
+      minimum: 1
+      type: integer
+    service_account_token:
+      description: Kubernetes service account token
+      type: string
+    timeout:
+      default: 600
+      description: Maximum workflow execution time in seconds
+      maximum: 14400
+      minimum: 30
+      type: integer
+    verify_ssl:
+      default: true
+      description: Verify SSL certificates for HTTPS connections
+      type: boolean
+  required:
+  - argo_url
+  - namespace
+  type: object
+description: Enterprise Argo Workflows orchestration plugin - submit, monitor, and
+  manage Kubernetes-native workflows with comprehensive lifecycle management and cloud-native
+  integration.
+discoverability: public
+documentation:
+  examples:
+  - config:
+      argo_url: http://argo-server.argo:2746
+      namespace: default
+    description: Run a basic containerized task
+    input:
+      workflow_manifest:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Workflow
+        metadata:
+          generateName: hello-world-
+        spec:
+          entrypoint: hello
+          templates:
+          - container:
+              image: hello-world
+            name: hello
+    name: Simple container execution
+  - description: Complex DAG workflow with dependencies
+    input:
+      workflow_manifest:
+        spec:
+          entrypoint: pipeline
+          templates:
+          - dag:
+              tasks:
+              - name: step1
+                template: process-data
+              - dependencies:
+                - step1
+                name: step2
+                template: validate-data
+            name: pipeline
+    name: Multi-step data pipeline
+  readme: "# Argo Workflows Runner Plugin\n\nEnterprise Kubernetes-native workflow\
+    \ orchestration using Argo Workflows.\nExecute complex containerized workflows\
+    \ with full lifecycle management.\n\n## Features\n- ✅ Kubernetes-native workflow\
+    \ execution\n- ✅ Container-based step execution\n- ✅ DAG and sequential workflow\
+    \ patterns\n- ✅ Artifact management and persistence\n- ✅ Real-time status monitoring\n\
+    - ✅ Resource management and limits\n- ✅ RBAC and security integration\n- ✅ Multi-namespace\
+    \ support\n\n## Usage Examples\n\n### Data Processing Workflow\n```yaml\nsteps:\n\
+    \  - plugin: argo_workflow_runner\n    config:\n      argo_url: \"https://argo-workflows.k8s.company.com\"\
+    \n      namespace: \"data-processing\"\n      auth_token: \"${ARGO_TOKEN}\"\n\
+    \    input:\n      workflow_manifest:\n        apiVersion: argoproj.io/v1alpha1\n\
+    \        kind: Workflow\n        metadata:\n          generateName: data-pipeline-\n\
+    \        spec:\n          entrypoint: main\n          templates:\n          -\
+    \ name: main\n            dag:\n              tasks:\n              - name: extract\n\
+    \                template: extract-data\n              - name: transform\n   \
+    \             template: transform-data\n                dependencies: [extract]\n\
+    \              - name: load\n                template: load-data\n           \
+    \     dependencies: [transform]\n```\n\n### ML Training Pipeline\n```yaml\nsteps:\n\
+    \  - plugin: argo_workflow_runner\n    config:\n      namespace: \"ml-training\"\
+    \n    input:\n      workflow_manifest:\n        apiVersion: argoproj.io/v1alpha1\n\
+    \        kind: Workflow\n        spec:\n          entrypoint: ml-pipeline\n  \
+    \        templates:\n          - name: ml-pipeline\n            steps:\n     \
+    \       - - name: data-prep\n                template: prepare-data\n        \
+    \    - - name: train-model\n                template: train\n            - - name:\
+    \ evaluate\n                template: evaluate-model\n```\n\n### CI/CD Container\
+    \ Build\n```yaml\nsteps:\n  - plugin: argo_workflow_runner\n    input:\n     \
+    \ workflow_manifest:\n        spec:\n          entrypoint: build-pipeline\n  \
+    \        volumes:\n          - name: docker-sock\n            hostPath:\n    \
+    \          path: /var/run/docker.sock\n          templates:\n          - name:\
+    \ build-pipeline\n            container:\n              image: docker:latest\n\
+    \              command: [docker]\n              args: [\"build\", \"-t\", \"myapp:latest\"\
+    , \".\"]\n```\n"
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+health_check:
+  expected_result: success
+  method: argo_connectivity_test
+  timeout: 30
+input_schema:
+  properties:
+    labels:
+      description: Additional labels for workflow
+      type: object
+    parameters:
+      description: Workflow parameters to pass
+      type: object
+    wait_for_completion:
+      default: true
+      description: Wait for workflow completion
+      type: boolean
+    workflow_manifest:
+      description: Complete Argo Workflow manifest
+      properties:
+        apiVersion:
+          default: argoproj.io/v1alpha1
+          type: string
+        kind:
+          default: Workflow
+          type: string
+        metadata:
+          properties:
+            annotations:
+              type: object
+            generateName:
+              type: string
+            labels:
+              type: object
+            name:
+              type: string
+          type: object
+        spec:
+          properties:
+            arguments:
+              type: object
+            entrypoint:
+              type: string
+            serviceAccountName:
+              type: string
+            templates:
+              type: array
+            volumes:
+              type: array
+          type: object
+      required:
+      - spec
+      type: object
+    workflow_name:
+      description: Optional workflow name override
+      type: string
+  required:
+  - workflow_manifest
+  type: object
+license: MIT
+metadata:
+  capabilities:
+  - kubernetes-workflows
+  - container-orchestration
+  - dag-execution
+  - artifact-management
+  - resource-management
+  - status-monitoring
+  category: orchestration
+  dependencies:
+    optional:
+    - kubectl
+    - docker
+    required:
+    - argo-workflows
+    - kubernetes
+  domain: kubernetes-native-workflows
+  use_cases:
+  - Container-based data processing pipelines
+  - ML/AI training and inference workflows
+  - CI/CD build and deployment pipelines
+  - Batch job orchestration
+  - Scientific computing workflows
+  - ETL and data transformation
+name: argo_workflow_runner
+display_name: ArgoWorkflowRunner
+output_schema:
+  properties:
+    error:
+      description: Error message if workflow failed
+      type: string
+    logs_url:
+      description: URL to workflow execution logs
+      type: string
+    phase:
+      description: Final workflow execution phase
+      enum:
+      - Pending
+      - Running
+      - Succeeded
+      - Failed
+      - Error
+      - Skipped
+      type: string
+    result:
+      description: Detailed workflow results and metadata
+      properties:
+        artifacts:
+          description: Generated artifacts
+          type: array
+        completion_time:
+          description: Workflow completion timestamp
+          type: string
+        creation_time:
+          description: Workflow creation timestamp
+          type: string
+        duration:
+          description: Workflow execution duration
+          type: string
+        nodes:
+          description: Individual step execution details
+          type: object
+        parameters:
+          description: Workflow parameters used
+          type: object
+        resource_usage:
+          description: CPU and memory usage statistics
+          type: object
+        start_time:
+          description: Workflow start timestamp
+          type: string
+      type: object
+    success:
+      description: Whether workflow executed successfully
+      type: boolean
+    workflow_name:
+      description: Executed workflow name
+      type: string
+  required:
+  - workflow_name
+  - phase
+  - success
+  type: object
+owner: PlugPipe Orchestration Team
+performance:
+  average_execution_time: 30 seconds - 4 hours (depends on workflow complexity)
+  memory_usage: 20-100 MB
+  network_usage: Medium (Kubernetes API calls)
+  scalability: Scales with Kubernetes cluster resources
+requirements:
+  python:
+  - requests>=2.28.0
+  - kubernetes>=24.0.0
+  - pyyaml>=6.0
+  system:
+  - kubectl
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  external_domains:
+  - '*.argoproj.io'
+  - kubernetes-apiserver
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - auth_token
+  - service_account_token
+  - kubeconfig
+status: stable
+tags:
+- workflow
+- argo-workflows
+- kubernetes
+- orchestration
+- cloud-native
+- container-workflows
+- ci-cd
+- batch-processing
+- data-engineering
+- mlops
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

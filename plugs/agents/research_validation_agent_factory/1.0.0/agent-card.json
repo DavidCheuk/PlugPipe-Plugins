@@ -1,0 +1,48 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:agent_factory:research_validation_agent_factory",
+    "name": "Research Validation Agent Factory Agent",
+    "description": "Research Validation Agent Factory - Creates specialized research validation agents using selective reuse architecture for academic and scientific research validation with 90%+ accuracy",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/research_validation_agent_factory",
+    "skills": [
+      {
+        "id": "research_validation_agent_factory-primary",
+        "name": "Research Validation Agent Factory",
+        "description": "Research Validation Agent Factory - Creates specialized research validation agents using selective reuse architecture for academic and scientific research validation with 90%+ accuracy",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "research_validation_agent_factory",
+        "category": "agent_factory",
+        "subcategory": "",
+        "tags": [
+          "research",
+          "validation",
+          "academic",
+          "scientific",
+          "methodology",
+          "peer_review",
+          "data_integrity",
+          "statistical_analysis",
+          "reproducibility",
+          "academic_fraud",
+          "journal_credibility",
+          "selective_reuse"
+        ],
+        "author": "PlugPipe Agent Factory Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.253710Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

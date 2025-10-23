@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:legal:universal_disclaimer",
+    "name": "Universal Disclaimer Agent",
+    "description": "Universal legal disclaimer plugin for all PlugPipe interfaces (CLI, API, MCP, Frontend) with user acknowledgment tracking",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/universal_disclaimer",
+    "skills": [
+      {
+        "id": "universal_disclaimer-primary",
+        "name": "Universal Disclaimer",
+        "description": "Universal legal disclaimer plugin for all PlugPipe interfaces (CLI, API, MCP, Frontend) with user acknowledgment tracking",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "universal_disclaimer",
+        "category": "legal",
+        "subcategory": "",
+        "tags": [
+          "legal",
+          "disclaimer",
+          "liability",
+          "risk-management",
+          "compliance",
+          "user-acknowledgment"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.572726Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

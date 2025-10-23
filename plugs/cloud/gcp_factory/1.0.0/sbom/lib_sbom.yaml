@@ -1,0 +1,102 @@
+gcp_factory:
+  name: "gcp_factory"
+  version: "1.0.0" 
+  owner: "PlugPipe Core Team"
+  type: "plugin"
+  category: "cloud"
+  
+  dependencies:
+    system:
+      - name: "gcloud"
+        version: "latest"
+        type: "tool"
+        required: true
+        description: "Google Cloud CLI"
+      - name: "gsutil"
+        version: "latest"
+        type: "tool"
+        required: true
+        description: "Google Cloud Storage CLI tool"
+    
+    python_builtin:
+      - name: "asyncio"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Asynchronous I/O framework"
+      - name: "subprocess"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Process management utilities"
+      - name: "json"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "JSON serialization library"
+      - name: "logging"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Python logging framework"
+      - name: "uuid"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "UUID generation library"
+      - name: "os"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Operating system interface"
+      - name: "datetime"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Date and time handling"
+      - name: "tempfile"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Temporary file management"
+      - name: "base64"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Base64 encoding/decoding library"
+  
+  capabilities:
+    - "multi_cloud_service"
+    - "resource_management"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_configuration"
+    - "enterprise_features"
+  
+  gcp_services:
+    - "compute_engine"
+    - "cloud_storage"
+    - "bigquery"
+    - "cloud_functions"
+    - "google_kubernetes_engine"
+    - "cloud_sql"
+    - "cloud_pubsub"
+    - "identity_access_management"
+  
+  enterprise_features:
+    - "production_ready"
+    - "multi_region_support"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_best_practices"
+    - "compliance_ready"
+  
+  security_features:
+    - "iam_integration"
+    - "vpc_networking"
+    - "firewall_rules"
+    - "encryption_at_rest"
+    - "encryption_in_transit"
+    - "audit_logging"

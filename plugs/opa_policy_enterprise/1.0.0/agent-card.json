@@ -1,0 +1,47 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:opa_policy_enterprise",
+    "name": "Opa Policy Enterprise Agent",
+    "description": "Enterprise-grade Open Policy Agent integration with ecosystem monitoring, advanced multi-tenancy, security, and compliance features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/opa_policy_enterprise",
+    "skills": [
+      {
+        "id": "opa_policy_enterprise-primary",
+        "name": "Opa Policy Enterprise",
+        "description": "Enterprise-grade Open Policy Agent integration with ecosystem monitoring, advanced multi-tenancy, security, and compliance features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "opa_policy_enterprise",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "policy",
+          "authorization",
+          "opa",
+          "enterprise",
+          "multi-tenant",
+          "compliance",
+          "ecosystem",
+          "monitoring",
+          "health",
+          "change-management"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.937699Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

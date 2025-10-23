@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:cloudformation",
+    "name": "Cloudformation Agent",
+    "description": "AWS CloudFormation Infrastructure as Code plugin for stack management, template validation, changeset operations, drift detection, and comprehensive deployment automation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/cloudformation",
+    "skills": [
+      {
+        "id": "cloudformation-primary",
+        "name": "Cloudformation",
+        "description": "AWS CloudFormation Infrastructure as Code plugin for stack management, template validation, changeset operations, drift detection, and comprehensive deployment automation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "cloudformation",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "aws",
+          "cloudformation",
+          "infrastructure",
+          "iac",
+          "deployment",
+          "stack",
+          "devops",
+          "automation"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.300060Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

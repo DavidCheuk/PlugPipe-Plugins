@@ -1,0 +1,218 @@
+# PlugPipe AI Resource Governance Configuration
+# Centralized control for all AI consumption across the ecosystem
+
+# -----------------------------------------------------------------
+# AI RESOURCE GOVERNANCE - CENTRALIZED CONTROLS
+# -----------------------------------------------------------------
+ai_governance:
+  enabled: true
+  mode: "enforcing"  # "permissive", "enforcing", "emergency_stop"
+  
+  # Global AI Budget Controls
+  global_budget:
+    daily_limit_usd: 100.00       # Maximum daily AI spend across ALL plugins
+    monthly_limit_usd: 2000.00    # Maximum monthly AI spend
+    emergency_threshold_usd: 50.00 # Emergency stop threshold
+    currency: "USD"
+    reset_time: "00:00"           # Daily reset time (UTC)
+    
+  # Budget Alert Thresholds
+  alert_thresholds:
+    warning_percent: 80           # Send warning at 80% of budget
+    critical_percent: 95          # Send critical alert at 95%
+    emergency_stop_percent: 100   # Emergency stop at 100%
+    
+  # Per-Plugin Quota Management
+  plugin_quotas:
+    # High-Risk Plugins (Continuous/Automated AI Usage)
+    "mix_and_match_llm_function":
+      daily_tokens: 50000         # Max tokens per day
+      daily_requests: 100         # Max API calls per day  
+      daily_cost_usd: 10.00       # Max cost per day
+      priority: "medium"          # low, medium, high, critical
+      
+    "intelligent_test_agent":
+      daily_tokens: 30000
+      daily_requests: 200
+      daily_cost_usd: 8.00
+      priority: "low"             # Lower priority for automated testing
+      
+    "plugin_creation_orchestrator":
+      daily_tokens: 40000
+      daily_requests: 50
+      daily_cost_usd: 12.00
+      priority: "high"
+      
+    # Medium-Risk Plugins (On-Demand AI Usage)
+    "api2mcp_factory":
+      daily_tokens: 20000
+      daily_requests: 30
+      daily_cost_usd: 6.00
+      priority: "medium"
+      
+    "codebase_auto_fixer":
+      daily_tokens: 25000
+      daily_requests: 40
+      daily_cost_usd: 7.00
+      priority: "medium"
+      
+    "business_compliance_auditor":
+      daily_tokens: 15000
+      daily_requests: 20
+      daily_cost_usd: 5.00
+      priority: "high"           # Business critical
+      
+    # Default quotas for unlisted plugins
+    "_default":
+      daily_tokens: 5000
+      daily_requests: 10
+      daily_cost_usd: 2.00
+      priority: "low"
+      
+  # User-Level Quotas
+  user_quotas:
+    enabled: true
+    default_user:
+      daily_tokens: 10000
+      daily_requests: 50
+      daily_cost_usd: 3.00
+    admin_user:
+      daily_tokens: 100000       # Higher limits for admins
+      daily_requests: 500
+      daily_cost_usd: 30.00
+      
+  # Time-Based Controls
+  time_controls:
+    enabled: true
+    business_hours_only: false    # Restrict AI usage to business hours
+    business_hours: "09:00-17:00" # UTC business hours
+    weekend_restrictions: false   # Restrict usage on weekends
+    rate_limit_window: 3600      # Rate limit window in seconds (1 hour)
+    
+  # Cost Chain Monitoring
+  chain_monitoring:
+    enabled: true
+    max_chain_depth: 3           # Max AI plugin → AI plugin calls
+    max_chain_cost_usd: 20.00    # Max cost for entire chain
+    track_cascading_calls: true   # Track plugin-to-plugin AI calls
+    
+  # Provider-Level Controls
+  provider_controls:
+    openai:
+      enabled: true
+      max_tokens_per_request: 4000
+      max_cost_per_request_usd: 0.50
+      timeout_seconds: 60
+      
+    anthropic:
+      enabled: true  
+      max_tokens_per_request: 4000
+      max_cost_per_request_usd: 0.60
+      timeout_seconds: 60
+      
+    ollama:
+      enabled: true
+      max_tokens_per_request: 8000
+      max_cost_per_request_usd: 0.00  # Local model, no API cost
+      timeout_seconds: 120
+      
+  # Emergency Controls
+  emergency_controls:
+    auto_stop_on_budget_exceeded: true
+    grace_period_minutes: 15     # Grace period before hard stop
+    emergency_contact: "admin@company.com"
+    fallback_to_local_models: true # Fall back to Ollama when budget exceeded
+    
+  # Audit and Compliance
+  audit:
+    enabled: true
+    log_all_ai_calls: true       # Log every AI API call for audit
+    retention_days: 90           # Keep audit logs for 90 days
+    compliance_reporting: true   # Generate compliance reports
+    export_format: "json"        # json, csv, xlsx
+    
+# -----------------------------------------------------------------
+# AI PROVIDER PRIORITY AND ROUTING
+# -----------------------------------------------------------------
+ai_routing:
+  # Cost-Optimized Routing Strategy
+  routing_strategy: "cost_optimized"  # cost_optimized, performance_optimized, balanced
+  
+  # Provider Priority (1=highest, 5=lowest)
+  provider_priority:
+    ollama: 1                    # Prefer local models for cost
+    openai: 2                    # Secondary choice
+    anthropic: 3                 # Tertiary choice
+    
+  # Automatic Fallback Rules
+  fallback_rules:
+    on_budget_exceeded: "ollama" # Fall back to local models
+    on_rate_limit: "next_provider" # Try next provider
+    on_error: "retry_with_backoff"
+    
+# -----------------------------------------------------------------
+# INTEGRATION WITH EXISTING PLUGINS
+# -----------------------------------------------------------------
+ai_plugin_integration:
+  # Budget Aware Rate Limiter Integration
+  budget_aware_rate_limiter:
+    enabled: true
+    sync_with_global_budget: true
+    override_plugin_settings: true
+    
+  # LLM Priority Manager Integration  
+  intelligent_llm_priority_manager:
+    enabled: true
+    use_global_priorities: true
+    dynamic_priority_adjustment: true
+    
+  # Cost Estimator Integration
+  llm_cost_estimator:
+    enabled: true
+    real_time_tracking: true
+    predictive_alerts: true
+    
+  # LLM Service Integration
+  llm_service:
+    enabled: true
+    route_through_governance: true
+    enforce_quotas: true
+
+# -----------------------------------------------------------------
+# MONITORING AND ALERTING
+# -----------------------------------------------------------------
+ai_monitoring:
+  # Metrics Collection
+  metrics:
+    enabled: true
+    collection_interval_seconds: 300  # Collect metrics every 5 minutes
+    retention_hours: 168             # Keep metrics for 1 week
+    
+  # Real-time Dashboards
+  dashboard:
+    enabled: true
+    refresh_interval_seconds: 30
+    show_cost_trends: true
+    show_plugin_usage: true
+    show_user_usage: true
+    
+  # Alert Channels
+  alerts:
+    email:
+      enabled: true
+      recipients: ["admin@company.com"]
+    slack:
+      enabled: false
+      webhook_url: ""
+    webhook:
+      enabled: false
+      url: ""
+      
+  # Alert Types
+  alert_types:
+    budget_warning: true         # 80% budget threshold
+    budget_critical: true       # 95% budget threshold
+    quota_exceeded: true         # Individual plugin quota exceeded
+    cost_chain_anomaly: true    # Unusual AI call chains detected
+    rate_limit_hit: true        # Rate limits exceeded
+    provider_error: true        # AI provider errors

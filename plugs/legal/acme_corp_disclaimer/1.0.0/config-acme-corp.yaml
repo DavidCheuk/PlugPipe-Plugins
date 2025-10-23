@@ -1,0 +1,62 @@
+# ACME Corporation PlugPipe Configuration
+# Enterprise deployment with company-specific legal disclaimers
+
+# Company Information
+enterprise:
+  company: "ACME Corporation"
+  legal_entity: "ACME Corp Inc."
+  deployment_type: "enterprise"
+
+# Legal Disclaimer Configuration
+legal:
+  disclaimer_plugin: "legal.acme_corp_disclaimer"  # Use company-specific disclaimer
+  require_acceptance: true
+  acceptance_expiry_days: 90  # More frequent re-acceptance for enterprise
+  audit_trail: true
+  legal_contact: "legal@acmecorp.com"
+
+# Registry Configuration
+registry:
+  backend: database_factory
+  # Private company registry with approved plugins only
+  sources:
+    - type: "internal"
+      name: "ACME Corp Private Registry"
+      url: "https://plugpipe.acmecorp.com/registry"
+      auth_required: true
+    - type: "curated_public"
+      name: "ACME Approved Public Plugins"
+      whitelist_only: true
+
+# Security Configuration - Enterprise Hardened
+security:
+  network:
+    default_host: "127.0.0.1"  # Internal only
+    require_explicit_public_binding: true
+  
+  plugins:
+    signature_verification: "required"
+    allow_unsigned: false
+    approval_required: true
+    security_scan_required: true
+  
+  audit:
+    log_all_actions: true
+    disclaimer_acceptance_tracking: true
+    plugin_usage_monitoring: true
+
+# LLM Configuration - Enterprise Provider
+llm_provider:
+  default:
+    type: "azure_openai"  # Enterprise provider
+    endpoint: "https://acme-openai.openai.azure.com/"
+    model: "gpt-4-acme"
+    api_key_env: "ACME_AZURE_OPENAI_KEY"
+    timeout: 60
+
+# Compliance Settings
+compliance:
+  sox_compliance: true
+  gdpr_compliance: true
+  data_classification_required: true
+  retention_policy_enforced: true

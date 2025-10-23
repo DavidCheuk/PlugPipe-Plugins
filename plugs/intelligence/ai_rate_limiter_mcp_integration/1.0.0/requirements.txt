@@ -1,0 +1,6 @@
+# AI Rate Limiter MCP Integration Plugin Requirements
+# MCP Protocol integration for AI rate limiting with cost controls
+#
+# External dependencies:
+aioredis>=2.0.0  # Redis async client for distributed rate limiting
+fastapi>=0.104.0  # FastAPI framework for MCP server endpoints

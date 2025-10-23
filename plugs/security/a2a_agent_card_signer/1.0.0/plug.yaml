@@ -1,0 +1,178 @@
+name: a2a_agent_card_signer
+display_name: A2AAgentCardSigner
+version: 1.0.0
+description: Cryptographic signer for A2A protocol agent cards using JWS (JSON Web
+  Signatures)
+category: security
+subcategory: cryptography
+author: PlugPipe Security Team
+license: MIT
+entry_point: main.py
+external_dependencies:
+- name: cryptography
+  version: '>=42.0.0'
+  install_command: pip install cryptography
+  purpose: Used by UniversalSignatureEngine for cryptographic operations
+parameters:
+- name: operation
+  type: string
+  required: true
+  description: Operation to perform (sign, verify, generate_keypair, export_public_key)
+  allowed_values:
+  - sign
+  - verify
+  - generate_keypair
+  - export_public_key
+- name: agent_card_path
+  type: string
+  required: false
+  description: Path to agent-card.json file (required for sign/verify operations)
+- name: agent_card_data
+  type: object
+  required: false
+  description: Agent card data as JSON object (alternative to agent_card_path)
+- name: algorithm
+  type: string
+  required: false
+  default: ES256
+  description: JWS signature algorithm (ES256, RS256)
+  allowed_values:
+  - ES256
+  - RS256
+  - ES384
+  - RS384
+  - ES512
+  - RS512
+- name: private_key_path
+  type: string
+  required: false
+  description: Path to private key file (PEM format) for signing
+- name: public_key_path
+  type: string
+  required: false
+  description: Path to public key file (PEM format) for verification
+- name: key_storage
+  type: string
+  required: false
+  default: filesystem
+  description: Key storage backend (filesystem, vault, env)
+  allowed_values:
+  - filesystem
+  - vault
+  - env
+- name: output_path
+  type: string
+  required: false
+  description: Path to save signed agent card or generated keys
+- name: signature_data
+  type: object
+  required: false
+  description: JWS signature object for verification (protected, signature fields)
+- name: verify_signature
+  type: boolean
+  required: false
+  default: true
+  description: Verify signature when loading agent cards
+tags:
+- a2a
+- jws
+- json-web-signature
+- agent-card
+- cryptography
+- rfc7515
+- signing
+- verification
+- es256
+- rs256
+supports_mcp: true
+mcp_tools:
+- name: sign_agent_card
+  description: Sign an A2A agent card with JWS cryptographic signature
+  input_schema:
+    type: object
+    properties:
+      agent_card:
+        type: object
+        description: Agent card JSON data
+      algorithm:
+        type: string
+        enum:
+        - ES256
+        - RS256
+        - ES384
+        - RS384
+        description: Signature algorithm
+    required:
+    - agent_card
+- name: verify_agent_card_signature
+  description: Verify JWS signature on an A2A agent card
+  input_schema:
+    type: object
+    properties:
+      agent_card:
+        type: object
+        description: Agent card with signature field
+      public_key_url:
+        type: string
+        description: URL to fetch public key (JWKS)
+    required:
+    - agent_card
+- name: generate_signing_keypair
+  description: Generate new keypair for agent card signing
+  input_schema:
+    type: object
+    properties:
+      algorithm:
+        type: string
+        enum:
+        - ES256
+        - RS256
+        description: Algorithm for key generation
+      output_path:
+        type: string
+        description: Path to save keys
+    required:
+    - algorithm
+usage_examples:
+- description: Sign an agent card with ES256 (ECDSA P-256)
+  command: ./pp run a2a_agent_card_signer --operation sign --agent_card_path agent-card.json
+    --algorithm ES256 --output_path signed-agent-card.json
+- description: Verify agent card signature
+  command: ./pp run a2a_agent_card_signer --operation verify --agent_card_path signed-agent-card.json
+    --public_key_path public-key.pem
+- description: Generate new ES256 keypair
+  command: ./pp run a2a_agent_card_signer --operation generate_keypair --algorithm
+    ES256 --output_path /secure/keys/
+- description: Export public key in JWKS format
+  command: ./pp run a2a_agent_card_signer --operation export_public_key --public_key_path
+    public-key.pem --output_path jwks.json
+discovery:
+  visibility: public
+  searchable_by:
+  - a2a protocol
+  - agent card signing
+  - jws verification
+  - cryptographic signatures
+  - rfc 7515
+metadata:
+  compliance:
+  - RFC 7515 (JSON Web Signature)
+  - RFC 7517 (JSON Web Key)
+  - RFC 7518 (JSON Web Algorithms)
+  - A2A Protocol Specification v1.0
+  security_features:
+  - cryptographic_signing
+  - integrity_verification
+  - tampering_detection
+  - public_key_infrastructure
+  integration:
+  - a2a_adapter
+  - certificate_factory
+  - vault_certificate_manager
+  - enterprise_token_manager
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

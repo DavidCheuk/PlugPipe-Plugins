@@ -1,0 +1,47 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:unified_attack_database",
+    "name": "Unified Attack Database Agent",
+    "description": "Unified enterprise attack database combining format-aware protocol wrappers with comprehensive attack patterns - GitHub API integration, AI pattern generation, and persistent SQLite storage",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/unified_attack_database",
+    "skills": [
+      {
+        "id": "unified_attack_database-primary",
+        "name": "Unified Attack Database",
+        "description": "Unified enterprise attack database combining format-aware protocol wrappers with comprehensive attack patterns - GitHub API integration, AI pattern generation, and persistent SQLite storage",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "unified_attack_database",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "attack-database",
+          "mcp",
+          "protocol-aware",
+          "persistent",
+          "sqlite",
+          "mcp-guardian",
+          "test-framework",
+          "enterprise",
+          "github-integration",
+          "ai-powered"
+        ],
+        "author": "PlugPipe Security",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.077083Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,187 @@
+name: elk_ilm_manager
+display_name: ELKIlmManager
+version: 1.0.0
+description: Programmatic Index Lifecycle Management (ILM) for Elasticsearch indices.
+  Create, apply, and manage retention policies for PlugPipe audit and security indices.
+author: PlugPipe Team
+owner: PlugPipe Infrastructure Team
+status: planned
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: infrastructure
+  category: management
+  capabilities:
+  - ilm_policy_management
+  - index_retention
+  - rollover_management
+  memory_mb: 128
+  notes: Specialized plugin for Elasticsearch ILM operations. Part of ELK plugin ecosystem.
+tags:
+- elasticsearch
+- ilm
+- lifecycle
+- retention
+- infrastructure
+config_schema:
+  type: object
+  properties:
+    elasticsearch_url:
+      type: string
+      description: Elasticsearch cluster URL
+      default: http://localhost:9200
+    username:
+      type: string
+      description: Authentication username
+    password:
+      type: string
+      description: Authentication password
+    verify_ssl:
+      type: boolean
+      description: Verify SSL certificates
+      default: true
+    timeout:
+      type: integer
+      description: Request timeout in seconds
+      default: 30
+config_defaults:
+  elasticsearch_url: http://localhost:9200
+  verify_ssl: true
+  timeout: 30
+input_schema:
+  type: object
+  required:
+  - operation
+  properties:
+    operation:
+      type: string
+      description: ILM operation to perform
+      enum:
+      - create_policy
+      - apply_policy
+      - get_policy_status
+      - force_rollover
+      - update_retention
+      - delete_policy
+      - list_policies
+    policy_config:
+      type: object
+      description: ILM policy configuration
+      properties:
+        policy_name:
+          type: string
+          description: Name of the ILM policy
+        hot_phase:
+          type: object
+          properties:
+            rollover_max_age:
+              type: string
+              description: Max age before rollover (e.g., "1d", "7d")
+              default: 1d
+            rollover_max_size:
+              type: string
+              description: Max size before rollover (e.g., "50gb")
+              default: 50gb
+            priority:
+              type: integer
+              description: Index priority for recovery
+              default: 100
+        warm_phase:
+          type: object
+          properties:
+            min_age:
+              type: string
+              description: Time after rollover to move to warm
+              default: 7d
+            shrink_shards:
+              type: integer
+              description: Number of shards to shrink to
+              default: 1
+            force_merge_segments:
+              type: integer
+              description: Number of segments to force merge to
+              default: 1
+        delete_phase:
+          type: object
+          properties:
+            min_age:
+              type: string
+              description: Time after rollover to delete
+              default: 90d
+    apply_config:
+      type: object
+      description: Configuration for applying policies
+      properties:
+        index_pattern:
+          type: string
+          description: Index pattern to apply policy to
+        policy_name:
+          type: string
+          description: Policy to apply
+        rollover_alias:
+          type: string
+          description: Alias for rollover indices
+    rollover_config:
+      type: object
+      description: Manual rollover configuration
+      properties:
+        alias_name:
+          type: string
+          description: Alias to rollover
+    retention_update:
+      type: object
+      description: Update retention period
+      properties:
+        policy_name:
+          type: string
+          description: Policy to update
+        delete_after:
+          type: string
+          description: New delete age (e.g., "90d", "180d")
+output_schema:
+  type: object
+  required:
+  - success
+  properties:
+    success:
+      type: boolean
+      description: Whether operation succeeded
+    message:
+      type: string
+      description: Result message
+    policy_id:
+      type: string
+      description: Policy ID for create operations
+    policies:
+      type: array
+      description: List of policies or policy statuses
+    indices_affected:
+      type: array
+      description: Indices affected by operation
+    rollover_result:
+      type: object
+      description: Rollover operation results
+      properties:
+        old_index:
+          type: string
+        new_index:
+          type: string
+        rolled_over:
+          type: boolean
+    error:
+      type: string
+      description: Error message if failed
+external_dependencies:
+- name: elasticsearch
+  version: '>=8.0.0'
+  purpose: Elasticsearch client for ILM API operations
+- name: requests
+  version: '>=2.25.0'
+  purpose: HTTP client for REST API calls
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

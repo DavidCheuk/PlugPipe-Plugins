@@ -1,0 +1,26 @@
+name: universal_security_interface
+version: 1.0.0
+description: Universal Security Plugin Interface Standard for PlugPipe with MCP Guardian
+  enterprise integration
+author: PlugPipe Security Team
+category: interface
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/security/universal_security_interface
+  type: interface_standard
+tags:
+- glue-component
+- interface
+- security
+- standardization
+- mcp-guardian
+- enterprise
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

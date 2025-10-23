@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:wrapper_fix_test_api",
+    "name": "Wrapper Fix Test Api Agent",
+    "description": "Auto-generated plugin for wrapper_fix_test API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/wrapper_fix_test_api",
+    "skills": [
+      {
+        "id": "wrapper_fix_test_api-primary",
+        "name": "Wrapper Fix Test Api",
+        "description": "Auto-generated plugin for wrapper_fix_test API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "wrapper_fix_test_api",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "wrapper_fix_test_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.709754Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

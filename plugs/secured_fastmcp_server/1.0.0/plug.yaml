@@ -1,0 +1,270 @@
+author: PlugPipe Team
+category: mcp_security
+description: Enterprise-grade secured FastMCP Server with authentication, encryption,
+  and audit logging
+discoverability: public
+documentation:
+  authentication: "# Login to get JWT token\nPOST /auth/login\n{\n  \"username\":\
+    \ \"user\",\n  \"password\": \"password\"\n}\n\n# Use token in subsequent requests\n\
+    Authorization: Bearer <jwt_token>\n\n# User roles and permissions:\n- admin: Full\
+    \ access (mcp:*)\n- user: Limited access (mcp:tools:*, mcp:resources:read, mcp:prompts:*)\n\
+    - readonly: Read-only access (mcp:tools:list, mcp:resources:read, mcp:prompts:list)\n"
+  description: 'Secured FastMCP Server Plug provides enterprise-grade security features
+
+    on top of the complete Model Context Protocol implementation. This server
+
+    is designed for production deployments requiring authentication, encryption,
+
+    audit logging, and role-based access control.
+
+
+    Security Features:
+
+    - TLS/SSL transport encryption
+
+    - JWT-based authentication and authorization
+
+    - Request/response signing for integrity protection
+
+    - Data encryption with Fernet (AES)
+
+    - Rate limiting with Redis backend
+
+    - Comprehensive audit logging
+
+    - Role-based access control (RBAC)
+
+    - Anti-replay protection
+
+    - CORS and host validation
+
+    '
+  endpoints: 'POST /auth/login           - Authenticate and get JWT token
+
+    POST /mcp/initialize       - Initialize secure MCP session
+
+    POST /mcp/tools/list       - List tools (permission filtered)
+
+    POST /mcp/tools/call       - Execute tools (permission checked)
+
+    POST /mcp/resources/list   - List resources (permission filtered)
+
+    POST /mcp/resources/read   - Read resources (permission checked)
+
+    POST /mcp/prompts/list     - List prompts (permission filtered)
+
+    POST /mcp/prompts/get      - Get prompts (permission checked)
+
+    GET  /security/health      - Security health check
+
+    '
+  examples:
+  - input:
+      enable_audit_logging: true
+      enable_auth: true
+      enable_encryption: true
+      jwt_secret: production-secret
+    name: Start secure MCP server
+    output:
+      secured_fastmcp_server:
+        security_features:
+          audit_logging: true
+          authentication: true
+          encryption: true
+        status: started
+  - input:
+      cert_file: /etc/ssl/certs/mcp.crt
+      enable_auth: true
+      enable_rate_limiting: true
+      enable_tls: true
+      key_file: /etc/ssl/private/mcp.key
+      redis_url: redis://redis-cluster:6379
+    name: Enterprise deployment with TLS
+    output:
+      secured_fastmcp_server:
+        endpoints:
+          login: https://localhost:8003/auth/login
+        status: started
+  security_architecture: 'Multi-layered Security:
+
+    1. Transport Security: TLS 1.3 encryption
+
+    2. Authentication: JWT tokens with configurable expiry
+
+    3. Authorization: Role-based permissions (admin, user, readonly)
+
+    4. Data Protection: Fernet encryption for sensitive data
+
+    5. Integrity: HMAC-SHA256 request/response signing
+
+    6. Rate Limiting: Redis-based client throttling
+
+    7. Audit Trail: Comprehensive security event logging
+
+    8. Attack Prevention: Anti-replay, input sanitization
+
+    '
+  usage: "# Basic secure configuration\ncontext = {\n  \"enable_auth\": true,\n  \"\
+    enable_encryption\": true,\n  \"jwt_secret\": \"your-production-secret-key\",\n\
+    \  \"enable_audit_logging\": true\n}\n\n# Enterprise configuration with TLS\n\
+    context = {\n  \"enable_tls\": true,\n  \"cert_file\": \"/path/to/cert.pem\",\n\
+    \  \"key_file\": \"/path/to/key.pem\",\n  \"enable_auth\": true,\n  \"enable_encryption\"\
+    : true,\n  \"enable_rate_limiting\": true,\n  \"redis_url\": \"redis://localhost:6379\"\
+    ,\n  \"rbac_enabled\": true\n}\n"
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - pydantic
+  - uvicorn
+  - fastapi
+  requirements_file: requirements.txt
+input_context:
+  properties:
+    allowed_hosts:
+      description: Allowed host names
+      items:
+        type: string
+      type: array
+    audit_log_file:
+      default: mcp_audit.log
+      description: Audit log file path
+      type: string
+    ca_file:
+      description: Certificate Authority file path
+      type: string
+    cert_file:
+      description: TLS certificate file path
+      type: string
+    cors_origins:
+      description: CORS allowed origins
+      items:
+        type: string
+      type: array
+    enable_audit_logging:
+      default: true
+      description: Enable comprehensive audit logging
+      type: boolean
+    enable_auth:
+      default: true
+      description: Enable JWT authentication
+      type: boolean
+    enable_encryption:
+      default: true
+      description: Enable data encryption
+      type: boolean
+    enable_rate_limiting:
+      default: true
+      description: Enable rate limiting
+      type: boolean
+    enable_tls:
+      default: true
+      description: Enable TLS/SSL encryption
+      type: boolean
+    encryption_key:
+      description: Encryption key for data protection
+      type: string
+    jwt_expiry_hours:
+      default: 24
+      description: JWT token expiry in hours
+      type: integer
+    jwt_secret:
+      default: change-in-production
+      description: JWT signing secret
+      type: string
+    key_file:
+      description: TLS private key file path
+      type: string
+    rate_limit_per_minute:
+      default: 100
+      description: Rate limit per minute per client
+      type: integer
+    rbac_enabled:
+      default: true
+      description: Enable role-based access control
+      type: boolean
+    redis_url:
+      description: Redis URL for rate limiting
+      type: string
+    start_server:
+      default: true
+      description: Whether to start the server immediately
+      type: boolean
+  type: object
+input_schema:
+  properties: {}
+  type: object
+license: MIT
+name: secured_fastmcp_server
+display_name: SecuredFastmcpServer
+output_context:
+  properties:
+    secured_fastmcp_server:
+      properties:
+        endpoints:
+          description: Available secure MCP endpoints
+          type: object
+        error:
+          description: Error message if status is error
+          type: string
+        prompts_count:
+          type: integer
+        resources_count:
+          type: integer
+        security_features:
+          properties:
+            audit_logging:
+              type: boolean
+            authentication:
+              type: boolean
+            encryption:
+              type: boolean
+            rate_limiting:
+              type: boolean
+            rbac:
+              type: boolean
+            tls_enabled:
+              type: boolean
+          type: object
+        status:
+          enum:
+          - started
+          - configured
+          - error
+          type: string
+        tools_count:
+          type: integer
+      type: object
+  type: object
+output_schema:
+  properties: {}
+  type: object
+owner: plugpipe-team
+requirements:
+- fastapi>=0.100.0
+- uvicorn>=0.22.0
+- pydantic>=2.0.0
+- pyjwt>=2.8.0
+- cryptography>=41.0.0
+- redis>=4.5.0
+- passlib>=1.7.4
+- bcrypt>=4.0.0
+sbom:
+  complete: sbom/sbom-complete.json
+  summary: sbom/sbom.json
+status: stable
+tags:
+- mcp
+- server
+- security
+- authentication
+- encryption
+- audit
+- enterprise
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

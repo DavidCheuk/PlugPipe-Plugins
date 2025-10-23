@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:generic_fastapi_server-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:39:50.169119Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "generic_fastapi_server@1.0.0",
+      "name": "generic_fastapi_server",
+      "version": "1.0.0",
+      "description": "Universal FastAPI server plugin for custom REST/GraphQL API hosting with dynamic endpoint registration and plugin orchestration routing"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

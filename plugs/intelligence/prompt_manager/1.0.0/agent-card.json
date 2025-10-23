@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:intelligence:prompt_manager",
+    "name": "Prompt Manager Agent",
+    "description": "Enterprise-grade prompt engineering and management system with comprehensive governance, versioning, analytics, and LLM service integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/prompt_manager",
+    "skills": [
+      {
+        "id": "prompt_manager-primary",
+        "name": "Prompt Manager",
+        "description": "Enterprise-grade prompt engineering and management system with comprehensive governance, versioning, analytics, and LLM service integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "prompt_manager",
+        "category": "intelligence",
+        "subcategory": "",
+        "tags": [
+          "prompts",
+          "templates",
+          "llm",
+          "management",
+          "analytics",
+          "governance",
+          "optimization",
+          "enterprise"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.308079Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

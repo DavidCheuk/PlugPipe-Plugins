@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:MCP:fastmcp_client",
+    "name": "Fastmcp Client Agent",
+    "description": "Enhanced FastMCP Client with OAuth 2.1 Authentication Support",
+    "version": "1.1.0",
+    "serviceUrl": "http://localhost:8000/a2a/fastmcp_client",
+    "skills": [
+      {
+        "id": "fastmcp_client-primary",
+        "name": "Fastmcp Client",
+        "description": "Enhanced FastMCP Client with OAuth 2.1 Authentication Support",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "fastmcp_client",
+        "category": "MCP",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "client",
+          "protocol",
+          "oauth2.1",
+          "authentication",
+          "security"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:33.711116Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

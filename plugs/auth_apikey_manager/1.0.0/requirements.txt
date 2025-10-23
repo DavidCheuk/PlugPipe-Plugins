@@ -1,0 +1,4 @@
+# API Key Manager Plugin Dependencies
+
+# Password hashing and encryption library
+bcrypt>=4.0.0

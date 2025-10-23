@@ -1,0 +1,61 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:simple_file_logger-plugin-1758674498",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-24T00:41:38.879641Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "Enhanced Plugin Creation Agent",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "simple_file_logger_api_plugin",
+      "version": "1.0.0",
+      "description": "Auto-generated plugin for simple_file_logger API integration"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "requests",
+      "version": ">=2.25.1",
+      "purl": "pkg:pypi/requests@2.25.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "typing",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - typing support"
+    },
+    {
+      "type": "library",
+      "name": "logging",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - logging support"
+    }
+  ],
+  "vulnerabilities": [],
+  "dependencies": [
+    {
+      "ref": "simple_file_logger_api_plugin",
+      "dependsOn": [
+        "pkg:pypi/requests@2.25.1"
+      ]
+    }
+  ]
+}

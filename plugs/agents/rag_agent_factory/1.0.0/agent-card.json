@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:rag_agent_factory",
+    "name": "Rag Agent Factory Agent",
+    "description": "RAG (Retrieval Augmented Generation) Agent Factory - generates specialized knowledge verification agents using the core Agent Factory plugin",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/rag_agent_factory",
+    "skills": [
+      {
+        "id": "rag_agent_factory-primary",
+        "name": "Rag Agent Factory",
+        "description": "RAG (Retrieval Augmented Generation) Agent Factory - generates specialized knowledge verification agents using the core Agent Factory plugin",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "rag_agent_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "agents",
+          "rag",
+          "knowledge-verification",
+          "ai",
+          "factory",
+          "medical",
+          "legal",
+          "financial"
+        ],
+        "author": "PlugPipe Agent Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.198566Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

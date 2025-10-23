@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:hhem_detector-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:21:19.145120Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "hhem_detector@1.0.0",
+      "name": "hhem_detector",
+      "version": "1.0.0",
+      "description": "Production-ready hallucination detection using Vectara's HHEM-2.1 model"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

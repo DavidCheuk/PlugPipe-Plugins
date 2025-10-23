@@ -1,0 +1,364 @@
+author: PlugPipe Security Team
+capabilities:
+- secret_detection
+- entropy_analysis
+- yaml_validation
+- policy_enforcement
+- compliance_reporting
+- pattern_matching
+- security_scanning
+category: security
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_support: true
+  data_handling: Scans files in memory, no data persistence
+  privacy: Does not transmit or store scanned content
+  security_frameworks:
+  - OWASP
+  - NIST Cybersecurity Framework
+  - SOC 2
+  - PCI DSS
+config_schema:
+  additionalProperties: false
+  properties:
+    enable_ecosystem_analysis:
+      default: true
+      description: Enable comprehensive security ecosystem analysis using multiple
+        PlugPipe security plugins
+      type: boolean
+    enable_ethics_validation:
+      default: true
+      description: Enable ethics and compliance validation using PlugPipe ethics guardrails
+        validator
+      type: boolean
+    enable_garak_scanner:
+      default: false
+      description: Enable vulnerability assessment using Garak scanner (resource intensive)
+      type: boolean
+    enable_llm_evaluation:
+      default: true
+      description: Enable intelligent secret evaluation using PlugPipe LLM service
+      type: boolean
+    enable_presidio_dlp:
+      default: true
+      description: Enable advanced data loss prevention using Microsoft Presidio DLP
+        plugin
+      type: boolean
+    enable_privacy_verification:
+      default: true
+      description: Enable privacy compliance verification using PlugPipe privacy verification
+        plugin
+      type: boolean
+    exclude_patterns:
+      default: []
+      description: Regex patterns to exclude from results
+      items:
+        type: string
+      type: array
+    include_extensions:
+      default:
+      - .py
+      - .yaml
+      - .yml
+      - .json
+      - .env
+      - .conf
+      - .cfg
+      - .ini
+      - .toml
+      description: File extensions to scan
+      items:
+        type: string
+      type: array
+    min_severity:
+      default: low
+      description: Minimum severity level to report
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      type: string
+    output_format:
+      default: json
+      description: Output report format
+      enum:
+      - json
+      - text
+      - sarif
+      type: string
+    recursive:
+      default: true
+      description: Scan directories recursively
+      type: boolean
+    scan_entropy:
+      default: true
+      description: Enable entropy-based secret detection
+      type: boolean
+    scan_path:
+      default: .
+      description: Path to scan (file or directory)
+      type: string
+    scan_type:
+      default: directory
+      description: Type of scan to perform
+      enum:
+      - file
+      - directory
+      - git
+      type: string
+  type: object
+dependencies:
+  config_files:
+  - description: Secrets management configuration for scanning and detection
+    name: config_secrets.yaml
+    type: config
+    version: 1.0.0
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:46'
+  stdlib_modules_declared: true
+description: Comprehensive secret detection and prevention plugin for ecosystem-wide
+  security scanning
+documentation:
+  examples:
+  - config:
+      min_severity: medium
+      output_format: json
+      recursive: true
+      scan_path: .
+      scan_type: directory
+    description: Comprehensive security scan of current directory
+    input: {}
+    name: Directory Security Scan
+  - config:
+      include_extensions:
+      - .yaml
+      - .yml
+      min_severity: high
+      scan_path: .
+      scan_type: directory
+    description: Audit YAML files for proper secret injection usage
+    input: {}
+    name: YAML Configuration Audit
+  - config:
+      min_severity: critical
+      output_format: text
+      scan_entropy: true
+      scan_path: config/production.yaml
+      scan_type: file
+    description: Scan specific configuration file with high security standards
+    input: {}
+    name: High Security File Scan
+  - config:
+      exclude_patterns:
+      - test.*
+      - example.*
+      min_severity: medium
+      output_format: json
+      recursive: true
+      scan_path: .
+      scan_type: directory
+    description: Automated secret detection for continuous security
+    input: {}
+    name: CI/CD Pipeline Integration
+  readme: "# CyberPIG AI Plugin\n\nComprehensive secret detection and prevention plugin\
+    \ that scans YAML files, code,\nand configurations for hardcoded secrets, API\
+    \ keys, passwords, and other sensitive data.\n\n## Features\n\n### \U0001F50D\
+    \ Pattern-Based Detection\n- **50+ Secret Patterns**: AWS keys, GitHub tokens,\
+    \ Slack tokens, OpenAI keys, Stripe keys, etc.\n- **Severity Classification**:\
+    \ Critical, High, Medium, Low severity levels\n- **High Confidence Matching**:\
+    \ Optimized patterns with minimal false positives\n\n### \U0001F9EE Entropy Analysis\n\
+    - **Shannon Entropy Calculation**: Detects high-entropy strings that may be secrets\n\
+    - **Configurable Thresholds**: Customizable entropy and length thresholds\n- **Unknown\
+    \ Secret Detection**: Finds potential secrets not caught by patterns\n\n### \U0001F4CB\
+    \ YAML Secret Injection Validation\n- **Proper Secret Usage**: Validates use of\
+    \ `${env:VAR}`, `${vault:path}`, etc.\n- **Hardcoded Secret Detection**: Finds\
+    \ secrets that should use secret injection\n- **PlugPipe Integration**: Specifically\
+    \ designed for PlugPipe secret management\n\n### \U0001F4CA Comprehensive Reporting\n\
+    - **Multiple Formats**: JSON, text, and SARIF output formats\n- **Detailed Analysis**:\
+    \ Line numbers, confidence scores, remediation guidance\n- **Security Assessment**:\
+    \ Overall security status and risk classification\n\n## Usage Examples\n\n###\
+    \ Scan Current Directory\n```yaml\nsteps:\n  - plugin: cyberpig_ai\n    config:\n\
+    \      scan_path: \".\"\n      scan_type: \"directory\"\n      output_format:\
+    \ \"json\"\n      recursive: true\n```\n\n### Scan Specific File\n```yaml\nsteps:\n\
+    \  - plugin: cyberpig_ai\n    config:\n      scan_path: \"config/production.yaml\"\
+    \n      scan_type: \"file\"\n      output_format: \"text\"\n```\n\n### High Security\
+    \ Scan\n```yaml\nsteps:\n  - plugin: cyberpig_ai\n    config:\n      scan_path:\
+    \ \".\"\n      min_severity: \"high\"\n      scan_entropy: true\n      include_extensions:\n\
+    \        - \".yaml\"\n        - \".yml\"\n        - \".py\"\n        - \".json\"\
+    \n```\n\n### CI/CD Integration\n```yaml\nsteps:\n  - plugin: cyberpig_ai\n   \
+    \ config:\n      scan_path: \".\"\n      min_severity: \"medium\"\n      output_format:\
+    \ \"json\"\n    fail_on:\n      - critical_issues > 0\n      - high_issues > 5\n\
+    ```\n\n## Configuration Options\n\n| Option | Type | Default | Description |\n\
+    |--------|------|---------|-------------|\n| `scan_path` | string | `\".\"` |\
+    \ Path to scan (file or directory) |\n| `scan_type` | string | `\"directory\"\
+    ` | Type: `\"file\"`, `\"directory\"`, `\"git\"` |\n| `output_format` | string\
+    \ | `\"json\"` | Format: `\"json\"`, `\"text\"`, `\"sarif\"` |\n| `recursive`\
+    \ | boolean | `true` | Scan directories recursively |\n| `scan_entropy` | boolean\
+    \ | `true` | Enable entropy-based detection |\n| `min_severity` | string | `\"\
+    low\"` | Minimum severity: `\"low\"`, `\"medium\"`, `\"high\"`, `\"critical\"\
+    ` |\n| `exclude_patterns` | array | `[]` | Regex patterns to exclude from results\
+    \ |\n| `include_extensions` | array | `['.py', '.yaml', ...]` | File extensions\
+    \ to scan |\n\n## Detection Patterns\n\n### Critical Severity\n- AWS Access Keys\
+    \ and Secret Keys\n- GitHub Personal Access Tokens\n- OpenAI API Keys\n- Slack\
+    \ Tokens\n- Stripe API Keys\n- Private Keys (RSA/SSH)\n- Google API Keys\n\n###\
+    \ High Severity\n- Database Connection URLs\n- JWT Tokens\n- Webhook URLs\n- Generic\
+    \ API Keys\n- Azure Keys\n\n### Medium/Low Severity\n- Bearer Tokens\n- Generic\
+    \ Passwords\n- Hex Hashes\n- High Entropy Strings\n- Base64 Encoded Data\n\n##\
+    \ Remediation Guidance\n\nThe plugin provides specific remediation advice for\
+    \ each secret type:\n\n- **Environment Variables**: `${env:SECRET_NAME}`\n- **Vault\
+    \ Storage**: `${vault:path/to/secret}`\n- **AWS Secrets Manager**: `${aws_secrets:secret_name}`\n\
+    - **Azure Key Vault**: `${azure:secret_name}`\n- **Kubernetes Secrets**: `${k8s:secret/key}`\n\
+    - **File Storage**: `${file:path/to/secret}`\n\n## Security Benefits\n\n### ✅\
+    \ Prevent Secret Leakage\n- Detect hardcoded secrets before they reach version\
+    \ control\n- Validate proper use of PlugPipe secret injection\n- Comprehensive\
+    \ pattern matching with high accuracy\n\n### ✅ Compliance Support\n- Generate\
+    \ compliance reports for security audits\n- Track remediation progress and security\
+    \ posture\n- Integration with CI/CD pipelines for continuous monitoring\n\n###\
+    \ ✅ Developer Education\n- Clear remediation guidance for each finding\n- Best\
+    \ practice recommendations\n- PlugPipe-specific secret management integration\n\
+    \n## Performance\n\n- **Fast Scanning**: Optimized pattern matching and entropy\
+    \ calculation\n- **Low Memory Usage**: Streaming file processing\n- **Configurable\
+    \ Scope**: Filter by file types, severity, and patterns\n- **Scalable**: Handles\
+    \ large codebases efficiently\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - detect_secrets
+  - torch
+  - transformers
+  - truffleHogRegexes
+  requirements_file: requirements.txt
+health_check:
+  expected_result: success
+  method: scan_test
+  timeout: 120
+input_schema:
+  additionalProperties: false
+  properties:
+    scan_path:
+      default: .
+      description: Path to file or directory to scan
+      type: string
+  type: object
+license: MIT
+name: cyberpig_ai
+display_name: SecretGuardianAI
+output_schema:
+  properties:
+    critical_issues:
+      description: Number of critical severity secrets
+      type: integer
+    error:
+      description: Error message if scan failed
+      type: string
+    high_issues:
+      description: Number of high severity secrets
+      type: integer
+    remediation_summary:
+      properties:
+        store_securely:
+          description: Secrets that need secure storage
+          type: integer
+        use_environment_variables:
+          description: Secrets that should use environment variables
+          type: integer
+        use_secret_injection:
+          description: Secrets that should use PlugPipe secret injection
+          type: integer
+        use_vault:
+          description: Secrets that should use Vault storage
+          type: integer
+      type: object
+    report:
+      description: Detailed scan report (format depends on output_format config)
+      type: object
+    scan_summary:
+      properties:
+        by_severity:
+          description: Secrets grouped by severity level
+          type: object
+        by_type:
+          description: Secrets grouped by type
+          type: object
+        total_files_scanned:
+          description: Number of files scanned
+          type: integer
+        total_secrets:
+          description: Total secrets found
+          type: integer
+      type: object
+    secrets_found:
+      description: Total number of secrets detected
+      type: integer
+    security_status:
+      description: Overall security status assessment
+      enum:
+      - secure
+      - info
+      - warning
+      - critical
+      - error
+      type: string
+    success:
+      description: Whether the scan completed successfully
+      type: boolean
+  required:
+  - success
+  - secrets_found
+  - security_status
+  type: object
+owner: PlugPipe Security Team
+performance:
+  average_execution_time: 2-10 seconds
+  memory_usage: 50-200 MB
+  optimization:
+    entropy_threshold_tuning: true
+    file_streaming: true
+    pattern_caching: true
+  scalability: Handles codebases up to 100,000 files
+requirements:
+  python:
+  - pyyaml>=6.0
+  - pathlib
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  file_system_access: read
+  network_access: false
+  permissions:
+  - read_files
+  - scan_directories
+  requires_secrets: false
+status: stable
+stdlib_modules:
+- json
+- logging
+- re
+- time
+- typing
+- warnings
+tags:
+- security
+- secrets
+- scanning
+- compliance
+- devsecops
+- pattern-detection
+- entropy-analysis
+type: plugin
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

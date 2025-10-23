@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:plugin_creation_orchestrator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-26T20:50:29.966194Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "plugin_creation_orchestrator@1.0.0",
+      "name": "plugin_creation_orchestrator",
+      "version": "1.0.0",
+      "description": "AI-powered high-level plugin creation factory orchestrator that continuously researches popular applications/technologies and creates plugins using pragmatic approach with existing plugin reuse"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

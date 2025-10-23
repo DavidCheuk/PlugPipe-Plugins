@@ -1,0 +1,93 @@
+description: AI-powered detection data processor that reduces large datasets, deduplicates
+  issues, and provides intelligent summaries for monitoring dashboards
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    ai_analysis:
+      default: true
+      description: Enable AI-powered analysis and insights
+      type: boolean
+    limit:
+      default: 100
+      description: Maximum number of items to return
+      type: integer
+    operation:
+      description: Processing operation to perform
+      enum:
+      - reduce_dataset
+      - deduplicate_issues
+      - summarize_for_dashboard
+      - filter_by_severity
+      - group_by_category
+      type: string
+    raw_data:
+      description: Raw detection data to process
+      type: array
+    severity_filter:
+      description: Filter by severity levels
+      items:
+        enum:
+        - critical
+        - high
+        - medium
+        - low
+        type: string
+      type: array
+    time_window:
+      default: 24h
+      description: Time window for data processing
+      type: string
+  type: object
+name: detection_data_processor
+display_name: ThreatDetectionProcessor
+output_schema:
+  properties:
+    processed_data:
+      properties:
+        filtered_issues:
+          type: array
+        insights:
+          type: array
+        recommendations:
+          type: array
+        summary:
+          type: object
+      type: object
+    processing_stats:
+      properties:
+        original_count:
+          type: integer
+        processed_count:
+          type: integer
+        processing_time_ms:
+          type: integer
+        reduction_ratio:
+          type: number
+      type: object
+    success:
+      type: boolean
+  type: object
+owner: PlugPipe Intelligence Team
+sbom:
+  data_sources:
+  - pipe_runs_directory
+  - detection_results
+  dependencies:
+  - shares.utils.config_loader
+  integrations:
+  - llm_service
+  - pp_function
+status: stable
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

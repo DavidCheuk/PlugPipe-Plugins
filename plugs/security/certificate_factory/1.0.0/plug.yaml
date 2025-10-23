@@ -1,0 +1,251 @@
+name: certificate_factory
+display_name: CertificateFactory
+owner: plugpipe-security
+version: 1.0.0
+status: stable
+description: Intelligent certificate provider factory with automatic provider selection
+  based on requirements, use case, and infrastructure context
+category: security
+subcategory: certificates
+tags:
+- certificates
+- factory
+- pki
+- automation
+- provider_selection
+- intelligent_routing
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - get_status
+      - select_provider
+      - get_providers
+      - get_provider_capabilities
+      - delegate_operation
+      - issue_certificate
+      - renew_certificate
+      - revoke_certificate
+      - get_certificate
+      - list_certificates
+      - validate_certificate
+      default: get_status
+      description: Operation to perform
+    requirements:
+      type: object
+      properties:
+        certificate_type:
+          type: string
+          enum:
+          - public
+          - private
+          - code_signing
+          - email
+          description: Type of certificate needed
+        use_case:
+          type: string
+          enum:
+          - web_servers
+          - public_apis
+          - internal_services
+          - microservices
+          - kubernetes_workloads
+          - aws_workloads
+          description: Primary use case for certificate
+        infrastructure:
+          type: string
+          enum:
+          - aws_cloud
+          - kubernetes
+          - on_premise
+          - cloud_agnostic
+          - hybrid
+          - multi_cloud
+          description: Target infrastructure environment
+        compliance_requirements:
+          type: array
+          items:
+            type: string
+            enum:
+            - SOC2
+            - HIPAA
+            - PCI_DSS
+            - FIPS_140-2
+            - enterprise_audit
+          description: Required compliance standards
+        cost_preference:
+          type: string
+          enum:
+          - free
+          - low_cost
+          - enterprise
+          - any
+          description: Cost preference for certificate provider
+        integration_complexity_preference:
+          type: string
+          enum:
+          - low
+          - medium
+          - high
+          - any
+          description: Preferred integration complexity level
+      description: Requirements for automatic provider selection
+    provider:
+      type: string
+      enum:
+      - hashicorp_vault
+      - lets_encrypt_acme
+      - aws_certificate_manager
+      - digicert
+      - venafi_cyberark
+      - kubernetes_cert_manager
+      description: Specific provider for delegation
+    target_operation:
+      type: string
+      description: Operation to delegate to provider
+    common_name:
+      type: string
+      description: Certificate common name
+    subject_alternative_names:
+      type: array
+      items:
+        type: string
+      description: Subject alternative names
+    validity_days:
+      type: integer
+      default: 90
+      description: Certificate validity period in days
+    certificate_format:
+      type: string
+      enum:
+      - PEM
+      - DER
+      - PKCS12
+      default: PEM
+      description: Certificate output format
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Operation success status
+    plugin:
+      type: string
+      description: Plugin name
+    selected_provider:
+      type: string
+      description: Selected certificate provider
+    provider_used:
+      type: string
+      description: Provider used for operation
+    auto_selected:
+      type: boolean
+      description: Whether provider was automatically selected
+    providers:
+      type: object
+      description: Available certificate providers
+    provider_info:
+      type: object
+      description: Information about selected provider
+    capabilities:
+      type: object
+      description: Provider capabilities
+    delegated_to:
+      type: string
+      description: Provider operation was delegated to
+    error:
+      type: string
+      description: Error message if operation failed
+enterprise_features:
+- Intelligent provider selection
+- Multi-provider support
+- Cost optimization
+- Compliance-aware routing
+- Infrastructure context awareness
+- Automatic failover
+- Provider capability matching
+supported_providers:
+  hashicorp_vault:
+    name: HashiCorp Vault PKI
+    type: private_ca
+    cost: infrastructure_dependent
+    compliance:
+    - SOC2
+    - HIPAA
+    - enterprise_audit
+    use_cases:
+    - internal_services
+    - microservices
+    - kubernetes
+  lets_encrypt_acme:
+    name: Let's Encrypt ACME
+    type: public_ca
+    cost: free
+    compliance:
+    - basic_ssl
+    use_cases:
+    - web_servers
+    - public_apis
+    - development
+  aws_certificate_manager:
+    name: AWS Certificate Manager
+    type: cloud_ca
+    cost: included_with_aws_services
+    compliance:
+    - AWS_security_standards
+    use_cases:
+    - aws_workloads
+    - load_balancers
+    - cloudfront
+  digicert:
+    name: DigiCert Trust Lifecycle Manager
+    type: enterprise_ca
+    cost: paid_premium
+    compliance:
+    - SOC2
+    - HIPAA
+    - PCI_DSS
+    - FIPS_140-2
+    - quantum_safe
+    use_cases:
+    - enterprise_pki
+    - compliance
+    - global_deployments
+  venafi_cyberark:
+    name: Venafi/CyberArk Certificate Manager
+    type: enterprise_platform
+    cost: paid_enterprise
+    compliance:
+    - enterprise_audit
+    - regulatory
+    use_cases:
+    - enterprise_security
+    - machine_identity
+  kubernetes_cert_manager:
+    name: cert-manager for Kubernetes
+    type: cloud_native
+    cost: infrastructure_dependent
+    compliance:
+    - kubernetes_security
+    use_cases:
+    - kubernetes_workloads
+    - ingress_certificates
+selection_criteria:
+- Certificate type compatibility
+- Use case alignment
+- Infrastructure requirements
+- Compliance standards
+- Cost optimization
+- Integration complexity
+- Feature requirements
+discoverability: public
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

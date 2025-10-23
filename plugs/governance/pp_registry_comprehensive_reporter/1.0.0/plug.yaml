@@ -1,0 +1,657 @@
+capabilities:
+- multi_format_reporting
+- real_time_dashboard_api
+- cli_integration
+- mcp_protocol_compliance
+- plugin_registry_analysis
+- validation_issue_tracking
+- security_assessment
+- performance_monitoring
+- trend_analysis
+- executive_reporting
+- automated_recommendations
+- real_time_alerting
+- multi_tenant_support
+- audit_trail_generation
+dependencies:
+  optional_plugins:
+  - monitoring/prometheus/1.0.0
+  - security/config_hardening/1.0.0
+  - core/codebase_integrity_scanner/1.0.0
+  - intelligence/llm_service/1.0.0
+  - orchestration/plugin_change_validation_pipeline/1.0.0
+  - orchestration/plugin_change_hooks/1.0.0
+  - core/freeze_release_manager/1.0.0
+  required_plugins:
+  - governance/issue_tracker/1.0.0
+  - compliance/generic_report_generator/1.0.0
+  - governance/business_compliance_auditor/1.0.0
+  - backend/generic_fastapi_server/1.0.0
+  system_dependencies:
+  - python3>=3.8
+  - fastapi>=0.100.0
+  - uvicorn>=0.22.0
+  - websockets>=11.0
+  - reportlab>=3.6.0
+  - python-docx>=0.8.11
+  - pandas>=1.5.0
+  - jinja2>=3.1.0
+  - plotly>=5.15.0
+  - asyncio
+description: Comprehensive PlugPipe Registry reporting system with CLI, MCP, API,
+  PDF, Word outputs and real-time dashboard integration for validation issues, plugin
+  metrics, and system health
+enterprise_features:
+  alert_management: true
+  api_rate_limiting: true
+  audit_logging: true
+  automated_scheduling: true
+  backup_and_recovery: true
+  custom_dashboards: true
+  data_retention_policies: true
+  multi_format_export: true
+  multi_tenant_isolation: true
+  real_time_streaming: true
+  role_based_access: true
+  websocket_support: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - inspect
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    dashboard_config:
+      description: Real-time dashboard configuration
+      properties:
+        alert_thresholds:
+          properties:
+            critical_issues:
+              default: 1
+              type: integer
+            high_issues:
+              default: 5
+              type: integer
+            system_availability:
+              default: 95.0
+              type: number
+          type: object
+        enable_alerts:
+          default: true
+          type: boolean
+        max_recent_items:
+          default: 100
+          type: integer
+        refresh_interval_seconds:
+          default: 30
+          type: integer
+      type: object
+    data_sources:
+      description: Configure which data sources to include
+      properties:
+        issue_tracker_enabled:
+          default: true
+          type: boolean
+        plugin_registry_enabled:
+          default: true
+          type: boolean
+        security_scanner_enabled:
+          default: true
+          type: boolean
+        system_metrics_enabled:
+          default: true
+          type: boolean
+        validation_pipeline_enabled:
+          default: true
+          type: boolean
+      type: object
+    export_config:
+      description: Export and delivery configuration
+      properties:
+        compress_output:
+          default: false
+          type: boolean
+        delivery_method:
+          default: local_file
+          enum:
+          - local_file
+          - email
+          - slack
+          - webhook
+          - s3
+          - ftp
+          type: string
+        filename_template:
+          default: pp_registry_report_{timestamp}_{type}
+          type: string
+        include_attachments:
+          default: true
+          type: boolean
+        output_directory:
+          default: ./reports
+          type: string
+      type: object
+    operation:
+      default: generate_report
+      description: Reporting operation to perform
+      enum:
+      - generate_report
+      - start_api_server
+      - get_report_data
+      - export_report
+      - get_real_time_metrics
+      - generate_cli_report
+      - generate_mcp_response
+      - get_dashboard_data
+      - stream_updates
+      type: string
+    report_config:
+      properties:
+        filters:
+          properties:
+            include_resolved:
+              default: false
+              description: Include resolved issues
+              type: boolean
+            plugin_categories:
+              description: Filter by plugin categories
+              items:
+                type: string
+              type: array
+            plugin_status:
+              description: Filter by plugin status
+              items:
+                enum:
+                - active
+                - deprecated
+                - development
+                - experimental
+                type: string
+              type: array
+            severity_levels:
+              description: Filter by issue severity
+              items:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+              type: array
+          type: object
+        include_sections:
+          default:
+          - executive_summary
+          - plugin_inventory
+          - validation_results
+          description: Report sections to include
+          items:
+            enum:
+            - executive_summary
+            - plugin_inventory
+            - validation_results
+            - security_findings
+            - performance_metrics
+            - recommendations
+            - trend_analysis
+            - detailed_issues
+            type: string
+          type: array
+        output_formats:
+          default:
+          - pdf
+          description: Desired output formats
+          items:
+            enum:
+            - pdf
+            - word
+            - html
+            - json
+            - csv
+            - cli
+            - mcp_json
+            type: string
+          type: array
+        report_type:
+          default: plugin_health_summary
+          description: Type of report to generate
+          enum:
+          - plugin_health_summary
+          - validation_issues_report
+          - system_metrics_dashboard
+          - compliance_audit_report
+          - registry_analytics
+          - plugin_dependency_analysis
+          - security_assessment
+          - performance_benchmark
+          - executive_summary
+          type: string
+        time_range:
+          description: Time range for report data
+          properties:
+            end_date:
+              format: date-time
+              type: string
+            period:
+              default: last_24h
+              enum:
+              - last_hour
+              - last_24h
+              - last_7d
+              - last_30d
+              - last_90d
+              - custom
+              type: string
+            start_date:
+              format: date-time
+              type: string
+          type: object
+      type: object
+    server_config:
+      description: API server configuration for dashboard integration
+      properties:
+        cache_ttl_seconds:
+          default: 300
+          type: integer
+        enable_cors:
+          default: true
+          type: boolean
+        enable_websockets:
+          default: true
+          type: boolean
+        host:
+          default: 127.0.0.1
+          type: string
+        port:
+          default: 8001
+          type: integer
+        real_time_updates:
+          default: true
+          type: boolean
+      type: object
+  required:
+  - operation
+  type: object
+name: pp_registry_comprehensive_reporter
+display_name: PPRegistryComprehensiveReporter
+output_schema:
+  additionalProperties: false
+  properties:
+    cli_output:
+      description: CLI-formatted output for terminal display
+      properties:
+        color_formatted:
+          type: boolean
+        formatted_text:
+          type: string
+        summary_stats:
+          type: object
+        table_data:
+          type: array
+      type: object
+    dashboard_data:
+      description: Real-time dashboard data for frontend consumption
+      properties:
+        alerts:
+          items:
+            properties:
+              acknowledged:
+                type: boolean
+              created_at:
+                format: date-time
+                type: string
+              id:
+                type: string
+              message:
+                type: string
+              severity:
+                type: string
+            type: object
+          type: array
+        current_status:
+          properties:
+            active_issues:
+              type: integer
+            last_validation_run:
+              format: date-time
+              type: string
+            plugins_online:
+              type: integer
+            system_health:
+              enum:
+              - healthy
+              - degraded
+              - critical
+              type: string
+          type: object
+        real_time_metrics:
+          properties:
+            active_connections:
+              type: integer
+            current_cpu_usage:
+              type: number
+            current_memory_usage:
+              type: number
+            requests_per_minute:
+              type: number
+          type: object
+        recent_activities:
+          items:
+            properties:
+              activity_type:
+                type: string
+              description:
+                type: string
+              plugin_affected:
+                type: string
+              timestamp:
+                format: date-time
+                type: string
+            type: object
+          type: array
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    generated_reports:
+      description: Generated report files
+      items:
+        properties:
+          checksum:
+            type: string
+          file_path:
+            type: string
+          file_size_bytes:
+            type: integer
+          format:
+            type: string
+          generation_time_ms:
+            type: number
+        type: object
+      type: array
+    mcp_response:
+      description: MCP-compliant response format
+      properties:
+        id:
+          type: string
+        jsonrpc:
+          default: '2.0'
+          type: string
+        meta:
+          properties:
+            capabilities:
+              type: object
+            protocolVersion:
+              type: string
+            serverInfo:
+              type: object
+          type: object
+        result:
+          type: object
+      type: object
+    operation_result:
+      description: Operation execution details
+      properties:
+        operation:
+          type: string
+        processing_time_ms:
+          type: number
+        report_id:
+          type: string
+        timestamp:
+          format: date-time
+          type: string
+      type: object
+    report_data:
+      description: Structured report data for consumption by APIs/MCP/dashboard
+      properties:
+        executive_summary:
+          properties:
+            compliance_status:
+              enum:
+              - compliant
+              - non_compliant
+              - partially_compliant
+              type: string
+            critical_issues_count:
+              type: integer
+            high_priority_issues_count:
+              type: integer
+            overall_health_score:
+              maximum: 100
+              minimum: 0
+              type: number
+            plugins_with_issues:
+              type: integer
+            recommendations_count:
+              type: integer
+          type: object
+        metadata:
+          properties:
+            data_sources:
+              items:
+                type: string
+              type: array
+            generated_at:
+              format: date-time
+              type: string
+            time_range:
+              type: object
+            title:
+              type: string
+            total_issues_found:
+              type: integer
+            total_plugins_analyzed:
+              type: integer
+          type: object
+        performance_metrics:
+          properties:
+            average_response_time:
+              type: number
+            plugin_load_times:
+              type: object
+            system_resource_usage:
+              properties:
+                cpu_usage_percent:
+                  type: number
+                disk_usage_percent:
+                  type: number
+                memory_usage_mb:
+                  type: number
+              type: object
+            uptime_percentage:
+              type: number
+          type: object
+        plugin_inventory:
+          items:
+            properties:
+              category:
+                type: string
+              dependencies_count:
+                type: integer
+              issues_count:
+                type: integer
+              last_validated:
+                format: date-time
+                type: string
+              name:
+                type: string
+              status:
+                type: string
+              validation_score:
+                type: number
+              version:
+                type: string
+            type: object
+          type: array
+        recommendations:
+          items:
+            properties:
+              affected_plugins:
+                items:
+                  type: string
+                type: array
+              category:
+                type: string
+              description:
+                type: string
+              estimated_effort:
+                type: string
+              priority:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+              title:
+                type: string
+            type: object
+          type: array
+        security_findings:
+          properties:
+            compliance_gaps:
+              items:
+                properties:
+                  framework:
+                    type: string
+                  requirement:
+                    type: string
+                  status:
+                    type: string
+                type: object
+              type: array
+            high_risk_plugins:
+              items:
+                type: string
+              type: array
+            security_score:
+              maximum: 100
+              minimum: 0
+              type: number
+            vulnerabilities_found:
+              type: integer
+          type: object
+        trend_analysis:
+          properties:
+            issues_trend:
+              items:
+                properties:
+                  count:
+                    type: integer
+                  date:
+                    format: date
+                    type: string
+                type: object
+              type: array
+            plugin_growth:
+              properties:
+                deprecated_plugins:
+                  type: integer
+                new_plugins_this_period:
+                  type: integer
+                updated_plugins:
+                  type: integer
+              type: object
+          type: object
+        validation_results:
+          properties:
+            average_validation_time:
+              type: number
+            failed_validations:
+              type: integer
+            recent_issues:
+              items:
+                properties:
+                  category:
+                    type: string
+                  created_at:
+                    format: date-time
+                    type: string
+                  id:
+                    type: string
+                  message:
+                    type: string
+                  plugin_name:
+                    type: string
+                  severity:
+                    type: string
+                  status:
+                    type: string
+                type: object
+              type: array
+            successful_validations:
+              type: integer
+            total_validation_runs:
+              type: integer
+          type: object
+      type: object
+    server_status:
+      description: API server status information
+      properties:
+        active_connections:
+          type: integer
+        endpoints_registered:
+          type: integer
+        server_url:
+          type: string
+        status:
+          enum:
+          - running
+          - stopped
+          - error
+          type: string
+        uptime_seconds:
+          type: number
+        websocket_url:
+          type: string
+      type: object
+    success:
+      description: Whether the operation completed successfully
+      type: boolean
+  required:
+  - success
+  type: object
+owner: plugpipe-governance-team
+performance:
+  api_response_time: < 200ms for dashboard queries
+  backup_frequency: daily automated backups
+  concurrent_users: up to 100 simultaneous dashboard users
+  data_retention: 90 days of historical data
+  report_generation: < 30 seconds for comprehensive reports
+  websocket_latency: < 50ms for real-time updates
+revolutionary_capabilities:
+- unified_multi_format_reporting_system
+- real_time_plugin_registry_monitoring
+- executive_dashboard_integration
+- mcp_compliant_registry_reporting
+- automated_plugin_health_assessment
+- cross_system_validation_aggregation
+- intelligent_recommendation_engine
+- enterprise_compliance_automation
+sbom: sbom/
+status: active
+tags:
+- reporting
+- dashboard
+- governance
+- compliance
+- api
+- mcp
+- cli
+- pdf
+- word
+- real-time
+- websockets
+- analytics
+- enterprise
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

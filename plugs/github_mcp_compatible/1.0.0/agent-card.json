@@ -1,0 +1,85 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:version_control:github_mcp_compatible",
+    "name": "Github Mcp Compatible Agent",
+    "description": "GitHub MCP-Compatible Plug - Full GitHub API compatibility with official MCP server features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/github_mcp_compatible",
+    "skills": [
+      {
+        "id": "github_mcp_compatible-primary",
+        "name": "Github Mcp Compatible",
+        "description": "GitHub MCP-Compatible Plug - Full GitHub API compatibility with official MCP server features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "github_mcp_compatible-example-1",
+        "name": "Search for repositories with advanced filtering",
+        "description": "Search for repositories with advanced filtering",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "github_mcp_compatible-example-2",
+        "name": "Create file with automatic branch creation (MCP feature)",
+        "description": "Create file with automatic branch creation (MCP feature)",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "github_mcp_compatible-example-3",
+        "name": "Push multiple files in single operation",
+        "description": "Push multiple files in single operation",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "github_mcp_compatible",
+        "category": "version_control",
+        "subcategory": "",
+        "tags": [
+          "github",
+          "mcp",
+          "git",
+          "version_control",
+          "cicd",
+          "security",
+          "automation",
+          "workflows",
+          "dependabot",
+          "code_scanning"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:31.625738Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

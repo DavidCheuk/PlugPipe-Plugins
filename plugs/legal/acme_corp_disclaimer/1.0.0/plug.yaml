@@ -1,0 +1,88 @@
+category: legal
+company_config:
+  contact_legal: legal@acmecorp.com
+  effective_date: '2025-08-26'
+  jurisdiction: Delaware, USA
+  legal_entity: ACME Corp Inc.
+  name: ACME Corporation
+  version_control: internal
+dependencies:
+  config_files:
+  - description: ACME Corporation enterprise configuration with company-specific legal
+      disclaimers
+    name: config-acme-corp.yaml
+    type: config
+    version: 1.0.0
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:45'
+  stdlib_modules_declared: true
+description: ACME Corporation customized legal disclaimer with company-specific terms
+  and branding
+enterprise_features:
+- company_branded_legal_disclaimers
+- custom_liability_terms_and_conditions
+- corporate_governance_compliance_tracking
+- legal_team_controlled_disclaimer_updates
+- enterprise_audit_trail_integration
+external_dependencies:
+  install_method: pip
+  packages:
+  - main
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      enum:
+      - show_banner
+      - require_acknowledgment
+      - get_disclaimer
+      - check_acceptance
+      - add_headers
+      type: string
+    context:
+      type: object
+    interface:
+      enum:
+      - cli
+      - api
+      - mcp
+      - frontend
+      - plugin_action
+      type: string
+  type: object
+name: acme_corp_disclaimer
+display_name: ACMECorpDisclaimer
+output_schema:
+  properties:
+    disclaimer:
+      type: object
+    metadata:
+      type: object
+    success:
+      type: boolean
+  type: object
+owner: ACME Corp Legal Team
+status: production
+stdlib_modules:
+- datetime
+- importlib
+- os
+- sys
+- typing
+tags:
+- legal
+- disclaimer
+- acme-corp
+- enterprise
+- customized
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

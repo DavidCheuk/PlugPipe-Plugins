@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:execution_engine-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:34:09.400323Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "execution_engine@1.0.0",
+      "name": "execution_engine",
+      "version": "1.0.0",
+      "description": "Execution Engine Service - handles both DAG and linear pipeline execution with proper separation of concerns and integration with external orchestrators"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

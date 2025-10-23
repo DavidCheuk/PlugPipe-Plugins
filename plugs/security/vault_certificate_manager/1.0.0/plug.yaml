@@ -1,0 +1,276 @@
+category: security
+description: HashiCorp Vault PKI certificate management plugin with dynamic certificate
+  generation and enterprise security features
+discoverability: public
+enterprise_capabilities:
+- Multi-tenant certificate management
+- Role-based certificate policies
+- Automated certificate renewal
+- Certificate revocation lists (CRL)
+- OCSP responder support
+- HSM integration for key protection
+- Audit logging and compliance reporting
+- High availability PKI setup
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    certificate_format:
+      default: PEM
+      description: Certificate output format
+      enum:
+      - PEM
+      - DER
+      type: string
+    certificate_id:
+      description: Certificate identifier (required for get/renew/revoke/validate
+        operations)
+      type: string
+    common_name:
+      description: Certificate common name (required for issuance)
+      type: string
+    country:
+      description: Country code (2 letters)
+      type: string
+    default_role:
+      default: default-role
+      description: Default PKI role for certificate issuance
+      type: string
+    enable_audit_logging:
+      default: true
+      description: Enable detailed audit logging
+      type: boolean
+    enable_policy_enforcement:
+      default: true
+      description: Enable Vault policy enforcement
+      type: boolean
+    filters:
+      description: Filters for certificate listing
+      properties:
+        common_name:
+          description: Filter by common name substring
+          type: string
+        status:
+          description: Filter by certificate status
+          enum:
+          - active
+          - revoked
+          - expired
+          type: string
+      type: object
+    intermediate_pki_mount:
+      default: pki_int
+      description: Intermediate PKI mount path for certificate issuance
+      type: string
+    key_size:
+      default: 2048
+      description: Key size in bits (for RSA keys)
+      enum:
+      - 2048
+      - 3072
+      - 4096
+      type: integer
+    key_type:
+      default: RSA
+      description: Certificate key type
+      enum:
+      - RSA
+      - ECDSA
+      type: string
+    locality:
+      description: Locality or city
+      type: string
+    operation:
+      default: get_status
+      description: Operation to perform
+      enum:
+      - get_status
+      - issue_certificate
+      - renew_certificate
+      - revoke_certificate
+      - get_certificate
+      - list_certificates
+      - validate_certificate
+      - get_vault_status
+      type: string
+    organization:
+      description: Organization name
+      type: string
+    organizational_unit:
+      description: Organizational unit
+      type: string
+    pki_mount:
+      default: pki
+      description: Vault PKI secrets engine mount path
+      type: string
+    reason:
+      default: unspecified
+      description: Revocation reason
+      enum:
+      - unspecified
+      - key_compromise
+      - ca_compromise
+      - affiliation_changed
+      - superseded
+      - cessation_of_operation
+      type: string
+    state:
+      description: State or province
+      type: string
+    subject_alternative_names:
+      description: Subject alternative names (DNS names and IP addresses)
+      items:
+        type: string
+      type: array
+    validity_days:
+      default: 90
+      description: Certificate validity period in days
+      maximum: 365
+      minimum: 1
+      type: integer
+    vault_namespace:
+      description: Vault namespace (Enterprise feature)
+      type: string
+    vault_token:
+      description: Vault authentication token (defaults to VAULT_TOKEN environment
+        variable)
+      type: string
+    vault_url:
+      description: Vault server URL (defaults to VAULT_ADDR environment variable)
+      type: string
+  type: object
+name: vault_certificate_manager
+display_name: VaultCertificateManager
+output_schema:
+  properties:
+    certificate:
+      description: Certificate details
+      properties:
+        certificate_chain:
+          description: Certificate chain
+          items:
+            type: string
+          type: array
+        certificate_pem:
+          description: PEM-encoded certificate
+          type: string
+        issuer:
+          description: Certificate issuer
+          type: string
+        not_after:
+          description: Certificate valid until
+          format: date-time
+          type: string
+        not_before:
+          description: Certificate valid from
+          format: date-time
+          type: string
+        private_key_pem:
+          description: PEM-encoded private key
+          type: string
+        serial_number:
+          description: Certificate serial number
+          type: string
+        subject:
+          description: Certificate subject
+          type: string
+      type: object
+    certificate_id:
+      description: Certificate identifier
+      type: string
+    certificates:
+      description: List of certificates
+      items:
+        type: object
+      type: array
+    days_until_expiry:
+      description: Days until certificate expires
+      type: integer
+    error:
+      description: Error message if operation failed
+      type: string
+    operation:
+      description: Operation performed
+      type: string
+    provider:
+      description: Certificate provider used
+      type: string
+    status:
+      description: Certificate status
+      enum:
+      - active
+      - expired
+      - revoked
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+    total_count:
+      description: Total number of certificates
+      type: integer
+    validity_status:
+      description: Certificate validity status
+      enum:
+      - valid
+      - expiring_soon
+      - expired
+      - revoked
+      type: string
+    vault_status:
+      description: Vault PKI engine status information
+      type: object
+  type: object
+owner: plugpipe-security
+requirements:
+  authentication:
+  - Valid Vault token
+  - Appropriate PKI policies
+  - Certificate issuance permissions
+  network:
+  - Network connectivity to Vault server
+  - HTTPS access to Vault API
+  vault_server:
+  - HashiCorp Vault server v1.8+
+  - PKI secrets engine enabled
+  - Intermediate CA configured
+  - PKI role configured
+status: stable
+subcategory: certificates
+tags:
+- vault
+- certificates
+- pki
+- hashicorp
+- dynamic_certificates
+- enterprise
+- private_ca
+use_cases:
+- Internal service certificates
+- Microservices mTLS certificates
+- Kubernetes pod certificates
+- Development environment certificates
+- Private CA certificate issuance
+- Short-lived dynamic certificates
+- Container workload certificates
+- API gateway certificates
+vault_features:
+- Dynamic X.509 certificate generation
+- Automatic certificate lifecycle management
+- Policy-based access control
+- Short-lived certificates with automatic rotation
+- Private Certificate Authority operations
+- Enterprise audit trails and compliance
+- Kubernetes integration support
+- Microservices certificate management
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

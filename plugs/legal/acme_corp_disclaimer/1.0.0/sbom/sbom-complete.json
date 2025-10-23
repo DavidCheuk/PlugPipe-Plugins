@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:acme_corp_disclaimer-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-26T12:14:37.314517Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "acme_corp_disclaimer@1.0.0",
+      "name": "acme_corp_disclaimer",
+      "version": "1.0.0",
+      "description": "ACME Corporation customized legal disclaimer with company-specific terms and branding"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

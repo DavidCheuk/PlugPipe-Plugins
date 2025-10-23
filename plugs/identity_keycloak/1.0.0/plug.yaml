@@ -1,0 +1,478 @@
+name: identity_keycloak
+display_name: IdentityKeycloak
+version: 1.0.0
+description: Enterprise identity and access management using Keycloak for authentication,
+  authorization, and user management
+category: security
+subcategory: identity
+plugin_type: infrastructure
+contract:
+  input_schema:
+    type: object
+    properties:
+      operation:
+        type: string
+        enum:
+        - authenticate_user
+        - authorize_access
+        - create_user
+        - update_user
+        - delete_user
+        - create_role
+        - assign_role
+        - create_realm
+        - configure_sso
+        - manage_tokens
+        - federate_identity
+        - configure_ldap
+        - health_check
+        description: Identity management operation to perform
+      user_config:
+        type: object
+        properties:
+          username:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+          first_name:
+            type: string
+          last_name:
+            type: string
+          enabled:
+            type: boolean
+            default: true
+          attributes:
+            type: object
+            default: {}
+      auth_config:
+        type: object
+        properties:
+          username:
+            type: string
+          password:
+            type: string
+          realm:
+            type: string
+            default: master
+          client_id:
+            type: string
+          client_secret:
+            type: string
+          grant_type:
+            type: string
+            enum:
+            - password
+            - client_credentials
+            - authorization_code
+            default: password
+      authz_config:
+        type: object
+        properties:
+          user_id:
+            type: string
+          resource:
+            type: string
+          action:
+            type: string
+          context:
+            type: object
+            default: {}
+      role_config:
+        type: object
+        properties:
+          role_name:
+            type: string
+          description:
+            type: string
+          composite:
+            type: boolean
+            default: false
+          client_role:
+            type: boolean
+            default: false
+          attributes:
+            type: object
+            default: {}
+      sso_config:
+        type: object
+        properties:
+          provider_type:
+            type: string
+            enum:
+            - saml
+            - oidc
+            - ldap
+            - active_directory
+          provider_config:
+            type: object
+          auto_create_user:
+            type: boolean
+            default: true
+          default_roles:
+            type: array
+            items:
+              type: string
+      token_config:
+        type: object
+        properties:
+          token:
+            type: string
+          token_type:
+            type: string
+            enum:
+            - access_token
+            - refresh_token
+            - id_token
+          validate_only:
+            type: boolean
+            default: false
+      realm_config:
+        type: object
+        properties:
+          realm_name:
+            type: string
+          display_name:
+            type: string
+          enabled:
+            type: boolean
+            default: true
+          login_theme:
+            type: string
+          email_theme:
+            type: string
+          registration_allowed:
+            type: boolean
+            default: false
+      keycloak_config:
+        type: object
+        properties:
+          server_url:
+            type: string
+            description: Keycloak server URL
+          admin_username:
+            type: string
+            description: Admin username
+          admin_password:
+            type: string
+            description: Admin password
+          admin_realm:
+            type: string
+            default: master
+          verify_ssl:
+            type: boolean
+            default: true
+          timeout:
+            type: integer
+            default: 30
+        default: {}
+    required:
+    - operation
+  output_schema:
+    type: object
+    properties:
+      success:
+        type: boolean
+      result:
+        type: object
+        properties:
+          user_created:
+            type: boolean
+          user_id:
+            type: string
+          user_details:
+            type: object
+          authenticated:
+            type: boolean
+          access_token:
+            type: string
+          refresh_token:
+            type: string
+          token_type:
+            type: string
+          expires_in:
+            type: integer
+          authorized:
+            type: boolean
+          permissions:
+            type: array
+            items:
+              type: string
+          role_created:
+            type: boolean
+          role_assigned:
+            type: boolean
+          roles:
+            type: array
+            items:
+              type: string
+          sso_configured:
+            type: boolean
+          provider_id:
+            type: string
+          keycloak_status:
+            type: string
+          realm_status:
+            type: string
+      error:
+        type: string
+      identity_metadata:
+        type: object
+        properties:
+          keycloak_server:
+            type: string
+          realm:
+            type: string
+          operation_timestamp:
+            type: string
+    required:
+    - success
+dependencies:
+  system:
+  - keycloak >= 20.0.0
+  - postgresql >= 13.0
+  - java >= 11
+  python:
+  - python-keycloak >= 3.0.0
+  - requests >= 2.25.0
+  - cryptography >= 3.4.8
+metadata:
+  author: PlugPipe Team
+  license: MIT
+  homepage: https://github.com/plugpipe/plugs/identity_keycloak
+  philosophy: "This plugin demonstrates the PlugPipe principle \"reuse, never reinvent\"\
+    \ by \nleveraging Keycloak's proven enterprise identity and access management\
+    \ platform\ninstead of implementing custom authentication, authorization, and\
+    \ user management systems.\n"
+  identity_features:
+  - Enterprise identity and access management via Keycloak
+  - Standards-based authentication (OAuth2, OpenID Connect, SAML)
+  - Centralized user management with self-service capabilities
+  - Role-based access control (RBAC) with fine-grained permissions
+  - Identity federation with LDAP, Active Directory, and social providers
+  - Single Sign-On (SSO) across applications and services
+  - Multi-factor authentication (MFA) support
+  - Audit trails and compliance reporting
+  enterprise_features:
+  - Integration with existing LDAP and Active Directory
+  - SAML and OpenID Connect federation
+  - Multi-realm support for organizational separation
+  - Custom authentication flows and policies
+  - API-first architecture for programmatic management
+  - High availability and clustering support
+  - Enterprise support through Red Hat
+keycloak:
+  default_config:
+    admin:
+      username: admin
+      password: ${KEYCLOAK_ADMIN_PASSWORD}
+      realm: master
+    database:
+      vendor: postgresql
+      hostname: localhost
+      port: 5432
+      database: keycloak
+      username: keycloak
+      password: ${DB_PASSWORD}
+    features:
+    - account3
+    - admin-fine-grained-authz
+    - authorization
+    - web-authn
+  authentication_flows:
+    browser:
+    - Cookie
+    - Kerberos
+    - Identity Provider Redirector
+    - Browser Flow
+    direct_grant:
+    - Direct Grant Flow
+    - Username Password Form
+    - OTP Form
+    registration:
+    - Registration Form
+    - Profile Validation
+    - Password Validation
+    - Recaptcha
+identity_providers:
+  ldap:
+    vendor: ad
+    connection_url: ${LDAP_URL}
+    bind_dn: ${LDAP_BIND_DN}
+    bind_credential: ${LDAP_PASSWORD}
+    user_dn: ${LDAP_USER_DN}
+    username_attribute: sAMAccountName
+    rdn_attribute: cn
+    uuid_attribute: objectGUID
+  saml:
+    alias: enterprise-saml
+    display_name: Enterprise SAML
+    single_sign_on_service_url: ${SAML_SSO_URL}
+    single_logout_service_url: ${SAML_SLO_URL}
+    name_id_policy_format: urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
+  oidc:
+    alias: google
+    display_name: Google
+    client_id: ${GOOGLE_CLIENT_ID}
+    client_secret: ${GOOGLE_CLIENT_SECRET}
+    authorization_url: https://accounts.google.com/o/oauth2/v2/auth
+    token_url: https://www.googleapis.com/oauth2/v4/token
+client_templates:
+  web_application:
+    client_id: plugpipe-web
+    enabled: true
+    client_authenticator_type: client-secret
+    redirect_uris:
+    - https://app.company.com/*
+    web_origins:
+    - https://app.company.com
+    protocol: openid-connect
+    public_client: false
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+    direct_access_grants_enabled: false
+  api_service:
+    client_id: plugpipe-api
+    enabled: true
+    client_authenticator_type: client-secret
+    protocol: openid-connect
+    public_client: false
+    service_accounts_enabled: true
+    authorization_services_enabled: true
+    standard_flow_enabled: false
+    direct_access_grants_enabled: true
+  mobile_app:
+    client_id: plugpipe-mobile
+    enabled: true
+    protocol: openid-connect
+    public_client: true
+    redirect_uris:
+    - plugpipe://callback
+    web_origins:
+    - +
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+config_templates:
+  development:
+    keycloak_config:
+      server_url: http://localhost:8080
+      admin_username: admin
+      admin_password: admin
+      verify_ssl: false
+    default_realm: development
+  production:
+    keycloak_config:
+      server_url: ${KEYCLOAK_URL}
+      admin_username: ${KEYCLOAK_ADMIN_USER}
+      admin_password: ${KEYCLOAK_ADMIN_PASSWORD}
+      verify_ssl: true
+    default_realm: production
+  testing:
+    keycloak_config:
+      server_url: http://keycloak:8080
+      admin_username: admin
+      admin_password: test-password
+      verify_ssl: false
+    mock_mode: true
+role_templates:
+  system_roles:
+    admin:
+      name: admin
+      description: System administrator with full access
+      composite: true
+      attributes:
+        permissions:
+        - '*'
+    user:
+      name: user
+      description: Standard user with basic access
+      composite: false
+      attributes:
+        permissions:
+        - read
+        - write:own
+    viewer:
+      name: viewer
+      description: Read-only access
+      composite: false
+      attributes:
+        permissions:
+        - read
+  application_roles:
+    plugin_admin:
+      name: plugin_admin
+      description: Plug administration access
+      client_role: true
+      attributes:
+        scope:
+        - plugin:manage
+        - plugin:execute
+    pipeline_user:
+      name: pipeline_user
+      description: Pipe execution access
+      client_role: true
+      attributes:
+        scope:
+        - pipeline:execute
+        - pipeline:view
+security_policies:
+  password_policy:
+  - length(12)
+  - upperCase(1)
+  - lowerCase(1)
+  - digits(1)
+  - specialChars(1)
+  - notUsername
+  - passwordHistory(5)
+  brute_force_protection:
+    enabled: true
+    max_login_failures: 5
+    wait_increment_seconds: 60
+    quick_login_check_millis: 1000
+    minimum_quick_login_wait_seconds: 60
+  session_management:
+    sso_session_idle_timeout: 30m
+    sso_session_max_lifespan: 10h
+    access_token_lifespan: 5m
+    refresh_token_max_reuse: 0
+audit_config:
+  events:
+  - LOGIN
+  - LOGOUT
+  - REGISTER
+  - UPDATE_PROFILE
+  - UPDATE_PASSWORD
+  - PERMISSION_TOKEN
+  - CLIENT_LOGIN
+  - CLIENT_REGISTER
+  admin_events:
+  - CREATE_USER
+  - UPDATE_USER
+  - DELETE_USER
+  - CREATE_ROLE
+  - DELETE_ROLE
+  - CREATE_CLIENT
+  - UPDATE_CLIENT
+  storage:
+    type: database
+    retention_days: 90
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/identity_keycloak-sbom.json
+  complete: sbom/identity_keycloak-sbom-complete.json
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

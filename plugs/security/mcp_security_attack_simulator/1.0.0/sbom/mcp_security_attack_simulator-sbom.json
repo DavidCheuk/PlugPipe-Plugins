@@ -1,0 +1,171 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:mcp_security_attack_simulator-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T17:30:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_security_attack_simulator@1.0.0",
+      "name": "mcp_security_attack_simulator",
+      "version": "1.0.0",
+      "description": "MCP Security Attack Simulation and Testing Plugin for comprehensive MCP protocol security validation",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "aiohttp@3.8.0",
+      "name": "aiohttp",
+      "version": "3.8.0",
+      "description": "Async http client/server framework",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/aiohttp@3.8.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/aio-libs/aiohttp"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "faker@18.0.0",
+      "name": "faker",
+      "version": "18.0.0",
+      "description": "Faker is a Python package that generates fake data",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/faker@18.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/joke2k/faker"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.31.0",
+      "name": "requests",
+      "version": "2.31.0",
+      "description": "Python HTTP for Humans",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.31.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "asyncio@3.11.0",
+      "name": "asyncio",
+      "version": "3.11.0",
+      "description": "Asynchronous I/O library for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF"
+          }
+        }
+      ],
+      "purl": "pkg:python/asyncio@3.11.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "mcp_security_attack_simulator@1.0.0",
+      "dependsOn": [
+        "aiohttp@3.8.0",
+        "faker@18.0.0",
+        "requests@2.31.0",
+        "asyncio@3.11.0"
+      ]
+    },
+    {
+      "ref": "faker@18.0.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "aiohttp@3.8.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "mcp_security_attack_simulator@1.0.0",
+      "subjects": ["mcp_security_attack_simulator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_attack_simulation_plugin"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_attack_simulator@1.0.0",
+      "subjects": ["mcp_security_attack_simulator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "attack_simulation_types",
+        "value": "PAYLOAD_INJECTION_PROTOCOL_VIOLATION_AUTH_BYPASS_DOS_SIMULATION"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_attack_simulator@1.0.0",
+      "subjects": ["mcp_security_attack_simulator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "sandbox_requirements",
+        "value": "REQUIRED_FOR_SAFETY"
+      }
+    },
+    {
+      "bom-ref": "mcp_security_attack_simulator@1.0.0",
+      "subjects": ["mcp_security_attack_simulator@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "attack_simulation_testing_layer"
+      }
+    },
+    {
+      "bom-ref": "faker@18.0.0",
+      "subjects": ["faker@18.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "attack_payload_generation",
+        "value": "SYNTHETIC_DATA_FOR_SECURITY_TESTING"
+      }
+    }
+  ]
+}

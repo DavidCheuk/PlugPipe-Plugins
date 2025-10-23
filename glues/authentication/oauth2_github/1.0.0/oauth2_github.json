@@ -1,0 +1,38 @@
+{
+  "name": "oauth2_github",
+  "version": "1.0.0",
+  "description": "GitHub OAuth 2.0 authentication bridge that connects GitHub OAuth providers to PlugPipe authentication system",
+  "category": "authentication",
+  "status": "stable",
+  "source_schema": "github_oauth_credentials",
+  "target_schema": "plugpipe_user_session",
+  "mappings": [
+    {
+      "source_field": "github_oauth_credentials.access_token",
+      "target_field": "plugpipe_user_session.auth_token",
+      "transform": {
+        "operation": "token_bridge",
+        "validation": "github_token_verification"
+      }
+    },
+    {
+      "source_field": "github_oauth_credentials.user_profile",
+      "target_field": "plugpipe_user_session.user_info",
+      "transform": {
+        "operation": "profile_mapping",
+        "extract_fields": ["login", "email", "name", "avatar_url"],
+        "organization_check": "validate_membership"
+      }
+    },
+    {
+      "source_field": "github_oauth_credentials.scope",
+      "target_field": "plugpipe_user_session.permissions",
+      "transform": {
+        "operation": "scope_to_permission_mapping",
+        "permission_model": "plugpipe_rbac"
+      }
+    }
+  ],
+  "error_policy": "fail_fast",
+  "tags": ["authentication", "oauth2", "github", "bridge", "enterprise"]
+}

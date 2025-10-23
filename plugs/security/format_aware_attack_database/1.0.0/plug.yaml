@@ -1,0 +1,210 @@
+attack_categories:
+- sql_injection (20 attacks)
+- prompt_injection (15 attacks)
+- mcp_protocol_abuse (25 attacks, raw payloads auto-wrapped)
+- xss (15 attacks)
+- command_injection (15 attacks)
+- path_traversal
+- secret_exposure
+- auth_bypass
+- file_upload
+- api_abuse
+- csrf
+- xxe_injection
+- ssti
+- ldap_injection
+- http_header_injection
+author: PlugPipe Security
+capabilities:
+- format_aware_attack_generation
+- protocol_wrapper_auto_detection
+- persistent_sqlite_storage
+- mcp_http_websocket_graphql_wrappers
+- reusable_attack_datasets
+- mcp_guardian_test_integration
+- enterprise_security_testing
+- comprehensive_threat_simulation
+category: security
+dependencies:
+  internal_dependencies:
+  - description: MCP Guardian Enterprise Security Proxy
+    name: mcp_guardian
+    optional: true
+    version: '>=1.0.0'
+  - description: Protocol format transformation
+    name: dynamic_format_transformer
+    optional: false
+    version: '>=1.0.0'
+  - description: Universal Security Plugin Interface Standard
+    name: universal_security_interface
+    optional: false
+    version: '>=1.0.0'
+description: Format-aware attack database with MCP Guardian test framework integration
+  - provides comprehensive security testing with automatic protocol wrapper detection
+  and persistent SQLite storage
+discovery: public
+enterprise_testing:
+  audit_logging: true
+  compliance_validation: true
+  multi_tenant_support: true
+  oauth2_integration: true
+  performance_monitoring: true
+  threat_intelligence_integration: true
+entry_point: main.py
+external_dependencies: []
+format_detection:
+  api_attacks: Auto-wrap in REST API and GraphQL formats
+  mcp_attacks: Auto-wrap in JSON-RPC 2.0 with appropriate methods (tools/call, resources/read,
+    sampling/createMessage)
+  realtime_attacks: Auto-wrap in WebSocket messages
+  web_attacks: Auto-wrap in HTTP requests and GraphQL queries
+mcp_guardian_attack_patterns:
+  enterprise_specific_threats:
+  - OAuth 2.1 token manipulation
+  - Rate limiting bypass techniques
+  - Audit trail evasion attempts
+  - Service mesh security violations
+  protocol_abuse_vectors:
+  - MCP JSON-RPC method injection
+  - HTTP request smuggling
+  - WebSocket message tampering
+  - GraphQL query complexity attacks
+  proxy_bypass_attempts:
+  - Authentication bypass through malformed tokens
+  - Multi-tenant isolation violations
+  - Policy enforcement circumvention
+mcp_guardian_operations:
+  generate_mcp_guardian_test_suite:
+    description: Generate comprehensive test suite for MCP Guardian security validation
+    parameters:
+      attack_count_per_format:
+        default: 50
+        description: Number of attacks per protocol format
+        type: integer
+      include_mcp_guardian_specific:
+        default: true
+        description: Include MCP Guardian specific attack patterns
+        type: boolean
+      protocol_formats:
+        default:
+        - raw
+        - mcp
+        - http
+        - websocket
+        - rest_api
+        description: Protocol formats to include in test suite
+        type: array
+      security_profile:
+        default: standard
+        description: MCP Guardian security profile to test
+        enum:
+        - basic
+        - standard
+        - enterprise
+        type: string
+  validate_mcp_guardian_coverage:
+    description: Validate attack database covers MCP Guardian security requirements
+    parameters:
+      compliance_standards:
+        default:
+        - OWASP_LLM_Top_10_2025
+        - ISO_27001
+        - SOC2_Type_II
+        description: Compliance standards to validate against
+        type: array
+      security_profile:
+        default: standard
+        enum:
+        - basic
+        - standard
+        - enterprise
+        type: string
+mcp_guardian_test_framework:
+  compatible_versions:
+  - '>=1.0.0'
+  role: comprehensive_threat_database
+  security_profiles:
+  - basic: 250 attacks
+  - standard: 500 attacks
+  - enterprise: 1000+ attacks
+  supported_features:
+  - multi_protocol_attack_generation
+  - format_aware_threat_simulation
+  - mcp_guardian_compatibility_testing
+  - enterprise_vulnerability_assessment
+  - real_time_security_validation
+  test_methodologies:
+  - individual_plugin_testing
+  - batch_plugin_evaluation
+  - concurrent_threat_simulation
+  - protocol_format_validation
+  - enterprise_security_assessment
+monitoring:
+  health_checks:
+  - attack_database_health
+  - protocol_format_generation_health
+  - mcp_guardian_integration_health
+  - enterprise_testing_framework_health
+  metrics:
+  - attack_generation_count
+  - protocol_format_distribution
+  - mcp_guardian_test_execution_count
+  - enterprise_assessment_count
+  - threat_simulation_duration
+name: format_aware_attack_database
+display_name: FormatAwareAttackDatabase
+operations:
+  generate_attacks:
+    description: Generate or load format-aware attacks with protocol wrappers
+    parameters:
+      count:
+        default: 500
+        description: Number of attacks to generate
+        type: integer
+      protocol_format:
+        default: all
+        description: Filter attacks by protocol format
+        enum:
+        - all
+        - raw
+        - mcp
+        - http
+        - websocket
+        - graphql
+        type: string
+protocols_supported:
+- raw
+- mcp (JSON-RPC 2.0)
+- http
+- websocket
+- graphql
+- grpc
+- mqtt
+- rest_api
+schema_validation: true
+storage:
+  backend: sqlite
+  deduplication: true
+  format_aware: true
+  location: /tmp/plugpipe.db
+  persistent: true
+tags:
+- security
+- attack-database
+- mcp
+- protocol-aware
+- persistent
+- sqlite
+- mcp-guardian
+- test-framework
+- enterprise
+version: 1.0.0
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

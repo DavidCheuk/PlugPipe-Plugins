@@ -1,0 +1,111 @@
+config_defaults:
+  computation_level: production
+  entropy_threshold: 0.5
+  generation_count: 5
+  mode: fast_semantic
+config_schema:
+  properties:
+    computation_level:
+      default: production
+      enum:
+      - research_grade
+      - production
+      - efficient
+      - minimal
+      type: string
+    entropy_threshold:
+      default: 0.5
+      maximum: 1
+      minimum: 0
+      type: number
+    generation_count:
+      default: 5
+      maximum: 20
+      minimum: 2
+      type: integer
+    mode:
+      default: fast_semantic
+      enum:
+      - full_semantic
+      - fast_semantic
+      - embedding_only
+      - fallback_pattern
+      type: string
+  type: object
+description: Oxford's Nature-published semantic entropy method for meaning-level hallucination
+  detection
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - math
+  - collections
+  - numpy
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      description: Optional context
+      type: string
+    reference_text:
+      description: Optional reference text
+      type: string
+    text:
+      description: Text to analyze for hallucinations
+      type: string
+  required:
+  - text
+  type: object
+metadata:
+  capabilities:
+  - semantic_entropy
+  - von_neumann_entropy
+  - hidden_state_analysis
+  category: security
+  memory_mb: 1024
+  research_validated: true
+  type: detector
+name: semantic_entropy
+display_name: SemanticEntropy
+output_schema:
+  properties:
+    confidence:
+      description: Confidence score (0-1)
+      type: number
+    consistency_score:
+      description: Consistency score across generations
+      type: number
+    found:
+      description: Whether hallucination was detected
+      type: boolean
+    processing_time_ms:
+      description: Processing time in milliseconds
+      type: number
+    semantic_entropy:
+      description: Computed semantic entropy
+      type: number
+  required:
+  - found
+  - confidence
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- hallucination
+- semantic-entropy
+- oxford-research
+- transformer
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:open_appsec",
+    "name": "Open Appsec Agent",
+    "description": "Enterprise-grade Web Application Firewall powered by machine learning for zero-day threat protection and OWASP Top 10 security",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/open_appsec",
+    "skills": [
+      {
+        "id": "open_appsec-primary",
+        "name": "Open Appsec",
+        "description": "Enterprise-grade Web Application Firewall powered by machine learning for zero-day threat protection and OWASP Top 10 security",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "open_appsec",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "waf",
+          "web-application-firewall",
+          "machine-learning",
+          "threat-detection",
+          "owasp",
+          "api-security",
+          "zero-day-protection"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Apache-2.0"
+      },
+      "generatedAt": "2025-10-09T00:21:35.657065Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

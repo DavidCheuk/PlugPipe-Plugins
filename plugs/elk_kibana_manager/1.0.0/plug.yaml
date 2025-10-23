@@ -1,0 +1,81 @@
+name: elk_kibana_manager
+display_name: ELKKibanaManager
+version: 1.0.0
+description: Programmatic Kibana dashboard and visualization management. Create dashboards,
+  import templates, and auto-generate from plugin schemas.
+author: PlugPipe Team
+owner: PlugPipe Infrastructure Team
+status: planned
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: infrastructure
+  category: management
+  capabilities:
+  - dashboard_management
+  - visualization_creation
+  - watcher_configuration
+  - auto_generation
+  memory_mb: 128
+tags:
+- kibana
+- dashboard
+- visualization
+- watcher
+- infrastructure
+config_schema:
+  type: object
+  properties:
+    kibana_url:
+      type: string
+      default: http://localhost:5601
+    username:
+      type: string
+    password:
+      type: string
+    timeout:
+      type: integer
+      default: 30
+input_schema:
+  type: object
+  required:
+  - operation
+  properties:
+    operation:
+      type: string
+      enum:
+      - create_dashboard
+      - import_dashboard
+      - create_visualization
+      - create_index_pattern
+      - configure_watcher
+      - generate_plugin_dashboard
+output_schema:
+  type: object
+  required:
+  - success
+  properties:
+    success:
+      type: boolean
+    message:
+      type: string
+    dashboard_id:
+      type: string
+    dashboard_url:
+      type: string
+    visualizations_created:
+      type: array
+external_dependencies:
+- name: requests
+  version: '>=2.25.0'
+  purpose: Kibana API client
+- name: jinja2
+  version: '>=3.0.0'
+  purpose: Dashboard template engine
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

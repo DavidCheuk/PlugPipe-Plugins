@@ -1,0 +1,16 @@
+name: cli_parameter_mapping_coordinator
+version: 1.0.0
+description: Intelligent coordinator for CLI parameter mappings that manages versioning and synchronizes parameter mappings across plugin ecosystem
+author: PlugPipe Integration Team
+category: transformation
+status: active
+source_schema: plugin_parameter_changes
+target_schema: synchronized_parameter_mappings
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- transformation
+- cli-coordination
+- parameter-mapping
+- ecosystem-synchronization
+- version-management

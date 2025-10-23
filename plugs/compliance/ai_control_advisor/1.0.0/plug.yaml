@@ -1,0 +1,761 @@
+capabilities:
+- ai_powered_recommendations
+- multi_framework_analysis
+- cost_benefit_optimization
+- predictive_analytics
+- industry_benchmarking
+- automated_gap_analysis
+- risk_based_prioritization
+- continuous_learning
+compliance:
+  ai_governance_compliant: true
+  audit_logging: true
+  compliance_framework_support: true
+  continuous_monitoring: Continuous compliance monitoring and gap analysis capabilities
+  control_recommendations: AI-generated recommendations follow industry best practices
+    and regulatory requirements
+  data_privacy_compliant: true
+  risk_assessment_integration: Comprehensive risk assessment with predictive analytics
+  supported_frameworks:
+  - SOX (Sarbanes-Oxley)
+  - GDPR (General Data Protection Regulation)
+  - HIPAA (Health Insurance Portability and Accountability Act)
+  - PCI-DSS (Payment Card Industry Data Security Standard)
+  - ISO 27001 (Information Security Management)
+  - NIST Cybersecurity Framework
+  - FedRAMP (Federal Risk and Authorization Management Program)
+  - CIS Controls (Center for Internet Security)
+  - COBIT (Control Objectives for Information and Related Technologies)
+  - ITIL (Information Technology Infrastructure Library)
+dependencies:
+- opa_policy_enterprise/1.0.0
+- compliance/risk_assessment/1.0.0
+- compliance/generic_report_generator/1.0.0
+- core/agent_factory/1.0.0
+- intelligence/llm_service/1.0.0
+- monitoring/prometheus/1.0.0
+- audit/elk_stack/1.0.0
+description: AI-driven control recommendation engine for intelligent compliance management
+  and risk mitigation
+discoverability: public
+enterprise_features:
+  ai_powered_optimization: true
+  continuous_learning: true
+  custom_control_libraries: true
+  executive_dashboards: true
+  industry_benchmarking: true
+  integration_apis: true
+  multi_tenant_support: true
+  predictive_analytics: true
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  - pandas
+  - numpy
+  - random
+  requirements_file: requirements.txt
+industry_controls:
+  financial:
+  - segregation_of_duties
+  - transaction_monitoring
+  - reconciliation_controls
+  - fraud_detection
+  healthcare:
+  - phi_encryption
+  - access_logging
+  - audit_trails
+  - breach_notification
+  technology:
+  - secure_development
+  - vulnerability_management
+  - incident_response
+  - data_classification
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: suggest_controls
+      description: AI control advisory action to perform
+      enum:
+      - suggest_controls
+      - optimize_controls
+      - assess_control_effectiveness
+      - generate_control_matrix
+      - benchmark_controls
+      - predict_compliance_gaps
+      type: string
+    advisory_config:
+      properties:
+        constraints:
+          properties:
+            budget_limit:
+              type: number
+            resource_availability:
+              enum:
+              - limited
+              - moderate
+              - abundant
+              type: string
+            technology_stack:
+              items:
+                type: string
+              type: array
+            timeline:
+              type: string
+          type: object
+        control_objectives:
+          description: Specific control objectives to address
+          items:
+            type: string
+          type: array
+        current_risks:
+          items:
+            properties:
+              impact_score:
+                maximum: 5
+                minimum: 1
+                type: integer
+              probability_score:
+                maximum: 5
+                minimum: 1
+                type: integer
+              risk_category:
+                type: string
+              risk_id:
+                type: string
+              risk_level:
+                enum:
+                - low
+                - medium
+                - high
+                - critical
+                type: string
+            type: object
+          type: array
+        existing_controls:
+          items:
+            properties:
+              control_id:
+                type: string
+              control_type:
+                enum:
+                - preventive
+                - detective
+                - corrective
+                - compensating
+                type: string
+              effectiveness:
+                enum:
+                - effective
+                - partially_effective
+                - ineffective
+                - not_implemented
+                type: string
+              implementation_cost:
+                type: number
+              maintenance_cost:
+                type: number
+            type: object
+          type: array
+        framework:
+          description: Target compliance framework
+          enum:
+          - sox
+          - gdpr
+          - hipaa
+          - pci-dss
+          - iso27001
+          - nist
+          - fedramp
+          - cis
+          - cobit
+          - itil
+          - multi-framework
+          type: string
+        risk_profile:
+          properties:
+            budget_range:
+              enum:
+              - under_100k
+              - 100k_500k
+              - 500k_2m
+              - 2m_10m
+              - over_10m
+              type: string
+            geographic_presence:
+              items:
+                type: string
+              type: array
+            industry:
+              enum:
+              - financial
+              - healthcare
+              - technology
+              - manufacturing
+              - retail
+              - government
+              - education
+              - energy
+              type: string
+            organization_size:
+              enum:
+              - startup
+              - small
+              - medium
+              - large
+              - enterprise
+              type: string
+            risk_appetite:
+              enum:
+              - conservative
+              - moderate
+              - aggressive
+              type: string
+          type: object
+      type: object
+    benchmark_config:
+      properties:
+        benchmark_metrics:
+          items:
+            enum:
+            - control_coverage
+            - implementation_maturity
+            - cost_efficiency
+            - automation_level
+            - incident_rate
+            type: string
+          type: array
+        peer_industry:
+          type: string
+        peer_size:
+          type: string
+      type: object
+    optimization_config:
+      properties:
+        optimization_goals:
+          items:
+            enum:
+            - cost_reduction
+            - risk_reduction
+            - efficiency_improvement
+            - automation_increase
+            - compliance_improvement
+            type: string
+          type: array
+        priority_weights:
+          properties:
+            cost_weight:
+              maximum: 1
+              minimum: 0
+              type: number
+            efficiency_weight:
+              maximum: 1
+              minimum: 0
+              type: number
+            risk_weight:
+              maximum: 1
+              minimum: 0
+              type: number
+          type: object
+        scenarios_to_analyze:
+          default: 3
+          maximum: 10
+          minimum: 1
+          type: integer
+      type: object
+  required:
+  - action
+  type: object
+ml_models:
+  control_effectiveness_predictor:
+    description: Predicts control effectiveness based on implementation characteristics
+    features:
+    - industry
+    - org_size
+    - technology_stack
+    - implementation_approach
+  cost_estimator:
+    description: Estimates implementation and maintenance costs
+    features:
+    - control_complexity
+    - technology_requirements
+    - org_maturity
+  risk_reduction_calculator:
+    description: Calculates expected risk reduction from control implementation
+    features:
+    - risk_type
+    - control_type
+    - implementation_quality
+name: ai_control_advisor
+display_name: AIControlAdvisor
+output_schema:
+  additionalProperties: false
+  properties:
+    advisory_id:
+      description: Unique advisory session identifier
+      type: string
+    ai_insights:
+      description: AI-generated insights and predictions
+      properties:
+        emerging_risks:
+          items:
+            type: string
+          type: array
+        key_insights:
+          items:
+            type: string
+          type: array
+        predictions:
+          items:
+            properties:
+              confidence:
+                type: number
+              prediction:
+                type: string
+              timeframe:
+                type: string
+            type: object
+          type: array
+        technology_trends:
+          items:
+            type: string
+          type: array
+      type: object
+    benchmark_analysis:
+      description: Industry benchmark analysis
+      properties:
+        improvement_opportunities:
+          items:
+            properties:
+              implementation_difficulty:
+                type: string
+              opportunity:
+                type: string
+              potential_impact:
+                type: string
+            type: object
+          type: array
+        maturity_roadmap:
+          items:
+            properties:
+              key_activities:
+                items:
+                  type: string
+                type: array
+              phase:
+                type: string
+              success_criteria:
+                items:
+                  type: string
+                type: array
+              timeline:
+                type: string
+            type: object
+          type: array
+        peer_comparison:
+          properties:
+            best_practices:
+              items:
+                type: string
+              type: array
+            industry_average:
+              type: object
+            percentile_ranking:
+              type: number
+          type: object
+      type: object
+    control_matrix:
+      description: Comprehensive control matrix
+      properties:
+        compliance_coverage:
+          properties:
+            critical_gaps:
+              items:
+                type: string
+              type: array
+            framework_coverage:
+              type: object
+            overall_coverage:
+              type: number
+          type: object
+        framework_mapping:
+          items:
+            properties:
+              control_objective:
+                type: string
+              coverage_percentage:
+                type: number
+              mapped_controls:
+                items:
+                  type: string
+                type: array
+              maturity_level:
+                type: string
+            type: object
+          type: array
+        risk_control_mapping:
+          items:
+            properties:
+              applicable_controls:
+                items:
+                  type: string
+                type: array
+              control_effectiveness:
+                type: string
+              risk_category:
+                type: string
+            type: object
+          type: array
+      type: object
+    control_optimization:
+      description: Control portfolio optimization results
+      properties:
+        optimization_rationale:
+          type: string
+        optimization_scenarios:
+          items:
+            properties:
+              implementation_timeline:
+                type: string
+              recommended_controls:
+                items:
+                  type: string
+                type: array
+              risk_reduction:
+                type: number
+              scenario_name:
+                type: string
+              total_cost:
+                type: number
+              trade_offs:
+                type: string
+            type: object
+          type: array
+        recommended_scenario:
+          type: string
+      type: object
+    control_recommendations:
+      description: AI-generated control recommendations
+      items:
+        properties:
+          addressed_risks:
+            items:
+              type: string
+            type: array
+          alternatives:
+            items:
+              properties:
+                alternative_name:
+                  type: string
+                cost_difference:
+                  type: number
+                effectiveness_difference:
+                  type: number
+              type: object
+            type: array
+          confidence_level:
+            maximum: 100
+            minimum: 0
+            type: number
+          control_category:
+            type: string
+          control_name:
+            type: string
+          control_type:
+            enum:
+            - preventive
+            - detective
+            - corrective
+            - compensating
+            type: string
+          description:
+            type: string
+          effort_estimate:
+            properties:
+              complexity:
+                enum:
+                - low
+                - medium
+                - high
+                type: string
+              person_hours:
+                type: integer
+              timeline_weeks:
+                type: integer
+            type: object
+          estimated_cost:
+            properties:
+              annual_maintenance:
+                type: number
+              currency:
+                type: string
+              implementation_cost:
+                type: number
+              total_3_year_cost:
+                type: number
+            type: object
+          expected_benefits:
+            properties:
+              compliance_improvement:
+                type: string
+              efficiency_gains:
+                type: string
+              risk_reduction_percentage:
+                type: number
+              roi_months:
+                type: integer
+            type: object
+          implementation_approach:
+            type: string
+          priority_score:
+            maximum: 100
+            minimum: 0
+            type: number
+          rationale:
+            type: string
+          recommendation_id:
+            type: string
+          technology_requirements:
+            items:
+              type: string
+            type: array
+        type: object
+      type: array
+    effectiveness_assessment:
+      description: Control effectiveness assessment
+      properties:
+        control_gaps:
+          items:
+            properties:
+              gap_type:
+                type: string
+              recommended_action:
+                type: string
+              severity:
+                enum:
+                - low
+                - medium
+                - high
+                - critical
+                type: string
+            type: object
+          type: array
+        current_effectiveness_score:
+          maximum: 100
+          minimum: 0
+          type: number
+        improvement_areas:
+          items:
+            properties:
+              area:
+                type: string
+              current_maturity:
+                enum:
+                - initial
+                - developing
+                - defined
+                - managed
+                - optimizing
+                type: string
+              gap_analysis:
+                type: string
+              target_maturity:
+                enum:
+                - initial
+                - developing
+                - defined
+                - managed
+                - optimizing
+                type: string
+            type: object
+          type: array
+        projected_effectiveness_score:
+          maximum: 100
+          minimum: 0
+          type: number
+      type: object
+    error:
+      description: Error message if status is error
+      type: string
+    message:
+      description: Status message
+      type: string
+    status:
+      description: Advisory status
+      enum:
+      - success
+      - error
+      - warning
+      type: string
+  required:
+  - status
+  type: object
+owner: PlugPipe Compliance Team
+performance:
+  benchmark_analysis: < 1 minute for peer comparison
+  optimization_algorithms: < 2 minutes for complex portfolios
+  predictive_analytics: < 5 minutes for trend analysis
+  recommendation_generation: < 30 seconds for standard analysis
+recommendation_frameworks:
+  compliance_focused:
+    description: Compliance-focused control selection
+    factors:
+    - regulatory_requirements
+    - audit_readiness
+    - framework_coverage
+  cost_optimized:
+    description: Cost-optimized control portfolio
+    factors:
+    - implementation_cost
+    - maintenance_cost
+    - risk_reduction
+    - roi
+  risk_based:
+    description: Risk-based control recommendations
+    factors:
+    - risk_level
+    - impact
+    - probability
+    - cost_effectiveness
+  technology_driven:
+    description: Technology-driven automation recommendations
+    factors:
+    - automation_potential
+    - integration_complexity
+    - scalability
+reliability:
+  confidence_scoring: true
+  error_handling: true
+  fallback_recommendations: true
+  retry_mechanisms: true
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - asyncio
+    - json
+    - logging
+    - uuid
+    - datetime
+    - typing
+    - dataclasses
+    - random
+    - collections
+    - re
+    name: Python Standard Library
+    notes: Uses standard library modules for compliance operations, security validation,
+      and AI recommendation generation
+    purpose: Core functionality for async processing, data handling, AI computations,
+      input validation, and security operations
+    risk_level: low
+    version: 3.8+
+  - name: NumPy
+    notes: Scientific computing library for AI-powered analytics
+    optional: false
+    purpose: Numerical computations for risk analysis and statistical modeling
+    risk_level: low
+    version: '>=1.21.0'
+  - name: Pandas
+    notes: Data processing library for compliance reporting and analysis
+    optional: false
+    purpose: Data analysis and manipulation for compliance metrics
+    risk_level: low
+    version: '>=1.5.0'
+  - name: Scikit-learn
+    notes: ML library for AI-powered control recommendations and risk prediction
+    optional: false
+    purpose: Machine learning algorithms for predictive compliance analytics
+    risk_level: medium
+    version: '>=1.2.0'
+  - name: NetworkX
+    notes: Network analysis for compliance control dependencies
+    optional: true
+    purpose: Graph analysis for control relationship mapping
+    risk_level: low
+    version: '>=2.8.0'
+  - name: PuLP
+    notes: Optimization library for cost-benefit control selection
+    optional: true
+    purpose: Linear programming for control portfolio optimization
+    risk_level: low
+    version: '>=2.7.0'
+  - name: SciPy
+    notes: Scientific computing for advanced compliance analytics
+    optional: true
+    purpose: Advanced scientific computing for statistical analysis
+    risk_level: low
+    version: '>=1.9.0'
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes comprehensive fallback validation
+      when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    version: 1.0.0
+  - modules:
+    - shares.utils.config_loader
+    name: PlugPipe Framework
+    notes: Core PlugPipe framework components for plugin orchestration and AI services
+    purpose: Plugin discovery, integration, and LLM configuration management
+    risk_level: low
+    version: '>=1.0.0'
+  summary: AI Control Advisor Plugin with comprehensive compliance management, Universal
+    Input Sanitizer security integration, and enterprise AI-powered control recommendations
+security:
+  ai_model_security: Controlled AI model access through PlugPipe LLM service with
+    input validation
+  audit_logging: All AI recommendations and compliance assessments logged for audit
+    trails
+  command_injection_protection: true
+  compliance_data_protection: Sensitive compliance data handled with encryption and
+    access controls
+  configuration_validation: true
+  file_system_access: false
+  input_validation: true
+  network_access: true
+  network_destinations:
+  - AI/LLM service endpoints (via PlugPipe LLM service)
+  path_traversal_protection: true
+  requires_secrets: false
+  sensitive_data_handling: Risk profiles, control configurations, and compliance data
+    sanitized and validated
+  universal_sanitizer_integration: true
+status: stable
+tags:
+- compliance
+- ai
+- controls
+- recommendations
+- optimization
+- risk-management
+- automation
+- predictive-analytics
+- enterprise
+- advisory
+- security-hardened
+- universal-sanitizer
+- validation
+- governance
+- audit
+- frameworks
+- benchmarking
+- cost-optimization
+- ai-powered
+- machine-learning
+triggers:
+- risk_assessment_complete
+- compliance_gap_identified
+- new_regulation
+- control_effectiveness_review
+- incident_analysis
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

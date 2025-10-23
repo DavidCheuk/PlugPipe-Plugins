@@ -1,0 +1,287 @@
+author: PlugPipe Team
+business_value:
+  api_hosting_benefits:
+  - Custom REST/GraphQL API hosting without infrastructure setup
+  - Multi-tenant API serving with isolated plugin routing
+  - Enterprise authentication and middleware integration
+  - Automatic OpenAPI documentation generation
+  competitive_advantages:
+  - First universal FastAPI server plugin for any custom API use case
+  - Dynamic endpoint registration eliminates need for code changes
+  - Plugin-based routing enables modular API composition
+  - Zero-code API hosting through pure configuration
+  user_experience:
+  - Configuration-driven API creation without programming
+  - Seamless integration with existing PlugPipe ecosystem
+  - Enterprise-ready with security and monitoring built-in
+  - Universal compatibility with any domain or use case
+category: backend_server
+data_integration:
+  elasticsearch_indices:
+  - fastapi-server-requests-*
+  - fastapi-endpoint-registrations-*
+  - fastapi-plugin-delegations-*
+  prometheus_metrics:
+  - fastapi_requests_total
+  - fastapi_request_duration_seconds
+  - fastapi_endpoints_registered_total
+  - fastapi_middleware_active_count
+  - fastapi_plugin_delegation_latency_ms
+description: Universal FastAPI server plugin for custom REST/GraphQL API hosting with
+  dynamic endpoint registration and plugin orchestration routing
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - uvicorn
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    custom_endpoints:
+      description: Dynamic endpoint definitions
+      items:
+        properties:
+          auth_required:
+            default: false
+            description: Whether authentication is required
+            type: boolean
+          delegates_to:
+            description: Plugin to delegate request to (e.g., "user_manager/1.0.0")
+            type: string
+          method:
+            description: HTTP method
+            enum:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+            type: string
+          path:
+            description: Endpoint path (e.g., "/api/users")
+            type: string
+          response_model:
+            description: Response schema definition
+            type: object
+        type: object
+      type: array
+    middleware_config:
+      description: Custom middleware configuration
+      properties:
+        auth_plugin:
+          default: auth_jwt_manager/1.0.0
+          description: Authentication plugin to use
+          type: string
+        enable_auth:
+          default: false
+          description: Enable authentication middleware
+          type: boolean
+        enable_logging:
+          default: true
+          description: Enable request logging
+          type: boolean
+        enable_rate_limiting:
+          default: false
+          description: Enable rate limiting
+          type: boolean
+        logging_plugin:
+          default: audit_elk_stack/1.0.0
+          description: Logging plugin to use
+          type: string
+        rate_limit_requests:
+          default: 100
+          description: Requests per minute limit
+          type: integer
+      type: object
+    operation:
+      default: start_server
+      description: Server operation to perform
+      enum:
+      - start_server
+      - stop_server
+      - get_server_status
+      - register_endpoints
+      - configure_middleware
+      type: string
+    server_config:
+      description: FastAPI server configuration
+      properties:
+        cors_origins:
+          default:
+          - '*'
+          description: Allowed CORS origins
+          items:
+            type: string
+          type: array
+        description:
+          default: Universal FastAPI server for custom APIs
+          description: API description
+          type: string
+        enable_cors:
+          default: true
+          description: Enable CORS middleware
+          type: boolean
+        enable_docs:
+          default: true
+          description: Enable OpenAPI documentation
+          type: boolean
+        host:
+          default: 127.0.0.1
+          description: Server host address
+          type: string
+        port:
+          default: 8001
+          description: Server port number
+          type: integer
+        title:
+          default: Custom FastAPI Server
+          description: API title
+          type: string
+        version:
+          default: 1.0.0
+          description: API version
+          type: string
+      type: object
+  type: object
+integration_metadata:
+  orchestration_pattern: fastapi_delegation_to_plugins
+  plugin_dependencies:
+    optional:
+    - auth_jwt_manager/1.0.0
+    - auth_session_redis/1.0.0
+    - audit_elk_stack/1.0.0
+    - security_vault_crypto/1.0.0
+    required:
+    - monitoring_prometheus/1.0.0
+  plugin_type: backend_server
+  pure_orchestration: true
+  zero_business_logic_overlap: true
+license: MIT
+name: generic_fastapi_server
+display_name: GenericFastapiServer
+orchestration_architecture:
+  endpoint_registration:
+    purpose: Dynamic endpoint creation from user configuration
+    reuses: FastAPI routing, Pydantic validation, plugin delegation patterns
+  middleware_orchestration:
+    purpose: Enterprise middleware integration (auth, logging, rate limiting)
+    reuses: Existing auth plugins, monitoring plugins, security plugins
+  plugin_delegation:
+    purpose: Route requests to appropriate business logic plugins
+    reuses: PlugPipe plugin loader, context passing, error handling
+  server_engine:
+    framework: FastAPI + Uvicorn ASGI server
+    purpose: Dynamic FastAPI server with configurable endpoints
+    reuses: Proven web server infrastructure, plugin orchestration patterns
+output_schema:
+  properties:
+    endpoint_registration_results:
+      properties:
+        endpoints_added:
+          type: integer
+        endpoints_failed:
+          type: integer
+        middleware_configured:
+          items:
+            type: string
+          type: array
+      type: object
+    error:
+      type: string
+    operation_completed:
+      type: string
+    revolutionary_capabilities_used:
+      items:
+        type: string
+      type: array
+    server_results:
+      properties:
+        endpoints_registered:
+          type: integer
+        middleware_active:
+          items:
+            type: string
+          type: array
+        port:
+          type: integer
+        server_url:
+          type: string
+        status:
+          enum:
+          - running
+          - stopped
+          - error
+          type: string
+        uptime_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+    timestamp:
+      type: string
+  type: object
+owner: plugpipe-team
+reused_infrastructure:
+- FastAPI framework for proven HTTP server capabilities
+- Uvicorn ASGI server for high-performance async handling
+- Pydantic models for automatic request/response validation
+- PlugPipe plugin orchestration for business logic delegation
+- Prometheus monitoring via monitoring_prometheus patterns
+- ELK logging via audit_elk_stack integration
+- Authentication via existing auth plugins
+- Security middleware via enterprise security plugins
+revolutionary_capabilities:
+- dynamic_endpoint_registration_from_config
+- plugin_based_api_orchestration_routing
+- universal_custom_api_hosting_platform
+- zero_code_rest_graphql_server_creation
+- multi_tenant_isolated_api_serving
+- enterprise_middleware_orchestration
+- automatic_openapi_documentation_generation
+- configuration_driven_microservice_hosting
+sbom:
+  complete: sbom/sbom-complete.json
+  dependencies:
+  - license: MIT
+    name: fastapi
+    purpose: Modern web framework for building APIs
+    version: 0.100.0
+  - license: BSD-3-Clause
+    name: uvicorn
+    purpose: ASGI server implementation
+    version: 0.22.0
+  - license: MIT
+    name: pydantic
+    purpose: Data validation using Python type annotations
+    version: 2.0.0
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- fastapi
+- server
+- api
+- rest
+- graphql
+- universal
+- custom
+- dynamic
+- orchestration
+universal_use_cases:
+- custom_enterprise_apis
+- microservice_hosting
+- api_gateway_routing
+- multi_tenant_saas_backends
+- dynamic_graphql_servers
+- business_domain_apis
+- integration_endpoint_hosting
+- custom_rest_services
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

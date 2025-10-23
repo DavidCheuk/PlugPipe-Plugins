@@ -1,0 +1,217 @@
+category: orchestration
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:46'
+  stdlib_modules_declared: true
+description: Result Materializer Service - handles result materialization, output
+  management, and artifact storage with proper organization and validation
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    aggregate_results:
+      default: true
+      description: Create aggregated pipeline results
+      type: boolean
+    compression_enabled:
+      default: false
+      description: Enable compression for large files
+      type: boolean
+    context:
+      description: Pipeline execution context
+      properties:
+        execution_id:
+          type: string
+        inputs:
+          type: object
+        pipeline_metadata:
+          type: object
+        step_outputs:
+          type: object
+      type: object
+    create_manifest:
+      default: true
+      description: Create result manifest file
+      type: boolean
+    create_timestamped_dirs:
+      default: true
+      description: Create timestamped output directories
+      type: boolean
+    execution_metadata:
+      description: Optional execution metadata
+      type: object
+    materialize_dir:
+      default: pipe_runs
+      description: Base materialization directory
+      type: string
+    operation:
+      default: materialize_pipeline
+      description: Materialization operation to perform
+      enum:
+      - materialize_pipeline
+      - materialize_step
+      type: string
+    output_directory:
+      description: Output directory override
+      type: string
+    output_formats:
+      default:
+      - json
+      - yaml
+      description: Output formats for results
+      items:
+        enum:
+        - json
+        - yaml
+        type: string
+      type: array
+    results:
+      description: Pipeline execution results mapped by step ID
+      type: object
+    retention_days:
+      default: 30
+      description: Result retention period in days
+      type: integer
+    save_context:
+      default: true
+      description: Save pipeline context to file
+      type: boolean
+    save_summary:
+      default: true
+      description: Save execution summary
+      type: boolean
+    step_id:
+      description: Step identifier for single step materialization
+      type: string
+    step_result:
+      description: Step result for single step materialization
+    validate_results:
+      default: true
+      description: Validate materialized results
+      type: boolean
+  type: object
+name: result_materializer
+display_name: ResultMaterializer
+output_schema:
+  properties:
+    aggregated_results_path:
+      description: Path to aggregated results file
+      type: string
+    context_path:
+      description: Path to saved context file
+      type: string
+    error:
+      description: Error message if materialization failed
+      type: string
+    manifest_path:
+      description: Path to result manifest file
+      type: string
+    materialization_timestamp:
+      description: Timestamp of materialization
+      type: string
+    operation:
+      description: Operation that was performed
+      type: string
+    output_directory:
+      description: Output directory path
+      type: string
+    step_artifacts:
+      description: Step artifact paths and metadata
+      type: object
+    success:
+      description: Materialization success indicator
+      type: boolean
+    summary_path:
+      description: Path to execution summary file
+      type: string
+    supported_operations:
+      description: List of supported operations (returned on error)
+      items:
+        type: string
+      type: array
+    total_results:
+      description: Total number of results materialized
+      type: integer
+    validation_result:
+      description: Result validation details
+      properties:
+        errors:
+          items:
+            type: string
+          type: array
+        valid:
+          type: boolean
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+  type: object
+owner: plugpipe-orchestration
+revolutionary_capabilities:
+- modular_result_materialization
+- comprehensive_artifact_management
+- multi_format_output_support
+- result_validation_verification
+- service_oriented_architecture
+- separation_of_concerns
+sbom:
+  dependencies:
+  - description: Core step result materialization utilities
+    internal: true
+    name: PlugPipe Step Executor
+    version: '>=1.0.0'
+  - description: YAML format output support
+    license: MIT
+    name: PyYAML
+    version: '>=5.4.0'
+  - description: Path and directory management
+    license: Python
+    name: Python pathlib
+    version: '>=3.7'
+  - description: Optional compression support
+    license: Python
+    name: Python gzip
+    optional: true
+    version: '>=3.7'
+  security_considerations:
+  - Creates files and directories - requires appropriate filesystem permissions
+  - Handles pipeline results - may contain sensitive data requiring secure storage
+  - Optional compression - verify integrity of compressed artifacts
+  - Result validation - ensures materialization completeness and integrity
+  usage_patterns:
+  - Pipeline result materialization and organization
+  - Artifact management and validation
+  - Multi-format output generation (JSON, YAML)
+  - Execution summary and manifest creation
+status: production
+stdlib_modules:
+- datetime
+- gzip
+- json
+- logging
+- os
+- pathlib
+- shutil
+- typing
+- uuid
+tags:
+- orchestration
+- results
+- materialization
+- artifacts
+- service
+- modular
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

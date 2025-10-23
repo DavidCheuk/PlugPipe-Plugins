@@ -1,0 +1,104 @@
+capabilities:
+- Universal parameter conversion for all PlugPipe plugins
+- Intelligent parameter mapping with plugin-specific schemas
+- Dynamic plugin parameter discovery and help generation
+- Extensible mapping system for community contributions
+- Backward compatibility with existing JSON input system
+category: core
+dependencies:
+- registry/database_plugin_registry/1.0.0
+- intelligence/context_analyzer/1.0.0
+- intelligence/llm_service/1.0.0
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:41'
+  stdlib_modules_declared: true
+description: Universal CLI parameter to JSON converter for enhanced PlugPipe command
+  line experience. Converts command-line arguments to plugin-compatible JSON configurations
+  with intelligent parameter mapping.
+external_dependencies:
+  install_method: pip
+  packages:
+  - loader
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    cli_arguments:
+      description: CLI arguments to convert
+      type: object
+    operation:
+      description: Operation to perform
+      enum:
+      - convert_params_to_json
+      - discover_plugin_parameters
+      - register_parameter_mapping
+      - validate_parameter_format
+      - generate_parameter_help
+      type: string
+    parameter_mappings:
+      description: Custom parameter mappings to register
+      type: object
+    plugin_name:
+      description: Target plugin name for parameter processing
+      type: string
+  required:
+  - operation
+  type: object
+name: cli_parameter_processor
+display_name: CLIParameterProcessor
+output_schema:
+  properties:
+    converted_config:
+      description: Generated JSON configuration for plugin
+      type: object
+    discovered_parameters:
+      description: Discovered plugin parameters
+      type: array
+    message:
+      type: string
+    operation:
+      type: string
+    parameter_help:
+      description: Generated parameter help information
+      type: object
+    success:
+      type: boolean
+  type: object
+owner: plugpipe-core
+python_packages:
+- pydantic>=2.0.0
+- typing-extensions>=4.0.0
+revolutionary_capabilities:
+- AI-powered parameter schema discovery
+- Universal CLI enhancement for entire plugin ecosystem
+- Self-improving parameter mappings through usage analytics
+status: production
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- importlib
+- json
+- logging
+- os
+- pathlib
+- re
+- sys
+- typing
+tags:
+- cli
+- parameter-processing
+- user-experience
+- command-enhancement
+- json-conversion
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

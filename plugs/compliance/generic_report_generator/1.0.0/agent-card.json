@@ -1,0 +1,49 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:generic_report_generator",
+    "name": "Generic Report Generator Agent",
+    "description": "Universal compliance report generation plugin supporting multiple frameworks, formats, and automated scheduling",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/generic_report_generator",
+    "skills": [
+      {
+        "id": "generic_report_generator-primary",
+        "name": "Generic Report Generator",
+        "description": "Universal compliance report generation plugin supporting multiple frameworks, formats, and automated scheduling",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "generic_report_generator",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "compliance",
+          "reporting",
+          "audit",
+          "governance",
+          "frameworks",
+          "automation",
+          "enterprise",
+          "multi-tenant",
+          "templates",
+          "analytics",
+          "security-hardened",
+          "input-sanitized",
+          "validated"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.995079Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

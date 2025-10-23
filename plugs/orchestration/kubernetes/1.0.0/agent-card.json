@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:orchestration:kubernetes",
+    "name": "Kubernetes Agent",
+    "description": "Enterprise Kubernetes orchestration plugin for service discovery, auto-scaling, load balancing, and comprehensive plugin lifecycle management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/kubernetes",
+    "skills": [
+      {
+        "id": "kubernetes-primary",
+        "name": "Kubernetes",
+        "description": "Enterprise Kubernetes orchestration plugin for service discovery, auto-scaling, load balancing, and comprehensive plugin lifecycle management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "kubernetes",
+        "category": "orchestration",
+        "subcategory": "",
+        "tags": [
+          "orchestration",
+          "kubernetes",
+          "service_discovery",
+          "auto_scaling",
+          "enterprise",
+          "cloud_native",
+          "container_orchestration"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.073728Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

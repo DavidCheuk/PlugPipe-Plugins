@@ -1,0 +1,17 @@
+name: universal_security_interface
+version: 1.0.0
+description: Universal Security Plugin Interface Standard that provides standardized format and interface for all security plugins
+author: PlugPipe Integration Team
+category: interface
+status: active
+source_schema: legacy_security_plugin
+target_schema: universal_security_interface
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- interface
+- security
+- standardization
+- abstraction
+- universal
+- mcp-guardian

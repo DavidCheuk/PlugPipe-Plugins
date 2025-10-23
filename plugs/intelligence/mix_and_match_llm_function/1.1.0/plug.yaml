@@ -1,0 +1,399 @@
+config_schema:
+  additionalProperties: true
+  properties:
+    generation_settings:
+      properties:
+        auto_generate_sbom:
+          default: true
+          type: boolean
+        auto_generate_tests:
+          default: true
+          type: boolean
+        follow_plugpipe_conventions:
+          default: true
+          type: boolean
+        include_error_handling:
+          default: true
+          type: boolean
+      type: object
+    llm_config:
+      additionalProperties: true
+      properties:
+        max_tokens:
+          default: 4000
+          type: integer
+        model_name:
+          default: gpt-4
+          type: string
+        temperature:
+          default: 0.7
+          type: number
+      type: object
+    plugin_discovery:
+      properties:
+        cache_plugin_metadata:
+          default: true
+          type: boolean
+        include_experimental:
+          default: false
+          type: boolean
+        scan_depth:
+          default: comprehensive
+          enum:
+          - basic
+          - comprehensive
+          - deep
+          type: string
+      type: object
+  type: object
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:45'
+  stdlib_modules_declared: true
+description: Revolutionary LLM-powered system that automatically generates new plugs
+  and pipes by intelligently combining existing plugin capabilities, AND now includes
+  intelligent app auto-update capabilities. Monitors popular applications (Stripe,
+  GitHub, Slack, etc.) for API changes and automatically creates updated plugin versions
+  using AI research. Core intelligence system for PlugPipe's universal integration
+  capabilities with automated maintenance.
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - jinja2
+  - openai
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      additionalProperties: true
+      properties:
+        app_name:
+          description: Name of application to monitor or update (e.g., 'stripe', 'github',
+            'slack')
+          type: string
+        complexity_level:
+          description: Desired complexity level
+          enum:
+          - simple
+          - moderate
+          - complex
+          - enterprise
+          type: string
+        constraints:
+          description: Any constraints or requirements
+          type: object
+        domain:
+          description: Domain context (e.g., ecommerce, healthcare, finance)
+          type: string
+        existing_plugins:
+          description: List of existing plugins user wants to integrate
+          items:
+            type: string
+          type: array
+        monitoring_config:
+          properties:
+            check_frequency:
+              default: weekly
+              enum:
+              - daily
+              - weekly
+              - monthly
+              type: string
+            sensitivity:
+              default: medium
+              enum:
+              - low
+              - medium
+              - high
+              type: string
+            sources:
+              default:
+              - official_docs
+              - changelog
+              - github
+              items:
+                enum:
+                - official_docs
+                - changelog
+                - github
+                - community
+                - blogs
+                type: string
+              type: array
+          type: object
+        plugin_path:
+          description: Path to existing plugin for staleness detection or updates
+          type: string
+        update_strategy:
+          properties:
+            auto_apply_safe_updates:
+              default: false
+              type: boolean
+            create_new_version:
+              default: true
+              type: boolean
+            preserve_customizations:
+              default: true
+              type: boolean
+            version_increment:
+              default: auto
+              enum:
+              - patch
+              - minor
+              - major
+              - auto
+              type: string
+          type: object
+      type: object
+    natural_language_request:
+      description: Natural language description of what the user wants to achieve
+      type: string
+    operation:
+      description: Type of intelligent generation or auto-update operation to perform
+      enum:
+      - generate_plugin
+      - generate_pipe
+      - analyze_requirements
+      - suggest_combinations
+      - optimize_workflow
+      - monitor_app_changes
+      - detect_plugin_staleness
+      - research_api_evolution
+      - generate_plugin_update
+      - validate_update_compatibility
+      - orchestrate_registry_refresh
+      type: string
+    preferences:
+      additionalProperties: true
+      properties:
+        generate_documentation:
+          default: true
+          type: boolean
+        include_testing:
+          default: true
+          type: boolean
+        prefer_existing_plugins:
+          default: true
+          type: boolean
+        security_level:
+          default: standard
+          enum:
+          - standard
+          - enhanced
+          - enterprise
+          type: string
+      type: object
+  required:
+  - operation
+  - natural_language_request
+  type: object
+name: mix_and_match_llm_function
+display_name: MixAndMatchLLMFunction
+output_schema:
+  properties:
+    app_monitoring_results:
+      properties:
+        app_name:
+          type: string
+        changes_detected:
+          items:
+            type: object
+          type: array
+        compatibility_assessment:
+          type: object
+        research_findings:
+          type: object
+        staleness_analysis:
+          type: object
+        update_recommendations:
+          items:
+            type: string
+          type: array
+      type: object
+    generated_artifacts:
+      properties:
+        documentation:
+          properties:
+            integration_examples:
+              items:
+                type: string
+              type: array
+            test_scenarios:
+              items:
+                type: string
+              type: array
+            usage_guide:
+              type: string
+          type: object
+        pipes:
+          items:
+            properties:
+              name:
+                type: string
+              path:
+                type: string
+              plugin_dependencies:
+                items:
+                  type: string
+                type: array
+              workflow_steps:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+        plugins:
+          items:
+            properties:
+              capabilities:
+                items:
+                  type: string
+                type: array
+              combined_plugins:
+                items:
+                  type: string
+                type: array
+              name:
+                type: string
+              path:
+                type: string
+            type: object
+          type: array
+      type: object
+    intelligence_insights:
+      properties:
+        optimization_suggestions:
+          items:
+            type: string
+          type: array
+        plugin_combinations:
+          items:
+            type: object
+          type: array
+        requirement_analysis:
+          type: object
+        security_considerations:
+          items:
+            type: string
+          type: array
+      type: object
+    operation_completed:
+      type: string
+    revolutionary_capabilities_used:
+      items:
+        type: string
+      type: array
+    success:
+      type: boolean
+    timestamp:
+      type: string
+  type: object
+owner: PlugPipe Intelligence Team
+revolutionary_capabilities:
+- natural_language_to_plugin_conversion
+- intelligent_plugin_capability_combination
+- automated_workflow_optimization
+- context_aware_integration_generation
+- adaptive_complexity_scaling
+- security_aware_plugin_composition
+- enterprise_pattern_recognition
+- cross_domain_integration_intelligence
+- self_improving_generation_algorithms
+- universal_integration_orchestration
+- comprehensive_ethics_validation
+- automated_safety_guardrails
+- intelligent_app_change_monitoring
+- ai_powered_api_evolution_research
+- automated_plugin_staleness_detection
+- research_based_plugin_updates
+- backward_compatible_version_creation
+- multi_source_change_analysis
+- breaking_change_intelligence
+- community_sentiment_integration
+- automated_compatibility_testing
+- intelligent_migration_planning
+sbom:
+  dependencies:
+  - name: openai
+    purpose: LLM integration for intelligent plugin generation
+    version: '>=1.0.0'
+  - name: langchain
+    purpose: Advanced language model orchestration
+    version: '>=0.1.0'
+  - name: jinja2
+    purpose: Template generation for plugins and pipes
+    version: '>=3.0.0'
+  - name: pyyaml
+    purpose: YAML configuration and plugin metadata handling
+    version: '>=6.0'
+  - name: jsonschema
+    purpose: Schema validation for generated artifacts
+    version: '>=4.0.0'
+  - name: aiohttp
+    purpose: HTTP client for API monitoring and research
+    version: '>=3.8.0'
+  - name: beautifulsoup4
+    purpose: Web scraping for documentation analysis
+    version: '>=4.11.0'
+  - name: feedparser
+    purpose: RSS/Atom feed parsing for changelog monitoring
+    version: '>=6.0.0'
+  - name: packaging
+    purpose: Version parsing and comparison for updates
+    version: '>=21.0'
+  - name: difflib
+    purpose: API change detection and comparison
+    version: builtin
+  - name: gitpython
+    purpose: GitHub repository analysis and monitoring
+    version: '>=3.1.0'
+  integrates_with:
+  - automation.enhanced_plug_creation_agent
+  - automation.automatic_pipe_creation_agent
+  - core.agent_factory
+  - intelligence.universal_agent_learning_engine
+  - security.ethics_guardrails_validator
+  - core.mcp_specification_auto_updater
+status: production
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- enum
+- hashlib
+- json
+- logging
+- os
+- re
+- stat
+- subprocess
+- sys
+- typing
+- uuid
+tags:
+- artificial-intelligence
+- plugin-generation
+- workflow-automation
+- natural-language-processing
+- intelligent-composition
+- enterprise-integration
+- universal-hub
+- app-auto-updates
+- api-monitoring
+- intelligent-maintenance
+- plugin-evolution
+- backward-compatibility
+- research-automation
+version: 1.1.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

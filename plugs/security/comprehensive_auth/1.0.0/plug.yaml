@@ -1,0 +1,147 @@
+category: security
+description: Comprehensive authentication and authorization plugin demonstrating all
+  common auth mechanisms
+discoverability: public
+external_dependencies:
+  install_method: pip
+  packages:
+  - PyJWT
+  - ipaddress
+  - cryptography
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    api_key:
+      description: API key for authentication
+      type: string
+    auth_method:
+      description: Authentication method to use
+      enum:
+      - api_key
+      - basic
+      - bearer
+      - session
+      - certificate
+      type: string
+    authorization:
+      description: Authorization header value
+      type: string
+    bearer_token:
+      description: JWT bearer token
+      type: string
+    client_cert:
+      description: Client certificate data
+      type: string
+    mfa_code:
+      description: Multi-factor authentication code
+      type: string
+    operation:
+      description: Authentication operation to perform
+      enum:
+      - authenticate
+      - authorize
+      - validate_token
+      - create_session
+      - get_auth_methods
+      type: string
+    password:
+      description: Password for basic authentication
+      type: string
+    permissions:
+      description: User permissions list
+      items:
+        type: string
+      type: array
+    resource_id:
+      description: Resource identifier for authorization
+      type: string
+    resource_operation:
+      description: Operation being performed on resource
+      enum:
+      - read
+      - write
+      - delete
+      - manage
+      type: string
+    session_id:
+      description: Session identifier
+      type: string
+    time_restricted:
+      description: Enable time-based access restrictions
+      type: boolean
+    token:
+      description: Token to validate
+      type: string
+    user_id:
+      description: User ID for authorization checks
+      type: string
+    username:
+      description: Username for basic authentication
+      type: string
+    x_api_key:
+      description: Alternative API key header
+      type: string
+  required:
+  - operation
+  type: object
+name: comprehensive_auth
+display_name: ComprehensiveAuth
+output_schema:
+  properties:
+    auth_method:
+      description: Authentication method used
+      type: string
+    authenticated:
+      description: Whether authentication succeeded
+      type: boolean
+    authorized:
+      description: Whether authorization succeeded
+      type: boolean
+    available_auth_methods:
+      description: Available authentication methods
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    permissions:
+      description: User permissions
+      items:
+        type: string
+      type: array
+    rate_limit_remaining:
+      description: Remaining rate limit requests
+      type: integer
+    requires_mfa:
+      description: Whether MFA is required
+      type: boolean
+    retry_after:
+      description: Seconds to wait before retry
+      type: integer
+    roles:
+      description: User roles
+      items:
+        type: string
+      type: array
+    session_id:
+      description: Created session identifier
+      type: string
+    success:
+      description: Whether the operation succeeded
+      type: boolean
+    user_id:
+      description: Authenticated user identifier
+      type: string
+  type: object
+owner: security_team
+sbom:
+  components: []
+status: active
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

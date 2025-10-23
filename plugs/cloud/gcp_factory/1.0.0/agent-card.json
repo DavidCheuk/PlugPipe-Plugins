@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:gcp_factory",
+    "name": "Gcp Factory Agent",
+    "description": "GCP Factory Plugin for multi-service cloud orchestration across Compute Engine, Cloud Storage, BigQuery, Cloud Functions and other GCP services with enterprise features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/gcp_factory",
+    "skills": [
+      {
+        "id": "gcp_factory-primary",
+        "name": "Gcp Factory",
+        "description": "GCP Factory Plugin for multi-service cloud orchestration across Compute Engine, Cloud Storage, BigQuery, Cloud Functions and other GCP services with enterprise features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "gcp_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Cloud Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.806827Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

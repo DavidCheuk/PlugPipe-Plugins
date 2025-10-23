@@ -1,0 +1,8 @@
+# Enhanced MCP Schema Validation Plugin Requirements
+# Extends MCP contract testing with security-focused schema hardening and validation patterns
+#
+# External dependencies:
+jsonschema>=4.20.0  # JSON Schema validation library for MCP protocol compliance
+pydantic>=2.0.0  # Data validation and settings management using Python type annotations
+hypothesis>=6.0.0  # Property-based testing library for schema validation edge cases
+schemathesis>=3.19.0  # API schema testing framework for comprehensive MCP validation

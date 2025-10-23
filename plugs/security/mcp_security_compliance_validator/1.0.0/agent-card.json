@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:compliance_validation:mcp_security_compliance_validator",
+    "name": "Mcp Security Compliance Validator Agent",
+    "description": "MCP Security Compliance Validation Plugin - Validates MCP implementations against security standards and compliance frameworks",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/mcp_security_compliance_validator",
+    "skills": [
+      {
+        "id": "mcp_security_compliance_validator-primary",
+        "name": "Mcp Security Compliance Validator",
+        "description": "MCP Security Compliance Validation Plugin - Validates MCP implementations against security standards and compliance frameworks",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "mcp_security_compliance_validator",
+        "category": "security",
+        "subcategory": "compliance_validation",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.563552Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

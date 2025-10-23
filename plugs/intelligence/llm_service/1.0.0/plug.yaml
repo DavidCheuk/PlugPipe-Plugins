@@ -1,0 +1,191 @@
+description: Universal LLM orchestration service with intelligent routing and multi-provider
+  support
+discoverability: public
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: The action to perform
+      enum:
+      - query
+      - health_check
+      - usage_stats
+      type: string
+    request:
+      description: LLM request parameters (required for query action)
+      properties:
+        cost_sensitive:
+          default: false
+          type: boolean
+        max_tokens:
+          description: Maximum tokens in response
+          type: integer
+        prefer_local:
+          default: true
+          description: Prefer local models over cloud providers
+          type: boolean
+        priority:
+          default: normal
+          enum:
+          - low
+          - normal
+          - high
+          - critical
+          type: string
+        prompt:
+          description: The prompt to send to the LLM
+          type: string
+        required_capabilities:
+          description: Required LLM capabilities
+          items:
+            type: string
+          type: array
+        system_prompt:
+          description: Optional system prompt
+          type: string
+        task_type:
+          default: general
+          description: Type of task (coding, analysis, conversation, etc.)
+          type: string
+        temperature:
+          description: Sampling temperature
+          maximum: 2
+          minimum: 0
+          type: number
+        time_sensitive:
+          default: false
+          type: boolean
+      type: object
+  required:
+  - action
+  type: object
+metadata:
+  author: PlugPipe Core Team
+  capabilities:
+  - multi_provider_support
+  - intelligent_routing
+  - cost_optimization
+  - performance_optimization
+  - automatic_failover
+  - local_cloud_hybrid
+  - usage_analytics
+  - response_caching
+  category: intelligence
+  configuration_options:
+    auto_fallback: Enable automatic failover between providers
+    cost_optimization: Optimize for cost vs performance
+    cost_threshold: Maximum cost per request threshold
+    enable_caching: Cache responses to reduce costs and latency
+    intelligent_routing: Enable/disable smart provider selection
+    max_response_time: Maximum allowed response time in seconds
+    prefer_local_models: Prioritize local models when available
+  cpu_cores: 1
+  homepage: https://plugpipe.com/plugins/llm-service
+  license: MIT
+  memory_mb: 512
+  network_required: true
+  repository: https://github.com/plugpipe/plugins/tree/main/intelligence/llm_service
+  storage_mb: 100
+  supported_providers:
+  - OpenAI (GPT-3.5, GPT-4, etc.)
+  - Anthropic (Claude models)
+  - AWS Bedrock (Claude, Jurassic, etc.)
+  - Google PaLM/Gemini
+  - Azure OpenAI
+  - Ollama (local models)
+  - Hugging Face Inference API
+  - Cohere
+  - Together AI
+  tags:
+  - llm
+  - ai
+  - orchestration
+  - multi-provider
+  - intelligence
+name: llm_service
+display_name: IntelligentLLMService
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    operation_completed:
+      description: The operation that was performed
+      type: string
+    provider_health:
+      description: Provider health status (for health_check action)
+      type: object
+    response:
+      description: LLM response (for query action)
+      properties:
+        cached:
+          description: Whether response was cached
+          type: boolean
+        content:
+          description: The generated content
+          type: string
+        cost_estimate:
+          description: Estimated cost of the request
+          type: number
+        fallback_used:
+          description: Whether fallback provider was used
+          type: boolean
+        model_used:
+          description: Which model was used
+          type: string
+        provider_used:
+          description: Which provider was used
+          type: string
+        response_time:
+          description: Response time in seconds
+          type: number
+        tokens_used:
+          description: Number of tokens consumed
+          type: integer
+      type: object
+    statistics:
+      description: Usage statistics (for usage_stats action)
+      type: object
+    success:
+      description: Whether the operation was successful
+      type: boolean
+    timestamp:
+      description: Timestamp of the operation
+      format: date-time
+      type: string
+  required:
+  - success
+  - operation_completed
+  - timestamp
+  type: object
+owner: plugpipe-core
+sbom:
+  dependencies:
+    python:
+    - openai>=1.0.0
+    - anthropic>=0.21.0
+    - boto3>=1.34.0
+    - requests>=2.31.0
+  optional_dependencies:
+  - google-generativeai
+  - azure-openai
+  security_notes:
+  - Requires API keys for cloud providers
+  - Supports local model access
+  - Implements rate limiting and quota management
+  system_requirements:
+  - python>=3.8
+status: production
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

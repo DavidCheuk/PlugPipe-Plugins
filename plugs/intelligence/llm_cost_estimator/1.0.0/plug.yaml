@@ -1,0 +1,198 @@
+description: Production-ready LLM cost estimation and budget monitoring plugin for
+  comprehensive cost analysis, budget tracking, and usage optimization across all
+  PlugPipe plugins
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    daily_budget:
+      description: Daily budget limit in USD
+      type: number
+    hours:
+      description: 'Time window for statistics (default: 24)'
+      type: integer
+    input_tokens:
+      description: Number of input tokens
+      type: integer
+    model:
+      description: Model name for cost calculation
+      type: string
+    monthly_budget:
+      description: Monthly budget limit in USD
+      type: number
+    operation:
+      description: Operation to perform
+      enum:
+      - estimate_cost
+      - get_usage_statistics
+      - set_budget
+      - get_optimization_recommendations
+      type: string
+    output_tokens:
+      description: Number of output tokens (optional, will be estimated)
+      type: integer
+    plugin_id:
+      description: Plugin requesting cost estimation or analysis
+      type: string
+    provider:
+      description: LLM provider (openai, anthropic, ollama)
+      type: string
+    weekly_budget:
+      description: Weekly budget limit in USD
+      type: number
+  required:
+  - operation
+  type: object
+name: llm_cost_estimator
+display_name: LLMCostEstimator
+output_schema:
+  properties:
+    budget_alerts:
+      description: Budget threshold alerts
+      items:
+        properties:
+          budget_limit:
+            type: number
+          current_usage:
+            type: number
+          percentage:
+            type: number
+          severity:
+            type: string
+          type:
+            type: string
+        type: object
+      type: array
+    budget_limits:
+      description: Budget configuration settings
+      properties:
+        currency:
+          type: string
+        daily:
+          type: number
+        monthly:
+          type: number
+        weekly:
+          type: number
+      type: object
+    cost_estimate:
+      description: Detailed cost breakdown and estimation
+      properties:
+        currency:
+          type: string
+        input_cost:
+          type: number
+        input_tokens:
+          type: integer
+        model:
+          type: string
+        output_cost:
+          type: number
+        output_tokens:
+          type: integer
+        provider:
+          type: string
+        timestamp:
+          type: string
+        total_cost:
+          type: number
+        total_tokens:
+          type: integer
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    optimization_available:
+      description: Whether optimization recommendations are available
+      type: boolean
+    recommendations:
+      description: Cost optimization recommendations
+      items:
+        properties:
+          confidence_score:
+            type: number
+          current_model:
+            type: string
+          potential_savings:
+            type: number
+          reasoning:
+            type: string
+          suggested_model:
+            type: string
+          type:
+            type: string
+        type: object
+      type: array
+    statistics:
+      description: Usage statistics and cost analytics
+      properties:
+        avg_cost_per_request:
+          type: number
+        cost_per_1k_tokens:
+          type: number
+        currency:
+          type: string
+        daily_trends:
+          type: array
+        provider_breakdown:
+          type: array
+        time_window_hours:
+          type: integer
+        total_cost:
+          type: number
+        total_requests:
+          type: integer
+        total_tokens:
+          type: integer
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: plugpipe_ai_team
+sbom:
+  complete: sbom/sbom-complete.json
+  data_privacy:
+  - Plugin usage patterns stored locally only
+  - No cost data transmitted to external services
+  - Database file created in plugin directory
+  - Historical data can be purged as needed
+  lib_dependencies:
+  - name: sqlite3
+    purpose: Local database for cost tracking and analytics
+    version: builtin
+  - name: asyncio
+    purpose: Asynchronous operation support
+    version: builtin
+  - name: datetime
+    purpose: Timestamp and date calculations
+    version: builtin
+  - name: dataclasses
+    purpose: Data structure definitions
+    version: builtin
+  - name: pathlib
+    purpose: File system operations
+    version: builtin
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Local SQLite database for cost data storage
+  - No external API dependencies for core functionality
+  - Cost data contains no sensitive authentication information
+  - Budget alerts help prevent unexpected cost overruns
+  summary: sbom/sbom.json
+status: stable
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

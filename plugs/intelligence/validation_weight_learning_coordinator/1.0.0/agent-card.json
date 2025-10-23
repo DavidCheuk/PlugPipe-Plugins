@@ -1,0 +1,85 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:intelligence:validation_weight_learning_coordinator",
+    "name": "Validation Weight Learning Coordinator Agent",
+    "description": "Revolutionary self-improving validation ecosystem with autonomous weight optimization and cross-domain learning - FIRST and ONLY system of its kind",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/validation_weight_learning_coordinator",
+    "skills": [
+      {
+        "id": "validation_weight_learning_coordinator-primary",
+        "name": "Validation Weight Learning Coordinator",
+        "description": "Revolutionary self-improving validation ecosystem with autonomous weight optimization and cross-domain learning - FIRST and ONLY system of its kind",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "validation_weight_learning_coordinator-example-1",
+        "name": "Initialize the revolutionary validation weight learning system",
+        "description": "Initialize the revolutionary validation weight learning system",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "validation_weight_learning_coordinator-example-2",
+        "name": "Record validation performance for weight learning analysis",
+        "description": "Record validation performance for weight learning analysis",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "validation_weight_learning_coordinator-example-3",
+        "name": "Optimize validation weights for a domain using performance data",
+        "description": "Optimize validation weights for a domain using performance data",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "validation_weight_learning_coordinator",
+        "category": "intelligence",
+        "subcategory": "",
+        "tags": [
+          "validation",
+          "weight_learning",
+          "autonomous_optimization",
+          "cross_domain_learning",
+          "self_improving",
+          "intelligence",
+          "performance_optimization",
+          "collaborative_learning",
+          "revolutionary",
+          "first_to_market"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.432082Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

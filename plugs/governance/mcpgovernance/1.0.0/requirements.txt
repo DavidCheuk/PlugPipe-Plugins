@@ -1,0 +1,40 @@
+# MCPGovernance Plugin Dependencies
+# Enterprise Multi-Tenant Governance Platform
+
+# Core Framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.0.0
+
+# Database & Caching
+redis>=5.0.0
+asyncpg>=0.28.0
+sqlalchemy>=2.0.0
+alembic>=1.12.0
+
+# Async & Performance
+aiofiles>=23.0.0
+aioredis>=2.0.0
+asyncio-mqtt>=0.13.0
+
+# Monitoring & Metrics
+psutil>=5.9.0
+prometheus-client>=0.18.0
+
+# Security & Validation
+jsonschema>=4.19.0
+cryptography>=41.0.0
+passlib>=1.7.4
+
+# Policy Engine Integration
+requests>=2.31.0
+httpx>=0.25.0
+
+# Development & Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Utilities
+python-multipart>=0.0.6
+# python-jose removed (October 16, 2025) - not used by this plugin

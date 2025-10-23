@@ -1,0 +1,287 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_embeddings:
+      default: true
+      type: boolean
+    default_embedding_model:
+      default: all-MiniLM-L6-v2
+      type: string
+    default_vector_db:
+      default: in_memory
+      enum:
+      - chromadb
+      - in_memory
+      - faiss
+      type: string
+    domain_specific_settings:
+      properties:
+        financial:
+          properties:
+            citation_style:
+              default: ieee
+              type: string
+            confidence_threshold:
+              default: 0.75
+              type: number
+            required_sources:
+              default:
+              - financial_reports
+              - market_data
+              items:
+                type: string
+              type: array
+            similarity_threshold:
+              default: 0.8
+              type: number
+          type: object
+        legal:
+          properties:
+            citation_style:
+              default: chicago
+              type: string
+            confidence_threshold:
+              default: 0.85
+              type: number
+            required_sources:
+              default:
+              - case_law
+              - statutes
+              items:
+                type: string
+              type: array
+            similarity_threshold:
+              default: 0.9
+              type: number
+          type: object
+        medical:
+          properties:
+            citation_style:
+              default: apa
+              type: string
+            confidence_threshold:
+              default: 0.8
+              type: number
+            required_sources:
+              default:
+              - medical_journals
+              - clinical_guidelines
+              items:
+                type: string
+              type: array
+            similarity_threshold:
+              default: 0.85
+              type: number
+          type: object
+      type: object
+    enable_performance_monitoring:
+      default: true
+      type: boolean
+    knowledge_base_path:
+      default: ./knowledge_bases
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: RAG (Retrieval Augmented Generation) Agent Factory - generates specialized
+  knowledge verification agents using the core Agent Factory plugin
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        citation_style:
+          default: apa
+          enum:
+          - apa
+          - mla
+          - chicago
+          - ieee
+          type: string
+        confidence_threshold:
+          default: 0.7
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        domain:
+          enum:
+          - medical
+          - legal
+          - financial
+          - general
+          - custom
+          type: string
+        enable_citations:
+          default: true
+          type: boolean
+        enable_multi_modal:
+          default: false
+          type: boolean
+        knowledge_sources:
+          items:
+            type: string
+          type: array
+        max_results:
+          default: 5
+          maximum: 20
+          minimum: 1
+          type: integer
+        similarity_threshold:
+          default: 0.8
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        vector_db_type:
+          default: in_memory
+          enum:
+          - chromadb
+          - in_memory
+          - faiss
+          type: string
+      required:
+      - domain
+      type: object
+    knowledge_base_config:
+      properties:
+        chunk_overlap:
+          default: 100
+          type: integer
+        chunk_size:
+          default: 1000
+          type: integer
+        data_sources:
+          items:
+            properties:
+              metadata:
+                type: object
+              source:
+                type: string
+              type:
+                enum:
+                - file
+                - url
+                - text
+                - structured
+                type: string
+            type: object
+          type: array
+        embedding_model:
+          default: all-MiniLM-L6-v2
+          type: string
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - update_knowledge_base
+      type: string
+    template_id:
+      enum:
+      - medical_rag
+      - legal_rag
+      - financial_rag
+      - general_rag
+      - custom_rag
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - dynamic-agent-creation
+  - domain-specialization
+  - knowledge-base-integration
+  - citation-generation
+  - confidence-scoring
+  - multi-modal-support
+  category: agent-factory
+  dependencies:
+    optional:
+    - chromadb
+    - sentence-transformers
+    required:
+    - core/agent_factory
+  domain: knowledge-verification
+  performance:
+    cpu_usage: medium
+    io_usage: high
+    memory_usage: medium
+  security:
+    file_system_access: read-write
+    isolation_required: true
+    network_access: limited
+name: rag_agent_factory
+display_name: RagAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    knowledge_stats:
+      properties:
+        embedding_model:
+          type: string
+        total_chunks:
+          type: integer
+        total_documents:
+          type: integer
+        vector_db_type:
+          type: string
+      type: object
+    performance_metrics:
+      properties:
+        average_confidence:
+          type: number
+        knowledge_base_size:
+          type: integer
+        last_updated:
+          type: string
+        queries_processed:
+          type: integer
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe AI Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- rag
+- knowledge-verification
+- ai
+- factory
+- medical
+- legal
+- financial
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

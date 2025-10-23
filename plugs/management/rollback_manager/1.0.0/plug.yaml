@@ -1,0 +1,239 @@
+capabilities:
+- snapshot_creation
+- git_rollback
+- configuration_rollback
+- database_rollback
+- file_system_rollback
+- multi_layer_rollback
+- rollback_verification
+- rollback_history
+- snapshot_metadata
+dependency_analysis:
+  analyzer_notes: All imports (shutil, tempfile, subprocess) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Dedicated rollback management plugin for enterprise systems, designed
+  to be composed by other plugins
+design_principles:
+- composable_by_other_plugins
+- single_responsibility
+- comprehensive_audit
+- multi_rollback_types
+discoverability: public
+entrypoint: main.py
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: status
+      description: Action to perform
+      enum:
+      - create_snapshot
+      - execute_rollback
+      - list_snapshots
+      - get_rollback_history
+      - status
+      type: string
+    config:
+      description: Snapshot configuration
+      properties:
+        backup_location:
+          description: Backup storage location
+          type: string
+        config_files:
+          description: Configuration files to snapshot
+          items:
+            type: string
+          type: array
+        connection_string:
+          description: Database connection string
+          type: string
+        database_name:
+          description: Database name for database snapshots
+          type: string
+        paths:
+          description: File system paths to snapshot
+          items:
+            type: string
+          type: array
+        repo_path:
+          description: Repository path for git snapshots
+          type: string
+      type: object
+    snapshot_id:
+      description: Unique identifier for snapshot
+      type: string
+    type:
+      default: git_commit
+      description: Type of snapshot to create
+      enum:
+      - git_commit
+      - configuration
+      - file_system
+      - database
+      - container
+      - infrastructure
+      type: string
+    validation:
+      description: Rollback validation configuration
+      properties:
+        tests:
+          description: Validation tests to run after rollback
+          items:
+            properties:
+              expected_commit:
+                type: string
+              path:
+                type: string
+              type:
+                enum:
+                - file_exists
+                - git_commit
+                - service_status
+                - health_check
+                type: string
+            type: object
+          type: array
+      type: object
+  required: []
+  type: object
+integrations:
+  database_integration:
+    description: Database backup and restore capabilities
+    note: Requires database-specific tools for production use
+  filesystem_integration:
+    description: File system backup and restore capabilities
+    note: Requires integration with backup tools for production use
+  git_integration:
+    capabilities:
+    - commit_rollback
+    - branch_rollback
+    - tag_rollback
+    description: Direct Git integration for version control rollback
+name: rollback_manager
+display_name: RollbackManager
+output_schema:
+  additionalProperties: false
+  properties:
+    completed_at:
+      description: Operation completion timestamp
+      type: integer
+    count:
+      description: Count of items
+      type: integer
+    duration:
+      description: Operation duration in seconds
+      type: integer
+    error:
+      description: Error message if status is error
+      type: string
+    execution_result:
+      description: Rollback execution result
+      type: object
+    message:
+      description: Human-readable message
+      type: string
+    metadata:
+      description: Snapshot metadata
+      type: object
+    rollback_history:
+      description: History of rollback operations
+      items:
+        type: object
+      type: array
+    rollback_id:
+      description: Rollback operation identifier
+      type: string
+    rollbacks_executed:
+      description: Number of rollbacks executed
+      type: integer
+    snapshot_details:
+      description: Detailed snapshot information
+      type: object
+    snapshot_id:
+      description: Snapshot identifier
+      type: string
+    snapshots:
+      description: List of snapshot IDs
+      items:
+        type: string
+      type: array
+    snapshots_count:
+      description: Number of available snapshots
+      type: integer
+    started_at:
+      description: Operation start timestamp
+      type: integer
+    status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      - partial
+      type: string
+    technical_details:
+      description: Technical execution details for audit
+      items:
+        properties:
+          action:
+            type: string
+          method:
+            type: string
+          result:
+            type: object
+          timestamp:
+            type: integer
+        type: object
+      type: array
+    type:
+      description: Snapshot/rollback type
+      type: string
+    verification_results:
+      description: Rollback verification results
+      properties:
+        passed:
+          type: integer
+        results:
+          items:
+            type: object
+          type: array
+        status:
+          type: string
+        total:
+          type: integer
+      type: object
+  required:
+  - status
+  type: object
+owner: PlugPipe Core Team
+performance:
+  git_rollback_target: < 30 seconds
+  snapshot_creation_target: < 10 seconds
+  verification_target: < 60 seconds
+reliability:
+  atomic_operations: true
+  audit_trails: true
+  error_recovery: true
+  verification_support: true
+sbom:
+  complete: sbom/sbom-complete.json
+  lib: sbom/lib_sbom.json
+status: stable
+stdlib_modules:
+- shutil
+- tempfile
+- subprocess
+triggers:
+- change_failure
+- validation_failure
+- emergency_rollback
+- scheduled_rollback
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

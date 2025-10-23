@@ -1,0 +1,137 @@
+config_defaults:
+  auto_scaling: true
+  default_timeout: 30.0
+  enable_caching: true
+  max_agents_per_role: 5
+  orchestration_policy: weighted_consensus
+  pipeline_timeout: 60.0
+config_schema:
+  properties:
+    auto_scaling:
+      default: true
+      type: boolean
+    default_timeout:
+      default: 30.0
+      maximum: 300.0
+      minimum: 1.0
+      type: number
+    enable_caching:
+      default: true
+      type: boolean
+    max_agents_per_role:
+      default: 5
+      maximum: 20
+      minimum: 1
+      type: integer
+    orchestration_policy:
+      default: weighted_consensus
+      enum:
+      - majority_vote
+      - weighted_consensus
+      - cascade_detection
+      - ensemble_scoring
+      type: string
+    pipeline_timeout:
+      default: 60.0
+      maximum: 600.0
+      minimum: 5.0
+      type: number
+  type: object
+description: Multi-agent coordination system for hallucination detection with weighted
+  scoring and pipeline management using Agent Factory plugin
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  - statistics
+  - main_standalone
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    agents:
+      description: Specific agents to orchestrate
+      items:
+        type: string
+      type: array
+    orchestration_policy:
+      default: weighted_consensus
+      description: Orchestration policy to use
+      enum:
+      - majority_vote
+      - weighted_consensus
+      - cascade_detection
+      - ensemble_scoring
+      type: string
+    pipeline_type:
+      default: comprehensive_accurate
+      description: Detection pipeline to execute
+      enum:
+      - primary_fast
+      - comprehensive_accurate
+      - domain_specific
+      - ensemble_maximum
+      type: string
+    text:
+      description: Text to analyze for hallucinations using multi-agent orchestration
+      type: string
+  required:
+  - text
+  type: object
+metadata:
+  capabilities:
+  - multi_agent_coordination
+  - weighted_scoring
+  - pipeline_management
+  category: security
+  memory_mb: 1024
+  type: orchestration
+name: hallucination_orchestrator
+display_name: HallucinationOrchestrator
+output_schema:
+  properties:
+    agent_results:
+      description: Individual agent results
+      type: array
+    confidence:
+      description: Aggregated confidence score from all agents
+      type: number
+    consensus_score:
+      description: Agent consensus score
+      type: number
+    found:
+      description: Whether hallucination was detected by orchestrated agents
+      type: boolean
+    orchestration_result:
+      description: Detailed orchestration results
+      type: object
+    processing_time_ms:
+      description: Total orchestration time in milliseconds
+      type: number
+  required:
+  - found
+  - confidence
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- security
+- orchestration
+- multi-agent
+- hallucination
+- coordination
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

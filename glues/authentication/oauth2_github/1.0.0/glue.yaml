@@ -1,0 +1,17 @@
+name: oauth2_github
+version: 1.0.0
+description: GitHub OAuth 2.0 authentication bridge that connects GitHub OAuth providers to PlugPipe authentication system
+author: PlugPipe Integration Team
+category: authentication
+status: active
+source_schema: github_oauth_credentials
+target_schema: plugpipe_user_session
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- authentication
+- oauth2
+- github
+- bridge
+- enterprise
+- security

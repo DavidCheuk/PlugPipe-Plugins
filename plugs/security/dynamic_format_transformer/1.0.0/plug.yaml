@@ -1,0 +1,115 @@
+name: dynamic_format_transformer
+display_name: DynamicFormatTransformer
+version: 1.0.0
+description: Dynamic protocol format transformer that wraps raw attack payloads during
+  testing with MCP Guardian integration
+author: PlugPipe Security
+tags:
+- security
+- format-transformer
+- mcp
+- http
+- websocket
+- dynamic
+- real-time
+- mcp-guardian
+- enterprise
+category: security
+entry_point: main.py
+external_dependencies: []
+schema_validation: true
+discovery: public
+capabilities:
+- dynamic_format_transformation
+- protocol_auto_detection
+- mcp_json_rpc_wrapping
+- http_request_wrapping
+- websocket_message_wrapping
+- graphql_query_wrapping
+- batch_transformation
+- mcp_guardian_integration
+- enterprise_format_handling
+- real_time_transformation
+operations:
+  transform:
+    description: Transform single payload to target protocol format
+    parameters:
+      payload: string (required)
+      category: string (required)
+      target_format: string (optional, default "auto")
+      attack_id: string (optional)
+  batch_transform:
+    description: Transform multiple attacks in batch
+    parameters:
+      attacks: array (required)
+      target_format: string (optional, default "auto")
+  detect_format:
+    description: Detect best format for payload
+    parameters:
+      payload: string (required)
+      category: string (required)
+      target_protocol: string (optional, default "auto")
+supported_formats:
+- raw (original payload)
+- mcp (JSON-RPC 2.0 with MCP methods)
+- http (HTTP/1.1 requests)
+- websocket (WebSocket messages)
+- graphql (GraphQL queries)
+- grpc (gRPC messages)
+- rest_api (REST API calls)
+format_detection:
+  sql_injection: HTTP POST + GraphQL
+  xss: HTTP forms + WebSocket messages
+  command_injection: MCP tools/call
+  prompt_injection: MCP sampling/createMessage + WebSocket
+  path_traversal: MCP resources/read
+  mcp_protocol_abuse: MCP JSON-RPC methods
+  secret_exposure: MCP resources/read
+mcp_guardian_integration:
+  compatible_versions:
+  - '>=1.0.0'
+  security_profiles:
+  - basic
+  - standard
+  - enterprise
+  proxy_modes:
+  - load_balancer
+  - client_proxy
+  - gateway
+  supported_features:
+  - request_response_filtering
+  - threat_detection_orchestration
+  - real_time_threat_analysis
+  - policy_enforcement
+enterprise_configuration:
+  multi_tenant_support: true
+  oauth2_integration: true
+  audit_logging: true
+  performance_monitoring: true
+  rate_limiting_compatible: true
+  cache_enabled: true
+dependencies:
+  internal_dependencies:
+  - name: universal_security_interface
+    version: '>=1.0.0'
+    description: Universal Security Plugin Interface Standard
+    optional: false
+monitoring:
+  metrics:
+  - transformation_count
+  - transformation_duration
+  - protocol_format_distribution
+  - error_rate
+  health_checks:
+  - format_detection_health
+  - transformation_engine_health
+  - protocol_compatibility
+owner: PlugPipe Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

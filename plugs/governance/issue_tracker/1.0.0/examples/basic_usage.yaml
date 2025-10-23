@@ -1,0 +1,60 @@
+# Basic Issue Tracker Usage Examples
+# ===================================
+
+# Example 1: Simple local storage (development)
+local_storage:
+  operation: store_issues
+  storage_backend: local_file
+  storage_config:
+    local_file:
+      storage_path: "validation_issues.json"
+      backup_enabled: true
+      max_history: 50
+  issues:
+    validation_run_id: "dev_test_001"
+    timestamp: "2025-08-29T14:30:00Z"
+    target_plugin: "test_plugin"
+    change_type: "created"
+    pipeline_score: 90
+    issues_list:
+      - category: "code_quality"
+        severity: "low"
+        description: "Minor formatting issue"
+        file_path: "test_plugin/main.py"
+        recommendation: "Run code formatter"
+
+# Example 2: Auto-selection with fallback
+auto_with_fallback:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    sqlite:
+      database_path: "issues.db"
+      table_name: "validation_issues"
+    local_file:
+      storage_path: "backup_issues.json"
+      max_history: 25
+  issues:
+    validation_run_id: "auto_test_001" 
+    timestamp: "2025-08-29T14:35:00Z"
+    target_plugin: "security_plugin"
+    change_type: "modified"
+    pipeline_score: 75
+    issues_list:
+      - category: "security"
+        severity: "high"
+        description: "Hardcoded credentials detected"
+        file_path: "security_plugin/config.py"
+        recommendation: "Use environment variables"
+
+# Example 3: Health check operation
+health_check:
+  operation: get_health_status
+
+# Example 4: Get latest issues
+get_latest:
+  operation: get_latest_issues
+
+# Example 5: Get summary statistics
+get_summary:
+  operation: get_issue_summary

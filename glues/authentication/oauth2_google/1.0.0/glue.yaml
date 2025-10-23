@@ -1,0 +1,17 @@
+name: oauth2_google
+version: 1.0.0
+description: Google OAuth 2.0 authentication bridge that connects Google OAuth providers to PlugPipe authentication system
+author: PlugPipe Integration Team
+category: authentication
+status: active
+source_schema: google_oauth_credentials
+target_schema: plugpipe_user_session
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- authentication
+- oauth2
+- google
+- bridge
+- enterprise
+- pkce

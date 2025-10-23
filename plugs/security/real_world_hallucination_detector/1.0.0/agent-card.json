@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:real_world_hallucination_detector",
+    "name": "Real World Hallucination Detector Agent",
+    "description": "Fact_finder - Revolutionary AI-powered fact verification and truth detection system with 90%+ accuracy through multi-agent orchestration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/real_world_hallucination_detector",
+    "skills": [
+      {
+        "id": "real_world_hallucination_detector-primary",
+        "name": "Real World Hallucination Detector",
+        "description": "Fact_finder - Revolutionary AI-powered fact verification and truth detection system with 90%+ accuracy through multi-agent orchestration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "real_world_hallucination_detector",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "hallucination",
+          "detection",
+          "multi-agent",
+          "domain-specific"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.840281Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

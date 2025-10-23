@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "intent",
+    "input_context",
+    "output_context",
+    "tags",
+    "owner",
+    "version",
+    "sbom"
+  ],
+  "properties": {
+    "id": {"type": "string"},
+    "name": {"type": "string"},
+    "description": {"type": "string"},
+    "intent": {"type": "string"},
+    "input_context": {"type": "object"},
+    "output_context": {"type": "object"},
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "owner": {"type": "string"},
+    "version": {"type": "string"},
+    "sbom": {"type": "object"},
+    "discoverability": {
+      "type": "string",
+      "enum": ["public", "private"],
+      "default": "public"
+    },
+    "entrypoint": { "type": "string" },
+    "status": { "type": "string" }
+  },
+  "additionalProperties": false
+}

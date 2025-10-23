@@ -1,0 +1,31 @@
+{
+  "operation": "store_issues",
+  "issues": {
+    "validation_run_id": "local_storage_test_001",
+    "timestamp": "2025-08-29T14:20:00Z",
+    "target_plugin": "config_hardening",
+    "change_type": "modified",
+    "pipeline_score": 78,
+    "issues_list": [
+      {
+        "category": "security_configuration", 
+        "severity": "high",
+        "description": "Placeholder configuration detected",
+        "file_path": "plugs/security/config_hardening/1.0.0/main.py",
+        "recommendation": "Replace placeholder with actual configuration",
+        "details": {
+          "line_number": 89,
+          "pattern": "PLACEHOLDER_VALUE"
+        }
+      }
+    ]
+  },
+  "storage_backend": "local_file",
+  "storage_config": {
+    "local_file": {
+      "storage_path": "local_validation_issues.json",
+      "backup_enabled": true,
+      "max_history": 20
+    }
+  }
+}

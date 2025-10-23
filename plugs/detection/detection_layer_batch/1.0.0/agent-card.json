@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:detection:detection_layer_batch",
+    "name": "Detection Layer Batch Agent",
+    "description": "Comprehensive batch execution of all detection layer plugins for automated plugin change analysis and issue identification",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/detection_layer_batch",
+    "skills": [
+      {
+        "id": "detection_layer_batch-primary",
+        "name": "Detection Layer Batch",
+        "description": "Comprehensive batch execution of all detection layer plugins for automated plugin change analysis and issue identification",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "detection_layer_batch",
+        "category": "detection",
+        "subcategory": "",
+        "tags": [
+          "detection",
+          "batch",
+          "automation",
+          "validation",
+          "analysis"
+        ],
+        "author": "PlugPipe Detection Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.082825Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

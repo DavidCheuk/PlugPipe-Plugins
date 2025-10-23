@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:citation_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-27T07:50:33.716582Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "citation_agent_factory@1.0.0",
+      "name": "citation_agent_factory",
+      "version": "1.0.0",
+      "description": "Citation Validation Agent Factory - generates specialized agents for source verification using RAG and Web Search agent dependencies"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

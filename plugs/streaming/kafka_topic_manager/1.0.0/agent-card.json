@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:streaming:kafka_topic_manager",
+    "name": "Kafka Topic Manager Agent",
+    "description": "Universal Kafka topic lifecycle management plugin for any streaming infrastructure",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/kafka_topic_manager",
+    "skills": [
+      {
+        "id": "kafka_topic_manager-primary",
+        "name": "Kafka Topic Manager",
+        "description": "Universal Kafka topic lifecycle management plugin for any streaming infrastructure",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "kafka_topic_manager",
+        "category": "streaming",
+        "subcategory": "",
+        "tags": [
+          "kafka",
+          "streaming",
+          "topics",
+          "management",
+          "universal",
+          "administration"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.597069Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

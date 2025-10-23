@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:streaming:kafka_consumer",
+    "name": "Kafka Consumer Agent",
+    "description": "Universal Kafka message consumer plugin for any streaming use case",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/kafka_consumer",
+    "skills": [
+      {
+        "id": "kafka_consumer-primary",
+        "name": "Kafka Consumer",
+        "description": "Universal Kafka message consumer plugin for any streaming use case",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "kafka_consumer",
+        "category": "streaming",
+        "subcategory": "",
+        "tags": [
+          "kafka",
+          "streaming",
+          "consumer",
+          "messaging",
+          "universal",
+          "processing"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.518242Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

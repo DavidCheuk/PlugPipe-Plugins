@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:openapi_parser-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-26T19:12:31.506013Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "openapi_parser@1.0.0",
+      "name": "openapi_parser",
+      "version": "1.0.0",
+      "description": "OpenAPI/Swagger specification parser and validator leveraging proven JSON Schema validation and OpenAPI tools"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,51 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:demo:echo",
+    "name": "Echo Agent",
+    "description": "Enterprise-Grade Security Hardened Echo Plugin: Advanced text echoing with comprehensive input validation, Universal Input Sanitizer integration, and multi-layer threat detection. Prevents SQL injection, XSS, path traversal, and command injection attacks.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/echo",
+    "skills": [
+      {
+        "id": "echo-primary",
+        "name": "Echo",
+        "description": "Enterprise-Grade Security Hardened Echo Plugin: Advanced text echoing with comprehensive input validation, Universal Input Sanitizer integration, and multi-layer threat detection. Prevents SQL injection, XSS, path traversal, and command injection attacks.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "echo",
+        "category": "demo",
+        "subcategory": "",
+        "tags": [
+          "enterprise-security",
+          "input-validation",
+          "threat-detection",
+          "security-hardened",
+          "universal-input-sanitizer",
+          "sql-injection-prevention",
+          "xss-prevention",
+          "path-traversal-protection",
+          "command-injection-detection",
+          "security-demonstration",
+          "audit-logging",
+          "multi-layer-security",
+          "testing",
+          "debugging",
+          "tutorial"
+        ],
+        "author": "PlugPipe Demo Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:31.183557Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+name: elk_logstash_manager
+display_name: ELKLogstashManager
+version: 1.0.0
+description: Programmatic Logstash pipeline configuration and management. Validate
+  configs, create pipelines, and generate configurations from plugin schemas.
+author: PlugPipe Team
+owner: PlugPipe Infrastructure Team
+status: planned
+discoverability: public
+entrypoint: main.py
+metadata:
+  type: infrastructure
+  category: management
+  capabilities:
+  - pipeline_validation
+  - pipeline_management
+  - config_generation
+  memory_mb: 128
+tags:
+- logstash
+- pipeline
+- configuration
+- infrastructure
+config_schema:
+  type: object
+  properties:
+    logstash_url:
+      type: string
+      default: http://localhost:9600
+    timeout:
+      type: integer
+      default: 30
+input_schema:
+  type: object
+  required:
+  - operation
+  properties:
+    operation:
+      type: string
+      enum:
+      - validate_config
+      - create_pipeline
+      - update_pipeline
+      - reload_pipeline
+      - get_pipeline_stats
+      - generate_from_schema
+output_schema:
+  type: object
+  required:
+  - success
+  properties:
+    success:
+      type: boolean
+    message:
+      type: string
+    config_valid:
+      type: boolean
+    errors:
+      type: array
+    generated_config:
+      type: string
+external_dependencies:
+- name: requests
+  version: '>=2.25.0'
+  purpose: Logstash API client
+- name: pyyaml
+  version: '>=5.4.0'
+  purpose: Plugin schema parsing
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

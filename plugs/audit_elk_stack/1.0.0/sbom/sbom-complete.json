@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:audit_elk_stack-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:56:54.202729Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "audit_elk_stack@1.0.0",
+      "name": "audit_elk_stack",
+      "version": "1.0.0",
+      "description": "Comprehensive audit logging and log management using ELK Stack (Elasticsearch, Logstash, Kibana) for enterprise observability"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,41 @@
+name: mcp_server_orchestrator
+display_name: McpServerOrchestrator
+version: 1.0.0
+description: Plugin-based MCP 2025-06-18 server orchestrator that uses existing PlugPipe
+  security plugins
+author: PlugPipe Team
+category: mcp
+tags:
+- mcp
+- security
+- orchestrator
+- server
+dependencies:
+  plugins:
+  - ai_prompt_injection_guardian
+  - presidio_dlp
+  - cyberpig_ai
+  - enhanced_mcp_schema_validation
+  - enhanced_mcp_audit_integration
+capabilities:
+- mcp_server
+- security_orchestration
+- plugin_delegation
+- bidirectional_scanning
+configuration:
+  mcp_port: 8091
+  protocol_version: '2025-06-18'
+  security_level: enterprise
+  enable_bidirectional_scanning: true
+external_dependencies:
+- aiohttp>=3.8.0
+- asyncio
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

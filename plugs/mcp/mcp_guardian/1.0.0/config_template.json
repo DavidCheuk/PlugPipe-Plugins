@@ -1,0 +1,126 @@
+{
+  "_comment": "MCP Guardian Configuration Template",
+  "_description": "Enterprise security proxy configuration for Model Context Protocol",
+  
+  "proxy_mode": "load_balancer",
+  "upstream_mcp_server": "http://mcp-server:8000",
+  "security_profile": "standard",
+  
+  "server": {
+    "bind_host": "0.0.0.0",
+    "bind_port": 8080,
+    "enable_tls": false,
+    "tls_cert_path": null,
+    "tls_key_path": null,
+    "max_concurrent_requests": 1000,
+    "request_timeout": 30.0
+  },
+  
+  "authentication": {
+    "oauth2_enabled": false,
+    "oauth2_issuer_url": "https://auth.example.com",
+    "oauth2_client_id": "mcp-guardian",
+    "oauth2_client_secret": "${OAUTH2_CLIENT_SECRET}",
+    "oauth2_audience": "mcp-api",
+    "jwt_algorithm": "RS256"
+  },
+  
+  "multi_tenant": {
+    "enabled": false,
+    "isolation_level": "standard",
+    "default_tenant": "default"
+  },
+  
+  "security": {
+    "security_plugin_timeout": 5.0,
+    "threat_score_threshold": 0.7,
+    "enable_learning_mode": false,
+    "rate_limiting_enabled": true,
+    "rate_limit_requests_per_minute": 1000,
+    "whitelist_patterns": [],
+    "blacklist_patterns": []
+  },
+  
+  "caching": {
+    "enabled": true,
+    "redis_url": "redis://redis:6379/0",
+    "cache_ttl": 300,
+    "cache_security_results": true
+  },
+  
+  "monitoring": {
+    "metrics_enabled": true,
+    "metrics_port": 9090,
+    "log_level": "INFO",
+    "structured_logging": true,
+    "health_check_interval": 30
+  },
+  
+  "cors": {
+    "enabled": true,
+    "origins": ["*"],
+    "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    "headers": ["*"]
+  },
+  
+  "security_plugins": {
+    "open_appsec": {
+      "enabled": true,
+      "config": {
+        "protection_level": "enterprise",
+        "strict_mode": true,
+        "threat_score_threshold": 0.8
+      }
+    },
+    "presidio_dlp": {
+      "enabled": true,
+      "config": {
+        "detection_mode": "all",
+        "anonymize_enabled": false,
+        "supported_languages": ["en"]
+      }
+    },
+    "cyberpig_ai": {
+      "enabled": true,
+      "config": {
+        "scan_depth": "deep",
+        "entropy_threshold": 4.5,
+        "custom_patterns": []
+      }
+    },
+    "enhanced_mcp_schema_validation": {
+      "enabled": true,
+      "config": {
+        "strict_validation": true,
+        "allow_unknown_fields": false
+      }
+    },
+    "mcp_security_policy_engine": {
+      "enabled": true,
+      "config": {
+        "policy_mode": "enforce",
+        "default_action": "deny"
+      }
+    },
+    "garak_scanner": {
+      "enabled": false,
+      "config": {
+        "scan_intensity": "medium",
+        "timeout": 10
+      }
+    },
+    "llm_guard": {
+      "enabled": false,
+      "config": {
+        "scanner_config": "default"
+      }
+    }
+  },
+  
+  "deployment": {
+    "environment": "production",
+    "debug": false,
+    "allowed_hosts": ["*"],
+    "trusted_proxies": ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+  }
+}

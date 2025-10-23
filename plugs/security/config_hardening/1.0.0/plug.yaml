@@ -1,0 +1,170 @@
+composition:
+  integrates_with:
+  - security_orchestrator: As part of comprehensive security validation
+  - audit_elk_stack: For security event logging
+  leverages:
+  - universal_input_sanitizer: For detecting potentially exposed sensitive data
+config_files:
+- description: Secure development environment configuration
+  name: config-development-secure.yaml
+  type: config
+  version: 1.0.0
+- description: Secure production environment configuration
+  name: config-production-secure.yaml
+  type: config
+  version: 1.0.0
+- description: Production environment configuration
+  name: config-production.yaml
+  type: config
+  version: 1.0.0
+dependencies:
+- universal_input_sanitizer
+- pyyaml
+description: Security configuration hardening and validation plugin for PlugPipe production
+  deployments
+examples:
+- description: Validate production config file for security compliance
+  input:
+    config_file: config-production.yaml
+    environment: production
+    operation: validate
+  name: Validate Production Configuration
+- description: Generate comprehensive security configuration report
+  input:
+    config_file: config-production.yaml
+    operation: report
+  name: Generate Security Report
+- description: Automatically apply security fixes where possible
+  input:
+    auto_fix_bindings: true
+    operation: harden
+  name: Auto-Harden Configuration
+external_dependencies:
+  install_method: pip
+  packages:
+  - inspect
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    auto_fix_bindings:
+      default: false
+      description: Automatically fix insecure network bindings
+      type: boolean
+    config_file:
+      default: config.yaml
+      description: Configuration file path to validate
+      type: string
+    environment:
+      description: Target environment (auto-detected from PP_ENV if not specified)
+      enum:
+      - development
+      - production
+      type: string
+    operation:
+      default: validate
+      description: Security operation to perform
+      enum:
+      - validate
+      - harden
+      - report
+      type: string
+  type: object
+name: config_hardening
+display_name: ConfigHardening
+output_schema:
+  properties:
+    applied_fixes:
+      description: List of automatically applied fixes (when operation=harden)
+      type: array
+    critical_findings:
+      type: integer
+    environment:
+      type: string
+    error:
+      type: string
+    is_production_ready:
+      type: boolean
+    recommendations:
+      items:
+        type: string
+      type: array
+    security_findings:
+      items:
+        properties:
+          environment:
+            type: string
+          message:
+            type: string
+          recommendation:
+            type: string
+          severity:
+            enum:
+            - critical
+            - warning
+            - info
+            type: string
+          type:
+            type: string
+        type: object
+      type: array
+    security_report:
+      description: Comprehensive security report (when operation=report)
+      type: object
+    security_score:
+      description: Overall security score (0-100)
+      maximum: 100
+      minimum: 0
+      type: integer
+    success:
+      type: boolean
+    total_findings:
+      type: integer
+    warning_findings:
+      type: integer
+  type: object
+owner: PlugPipe Security Team
+purpose: 'Validates PlugPipe configuration files and environment settings for security
+  compliance.
+
+  Enforces secure defaults, prevents misconfigurations, and provides production readiness
+  assessment.
+
+
+  Key Security Validations:
+
+  - Network binding security (prevents 0.0.0.0 in production)
+
+  - Required environment variables (JWT secrets, database credentials)
+
+  - TLS/SSL configuration validation
+
+  - CORS security settings
+
+  - Authentication configuration compliance
+
+  - Sensitive data exposure detection
+
+  '
+sbom: sbom/
+security:
+  data_handling: Validates configuration data, does not modify files without explicit
+    permission
+  file_system_access: Read-only access to configuration files
+  network_access: false
+  sensitive_data: Can detect potentially exposed secrets in environment variables
+status: stable
+tags:
+- security
+- configuration
+- hardening
+- production
+- validation
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:orchestration:pipeline_loader_validator",
+    "name": "Pipeline Loader Validator Agent",
+    "description": "Pipeline Loader and Validator Service - modular pipeline loading, validation, and preparation for execution with proper separation of concerns",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/pipeline_loader_validator",
+    "skills": [
+      {
+        "id": "pipeline_loader_validator-primary",
+        "name": "Pipeline Loader Validator",
+        "description": "Pipeline Loader and Validator Service - modular pipeline loading, validation, and preparation for execution with proper separation of concerns",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "pipeline_loader_validator",
+        "category": "orchestration",
+        "subcategory": "",
+        "tags": [
+          "orchestration",
+          "pipeline",
+          "validation",
+          "loading",
+          "service",
+          "modular"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.155163Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

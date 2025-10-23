@@ -1,0 +1,120 @@
+name: auth_oauth2_google
+display_name: AuthOAuth2Google
+version: 1.0.0
+type: authentication
+category: oauth2
+title: Google OAuth 2.0 Authentication
+description: Enterprise-grade Google OAuth 2.0 authentication with PKCE security
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-oauth2-google
+auth_type: oauth2
+provider: google
+supports_pkce: true
+supports_refresh_token: true
+provides:
+- oauth2_flow
+- user_profile
+- token_refresh
+- pkce_security
+requires:
+- session_manager
+- user_manager
+configuration:
+- name: client_id
+  type: string
+  required: true
+  secure: false
+  description: Google OAuth 2.0 Client ID
+  example: 123456789.apps.googleusercontent.com
+- name: client_secret
+  type: string
+  required: true
+  secure: true
+  description: Google OAuth 2.0 Client Secret
+- name: redirect_uri
+  type: string
+  required: true
+  secure: false
+  description: OAuth callback redirect URI
+  example: https://your-domain.com/auth/oauth2/google/callback
+- name: scope
+  type: string
+  required: false
+  secure: false
+  default: openid email profile
+  description: OAuth scopes to request
+- name: hosted_domain
+  type: string
+  required: false
+  secure: false
+  description: Restrict to specific G Suite domain
+actions:
+- initiate_flow
+- handle_callback
+- get_user_profile
+- refresh_token
+- validate_credentials
+dependencies:
+- httpx >= 0.24.0
+- cryptography >= 3.4.8
+external_dependencies:
+- name: httpx
+  version: '>=0.24.0'
+  purpose: HTTP client for Google OAuth 2.0 API requests and token exchange
+- name: cryptography
+  version: '>=3.4.8'
+  purpose: Cryptographic operations for OAuth PKCE challenge generation and secure
+    token handling
+security:
+- PKCE (Proof Key for Code Exchange)
+- State parameter CSRF protection
+- Secure token storage
+- Token expiration handling
+enterprise:
+- G Suite domain restriction
+- Admin consent flows
+- Audit logging integration
+- Custom claim mapping
+performance:
+  priority: 10
+  timeout: 30
+  retries: 2
+compliance:
+- OAuth 2.0 RFC 6749
+- PKCE RFC 7636
+- OpenID Connect 1.0
+- Google OAuth 2.0 Best Practices
+monitoring:
+  metrics:
+  - auth_requests_total
+  - auth_success_rate
+  - auth_response_time
+  events:
+  - oauth_flow_initiated
+  - oauth_callback_received
+  - token_refreshed
+  - auth_success
+  - auth_failure
+documentation:
+  setup_guide: docs/setup.md
+  configuration_guide: docs/configuration.md
+  troubleshooting: docs/troubleshooting.md
+  examples: docs/examples/
+owner: PlugPipe Auth Team
+status: stable
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_oauth2_google-sbom.json
+  complete: sbom/auth_oauth2_google-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

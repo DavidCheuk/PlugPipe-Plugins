@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:issue_tracker",
+    "name": "Issue Tracker Agent",
+    "description": "Comprehensive issue tracking system for plugin validation results with multiple storage backends including database factory, S3, and local file systems",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/issue_tracker",
+    "skills": [
+      {
+        "id": "issue_tracker-primary",
+        "name": "Issue Tracker",
+        "description": "Comprehensive issue tracking system for plugin validation results with multiple storage backends including database factory, S3, and local file systems",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "issue_tracker",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.949249Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

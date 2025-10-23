@@ -1,0 +1,74 @@
+ai_integration:
+  auditor_prompt: You are an independent technical auditor
+  provider: claude_ai
+  temperature: 0.1
+  timeout_ms: 30000
+  via_llm_service: true
+author: PlugPipe AI Audit Team
+category: core
+dependencies:
+- llm_service
+- universal_input_sanitizer
+description: AI-powered independent technical auditor with Claude LLM and strict mode
+  enforcement
+discovery: public
+entry_point: main.py
+external_dependencies:
+  python:
+  - asyncio
+  - dataclasses
+  - pathlib
+name: ai_independent_auditor
+display_name: AIIndependentAuditor
+operations:
+- description: Check auditor status and capabilities
+  name: status
+  parameters: {}
+- description: Perform independent audit of Auto Fixer operation
+  name: audit_auto_fixer
+  parameters:
+    auto_fixer_result:
+      description: Auto Fixer operation results to audit
+      required: true
+      type: dict
+- description: Audit FTHAD methodology compliance
+  name: audit_fthad_compliance
+  parameters:
+    fthad_data:
+      description: FTHAD implementation data to audit
+      required: true
+      type: dict
+process_function: process
+quality_assurance:
+  ai_powered_analysis: true
+  claude_llm_verification: true
+  comprehensive_scoring: true
+  independent_auditing: true
+security:
+  audit_integrity: verified
+  independent_analysis: true
+  llm_service_required: true
+  strict_mode_enforced: true
+strict_mode:
+  claude_llm_required: true
+  enabled: true
+  independent_analysis: true
+  no_fallbacks: true
+tags:
+- ai
+- audit
+- claude-llm
+- independent
+- quality-assurance
+- fthad
+- strict-mode
+version: 1.0.0
+owner: PlugPipe AI Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

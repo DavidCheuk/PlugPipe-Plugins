@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:simple_file_logger_api",
+    "name": "Simple File Logger Api Agent",
+    "description": "Auto-generated plugin for simple_file_logger API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/simple_file_logger_api",
+    "skills": [
+      {
+        "id": "simple_file_logger_api-primary",
+        "name": "Simple File Logger Api",
+        "description": "Auto-generated plugin for simple_file_logger API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "simple_file_logger_api",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "simple_file_logger_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.569642Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

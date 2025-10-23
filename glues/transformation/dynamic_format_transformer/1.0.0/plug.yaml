@@ -1,0 +1,25 @@
+name: dynamic_format_transformer
+version: 1.0.0
+description: Dynamic protocol format transformer that wraps raw attack payloads during
+  testing with MCP Guardian integration
+author: PlugPipe Security
+category: transformation
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/security/dynamic_format_transformer
+tags:
+- glue-component
+- transformation
+- security
+- format-transformer
+- mcp
+- protocol
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

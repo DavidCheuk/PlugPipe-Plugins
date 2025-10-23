@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:kafka_topic_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:41:23.966506Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "kafka_topic_manager@1.0.0",
+      "name": "kafka_topic_manager",
+      "version": "1.0.0",
+      "description": "Universal Kafka topic lifecycle management plugin for any streaming infrastructure"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

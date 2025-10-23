@@ -1,0 +1,593 @@
+author: PlugPipe Security Team
+capabilities:
+  languages_supported:
+  - en
+  - es
+  - fr
+  - de
+  - it
+  - pt
+  - nl
+  - da
+  - false
+  - sv
+  - fi
+  - pl
+  - he
+  - ar
+  - zh
+  primary:
+  - pii_detection
+  - data_redaction
+  - privacy_compliance
+  - threat_assessment
+  secondary:
+  - multi_language_support
+  - custom_recognizers
+  - anonymization_strategies
+  - audit_logging
+category: security
+compatibility:
+  breaking_changes:
+  - description: Initial release
+    version: 1.0.0
+  deprecation_notices: []
+  plugpipe_versions: '>=1.0.0'
+  presidio_versions: '>=2.2.0'
+  python_versions: '>=3.8'
+config_schema:
+  properties:
+    analyzer:
+      description: Presidio analyzer configuration
+      properties:
+        confidence_threshold:
+          default: 0.7
+          description: Minimum confidence for entity detection
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        custom_recognizers:
+          default: []
+          description: Custom pattern recognizers
+          items:
+            type: object
+          type: array
+        languages:
+          default:
+          - en
+          description: Supported languages for analysis
+          items:
+            type: string
+          type: array
+        privacy_level:
+          default: standard
+          description: Privacy protection level
+          enum:
+          - minimal
+          - standard
+          - strict
+          - compliance
+          type: string
+      type: object
+    anonymizer:
+      description: Presidio anonymizer configuration
+      properties:
+        custom_operators:
+          default: {}
+          description: Custom anonymization operators
+          type: object
+        preserve_structure:
+          default: true
+          description: Preserve text structure during redaction
+          type: boolean
+        redaction_mode:
+          default: replace
+          description: Data redaction strategy
+          enum:
+          - replace
+          - mask
+          - hash
+          - encrypt
+          - synthetic
+          type: string
+      type: object
+    compliance:
+      description: Compliance and regulatory settings
+      properties:
+        audit_all_scans:
+          default: true
+          description: Audit all privacy scans
+          type: boolean
+        enable_gdpr:
+          default: true
+          description: Enable GDPR compliance checking
+          type: boolean
+        enable_hipaa:
+          default: false
+          description: Enable HIPAA compliance checking
+          type: boolean
+        privacy_threshold:
+          default: 7.0
+          description: Privacy risk threshold for blocking
+          maximum: 10.0
+          minimum: 0.0
+          type: number
+      type: object
+    performance:
+      description: Performance and optimization settings
+      properties:
+        cache_enabled:
+          default: true
+          description: Enable result caching
+          type: boolean
+        cache_ttl:
+          default: 3600
+          description: Cache time-to-live in seconds
+          type: integer
+        max_text_length:
+          default: 100000
+          description: Maximum text length for analysis
+          type: integer
+        timeout_seconds:
+          default: 120
+          description: Analysis timeout in seconds
+          type: integer
+      type: object
+  type: object
+defaults:
+  analyzer:
+    confidence_threshold: 0.7
+    custom_recognizers: []
+    languages:
+    - en
+    privacy_level: standard
+  anonymizer:
+    custom_operators: {}
+    preserve_structure: true
+    redaction_mode: replace
+  compliance:
+    audit_all_scans: true
+    enable_gdpr: true
+    enable_hipaa: false
+    privacy_threshold: 7.0
+  performance:
+    cache_enabled: true
+    cache_ttl: 3600
+    max_text_length: 100000
+    timeout_seconds: 120
+dependencies:
+  external_services:
+  - description: SpaCy language models (en_core_web_sm, etc.)
+    install_command: python -m spacy download en_core_web_sm
+    name: spacy_models
+    optional: false
+  python_packages:
+  - description: Microsoft Presidio PII detection engine
+    name: presidio-analyzer
+    optional: false
+    version: '>=2.2.0'
+  - description: Microsoft Presidio data anonymization engine
+    name: presidio-anonymizer
+    optional: false
+    version: '>=2.2.0'
+  - description: Industrial-strength NLP for entity recognition
+    name: spacy
+    optional: false
+    version: '>=3.4.0'
+  - description: Transformer models for advanced NLP
+    name: transformers
+    optional: true
+    version: '>=4.20.0'
+  - description: PyTorch for deep learning models
+    name: torch
+    optional: true
+    version: '>=1.12.0'
+  system_packages:
+  - description: Python development headers
+    name: python3-dev
+    optional: true
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:48'
+  stdlib_modules_declared: true
+description: Microsoft Presidio-powered data leakage prevention and PII detection
+  for enterprise LLM security
+examples:
+  basic_usage:
+    description: Basic PII detection
+    expected_output:
+      entities_detected: 3
+      entity_types:
+      - PERSON
+      - EMAIL_ADDRESS
+      - PHONE_NUMBER
+      privacy_risk_score: 4.2
+    input:
+      scan_type: input
+      text: Contact John Doe at john.doe@example.com or call 555-123-4567
+  compliance_mode:
+    description: GDPR compliance scanning
+    expected_output:
+      compliance_violations:
+      - 'GDPR: Processing personal data without explicit consent'
+      privacy_risk_score: 6.5
+    input:
+      context:
+        data_classification: confidential
+        gdpr_consent: false
+      text: 'User IP: 192.168.1.1, Email: user@company.eu'
+  high_sensitivity:
+    description: High sensitivity financial data
+    expected_output:
+      entities_detected: 2
+      entity_types:
+      - US_SSN
+      - CREDIT_CARD
+      privacy_risk_score: 9.8
+      recommendations:
+      - 'CRITICAL: Block processing - high privacy risk detected'
+    input:
+      scan_type: input
+      text: 'SSN: 123-45-6789, Card: 4532-1234-5678-9012'
+external_dependencies:
+  install_method: pip
+  packages:
+  - presidio_analyzer
+  - presidio_anonymizer
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      description: Additional context for analysis
+      properties:
+        data_classification:
+          description: Data classification level
+          enum:
+          - public
+          - internal
+          - confidential
+          - restricted
+          - healthcare
+          - financial
+          type: string
+        gdpr_consent:
+          description: GDPR consent status
+          type: boolean
+        language:
+          default: en
+          description: Text language
+          type: string
+        user_id:
+          description: User identifier for audit logging
+          type: string
+      type: object
+    scan_type:
+      default: input
+      description: Type of scan (LLM input or output)
+      enum:
+      - input
+      - output
+      type: string
+    text:
+      description: Text to analyze for PII and sensitive data
+      maxLength: 100000
+      type: string
+  required:
+  - text
+  type: object
+installation:
+  requirements:
+  - Python 3.8+
+  - pip package manager
+  - Internet connection for model downloads
+  setup_commands:
+  - pip install presidio-analyzer presidio-anonymizer
+  - python -m spacy download en_core_web_sm
+  - python -c 'import presidio_analyzer; print("Installation successful")'
+  validation_script: 'from presidio_analyzer import AnalyzerEngine
+
+    from presidio_anonymizer import AnonymizerEngine
+
+    analyzer = AnalyzerEngine()
+
+    anonymizer = AnonymizerEngine()
+
+    test_text = "My email is john@example.com"
+
+    results = analyzer.analyze(text=test_text, language=''en'')
+
+    print(f"Detected {len(results)} entities")
+
+    '
+integration:
+  standalone_usage:
+    description: Standalone privacy assessment
+    example: 'dlp_plugin = PresidioDLPPlugin(config)
+
+      assessment = await dlp_plugin.assess_privacy_risk(text, context)
+
+      print(f"Privacy risk: {assessment.privacy_risk_score}")
+
+      '
+  with_llm_security:
+    description: Integration with LLM Security Coordinator
+    example: '# Register with security coordinator
+
+      coordinator.register_security_plugin("presidio_dlp", presidio_plugin)
+
+
+      # Automatic scanning during LLM input/output
+
+      scan_result = await coordinator.scan_input(user_id, input_text)
+
+      '
+  with_mcp_server:
+    description: Integration with MCP server for real-time protection
+    example: "# Pre-process MCP requests\nassessment = await presidio_plugin.assess_privacy_risk(request_text)\n\
+      if assessment.privacy_risk_score > 7.0:\n    return redacted_response\n"
+license: MIT
+metadata:
+  display_name: Presidio Data Leakage Prevention
+  documentation: https://microsoft.github.io/presidio/
+  homepage: https://github.com/microsoft/presidio
+  keywords:
+  - data loss prevention
+  - personally identifiable information
+  - privacy compliance
+  - data redaction
+  - microsoft presidio
+  - nlp security
+  - regulatory compliance
+  long_description: 'Advanced data leakage prevention using Microsoft''s production-ready
+    Presidio framework.
+
+    Provides real-time sensitive data detection, redaction, and anonymization for
+    LLM workflows
+
+    with comprehensive GDPR, HIPAA, and SOX compliance support.
+
+    '
+  repository: https://github.com/microsoft/presidio
+  short_description: Enterprise-grade PII detection and data protection
+  tags:
+  - security
+  - dlp
+  - pii
+  - privacy
+  - presidio
+  - gdpr
+  - hipaa
+  - compliance
+  - data-protection
+  - enterprise
+monitoring:
+  alerts:
+  - condition: privacy_risk_score > 8.0
+    name: high_privacy_risk
+    severity: critical
+  - condition: compliance_violations > 0
+    name: compliance_violation
+    severity: warning
+  - condition: processing_duration > 30s
+    name: processing_timeout
+    severity: warning
+  metrics:
+  - entities_detected_total
+  - privacy_risk_score_histogram
+  - compliance_violations_total
+  - processing_duration_seconds
+  - redaction_success_rate
+name: presidio_dlp
+display_name: PresidioDLP
+output_schema:
+  properties:
+    detected_entities:
+      description: Detailed information about detected entities
+      items:
+        properties:
+          confidence:
+            description: Detection confidence
+            maximum: 1.0
+            minimum: 0.0
+            type: number
+          end:
+            description: End position in text
+            type: integer
+          entity_type:
+            description: Type of detected entity
+            type: string
+          recognizer:
+            description: Recognizer that detected the entity
+            type: string
+          start:
+            description: Start position in text
+            type: integer
+          text_preview:
+            description: Preview of detected text
+            type: string
+        type: object
+      type: array
+    plugin_version:
+      description: Plugin version
+      type: string
+    privacy_assessment:
+      description: Comprehensive privacy risk assessment
+      properties:
+        compliance_violations:
+          description: Compliance violations detected
+          items:
+            type: string
+          type: array
+        entities_detected:
+          description: Number of PII entities detected
+          type: integer
+        entity_types:
+          description: Types of entities detected
+          items:
+            type: string
+          type: array
+        privacy_risk_score:
+          description: Overall privacy risk score
+          maximum: 10.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          description: Actionable privacy recommendations
+          items:
+            type: string
+          type: array
+        text_hash:
+          description: Hash of analyzed text for tracking
+          type: string
+      type: object
+    processing_available:
+      description: Whether Presidio processing is available
+      type: boolean
+    redacted_text:
+      description: Text with sensitive data redacted
+      type: string
+    scan_type:
+      description: Type of scan performed
+      type: string
+    security_threats:
+      description: Security threats generated from privacy assessment
+      items:
+        properties:
+          confidence:
+            description: Threat confidence score
+            type: number
+          description:
+            description: Threat description
+            type: string
+          level:
+            description: Threat severity level
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          recommendation:
+            description: Recommended security action
+            enum:
+            - allow
+            - sanitize
+            - block
+            - quarantine
+            - audit_only
+            type: string
+          threat_id:
+            description: Unique threat identifier
+            type: string
+          threat_type:
+            description: Type of security threat
+            type: string
+        type: object
+      type: array
+    status:
+      description: Processing status
+      enum:
+      - success
+      - error
+      - warning
+      type: string
+    timestamp:
+      description: Analysis timestamp
+      format: date-time
+      type: string
+  type: object
+owner: PlugPipe Security Team
+performance:
+  cpu_requirements:
+    minimum: 1 core
+    recommended: 2 cores
+  memory_requirements:
+    minimum: 256MB
+    recommended: 512MB
+    with_models: 1GB
+  throughput:
+    requests_per_second: 50
+    tokens_per_second: 10000
+  typical_latency:
+    large_text: < 2000ms
+    medium_text: < 500ms
+    small_text: < 100ms
+sbom:
+  complete: sbom/presidio_dlp-sbom-complete.json
+  summary: sbom/presidio_dlp-sbom.json
+security:
+  compliance_frameworks:
+  - coverage: comprehensive
+    description: EU General Data Protection Regulation
+    name: GDPR
+    supported_features:
+    - PII detection and anonymization
+    - Right to be forgotten (data redaction)
+    - Data minimization compliance
+    - Consent management tracking
+  - coverage: comprehensive
+    description: Health Insurance Portability and Accountability Act
+    name: HIPAA
+    supported_features:
+    - PHI (Protected Health Information) detection
+    - Healthcare identifier recognition
+    - Audit trail generation
+    - Access control integration
+  - coverage: partial
+    description: Sarbanes-Oxley Act
+    name: SOX
+    supported_features:
+    - Financial data detection
+    - Audit logging
+    - Data integrity monitoring
+  - coverage: comprehensive
+    description: Payment Card Industry Data Security Standard
+    name: PCI DSS
+    supported_features:
+    - Credit card number detection
+    - Payment data redaction
+    - Compliance reporting
+  owasp_coverage:
+    llm:
+    - coverage: primary
+      description: Comprehensive PII detection and data leakage prevention
+      id: LLM02
+      name: Sensitive Information Disclosure
+    - coverage: secondary
+      description: Detection of sensitive system information in outputs
+      id: LLM07
+      name: System Prompt Leakage
+    web:
+    - coverage: secondary
+      description: Detection of sensitive data in injection attempts
+      id: A03
+      name: Injection
+status: stable
+stdlib_modules:
+- logging
+- re
+- time
+support:
+  contact:
+    email: security@plugpipe.dev
+    issues: https://github.com/plugpipe/plugpipe/issues
+    maintainer: PlugPipe Security Team
+  documentation: docs/plugins/presidio_dlp.md
+  examples: examples/presidio_dlp_examples.py
+  troubleshooting: docs/troubleshooting/presidio_dlp.md
+testing:
+  integration_tests: tests/integration/test_presidio_integration.py
+  performance_tests: tests/performance/test_presidio_performance.py
+  test_data:
+    compliance_cases: tests/data/compliance_test_cases.json
+    multilingual_data: tests/data/multilingual_samples.json
+    pii_samples: tests/data/pii_test_samples.json
+  unit_tests: tests/test_presidio_dlp_plugin.py
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:mcp_guardian-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T15:24:00.373305Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "mcp_guardian@1.0.0",
+      "name": "mcp_guardian",
+      "version": "1.0.0",
+      "description": "MCP Guardian - Enterprise Security Proxy for Model Context Protocol with comprehensive security plugin orchestration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

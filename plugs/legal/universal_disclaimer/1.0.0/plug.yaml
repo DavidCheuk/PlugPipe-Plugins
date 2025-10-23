@@ -1,0 +1,148 @@
+name: universal_disclaimer
+display_name: UniversalDisclaimer
+owner: PlugPipe Legal Team
+version: 1.0.0
+status: production
+description: Universal legal disclaimer plugin for all PlugPipe interfaces (CLI, API,
+  MCP, Frontend) with user acknowledgment tracking
+category: legal
+tags:
+- legal
+- disclaimer
+- liability
+- risk-management
+- compliance
+- user-acknowledgment
+input_schema:
+  type: object
+  properties:
+    interface:
+      type: string
+      enum:
+      - cli
+      - api
+      - mcp
+      - frontend
+      - plugin_action
+      description: Interface type requesting disclaimer
+    action:
+      type: string
+      enum:
+      - show_banner
+      - require_acknowledgment
+      - get_disclaimer
+      - check_acceptance
+      - add_headers
+      description: Disclaimer action to perform
+    context:
+      type: object
+      properties:
+        plugin_name:
+          type: string
+          description: Plugin name for plugin-specific disclaimers
+        operation:
+          type: string
+          enum:
+          - download
+          - install
+          - purchase
+          - execute
+          description: Operation type for plugin actions
+        user_id:
+          type: string
+          description: User identifier for tracking acknowledgments
+        request_id:
+          type: string
+          description: Request identifier for audit trails
+    options:
+      type: object
+      properties:
+        format:
+          type: string
+          enum:
+          - text
+          - html
+          - json
+          - headers
+          description: Output format for disclaimer
+        include_full:
+          type: boolean
+          default: false
+          description: Include full legal text
+        force_reaccept:
+          type: boolean
+          default: false
+          description: Force user to re-accept disclaimer
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Whether disclaimer operation succeeded
+    disclaimer:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Brief disclaimer message
+        full_text:
+          type: string
+          description: Complete legal disclaimer text
+        acceptance_required:
+          type: boolean
+          description: Whether user acknowledgment is required
+        acceptance_status:
+          type: string
+          enum:
+          - accepted
+          - declined
+          - pending
+          - expired
+          description: User acceptance status
+    headers:
+      type: object
+      description: HTTP headers with disclaimer information
+    metadata:
+      type: object
+      properties:
+        version:
+          type: string
+        timestamp:
+          type: string
+        interface:
+          type: string
+        tracking_id:
+          type: string
+python_packages:
+- pydantic>=2.0.0
+- typing-extensions>=4.0.0
+sbom:
+  components:
+  - type: library
+    name: pydantic
+    version: '>=2.0.0'
+    description: Data validation for disclaimer schemas
+  - type: library
+    name: typing-extensions
+    version: '>=4.0.0'
+    description: Type hints support
+revolutionary_capabilities:
+- universal_interface_disclaimer_management
+- automated_risk_acknowledgment_tracking
+- context_aware_legal_protection
+- multi_format_disclaimer_generation
+- compliance_audit_trail_creation
+enterprise_features:
+- centralized_legal_disclaimer_management
+- user_acknowledgment_tracking_and_auditing
+- customizable_legal_text_and_branding
+- integration_with_enterprise_authentication
+- comprehensive_compliance_reporting
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

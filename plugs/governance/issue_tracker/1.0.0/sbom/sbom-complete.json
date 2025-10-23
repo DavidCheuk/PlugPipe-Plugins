@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:issue_tracker-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T06:57:17.599755Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "issue_tracker@1.0.0",
+      "name": "issue_tracker",
+      "version": "1.0.0",
+      "description": "Comprehensive issue tracking system for plugin validation results with multiple storage backends including database factory, S3, and local file systems"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

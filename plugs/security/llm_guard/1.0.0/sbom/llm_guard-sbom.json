@@ -1,0 +1,154 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:llm_guard-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T16:45:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "llm_guard@1.0.0",
+      "name": "llm_guard",
+      "version": "1.0.0",
+      "description": "LLM Guard security toolkit integration for comprehensive LLM protection against OWASP Top 10 threats",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "llm-guard@0.3.16",
+      "name": "llm-guard",
+      "version": "0.3.16",
+      "description": "Protect AI's LLM Guard security toolkit",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/llm-guard@0.3.16",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/protectai/llm-guard"
+        },
+        {
+          "type": "documentation",
+          "url": "https://llm-guard.com/"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "transformers@4.21.0",
+      "name": "transformers",
+      "version": "4.21.0",
+      "description": "State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/transformers@4.21.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/huggingface/transformers"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "torch@1.13.0",
+      "name": "torch",
+      "version": "1.13.0",
+      "description": "Tensors and Dynamic neural networks in Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/torch@1.13.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://pytorch.org"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "llm_guard@1.0.0",
+      "dependsOn": [
+        "llm-guard@0.3.16",
+        "transformers@4.21.0",
+        "torch@1.13.0"
+      ]
+    },
+    {
+      "ref": "transformers@4.21.0",
+      "dependsOn": [
+        "torch@1.13.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "llm_guard@1.0.0",
+      "subjects": ["llm_guard@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_security_plugin"
+      }
+    },
+    {
+      "bom-ref": "llm_guard@1.0.0",
+      "subjects": ["llm_guard@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "owasp_coverage",
+        "value": "LLM01_LLM02_LLM05_LLM07_LLM09"
+      }
+    },
+    {
+      "bom-ref": "llm_guard@1.0.0",
+      "subjects": ["llm_guard@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "core_security_layer"
+      }
+    },
+    {
+      "bom-ref": "llm-guard@0.3.16",
+      "subjects": ["llm-guard@0.3.16"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "protect_ai_maintained",
+        "value": "true"
+      }
+    }
+  ]
+}

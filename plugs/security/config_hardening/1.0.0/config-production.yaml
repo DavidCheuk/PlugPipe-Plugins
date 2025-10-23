@@ -1,0 +1,212 @@
+# -----------------------------------------------------------------
+# PlugPipe Production Configuration with Database Factory
+# -----------------------------------------------------------------
+
+# Schema Validation Configuration
+schema_validation:
+  enable_at_runtime: true                     # Enable schema validation during plugin/pipe loading
+  enable_at_development: true                 # Enable schema validation during development/CLI
+  plug_schema_path: "shares/schemas/min_plug_schema.json"
+  pipe_schema_path: "shares/schemas/pipe_schema.json"
+  fail_on_validation_error: false             # Continue execution even if schema validation fails
+
+# -----------------------------------------------------------------
+# Production Registry Configuration with Database Factory
+# -----------------------------------------------------------------
+registries:
+  - type: database_factory
+    name: "Production Database Factory Registry"
+    priority: 1
+    config:
+      # Primary database for production
+      primary_database: "postgresql"
+      # Fallback databases for reliability
+      fallback_databases: ["postgresql", "sqlite"]
+      
+      # Database configurations
+      database_configs:
+        postgresql:
+          connection_string: "${POSTGRES_CONNECTION_STRING}"
+          table_prefix: "pp_"
+          pool_size: 20
+          max_overflow: 30
+          pool_timeout: 30
+          pool_recycle: 3600
+        sqlite:
+          database_path: "${SQLITE_DATABASE_PATH}"
+          table_prefix: "pp_"
+          timeout: 30
+      
+      # Enterprise features
+      enable_failover: true
+      health_check_interval: 30
+      connection_retry_attempts: 3
+      namespace: "plugpipe-production"
+      
+      # Performance optimization
+      enable_connection_pooling: true
+      enable_query_optimization: true
+      enable_read_replicas: false
+
+# -----------------------------------------------------------------
+# LLM Provider Configuration (for AI metadata, search, etc.)
+# -----------------------------------------------------------------
+llm_provider:
+  default:
+    type: "ollama"                        # LLM backend type ("ollama", "openai", "anthropic", etc.)
+    endpoint: "http://ollama:11434"       # Container-based endpoint
+    model: "mistral:latest"
+    api_key_env: "OLLAMA_API_KEY"         # Optional API key
+    timeout: 30
+  secondary:
+    type: "openai"
+    endpoint: "https://api.openai.com/v1"
+    model: "gpt-4"
+    api_key_env: "OPENAI_API_KEY"
+    timeout: 60
+
+# -----------------------------------------------------------------
+# Production Services Configuration
+# -----------------------------------------------------------------
+services:
+  # Registry Service Configuration - SECURITY: Requires explicit configuration
+  registry:
+    host: "${PP_REGISTRY_HOST:-127.0.0.1}"     # SECURITY: Default to localhost, set env var for external access
+    port: 8000
+    workers: 4
+    max_connections: 1000
+    keepalive_timeout: 65
+    enable_cors: true
+    cors_origins:
+      - "http://localhost:3000"
+      - "https://hub.plugpipe.io"
+    
+  # MCP Server Configuration - SECURITY: Requires explicit configuration  
+  mcp:
+    host: "${PP_MCP_HOST:-127.0.0.1}"          # SECURITY: Default to localhost, set env var for external access
+    port: 8080
+    max_connections: 500
+    protocol_version: "2025-06-18"
+    enable_subscriptions: true
+    subscription_timeout: 300
+    
+  # Frontend Configuration - SECURITY: Requires explicit configuration
+  frontend:
+    host: "${PP_FRONTEND_HOST:-127.0.0.1}"     # SECURITY: Default to localhost, set env var for external access
+    port: 3000
+    enable_ssr: true
+    enable_static_optimization: true
+    
+# -----------------------------------------------------------------
+# Caching Configuration
+# -----------------------------------------------------------------
+cache:
+  backend: "redis"
+  redis:
+    url: "${REDIS_URL}"
+    db: 0
+    max_connections: 50
+    socket_timeout: 5
+    socket_connect_timeout: 5
+    retry_on_timeout: true
+    
+  # Cache policies
+  policies:
+    plugin_metadata: 3600      # 1 hour
+    search_results: 1800       # 30 minutes
+    health_checks: 300         # 5 minutes
+    user_sessions: 86400       # 24 hours
+
+# -----------------------------------------------------------------
+# Security Configuration
+# -----------------------------------------------------------------
+security:
+  # Authentication
+  auth:
+    enable_jwt: true
+    jwt_secret_env: "JWT_SECRET"
+    jwt_expiry: 3600
+    
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 1000
+    burst_size: 100
+    
+  # CORS settings
+  cors:
+    allow_origins:
+      - "http://localhost:3000"
+      - "https://hub.plugpipe.io"
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    allow_headers: ["*"]
+    allow_credentials: true
+
+# -----------------------------------------------------------------
+# Logging Configuration
+# -----------------------------------------------------------------
+logging:
+  level: "INFO"
+  format: "json"
+  handlers:
+    - type: "console"
+      level: "INFO"
+    - type: "file"
+      level: "INFO" 
+      filename: "/app/logs/plugpipe.log"
+      max_size: "100MB"
+      backup_count: 5
+      
+  # Specific logger levels
+  loggers:
+    database_factory: "INFO"
+    registry_service: "INFO"
+    mcp_server: "INFO"
+    health_checks: "DEBUG"
+
+# -----------------------------------------------------------------
+# Monitoring Configuration
+# -----------------------------------------------------------------
+monitoring:
+  # Health checks
+  health_checks:
+    enabled: true
+    interval: 30
+    timeout: 10
+    
+  # Metrics collection
+  metrics:
+    enabled: true
+    endpoint: "/metrics"
+    include_database_metrics: true
+    include_cache_metrics: true
+    
+  # Performance monitoring
+  performance:
+    enable_request_tracing: true
+    enable_database_query_logging: false
+    slow_query_threshold: 1000  # milliseconds
+
+# -----------------------------------------------------------------
+# Backup Configuration
+# -----------------------------------------------------------------
+backup:
+  # Database backup
+  database:
+    enabled: true
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    retention_days: 30
+    backup_location: "/app/backups"
+    
+  # Plugin data backup
+  plugins:
+    enabled: true
+    schedule: "0 3 * * *"  # Daily at 3 AM
+    retention_days: 7
+    include_sbom: true
+
+# -----------------------------------------------------------------
+# Secrets File Location (never commit your secrets!)
+# -----------------------------------------------------------------
+secrets:
+  file: /app/secrets/.env   # Production secrets location

@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:privacy_verification",
+    "name": "Privacy Verification Agent",
+    "description": "Continuous privacy compliance verification system that orchestrates data classification, agent factories, and policy engines for comprehensive enterprise privacy governance",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/privacy_verification",
+    "skills": [
+      {
+        "id": "privacy_verification-primary",
+        "name": "Privacy Verification",
+        "description": "Continuous privacy compliance verification system that orchestrates data classification, agent factories, and policy engines for comprehensive enterprise privacy governance",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "privacy_verification",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.144077Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

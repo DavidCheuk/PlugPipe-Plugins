@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:agents:agent_factory_robustness",
+    "name": "Agent Factory Robustness Agent",
+    "description": "Enterprise-grade robustness layer for agent factory operations with comprehensive error handling, retry mechanisms, circuit breaker patterns, and reliability monitoring",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/agent_factory_robustness",
+    "skills": [
+      {
+        "id": "agent_factory_robustness-primary",
+        "name": "Agent Factory Robustness",
+        "description": "Enterprise-grade robustness layer for agent factory operations with comprehensive error handling, retry mechanisms, circuit breaker patterns, and reliability monitoring",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "agent_factory_robustness",
+        "category": "agents",
+        "subcategory": "",
+        "tags": [
+          "robustness",
+          "error-handling",
+          "retry-logic",
+          "circuit-breaker",
+          "monitoring",
+          "reliability",
+          "fault-tolerance"
+        ],
+        "author": "PlugPipe Agent Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:28.580545Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:fastmcp_server-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:01:21.493569Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "fastmcp_server@1.0.0",
+      "name": "fastmcp_server",
+      "version": "1.0.0",
+      "description": "FastMCP Server - Complete MCP protocol implementation for LLM integration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

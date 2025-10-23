@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:automatic_pipe_creation_agent",
+    "name": "Automatic Pipe Creation Agent Agent",
+    "description": "Intelligent agent that researches workflow patterns, analyzes business processes, and automatically creates reusable pipe templates with comprehensive testing and documentation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/automatic_pipe_creation_agent",
+    "skills": [
+      {
+        "id": "automatic_pipe_creation_agent-primary",
+        "name": "Automatic Pipe Creation Agent",
+        "description": "Intelligent agent that researches workflow patterns, analyzes business processes, and automatically creates reusable pipe templates with comprehensive testing and documentation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "automatic_pipe_creation_agent",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "automation",
+          "ai-powered",
+          "pipe-generation",
+          "workflow-analysis",
+          "enterprise"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.502150Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,349 @@
+category: automation
+dependencies:
+  external:
+  - name: aiohttp
+    purpose: HTTP client for specification downloads
+    version: '>=3.8.0'
+  - name: PyYAML
+    purpose: YAML parsing for plugin manifests
+    version: '>=6.0'
+  - name: packaging
+    purpose: Version parsing and comparison
+    version: '>=21.0'
+  - name: pip-audit
+    optional: true
+    purpose: Security vulnerability scanning for dependencies
+    version: '>=2.6.0'
+  - name: safety
+    optional: true
+    purpose: Alternative security scanning tool
+    version: '>=2.3.0'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:41'
+  stdlib_modules_declared: true
+description: Automatically creates new plugin versions when MCP specification changes.
+  Generates new versioned plugins with updated dependencies and SBOMs to maintain
+  backward compatibility while ensuring MCP compliance.
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  - packaging
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    config:
+      additionalProperties: false
+      properties:
+        dependency_update_strategy:
+          default: conservative
+          description: Strategy for updating dependencies
+          enum:
+          - conservative
+          - aggressive
+          - security_only
+          - mcp_only
+          type: string
+        dry_run:
+          default: false
+          description: Generate plan without creating new version
+          type: boolean
+        force:
+          default: false
+          description: Skip confirmation prompts
+          type: boolean
+        new_plugin_version:
+          description: New plugin version to create (auto-generated if not provided)
+          type: string
+        plugin_path:
+          description: Path to specific plugin (for single plugin operations)
+          type: string
+        preserve_customizations:
+          default: true
+          description: Preserve custom plugin modifications in new version
+          type: boolean
+        sbom_update_mode:
+          default: full_refresh
+          description: How to update SBOM information
+          enum:
+          - full_refresh
+          - incremental
+          - security_scan
+          - dependency_audit
+          type: string
+        show_details:
+          default: false
+          description: Show detailed information
+          type: boolean
+        target_mcp_version:
+          description: Target MCP specification version
+          type: string
+      type: object
+    operation:
+      description: Operation to perform
+      enum:
+      - check_spec_updates
+      - analyze_compatibility
+      - run_update_cycle
+      - create_updated_version
+      - validate_plugin_version
+      - list_plugin_versions
+      - analyze_sbom_changes
+      type: string
+  required:
+  - operation
+  type: object
+integration:
+  ci_cd_systems:
+  - github_actions
+  - gitlab_ci
+  - jenkins
+  cli_tools: true
+  generation_engine: true
+  mcp_servers: true
+  registry_backends:
+  - yaml
+  - github
+  - mcp
+mcp_auto_update:
+  check_interval: 24h
+  dependency_management:
+    pin_critical_versions: true
+    scan_for_vulnerabilities: true
+    update_strategy: conservative
+    update_transitive_deps: false
+  enabled: true
+  sbom_management:
+    auto_regenerate: true
+    compliance_frameworks:
+    - SPDX
+    - CycloneDX
+    include_transitive_deps: true
+    security_scan_new_deps: true
+    track_dependency_changes: true
+    vulnerability_threshold: medium
+  version_strategy:
+    copy_customizations: true
+    create_new_versions: true
+    preserve_backward_compatibility: true
+    version_increment: patch
+name: mcp_specification_auto_updater
+display_name: McpSpecificationAutoUpdater
+output_schema:
+  additionalProperties: false
+  properties:
+    errors:
+      description: List of errors encountered
+      items:
+        type: string
+      type: array
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    operation:
+      description: Operation that was performed
+      type: string
+    result:
+      description: Operation-specific results
+      properties:
+        compatibility_reports:
+          description: Compatibility analysis results
+          type: array
+        new_spec_version:
+          description: Version of new specification
+          type: string
+        new_versions_created:
+          description: Number of new plugin versions created
+          type: integer
+        plugin_versions:
+          description: Available plugin versions
+          type: array
+        plugins_analyzed:
+          description: Number of plugins analyzed
+          type: integer
+        sbom_analysis:
+          description: SBOM change analysis
+          properties:
+            dependencies_added:
+              description: New dependencies required
+              type: array
+            dependencies_removed:
+              description: Dependencies no longer needed
+              type: array
+            dependencies_updated:
+              description: Dependencies with version changes
+              type: array
+            security_updates:
+              description: Security-related dependency updates
+              type: array
+            transitive_changes:
+              description: Changes in transitive dependencies
+              type: array
+          type: object
+        spec_update_found:
+          description: Whether new MCP spec was found
+          type: boolean
+        version_creation_results:
+          description: New version creation results
+          type: array
+        versions_failed:
+          description: Number of plugin versions that failed to create
+          type: integer
+      type: object
+    success:
+      description: Whether operation completed successfully
+      type: boolean
+    timestamp:
+      description: Operation timestamp
+      format: date-time
+      type: string
+    warnings:
+      description: List of warnings generated
+      items:
+        type: string
+      type: array
+  required:
+  - success
+  - operation
+  - result
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  compliance_status:
+    export_control: not_restricted
+    frameworks:
+    - SOC2
+    - GDPR
+    license_compatibility: compatible
+  components:
+  - criticality: high
+    license: Apache-2.0
+    name: aiohttp
+    purpose: HTTP client for MCP specification downloads
+    security_scan_date: '2025-08-21'
+    source: PyPI
+    version: '>=3.8.0'
+    vulnerability_status: clean
+  - criticality: high
+    license: MIT
+    name: PyYAML
+    purpose: YAML parsing for plugin manifests
+    security_scan_date: '2025-08-21'
+    source: PyPI
+    version: '>=6.0'
+    vulnerability_status: clean
+  - criticality: medium
+    license: Apache-2.0
+    name: packaging
+    purpose: Version parsing and semantic versioning
+    security_scan_date: '2025-08-21'
+    source: PyPI
+    version: '>=21.0'
+    vulnerability_status: clean
+  - criticality: medium
+    license: Apache-2.0
+    name: pip-audit
+    optional: true
+    purpose: Security vulnerability scanning
+    security_scan_date: '2025-08-21'
+    source: PyPI
+    version: '>=2.6.0'
+    vulnerability_status: clean
+  - criticality: low
+    license: Python Software Foundation
+    name: pathlib
+    purpose: File system operations
+    source: Python Standard Library
+    version: builtin
+    vulnerability_status: clean
+  creation_info:
+    created: '2025-08-21T00:00:00Z'
+    creators:
+    - PlugPipe Core Team
+    tool: PlugPipe SBOM Generator v1.1.0
+  dependency_tree:
+    direct_dependencies: 4
+    total_dependencies: 16
+    transitive_dependencies: 12
+  format_version: SPDX-2.3
+  security_assessment:
+    critical_vulnerabilities: 0
+    high_vulnerabilities: 0
+    low_vulnerabilities: 0
+    medium_vulnerabilities: 0
+    scan_date: '2025-08-21'
+    scan_tools:
+    - pip-audit
+    - safety
+    vulnerability_count: 0
+sbom_enhancement:
+  compliance_tracking:
+    export_formats:
+    - SPDX
+    - CycloneDX
+    - SWID
+    frameworks:
+    - SOC2
+    - GDPR
+    - HIPAA
+    - PCI-DSS
+    license_compatibility: true
+  dependency_analysis:
+    include_dev_dependencies: false
+    monitor_end_of_life: true
+    scan_frequency: on_update
+    track_license_changes: true
+  security_scanning:
+    auto_fix_critical: false
+    generate_security_report: true
+    scan_transitive_deps: true
+    vulnerability_databases:
+    - OSV
+    - NVD
+    - GitHub Advisory
+status: stable
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- enum
+- hashlib
+- json
+- logging
+- os
+- pathlib
+- re
+- shutil
+- subprocess
+- tempfile
+- typing
+tags:
+- mcp
+- auto-update
+- specification
+- compliance
+- version-tracking
+- compatibility
+- automation
+- sbom
+- dependency-management
+type: core
+version: 1.1.0
+version_management:
+  changelog_generation: true
+  compatibility_matrix: true
+  deprecation_notices: true
+  migration_guides: true
+  semantic_versioning: true
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

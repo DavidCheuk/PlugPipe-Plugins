@@ -1,0 +1,42 @@
+{
+  "name": "api2mcp_factory",
+  "version": "1.0.0",
+  "description": "Enterprise-grade factory that converts API specifications (OpenAPI, GraphQL, RAML) into MCP servers",
+  "category": "integration",
+  "status": "stable",
+  "source_schema": "api_specification",
+  "target_schema": "mcp_server",
+  "mappings": [
+    {
+      "source_field": "api_specification.format",
+      "target_field": "mcp_server.format",
+      "transform": {
+        "operation": "map_api_format",
+        "mapping": {
+          "openapi": "mcp_openapi",
+          "graphql": "mcp_graphql",
+          "raml": "mcp_raml",
+          "blueprint": "mcp_blueprint"
+        }
+      }
+    },
+    {
+      "source_field": "api_specification.source",
+      "target_field": "mcp_server.source_config",
+      "transform": {
+        "operation": "parse_api_source",
+        "validation": "url_or_file_path"
+      }
+    },
+    {
+      "source_field": "conversion_options.backend",
+      "target_field": "mcp_server.backend_used",
+      "transform": {
+        "operation": "select_backend",
+        "default": "openapi-mcp-generator"
+      }
+    }
+  ],
+  "error_policy": "fail_fast",
+  "tags": ["integration", "factory", "mcp", "api-conversion", "enterprise"]
+}

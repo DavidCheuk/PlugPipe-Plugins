@@ -1,0 +1,494 @@
+name: defectdojo_integration
+display_name: DefectdojoIntegration
+version: 1.0.0
+description: Professional DefectDojo vulnerability management integration leveraging
+  200+ security tool integrations, API capabilities, and enterprise-grade reporting
+  features for comprehensive penetration testing report generation
+author: PlugPipe Security Team
+license: MIT
+category: security
+owner: PlugPipe Security Team
+status: stable
+market_position:
+  industry_standard: DefectDojo
+  professional_grade: true
+  enterprise_ready: true
+  tool_integrations: 200+
+  market_adoption: Widely adopted by Fortune 500 companies
+defectdojo_capabilities:
+  vulnerability_management:
+  - centralized_vulnerability_database
+  - automated_finding_deduplication
+  - risk_based_vulnerability_prioritization
+  - SLA_tracking_and_management
+  - vulnerability_lifecycle_management
+  professional_reporting:
+  - executive_summary_reports
+  - technical_detailed_reports
+  - compliance_mapping_reports
+  - trend_analysis_dashboards
+  - custom_report_templates
+  - scheduled_report_generation
+  tool_integrations:
+    count: 200+
+    categories:
+    - static_analysis_tools
+    - dynamic_analysis_tools
+    - container_scanning_tools
+    - infrastructure_scanning_tools
+    - web_application_scanners
+    - mobile_security_scanners
+    - cloud_security_tools
+    - penetration_testing_tools
+  api_capabilities:
+  - rest_api_full_crud
+  - bulk_import_export
+  - webhook_integrations
+  - third_party_integrations
+  - automated_workflows
+  - ci_cd_pipeline_integration
+security_tools_supported:
+  penetration_testing:
+  - OWASP_ZAP
+  - Burp_Suite
+  - Nmap
+  - Nuclei
+  - SQLMap
+  - Gobuster
+  - SSLyze
+  - Testssl
+  - Nikto
+  - Dirb
+  static_analysis:
+  - SonarQube
+  - Checkmarx
+  - Veracode
+  - Fortify
+  - Semgrep
+  - Bandit
+  - ESLint_Security
+  container_security:
+  - Docker_Bench
+  - Trivy
+  - Clair
+  - Anchore
+  - Aqua_Security
+  - Twistlock
+  cloud_security:
+  - Scout_Suite
+  - Prowler
+  - CloudSploit
+  - Pacu
+  - ScoutSuite
+reporting_features:
+  executive_reports:
+  - risk_score_trending
+  - vulnerability_metrics
+  - compliance_status
+  - business_impact_analysis
+  - investment_recommendations
+  technical_reports:
+  - detailed_vulnerability_listings
+  - proof_of_concept_documentation
+  - remediation_instructions
+  - technical_risk_analysis
+  - attack_path_visualization
+  compliance_reports:
+  - owasp_top_10_mapping
+  - nist_framework_alignment
+  - pci_dss_compliance
+  - iso_27001_mapping
+  - sox_compliance_reporting
+  custom_reports:
+  - template_customization
+  - brand_personalization
+  - stakeholder_specific_views
+  - automated_report_scheduling
+  - multi_format_export
+api_integration:
+  authentication:
+  - api_key_authentication
+  - token_based_authentication
+  - oauth2_integration
+  - ldap_authentication
+  endpoints:
+    findings:
+    - create_finding
+    - update_finding
+    - bulk_import_findings
+    - export_findings
+    - finding_deduplication
+    reports:
+    - generate_executive_report
+    - generate_technical_report
+    - schedule_reports
+    - export_report_data
+    - custom_report_templates
+    products:
+    - create_product
+    - manage_engagements
+    - track_vulnerabilities
+    - compliance_mapping
+type: professional_reporting_orchestrator
+capabilities:
+- professional_vulnerability_management
+- enterprise_grade_reporting
+- multi_tool_integration
+- compliance_framework_mapping
+- automated_report_generation
+- api_driven_workflows
+- executive_dashboard_creation
+- technical_documentation_generation
+requirements:
+  python:
+  - requests>=2.28.0
+  - defectdojo-api>=1.0.0
+  - python-dateutil>=2.8.0
+  - jinja2>=3.0.0
+  system:
+  - defectdojo_server_access
+  - api_credentials
+  optional:
+  - docker>=20.0.0
+  - kubernetes_client>=12.0.0
+compatibility:
+  min_plugpipe_version: 1.0.0
+  python_version: '>=3.8'
+  defectdojo_version: '>=2.0.0'
+security:
+  requires_secrets: true
+  network_access: true
+  memory_limit_mb: 1024
+  cpu_limit_percent: 50
+  timeout_seconds: 900
+config_schema:
+  type: object
+  properties:
+    defectdojo_config:
+      type: object
+      properties:
+        server_url:
+          type: string
+          description: DefectDojo server URL
+        api_key:
+          type: string
+          description: DefectDojo API key (use environment variable)
+        verify_ssl:
+          type: boolean
+          default: true
+          description: Verify SSL certificates
+        timeout:
+          type: integer
+          default: 300
+          description: Request timeout in seconds
+        max_retries:
+          type: integer
+          default: 3
+          description: Maximum retry attempts
+    product_config:
+      type: object
+      properties:
+        product_name:
+          type: string
+          description: DefectDojo product name
+        product_type:
+          type: string
+          default: Web Application
+          description: Product type in DefectDojo
+        engagement_name:
+          type: string
+          description: Engagement name for testing
+        engagement_type:
+          type: string
+          default: CI/CD
+          description: Type of engagement
+    reporting_config:
+      type: object
+      properties:
+        report_types:
+          type: array
+          items:
+            type: string
+          default:
+          - executive
+          - technical
+          - compliance
+          description: Types of reports to generate
+        include_charts:
+          type: boolean
+          default: true
+          description: Include charts in reports
+        brand_logo:
+          type: string
+          description: URL to company logo for branding
+        custom_templates:
+          type: array
+          items:
+            type: string
+          description: Custom report template IDs
+        auto_schedule:
+          type: boolean
+          default: false
+          description: Automatically schedule recurring reports
+input_schema:
+  type: object
+  properties:
+    action:
+      type: string
+      enum:
+      - import_findings
+      - generate_reports
+      - create_engagement
+      - sync_vulnerabilities
+      - export_data
+      default: import_findings
+      description: DefectDojo action to perform
+    findings_data:
+      type: object
+      description: Vulnerability findings to import
+      properties:
+        scan_type:
+          type: string
+          description: Type of security scan performed
+        findings:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              severity:
+                type: string
+                enum:
+                - Critical
+                - High
+                - Medium
+                - Low
+                - Info
+              description:
+                type: string
+              mitigation:
+                type: string
+              impact:
+                type: string
+              references:
+                type: array
+                items:
+                  type: string
+              cwe:
+                type: integer
+              cvss:
+                type: number
+        scan_date:
+          type: string
+          format: date-time
+          description: Date of the security scan
+    report_config:
+      type: object
+      description: Report generation configuration
+      properties:
+        report_type:
+          type: string
+          enum:
+          - executive
+          - technical
+          - compliance
+          - custom
+          default: executive
+        include_metrics:
+          type: boolean
+          default: true
+        include_trends:
+          type: boolean
+          default: true
+        format:
+          type: string
+          enum:
+          - pdf
+          - html
+          - json
+          - xlsx
+          default: pdf
+        custom_template_id:
+          type: string
+          description: Custom template ID for report generation
+  required:
+  - action
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+      enum:
+      - success
+      - error
+      - partial_success
+      description: Operation execution status
+    operation_completed:
+      type: string
+      description: Completed DefectDojo operation
+    defectdojo_response:
+      type: object
+      description: DefectDojo API response data
+      properties:
+        engagement_id:
+          type: integer
+          description: Created engagement ID
+        test_id:
+          type: integer
+          description: Created test ID
+        findings_imported:
+          type: integer
+          description: Number of findings imported
+        findings_updated:
+          type: integer
+          description: Number of findings updated
+        duplicates_found:
+          type: integer
+          description: Number of duplicate findings
+    professional_reports:
+      type: object
+      description: Generated professional reports
+      properties:
+        executive_summary:
+          type: object
+          properties:
+            report_id:
+              type: string
+            download_url:
+              type: string
+            metrics:
+              type: object
+        technical_report:
+          type: object
+          properties:
+            report_id:
+              type: string
+            download_url:
+              type: string
+            finding_details:
+              type: array
+        compliance_report:
+          type: object
+          properties:
+            report_id:
+              type: string
+            framework:
+              type: string
+            compliance_score:
+              type: number
+            gaps_identified:
+              type: array
+    vulnerability_metrics:
+      type: object
+      properties:
+        total_findings:
+          type: integer
+        critical_findings:
+          type: integer
+        high_findings:
+          type: integer
+        medium_findings:
+          type: integer
+        low_findings:
+          type: integer
+        risk_score:
+          type: number
+        sla_violations:
+          type: integer
+        trend_analysis:
+          type: object
+    integration_status:
+      type: object
+      properties:
+        tools_integrated:
+          type: array
+          items:
+            type: string
+        api_health:
+          type: string
+        last_sync:
+          type: string
+          format: date-time
+        sync_errors:
+          type: array
+    error:
+      type: string
+      description: Error message if operation failed
+    timestamp:
+      type: string
+      format: date-time
+      description: Operation timestamp
+  required:
+  - status
+  - operation_completed
+  - timestamp
+plugin_dependencies:
+  required:
+  - security/penetration_testing/1.0.0
+  - intelligence/llm_service/1.0.0
+  optional:
+  - security/security_orchestrator/1.0.0
+  - security/cyberpig_ai/1.0.0
+  - testing/performance_benchmark/1.0.0
+professional_integration:
+  enterprise_features:
+  - multi_tenant_support
+  - role_based_access_control
+  - audit_logging
+  - compliance_reporting
+  - custom_workflows
+  - api_rate_limiting
+  market_differentiators:
+  - 200_plus_tool_integrations
+  - automated_vulnerability_deduplication
+  - enterprise_grade_reporting
+  - compliance_framework_mapping
+  - professional_workflow_automation
+  - executive_dashboard_capabilities
+business_value:
+  vulnerability_management:
+  - Centralized vulnerability tracking and management
+  - Automated deduplication reduces noise and false positives
+  - Risk-based prioritization improves remediation efficiency
+  - SLA tracking ensures timely vulnerability resolution
+  professional_reporting:
+  - Executive-ready reports for C-level stakeholders
+  - Technical documentation for security teams
+  - Compliance reports for audit and regulatory requirements
+  - Trend analysis for security program improvement
+  operational_efficiency:
+  - Automated workflows reduce manual effort
+  - API integration enables seamless tool integration
+  - Scheduled reporting provides regular stakeholder updates
+  - Professional templates ensure consistent communication
+ecosystem_impact:
+  cli_impact:
+  - New pp defectdojo command for vulnerability management
+  - Integration with pp pentest command for report generation
+  - CLI tools for DefectDojo data export and import
+  api_impact:
+  - New MCP endpoints for DefectDojo integration
+  - Professional reporting API endpoints
+  - Vulnerability management REST endpoints
+  registry_impact:
+  - DefectDojo integration metadata for plugin discovery
+  - Professional reporting capability tracking
+  - Enterprise security tool integration registry
+  security_impact:
+  - Enhanced vulnerability management capabilities
+  - Professional-grade security reporting
+  - Compliance framework integration and tracking
+  deployment_impact:
+  - Docker containers for DefectDojo integration
+  - Kubernetes integration for scalable vulnerability management
+  - Helm charts for DefectDojo deployment and configuration
+sbom:
+  summary: sbom/defectdojo_integration-sbom.json
+  complete: sbom/defectdojo_integration-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

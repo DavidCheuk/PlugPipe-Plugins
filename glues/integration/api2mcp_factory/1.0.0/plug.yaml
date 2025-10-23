@@ -1,0 +1,80 @@
+name: api2mcp_factory
+version: 1.0.0
+description: Enterprise-grade factory plugin that converts existing API specifications
+  (OpenAPI, GraphQL, RAML) into MCP servers, leveraging proven conversion tools and
+  PlugPipe components for effortless API-to-MCP migration
+owner: PlugPipe Integration Team
+status: stable
+discoverability: public
+entrypoint: main.py
+metadata:
+  category: integration
+  type: factory
+  glue_specification: glue.yaml
+  capabilities:
+  - api_specification_parsing
+  - mcp_server_generation
+  - multi_format_support
+  - authentication_mapping
+  - plugin_scaffolding
+  - enterprise_security
+  - batch_conversion
+  - dependency_management
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - convert_api
+      - batch_convert
+      - validate_spec
+      - list_backends
+      - get_status
+    api_specification:
+      type: object
+      properties:
+        format:
+          type: string
+          enum:
+          - openapi
+          - graphql
+          - raml
+          - blueprint
+        source:
+          type: string
+      required:
+      - format
+      - source
+  required:
+  - operation
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    operation_completed:
+      type: string
+    mcp_server:
+      type: object
+    error:
+      type: string
+  required:
+  - success
+  - operation_completed
+tags:
+- integration
+- factory
+- mcp
+- api-conversion
+- openapi
+- graphql
+- enterprise
+- glue-component
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

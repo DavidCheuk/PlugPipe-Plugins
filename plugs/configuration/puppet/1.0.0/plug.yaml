@@ -1,0 +1,513 @@
+description: Comprehensive Puppet configuration management plugin for manifest compilation
+  and application, node classification, module management, PuppetDB integration, Hiera
+  data management, and Puppet Enterprise features
+external_dependencies:
+  install_method: pip
+  packages:
+  - shlex
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    apply_mode:
+      default: true
+      description: Use puppet apply instead of agent mode
+      type: boolean
+    debug:
+      default: false
+      description: Enable debug output
+      type: boolean
+    environment:
+      default: production
+      description: Puppet environment
+      type: string
+    force:
+      default: false
+      description: Force module operations
+      type: boolean
+    hiera_config:
+      default: /etc/puppet/hiera.yaml
+      description: Hiera configuration file path
+      type: string
+    key:
+      description: Hiera key for data lookup operations
+      type: string
+    logdir:
+      default: /var/log/puppet
+      description: Puppet log directory
+      type: string
+    manifest_file:
+      description: Puppet manifest file name or path
+      type: string
+    manifest_path:
+      default: /etc/puppet/manifests
+      description: Puppet manifests directory
+      type: string
+    module_name:
+      description: Puppet module name for module operations
+      type: string
+    modules_path:
+      default: /etc/puppet/modules
+      description: Puppet modules directory
+      type: string
+    node_name:
+      description: Target node name for operations
+      type: string
+    noop:
+      default: false
+      description: No-operation mode (dry run)
+      type: boolean
+    once:
+      default: true
+      description: Run Puppet agent once instead of as daemon
+      type: boolean
+    operation:
+      description: Puppet operation to execute
+      enum:
+      - apply_manifest
+      - compile_manifest
+      - validate_manifest
+      - list_manifests
+      - run_agent
+      - list_nodes
+      - show_node
+      - clean_node
+      - sign_node
+      - install_module
+      - list_modules
+      - upgrade_module
+      - uninstall_module
+      - search_modules
+      - generate_module
+      - lookup_data
+      - explain_lookup
+      - validate_hiera
+      type: string
+    puppet_dir:
+      default: /etc/puppet
+      description: Puppet configuration directory
+      type: string
+    puppet_port:
+      default: 8140
+      description: Puppet Server port
+      type: integer
+    puppet_server:
+      description: Puppet Server hostname or IP
+      type: string
+    puppetdb_port:
+      default: 8081
+      description: PuppetDB server port
+      type: integer
+    puppetdb_server:
+      description: PuppetDB server hostname or IP
+      type: string
+    rundir:
+      default: /var/run/puppet
+      description: Puppet run directory
+      type: string
+    search_term:
+      description: Search term for module search operations
+      type: string
+    ssl_dir:
+      default: /etc/puppet/ssl
+      description: Puppet SSL directory
+      type: string
+    timeout:
+      default: 1800
+      description: Command execution timeout in seconds
+      type: integer
+    use_puppetdb:
+      default: false
+      description: Use PuppetDB for data operations
+      type: boolean
+    vardir:
+      default: /var/puppet
+      description: Puppet variable data directory
+      type: string
+    verbose:
+      default: false
+      description: Enable verbose output
+      type: boolean
+    version:
+      description: Specific module version
+      type: string
+  required:
+  - operation
+  type: object
+name: puppet
+display_name: Puppet
+output_schema:
+  properties:
+    agent_run_result:
+      description: Puppet agent run results
+      properties:
+        catalog_version:
+          type: string
+        resources_applied:
+          type: integer
+        resources_changed:
+          type: integer
+        resources_failed:
+          type: integer
+        resources_skipped:
+          type: integer
+        run_time:
+          type: number
+        total_resources:
+          type: integer
+      type: object
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    certificate_operation:
+      description: Certificate operation results
+      properties:
+        node:
+          type: string
+        operation:
+          type: string
+        status:
+          type: string
+      type: object
+    command:
+      description: Executed Puppet command
+      type: string
+    error:
+      description: Error message if operation failed
+      type: string
+    error_details:
+      description: Detailed error information
+      properties:
+        documentation_link:
+          type: string
+        error_type:
+          type: string
+        suggested_fix:
+          type: string
+      type: object
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    hiera_data:
+      description: Hiera lookup results (for lookup_data operation)
+      type: object
+    hiera_explanation:
+      description: Hiera lookup explanation (for explain_lookup operation)
+      type: string
+    hiera_validation:
+      description: Hiera configuration validation results
+      properties:
+        config:
+          type: object
+        config_file:
+          type: string
+        valid:
+          type: boolean
+      type: object
+    manifest_validation:
+      description: Manifest validation results
+      properties:
+        syntax_errors:
+          items:
+            type: string
+          type: array
+        valid:
+          type: boolean
+      type: object
+    manifests:
+      description: List of available manifests (for list_manifests operation)
+      items:
+        type: string
+      type: array
+    module_operation:
+      description: Module operation results
+      properties:
+        module:
+          type: string
+        operation:
+          type: string
+        status:
+          type: string
+        version:
+          type: string
+      type: object
+    module_search_results:
+      description: Module search results (for search_modules operation)
+      items:
+        properties:
+          author:
+            type: string
+          description:
+            type: string
+          downloads:
+            type: integer
+          name:
+            type: string
+          version:
+            type: string
+        type: object
+      type: array
+    modules:
+      description: List of installed modules (for list_modules operation)
+      items:
+        type: string
+      type: array
+    node_info:
+      description: Node information and facts (for show_node operation)
+      properties:
+        facts:
+          type: object
+        node:
+          type: string
+        ssl_dir:
+          type: string
+      type: object
+    nodes:
+      description: List of Puppet nodes (for list_nodes operation)
+      items:
+        type: string
+      type: array
+    operation:
+      description: Executed Puppet operation
+      type: string
+    output:
+      description: Command output from Puppet
+      type: string
+    puppet_config:
+      description: Puppet configuration used for operation
+      properties:
+        apply_mode:
+          type: boolean
+        environment:
+          type: string
+        puppet_dir:
+          type: string
+        timeout:
+          type: integer
+        use_puppetdb:
+          type: boolean
+      type: object
+    return_code:
+      description: Command return code
+      type: integer
+    success:
+      description: Operation success status
+      type: boolean
+    timestamp:
+      description: Operation execution timestamp
+      format: date-time
+      type: string
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - CIS Controls for configuration management
+  - NIST Cybersecurity Framework
+  - SOC 2 compliance controls
+  - ISO 27001 configuration management standards
+  - PCI DSS system configuration requirements
+  - FedRAMP controls for government cloud deployments
+  dependencies:
+  - description: Puppet configuration management system
+    license: Apache-2.0
+    name: puppet
+    source: https://github.com/puppetlabs/puppet
+    type: binary
+    version: '>=7.0.0'
+  - description: Puppet agent for configuration execution
+    license: Apache-2.0
+    name: puppet-agent
+    source: https://github.com/puppetlabs/puppet-agent
+    type: binary
+    version: '>=7.0.0'
+  - description: Puppet Server for centralized configuration management
+    license: Apache-2.0
+    name: puppet-server
+    optional: true
+    source: https://github.com/puppetlabs/puppetserver
+    type: binary
+    version: '>=7.0.0'
+  - description: PuppetDB for storing and querying Puppet data
+    license: Apache-2.0
+    name: puppetdb
+    optional: true
+    source: https://github.com/puppetlabs/puppetdb
+    type: binary
+    version: '>=7.0.0'
+  - description: Hierarchical data lookup tool for Puppet
+    license: Apache-2.0
+    name: hiera
+    source: https://github.com/puppetlabs/hiera
+    type: ruby_gem
+    version: '>=3.0.0'
+  - description: System fact collection tool for Puppet
+    license: Apache-2.0
+    name: facter
+    source: https://github.com/puppetlabs/facter
+    type: binary
+    version: '>=4.0.0'
+  - description: Ruby runtime environment for Puppet execution
+    license: Ruby
+    name: ruby
+    source: https://www.ruby-lang.org
+    type: runtime
+    version: '>=2.7.0'
+  - description: Puppet manifest linting tool
+    license: MIT
+    name: puppet-lint
+    optional: true
+    source: https://github.com/rodjek/puppet-lint
+    type: ruby_gem
+    version: '>=2.5.0'
+  - description: Puppet environment and module deployment tool
+    license: Apache-2.0
+    name: r10k
+    optional: true
+    source: https://github.com/puppetlabs/r10k
+    type: ruby_gem
+    version: '>=3.0.0'
+  - description: Puppet orchestration tool for ad-hoc tasks
+    license: Apache-2.0
+    name: bolt
+    optional: true
+    source: https://github.com/puppetlabs/bolt
+    type: ruby_gem
+    version: '>=3.0.0'
+  integration_capabilities:
+  - Git integration for manifest and module version control
+  - Jenkins/CI-CD pipeline integration for automated deployments
+  - Docker container configuration management
+  - Kubernetes cluster and workload management
+  - Cloud provider integrations (AWS, GCP, Azure)
+  - Database configuration and deployment automation
+  - Application deployment and lifecycle management
+  - Infrastructure monitoring and compliance reporting
+  - Security configuration and hardening automation
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - SSL/TLS encryption for Puppet Server and agent communication
+  - Certificate-based authentication between master and agents
+  - Secure storage and management of SSL certificates
+  - File permissions for Puppet configuration and manifest files
+  - Network security for Puppet communication ports (8140, 8081)
+  - Hiera data encryption for sensitive configuration values
+  - Regular security updates for Puppet components
+  - Audit logging for all Puppet operations and configuration changes
+  - Access controls for PuppetDB queries and data access
+  - Universal Input Sanitizer integration for malicious pattern detection
+  - Comprehensive command injection prevention in Puppet operations
+  - Path traversal protection for manifest and configuration files
+  - Credential and sensitive data redaction in error messages
+  - Puppet-specific security validation for operations and arguments
+  - Configuration parameter validation with security constraints
+  - Fallback security validation when sanitizer unavailable
+  security_enhancements:
+    configuration_hardening:
+      path_traversal_prevention: true
+      port_range_validation: 1024-65535
+      ssl_verification_enforcement: true
+      timeout_constraints: 1-7200 seconds
+    error_sanitization:
+      credential_redaction: true
+      puppet_key_protection: true
+      sensitive_path_filtering: true
+    input_validation:
+      comprehensive: true
+      configuration_security_checks: true
+      puppet_argument_sanitization: true
+      recursive_validation: true
+    universal_input_sanitizer:
+      fallback_validation: true
+      integrated: true
+      patterns_detected:
+      - command_injection
+      - path_traversal
+      - script_injection
+      - puppet_specific_attacks
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - RHEL 7+
+    - CentOS 7+
+    - Ubuntu 18.04+
+    - Debian 9+
+    - SLES 12+
+    - Amazon Linux 2+
+  - name: Windows
+    versions:
+    - Windows Server 2016+
+    - Windows 10+
+  - name: macOS
+    versions:
+    - macOS 10.14+
+  - name: AIX
+    versions:
+    - AIX 7.1+
+  - name: Solaris
+    versions:
+    - Solaris 11+
+  threat_model:
+    assets:
+    - Puppet Server SSL certificates and keys
+    - Manifest repositories and configurations
+    - Node authentication certificates
+    - Hiera encrypted data and secrets
+    - PuppetDB query access and data
+    attack_vectors:
+    - Command injection through Puppet operations
+    - Path traversal in manifest management
+    - Credential theft from error messages
+    - Puppet Server authentication bypass
+    - Hiera data tampering and secret extraction
+    security_controls:
+    - Universal Input Sanitizer integration
+    - Comprehensive input validation framework
+    - Puppet-specific argument sanitization
+    - Path traversal prevention mechanisms
+    - Credential redaction in error handling
+    - Configuration security validation
+    - SSL/TLS enforcement for Puppet Server communication
+    threat_actors:
+    - External attackers via command injection
+    - Malicious manifest authors
+    - Compromised Puppet Server connections
+    - Insider threats with configuration access
+  vulnerability_assessments:
+  - description: Potential command injection through Puppet manifest and module operations
+    id: PUPPET-001
+    mitigation: Comprehensive argument sanitization and shell escaping implemented
+    severity: HIGH
+    status: MITIGATED
+    title: Puppet Command Injection
+  - description: Path traversal vulnerabilities in manifest and module paths
+    id: PUPPET-002
+    mitigation: Path validation and traversal prevention implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Path Traversal in Manifest Operations
+  - description: Puppet credentials and SSL keys exposed in error messages
+    id: PUPPET-003
+    mitigation: Comprehensive error message sanitization implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Sensitive Data Exposure
+  - description: Malicious configuration injection in Puppet operations
+    id: PUPPET-004
+    mitigation: Configuration validation and sanitization implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Puppet Configuration Injection
+status: active
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

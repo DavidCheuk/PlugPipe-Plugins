@@ -1,0 +1,329 @@
+category: security
+config_templates:
+  development:
+    security_level: standard
+    vault_config:
+      mount_path: transit
+      token: ${VAULT_TOKEN}
+      url: http://127.0.0.1:8200
+  production:
+    audit_all_operations: true
+    security_level: strict
+    vault_config:
+      ca_cert: ${VAULT_CACERT}
+      mount_path: transit
+      namespace: ${VAULT_NAMESPACE}
+      pki_path: pki
+      token: ${VAULT_TOKEN}
+      url: ${VAULT_ADDR}
+  testing:
+    vault_config:
+      mount_path: transit
+      token: test-token
+      url: http://vault-dev:8200
+contract:
+  input_schema:
+    properties:
+      algorithm:
+        default: rsa-pss
+        enum:
+        - rsa-pss
+        - rsa-pkcs1v15
+        - ecdsa-p256
+        - ecdsa-p384
+        - ed25519
+        type: string
+      certificate_config:
+        properties:
+          alt_names:
+            items:
+              type: string
+            type: array
+          common_name:
+            type: string
+          format:
+            default: pem
+            enum:
+            - pem
+            - der
+            - pem_bundle
+            type: string
+          ttl:
+            default: 8760h
+            type: string
+        type: object
+      data:
+        description: Data to encrypt/decrypt (base64 encoded)
+        type: string
+      exportable:
+        default: false
+        type: boolean
+      key_name:
+        description: Vault key name for encryption operations
+        type: string
+      key_type:
+        default: aes256-gcm96
+        enum:
+        - aes256-gcm96
+        - chacha20-poly1305
+        - rsa-2048
+        - rsa-4096
+        - ecdsa-p256
+        - ecdsa-p384
+        - ed25519
+        type: string
+      message:
+        description: Message to sign or verify
+        type: string
+      operation:
+        description: Cryptographic operation to perform
+        enum:
+        - encrypt
+        - decrypt
+        - sign
+        - verify
+        - generate_key
+        - rotate_key
+        - create_certificate
+        - sign_certificate
+        - get_public_key
+        - seal_data
+        - unseal_data
+        type: string
+      signature:
+        description: Signature for verification (base64 encoded)
+        type: string
+      vault_config:
+        default: {}
+        properties:
+          mount_path:
+            default: transit
+            type: string
+          pki_path:
+            default: pki
+            type: string
+          role_name:
+            description: Vault role for certificate operations
+            type: string
+        type: object
+    required:
+    - operation
+    type: object
+  output_schema:
+    properties:
+      error:
+        type: string
+      result:
+        properties:
+          certificate:
+            type: string
+          certificate_chain:
+            items:
+              type: string
+            type: array
+          ciphertext:
+            type: string
+          key_name:
+            type: string
+          key_version:
+            type: integer
+          plaintext:
+            type: string
+          private_key:
+            type: string
+          public_key:
+            type: string
+          serial_number:
+            type: string
+          signature:
+            type: string
+          valid:
+            type: boolean
+        type: object
+      success:
+        type: boolean
+      vault_metadata:
+        properties:
+          creation_time:
+            type: string
+          key_version:
+            type: integer
+          vault_path:
+            type: string
+        type: object
+    required:
+    - success
+    type: object
+dependencies:
+  python:
+  - hvac >= 1.0.0
+  - cryptography >= 36.0.0
+  - requests >= 2.25.0
+  system:
+  - vault >= 1.12.0
+dependency_analysis:
+  analyzer_notes: All imports (base64) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Cryptographic operations using HashiCorp Vault for secure key management
+  and encryption
+input_schema:
+  properties: {}
+  type: object
+metadata:
+  author: PlugPipe Team
+  enterprise_features:
+  - Integration with existing Vault infrastructure
+  - Support for Vault namespaces and policies
+  - Auto-unseal with cloud KMS integration
+  - High availability and disaster recovery support
+  - Enterprise authentication (LDAP, OIDC, etc.)
+  homepage: https://github.com/plugpipe/plugs/security_vault_crypto
+  license: MIT
+  philosophy: "This plugin demonstrates the PlugPipe principle \"reuse, never reinvent\"\
+    \ by \nleveraging HashiCorp Vault's proven cryptographic engine instead of implementing\n\
+    custom crypto operations. Vault provides enterprise-grade key management with\n\
+    FIPS compliance, HSM integration, and battle-tested cryptographic operations.\n"
+  security_features:
+  - Enterprise key management using HashiCorp Vault
+  - Hardware Security Module (HSM) integration support
+  - FIPS 140-2 compliant cryptographic operations
+  - Automatic key rotation and lifecycle management
+  - Audit logging of all cryptographic operations
+  - Role-based access control for crypto operations
+name: security_vault_crypto
+display_name: SecurityVaultCrypto
+operations:
+  create_certificate:
+    description: Create new certificate using Vault PKI
+    engine: pki
+    parameters:
+    - certificate_config
+    - role_name
+  decrypt:
+    description: Decrypt data using Vault's transit engine
+    engine: transit
+    parameters:
+    - ciphertext
+    - key_name
+  encrypt:
+    description: Encrypt data using Vault's transit engine
+    engine: transit
+    parameters:
+    - data
+    - key_name
+  generate_key:
+    description: Generate new cryptographic key in Vault
+    engine: transit
+    parameters:
+    - key_name
+    - key_type
+    - exportable
+  get_public_key:
+    description: Retrieve public key from Vault
+    engine: transit
+    parameters:
+    - key_name
+  rotate_key:
+    description: Rotate existing key to new version
+    engine: transit
+    parameters:
+    - key_name
+  seal_data:
+    description: Securely store data in Vault KV store
+    engine: kv
+    parameters:
+    - data
+    - key_name
+  sign:
+    description: Digitally sign message using Vault
+    engine: transit
+    parameters:
+    - message
+    - key_name
+    - algorithm
+  sign_certificate:
+    description: Sign certificate request using Vault CA
+    engine: pki
+    parameters:
+    - csr
+    - role_name
+  unseal_data:
+    description: Retrieve data from Vault KV store
+    engine: kv
+    parameters:
+    - key_name
+  verify:
+    description: Verify digital signature using Vault
+    engine: transit
+    parameters:
+    - message
+    - signature
+    - key_name
+output_schema:
+  properties: {}
+  type: object
+owner: PlugPipe Security Team
+plugin_type: infrastructure
+sbom:
+  complete: sbom/security_vault_crypto-sbom-complete.json
+  summary: sbom/security_vault_crypto-sbom.json
+security_policies:
+  access_control:
+    audit_all_operations: true
+    deny_key_export: true
+    require_authentication: true
+  compliance:
+    audit_format: json
+    common_criteria: true
+    fips_140_2: true
+  key_rotation:
+    automatic: true
+    interval: 90d
+    max_versions: 10
+status: stable
+stdlib_modules:
+- base64
+subcategory: cryptography
+vault_engines:
+  kv:
+    description: Key-Value store for secure data storage
+    operations:
+    - seal_data
+    - unseal_data
+  pki:
+    certificate_formats:
+    - pem
+    - der
+    - pem_bundle
+    description: Public Key Infrastructure - handles certificate operations
+    operations:
+    - create_certificate
+    - sign_certificate
+    - get_public_key
+  transit:
+    description: Encryption as a Service - handles encryption/decryption operations
+    key_types:
+    - aes256-gcm96
+    - chacha20-poly1305
+    - rsa-2048
+    - rsa-4096
+    - ecdsa-p256
+    - ecdsa-p384
+    - ed25519
+    operations:
+    - encrypt
+    - decrypt
+    - sign
+    - verify
+    - generate_key
+    - rotate_key
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

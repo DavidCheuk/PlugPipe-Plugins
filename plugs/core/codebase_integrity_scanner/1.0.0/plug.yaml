@@ -1,0 +1,191 @@
+capabilities:
+- placeholder_detection
+- implementation_validation
+- plugin_completeness_check
+- security_gap_analysis
+- registry_integrity_check
+- production_readiness_assessment
+- continuous_monitoring
+category: core
+dependencies:
+- ast
+- pathlib
+- json
+- logging
+- typing
+description: Comprehensive codebase scanner that detects placeholders, incomplete
+  implementations, and ensures production readiness by validating that all claimed
+  functionality is actually implemented
+external_dependencies:
+  install_method: pip
+  packages:
+  - statistics
+  - collections
+  - inspect
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    exclude_patterns:
+      description: File patterns to exclude from scanning
+      items:
+        type: string
+      type: array
+    output_format:
+      default: detailed
+      description: Output format for scan results
+      enum:
+      - detailed
+      - summary
+      - json
+      - csv
+      type: string
+    scan_type:
+      default: full
+      description: Type of scan to perform
+      enum:
+      - full
+      - quick
+      - security
+      - placeholders
+      - plugins
+      type: string
+    severity_threshold:
+      default: medium
+      description: Minimum severity level to report
+      enum:
+      - low
+      - medium
+      - high
+      - critical
+      type: string
+    target_paths:
+      description: Specific paths to scan (defaults to entire codebase)
+      items:
+        type: string
+      type: array
+  required: []
+  type: object
+name: codebase_integrity_scanner
+display_name: CodebaseIntegrityScanner
+output_schema:
+  properties:
+    detailed_findings:
+      items:
+        properties:
+          category:
+            type: string
+          description:
+            type: string
+          file_path:
+            type: string
+          line_number:
+            type: integer
+          recommendation:
+            type: string
+          severity:
+            type: string
+        type: object
+      type: array
+    recommendations:
+      items:
+        properties:
+          action_required:
+            type: string
+          category:
+            type: string
+          description:
+            type: string
+          priority:
+            type: string
+        type: object
+      type: array
+    scan_metadata:
+      properties:
+        files_scanned:
+          type: integer
+        scan_completed:
+          type: string
+        scan_duration:
+          type: number
+        scan_started:
+          type: string
+      type: object
+    scan_results:
+      properties:
+        critical_issues:
+          description: Number of critical severity issues
+          type: integer
+        high_issues:
+          description: Number of high severity issues
+          type: integer
+        incomplete_plugins:
+          description: Number of incomplete plugin implementations
+          type: integer
+        low_issues:
+          description: Number of low severity issues
+          type: integer
+        medium_issues:
+          description: Number of medium severity issues
+          type: integer
+        overall_score:
+          description: Overall codebase integrity score (0-100)
+          type: number
+        placeholder_count:
+          description: Number of placeholder implementations found
+          type: integer
+        registry_issues:
+          description: Number of registry-related issues
+          type: integer
+        security_gaps:
+          description: Number of security implementation gaps
+          type: integer
+        total_issues:
+          description: Total number of issues found
+          type: integer
+      type: object
+  required:
+  - scan_results
+  - detailed_findings
+  - recommendations
+  - scan_metadata
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: codebase_integrity_scanner_sbom_complete.json
+  components:
+  - description: Abstract Syntax Tree parsing for Python code analysis
+    name: python-ast
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Path manipulation utilities
+    name: pathlib
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: JSON serialization and deserialization
+    name: json
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  format: plugpipe_v1
+  summary: codebase_integrity_scanner_sbom_summary.json
+  timestamp: '2025-08-21T12:00:00Z'
+  tool: manually_created
+status: stable
+tags:
+- core
+- validation
+- quality_assurance
+- monitoring
+- production_readiness
+type: scanner
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

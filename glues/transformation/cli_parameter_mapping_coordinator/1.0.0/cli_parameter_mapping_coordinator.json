@@ -1,0 +1,38 @@
+{
+  "name": "cli_parameter_mapping_coordinator",
+  "version": "1.0.0",
+  "description": "Intelligent coordinator for CLI parameter mappings that manages versioning and synchronizes parameter mappings across plugin ecosystem",
+  "category": "transformation",
+  "status": "stable",
+  "source_schema": "plugin_parameter_changes",
+  "target_schema": "synchronized_parameter_mappings",
+  "mappings": [
+    {
+      "source_field": "plugin_parameter_changes.plugin_name",
+      "target_field": "synchronized_parameter_mappings.target_plugin",
+      "transform": {
+        "operation": "plugin_identification",
+        "validation": "plugin_exists"
+      }
+    },
+    {
+      "source_field": "plugin_parameter_changes.schema_changes",
+      "target_field": "synchronized_parameter_mappings.parameter_updates",
+      "transform": {
+        "operation": "schema_synchronization",
+        "mapping_strategy": "version_aware",
+        "conflict_resolution": "latest_version_priority"
+      }
+    },
+    {
+      "source_field": "plugin_parameter_changes.version",
+      "target_field": "synchronized_parameter_mappings.mapping_version",
+      "transform": {
+        "operation": "version_coordination",
+        "compatibility_check": "semantic_versioning"
+      }
+    }
+  ],
+  "error_policy": "continue_on_error",
+  "tags": ["transformation", "cli-coordination", "parameter-mapping", "ecosystem-synchronization"]
+}

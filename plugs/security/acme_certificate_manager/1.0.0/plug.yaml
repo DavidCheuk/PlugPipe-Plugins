@@ -1,0 +1,332 @@
+acme_features:
+- Free SSL/TLS certificates from Let's Encrypt
+- Automated ACME protocol (RFC 8555)
+- Domain validation with HTTP-01, DNS-01, TLS-ALPN-01 challenges
+- Automatic certificate renewal (90-day certificates)
+- Wildcard certificate support (DNS-01 challenge required)
+- Multi-domain certificates with SAN support
+- Rate limit awareness and management
+- Staging environment for testing
+category: security
+challenge_types:
+  dns_01:
+    description: Domain validation via DNS TXT record
+    name: DNS-01 Challenge
+    requirements:
+    - DNS management access
+    - DNS API or manual configuration
+    use_cases:
+    - Wildcard certificates
+    - Internal/non-HTTP accessible domains
+  http_01:
+    description: Domain validation via HTTP challenge
+    name: HTTP-01 Challenge
+    requirements:
+    - HTTP server access
+    - Port 80 accessibility
+    use_cases:
+    - Single domain certificates
+    - Standard web servers
+  tls_alpn_01:
+    description: Domain validation via TLS ALPN extension
+    name: TLS-ALPN-01 Challenge
+    requirements:
+    - TLS server on port 443
+    - ALPN support
+    use_cases:
+    - Direct TLS validation
+    - Port 80 unavailable scenarios
+description: Let's Encrypt ACME certificate management plugin with automated domain
+  validation, renewal, and enterprise features
+discoverability: public
+enterprise_capabilities:
+- Bulk certificate management
+- Automated renewal workflows
+- Rate limit monitoring and optimization
+- Certificate lifecycle tracking
+- Integration with CI/CD pipelines
+- Multi-domain certificate orchestration
+- Staging environment testing
+- Compliance reporting and audit trails
+external_dependencies:
+  install_method: pip
+  packages:
+  - aiohttp
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    account_email:
+      description: Email address for ACME account registration
+      format: email
+      type: string
+    acme_directory_url:
+      description: ACME directory URL (defaults to Let's Encrypt production)
+      type: string
+    cert_storage_path:
+      default: ./acme_certificates
+      description: Path to store certificate files
+      type: string
+    certificate_format:
+      default: PEM
+      description: Certificate output format
+      enum:
+      - PEM
+      - DER
+      type: string
+    certificate_id:
+      description: Certificate identifier (required for get/renew/revoke/validate
+        operations)
+      type: string
+    challenge_handler:
+      description: Challenge handler configuration (webroot, DNS provider, etc.)
+      type: object
+    challenge_type:
+      default: http-01
+      description: Domain validation challenge type
+      enum:
+      - http-01
+      - dns-01
+      - tls-alpn-01
+      type: string
+    common_name:
+      description: Certificate common name (required for issuance)
+      type: string
+    country:
+      description: Country code (2 letters)
+      type: string
+    days_ahead:
+      default: 30
+      description: Days before expiry to trigger renewal
+      type: integer
+    enable_auto_renewal:
+      default: true
+      description: Enable automatic certificate renewal
+      type: boolean
+    enable_rate_limit_management:
+      default: true
+      description: Enable Let's Encrypt rate limit awareness
+      type: boolean
+    filters:
+      description: Filters for certificate listing
+      properties:
+        common_name:
+          description: Filter by common name substring
+          type: string
+        status:
+          description: Filter by certificate status
+          enum:
+          - active
+          - revoked
+          - expired
+          type: string
+      type: object
+    key_size:
+      default: 2048
+      description: Key size in bits (for RSA keys)
+      enum:
+      - 2048
+      - 3072
+      - 4096
+      type: integer
+    key_type:
+      default: RSA
+      description: Certificate key type
+      enum:
+      - RSA
+      - ECDSA
+      type: string
+    locality:
+      description: Locality or city
+      type: string
+    operation:
+      default: get_status
+      description: Operation to perform
+      enum:
+      - get_status
+      - issue_certificate
+      - renew_certificate
+      - revoke_certificate
+      - get_certificate
+      - list_certificates
+      - validate_certificate
+      - get_acme_status
+      - auto_renew_expiring
+      type: string
+    organization:
+      description: Organization name
+      type: string
+    organizational_unit:
+      description: Organizational unit
+      type: string
+    reason:
+      default: unspecified
+      description: Certificate revocation reason
+      enum:
+      - unspecified
+      - key_compromise
+      - ca_compromise
+      - affiliation_changed
+      - superseded
+      - cessation_of_operation
+      type: string
+    renewal_threshold_days:
+      default: 30
+      description: Days before expiry to consider renewal
+      type: integer
+    staging:
+      default: false
+      description: Use Let's Encrypt staging environment for testing
+      type: boolean
+    state:
+      description: State or province
+      type: string
+    subject_alternative_names:
+      description: Subject alternative names (additional domains)
+      items:
+        type: string
+      type: array
+    validation_timeout:
+      default: 300
+      description: Domain validation timeout in seconds
+      type: integer
+  type: object
+name: acme_certificate_manager
+display_name: ACMECertificateManager
+output_schema:
+  properties:
+    acme_status:
+      description: ACME client status information
+      type: object
+    certificate:
+      description: Certificate details
+      properties:
+        certificate_chain:
+          description: Certificate chain
+          items:
+            type: string
+          type: array
+        certificate_pem:
+          description: PEM-encoded certificate
+          type: string
+        issuer:
+          description: Certificate issuer
+          type: string
+        not_after:
+          description: Certificate valid until
+          format: date-time
+          type: string
+        not_before:
+          description: Certificate valid from
+          format: date-time
+          type: string
+        private_key_pem:
+          description: PEM-encoded private key
+          type: string
+        serial_number:
+          description: Certificate serial number
+          type: string
+        subject:
+          description: Certificate subject
+          type: string
+        validity_days:
+          description: Certificate validity period (always 90 for Let's Encrypt)
+          type: integer
+      type: object
+    certificate_id:
+      description: Certificate identifier
+      type: string
+    certificates:
+      description: List of certificates
+      items:
+        type: object
+      type: array
+    days_until_expiry:
+      description: Days until certificate expires
+      type: integer
+    error:
+      description: Error message if operation failed
+      type: string
+    errors:
+      description: Renewal error details
+      type: array
+    failed:
+      description: Number of renewal failures
+      type: integer
+    operation:
+      description: Operation performed
+      type: string
+    provider:
+      description: Certificate provider used
+      type: string
+    renewed:
+      description: Number of certificates renewed
+      type: integer
+    status:
+      description: Certificate status
+      enum:
+      - active
+      - expired
+      - revoked
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+    total_count:
+      description: Total number of certificates
+      type: integer
+    validity_status:
+      description: Certificate validity status
+      enum:
+      - valid
+      - expiring_soon
+      - expired
+      - revoked
+      type: string
+  type: object
+owner: plugpipe-security
+rate_limits:
+  accounts_per_ip: 10
+  certificates_per_fqdn_set: 5
+  certificates_per_registered_domain: 50
+  duplicate_certificates: 5
+  new_orders_per_account: 300
+requirements:
+  domain_control:
+  - Domain ownership or administrative access
+  - Ability to modify DNS records (for DNS-01)
+  - Web server file access (for HTTP-01)
+  network_access:
+  - Outbound HTTPS access to ACME server
+  - Inbound HTTP/HTTPS for domain validation
+  storage:
+  - Certificate and key file storage
+  - Account key storage and management
+status: stable
+subcategory: certificates
+tags:
+- acme
+- letsencrypt
+- certificates
+- ssl
+- tls
+- automation
+- domain_validation
+- free_certificates
+use_cases:
+- Web server SSL/TLS certificates
+- API endpoint certificates
+- CDN and load balancer certificates
+- Development and staging environments
+- Wildcard certificates for subdomains
+- Multi-domain certificate management
+- Automated certificate renewal
+- Free certificate alternative to commercial CAs
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

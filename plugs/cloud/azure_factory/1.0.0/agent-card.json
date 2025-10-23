@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:azure_factory",
+    "name": "Azure Factory Agent",
+    "description": "Azure Factory Plugin for multi-service cloud orchestration across Virtual Machines, Storage Accounts, Azure SQL, Azure Functions and other Azure services with enterprise features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/azure_factory",
+    "skills": [
+      {
+        "id": "azure_factory-primary",
+        "name": "Azure Factory",
+        "description": "Azure Factory Plugin for multi-service cloud orchestration across Virtual Machines, Storage Accounts, Azure SQL, Azure Functions and other Azure services with enterprise features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "azure_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Cloud Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.780417Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

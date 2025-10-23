@@ -1,0 +1,262 @@
+author: PlugPipe Team
+category: payments
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Per Stripe's data retention policies
+  encryption: TLS 1.2+ in transit, encrypted at rest
+  financial_regulations:
+  - PCI DSS
+  - SOX
+  - GDPR
+  - PSD2
+  gdpr_compliant: true
+  pci_compliant: true
+config_schema:
+  properties:
+    api_key:
+      description: Stripe API key (alias for secret_key)
+      type: string
+    endpoint_secret:
+      description: Webhook endpoint secret for signature verification
+      type: string
+    secret_key:
+      description: Stripe secret key (sk_test_... or sk_live_...)
+      type: string
+  required:
+  - secret_key
+  type: object
+description: Enterprise Stripe payment processing integration with comprehensive financial
+  operations
+documentation:
+  examples:
+  - config:
+      secret_key: ${STRIPE_SECRET_KEY}
+    description: Create new customer and process their first payment
+    input:
+      customer_data:
+        email: newcustomer@example.com
+        metadata:
+          plan_interest: premium
+          source: website_signup
+        name: John Doe
+        phone: +1-555-123-4567
+      operation: create_customer
+    name: Create customer and payment
+  - description: Create invoice and attempt payment for subscription
+    input:
+      invoice_data:
+        auto_advance: true
+        collection_method: charge_automatically
+        customer: cus_customer123
+        subscription: sub_subscription456
+      operation: create_invoice
+    name: Monthly billing process
+  - description: Cancel subscription with immediate effect and proration
+    input:
+      cancel_immediately: true
+      operation: cancel_subscription
+      subscription_id: sub_subscription456
+    name: Cancel subscription with proration
+  readme: "# Stripe Payments Plug\n\nEnterprise-grade Stripe integration providing\
+    \ comprehensive payment processing,\nsubscription management, and financial operations.\n\
+    \n## Features\n- Customer management (CRUD operations)\n- Payment Intent processing\n\
+    - Subscription and recurring billing\n- Product and pricing management\n- Invoice\
+    \ creation and payment\n- Webhook event handling\n- Multi-currency support\n-\
+    \ PCI compliance\n\n## Authentication\n\n### API Keys\nUse Stripe secret keys\
+    \ for server-side operations. Never use publishable keys\nfor server-side integrations.\n\
+    \n### Webhook Security\nVerify webhook signatures using endpoint secrets to ensure\
+    \ authenticity.\n\n## Usage Examples\n\n### Process Payment\n```yaml\nsteps:\n\
+    \  - plugin: stripe_payments\n    config:\n      secret_key: \"${STRIPE_SECRET_KEY}\"\
+    \n    input:\n      operation: \"create_payment_intent\"\n      payment_data:\n\
+    \        amount: 2000  # $20.00 in cents\n        currency: \"usd\"\n        customer:\
+    \ \"cus_customer123\"\n        description: \"Payment for Order #12345\"\n   \
+    \     metadata:\n          order_id: \"12345\"\n          customer_email: \"customer@example.com\"\
+    \n```\n\n### Create Subscription\n```yaml\nsteps:\n  - plugin: stripe_payments\n\
+    \    input:\n      operation: \"create_subscription\"\n      subscription_data:\n\
+    \        customer: \"cus_customer123\"\n        items:\n          - price: \"\
+    price_monthly_plan\"\n            quantity: 1\n        trial_period_days: 7\n\
+    \        metadata:\n          plan_type: \"premium\"\n          signup_source:\
+    \ \"website\"\n```\n\n### Handle Webhook\n```yaml\nsteps:\n  - plugin: stripe_payments\n\
+    \    input:\n      operation: \"construct_event\"\n      payload: \"${webhook_payload}\"\
+    \n      signature: \"${stripe_signature_header}\"\n      endpoint_secret: \"${STRIPE_WEBHOOK_SECRET}\"\
+    \n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+health_check:
+  operation: list_customers
+  params:
+    limit: 1
+  timeout: 10
+input_schema:
+  properties:
+    active:
+      description: Filter by active status
+      type: boolean
+    cancel_immediately:
+      default: false
+      description: Cancel subscription immediately
+      type: boolean
+    confirmation_data:
+      description: Payment confirmation data
+      type: object
+    customer_data:
+      description: Customer data for create/update operations
+      type: object
+    customer_id:
+      description: Stripe customer ID
+      type: string
+    endpoint_secret:
+      description: Webhook endpoint secret
+      type: string
+    invoice_data:
+      description: Invoice data
+      type: object
+    invoice_id:
+      description: Invoice ID
+      type: string
+    limit:
+      default: 10
+      description: Maximum number of items to return
+      maximum: 100
+      minimum: 1
+      type: integer
+    operation:
+      description: Stripe operation to perform
+      enum:
+      - list_customers
+      - create_customer
+      - get_customer
+      - update_customer
+      - delete_customer
+      - create_payment_intent
+      - get_payment_intent
+      - confirm_payment_intent
+      - cancel_payment_intent
+      - list_subscriptions
+      - create_subscription
+      - get_subscription
+      - update_subscription
+      - cancel_subscription
+      - list_products
+      - create_product
+      - get_product
+      - update_product
+      - list_prices
+      - create_price
+      - get_price
+      - list_invoices
+      - create_invoice
+      - get_invoice
+      - pay_invoice
+      - construct_event
+      type: string
+    payload:
+      description: Webhook payload (raw JSON string)
+      type: string
+    payment_data:
+      description: Payment intent data
+      type: object
+    payment_intent_id:
+      description: Payment intent ID
+      type: string
+    price_data:
+      description: Price data
+      type: object
+    price_id:
+      description: Price ID
+      type: string
+    product_data:
+      description: Product data
+      type: object
+    product_id:
+      description: Product ID
+      type: string
+    signature:
+      description: Stripe-Signature header value
+      type: string
+    starting_after:
+      description: Cursor for pagination
+      type: string
+    status:
+      description: Filter by status
+      type: string
+    subscription_data:
+      description: Subscription data
+      type: object
+    subscription_id:
+      description: Subscription ID
+      type: string
+  required:
+  - operation
+  type: object
+license: MIT
+name: stripe_payments
+display_name: StripePayments
+output_schema:
+  properties:
+    stripe_error:
+      description: Error message if operation failed
+      type: string
+    stripe_result:
+      description: Operation result data
+      type:
+      - object
+      - 'null'
+    stripe_status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      type: string
+  type: object
+owner: PlugPipe Integration Team
+performance:
+  bulk_operations:
+    max_batch_size: 25
+    recommended_batch_size: 10
+  caching:
+    enabled: true
+    ttl: 300
+  rate_limit:
+    read_requests_per_second: 100
+    requests_per_second: 100
+    write_requests_per_second: 100
+requirements:
+  python:
+  - requests>=2.28.0
+  system: []
+sbom:
+  complete: sbom/stripe_payments-sbom-complete.json
+  summary: sbom/stripe_payments-sbom.json
+security:
+  external_domains:
+  - api.stripe.com
+  - '*.stripe.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - secret_key
+  - api_key
+  - endpoint_secret
+status: stable
+tags:
+- stripe
+- payments
+- billing
+- subscriptions
+- ecommerce
+- fintech
+- recurring
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,139 @@
+name: copyright_validator
+display_name: CopyrightValidator
+version: 1.0.0
+category: legal
+description: Validates and enforces copyright headers across PlugPipe ecosystem
+author: PlugPipe Core Team
+status: stable
+type: utility
+
+copyright:
+  owner: "PlugPipe Team"
+  year: 2025
+  notice: "Copyright © 2025 PlugPipe Team. All rights reserved."
+
+license: MIT
+license_url: "https://opensource.org/licenses/MIT"
+spdx_license_identifier: "MIT"
+
+capabilities:
+  - copyright_validation
+  - spdx_enforcement
+  - compliance_reporting
+  - automated_fixing
+
+input_schema:
+  type: object
+  required:
+    - action
+  properties:
+    action:
+      type: string
+      enum:
+        - scan
+        - validate
+        - report
+        - fix
+        - fix_manifests
+        - install_hook
+      description: "Action to perform: scan (find violations), validate (check compliance), report (generate report), fix (add headers), fix_manifests (update plug.yaml files), install_hook (setup pre-commit)"
+    scope:
+      type: string
+      enum:
+        - all
+        - plugs
+        - cores
+        - shares
+        - tests
+        - utils
+        - scripts
+      default: all
+      description: "Scope of files to process"
+    auto_approve:
+      type: boolean
+      default: false
+      description: "Automatically approve fixes without confirmation"
+    dry_run:
+      type: boolean
+      default: false
+      description: "Preview changes without applying them"
+    limit:
+      type: integer
+      description: "Limit number of files to process (for testing)"
+
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    action:
+      type: string
+    compliance:
+      type: object
+      properties:
+        total_files:
+          type: integer
+        files_with_headers:
+          type: integer
+        files_missing_headers:
+          type: integer
+        compliance_percentage:
+          type: number
+    violations:
+      type: array
+      items:
+        type: object
+        properties:
+          file_path:
+            type: string
+          issue:
+            type: string
+          line_number:
+            type: integer
+    fixes_applied:
+      type: array
+      items:
+        type: object
+        properties:
+          file_path:
+            type: string
+          action:
+            type: string
+    report:
+      type: object
+      properties:
+        by_category:
+          type: object
+        trend:
+          type: string
+        recommendations:
+          type: array
+
+tags:
+  - copyright
+  - compliance
+  - legal
+  - spdx
+  - validation
+  - enforcement
+
+metadata:
+  documentation: "Ensures all PlugPipe source files have proper copyright headers and SPDX identifiers"
+  maintainer: "PlugPipe Legal Team"
+  repository: "plugpipe-legal"
+  priority: "P0-CRITICAL"
+  blocks: "commercialization"
+
+dependency_analysis:
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+
+stdlib_modules:
+  - os
+  - sys
+  - pathlib
+  - re
+  - json
+  - yaml
+  - datetime
+  - typing

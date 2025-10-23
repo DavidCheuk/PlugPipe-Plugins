@@ -1,0 +1,442 @@
+autoscaling:
+  cluster_autoscaler_integration: true
+  custom_metrics_support: true
+  horizontal_pod_autoscaler: true
+  predictive_scaling: false
+  vertical_pod_autoscaler: false
+capabilities:
+- service_discovery
+- auto_scaling
+- load_balancing
+- health_monitoring
+- plugin_deployment
+- resource_management
+- kubernetes_native
+- horizontal_pod_autoscaling
+- configmap_management
+- secret_management
+- namespace_management
+- rbac_integration
+category: orchestration
+compliance:
+  enterprise_features:
+  - Role-based access control (RBAC)
+  - Network policies
+  - Resource quotas
+  - Pod security policies
+  - Audit logging
+  - Service mesh integration
+  security_standards:
+  - Kubernetes Security Best Practices
+  - CIS Kubernetes Benchmark
+  - NIST Container Security
+  - Pod Security Standards
+dependencies:
+  python:
+  - asyncio
+  - json
+  - logging
+  - subprocess
+  - uuid
+  - yaml
+  - base64
+  system:
+  - kubectl
+  - python3
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:46'
+  stdlib_modules_declared: true
+description: Enterprise Kubernetes orchestration plugin for service discovery, auto-scaling,
+  load balancing, and comprehensive plugin lifecycle management
+docker:
+  baseImage: python:3.11-slim
+  environment:
+  - PYTHONPATH=/app
+  - PLUGPIPE_PLUGIN_TYPE=kubernetes
+  expose:
+  - 8080
+  labels:
+  - app.kubernetes.io/name=kubernetes-plugin
+  - app.kubernetes.io/component=orchestration
+  - app.kubernetes.io/part-of=plugpipe
+  workdir: /app
+enterprise_features:
+  auto_scaling: true
+  enterprise_ready: true
+  health_monitoring: true
+  high_availability: true
+  kubernetes_native: true
+  load_balancing: true
+  monitoring_integration: true
+  production_ready: true
+  rbac_support: true
+  resource_management: true
+  security_policies: true
+  service_discovery: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    kubernetes:
+      description: Kubernetes orchestrator configuration
+      properties:
+        image_registry:
+          default: plugpipe
+          description: Container image registry
+          type: string
+        monitoring:
+          description: Monitoring configuration
+          type: object
+        namespace:
+          default: plugpipe-system
+          description: Kubernetes namespace
+          type: string
+        network_policies:
+          description: Network policy configuration
+          type: object
+        resource_defaults:
+          description: Default resource requests and limits
+          properties:
+            limits:
+              properties:
+                cpu:
+                  default: 500m
+                  type: string
+                memory:
+                  default: 512Mi
+                  type: string
+              type: object
+            requests:
+              properties:
+                cpu:
+                  default: 100m
+                  type: string
+                memory:
+                  default: 128Mi
+                  type: string
+              type: object
+          type: object
+        security_context:
+          description: Security context for containers
+          properties:
+            fsGroup:
+              default: 2000
+              type: integer
+            runAsNonRoot:
+              default: true
+              type: boolean
+            runAsUser:
+              default: 1000
+              type: integer
+          type: object
+      type: object
+    kubernetes_plugin:
+      description: Kubernetes plugin configuration
+      properties:
+        default_replicas:
+          default: 2
+          description: Default number of replicas
+          type: integer
+        enable_auto_scaling:
+          default: true
+          description: Enable auto-scaling features
+          type: boolean
+        enable_health_monitoring:
+          default: true
+          description: Enable health monitoring
+          type: boolean
+        enable_load_balancing:
+          default: true
+          description: Enable load balancing
+          type: boolean
+        enable_service_discovery:
+          default: true
+          description: Enable service discovery
+          type: boolean
+        namespace:
+          default: plugpipe-system
+          description: Kubernetes namespace
+          type: string
+      type: object
+    labels:
+      description: Label selector for service discovery
+      type: object
+    operation:
+      default: initialize
+      description: Operation to perform
+      enum:
+      - initialize
+      - health_check
+      - deploy_plugin
+      - scale_plugin
+      - list_plugins
+      - discover_services
+      type: string
+    plugin_config:
+      description: Plugin deployment configuration
+      properties:
+        auto_scaling:
+          default: true
+          description: Enable auto-scaling for plugin
+          type: boolean
+        config_data:
+          description: Configuration data for ConfigMap
+          type: object
+        environment:
+          description: Environment variables for plugin
+          type: object
+        image:
+          description: Container image for plugin
+          type: string
+        max_replicas:
+          description: Maximum replicas for auto-scaling
+          minimum: 1
+          type: integer
+        min_replicas:
+          description: Minimum replicas for auto-scaling
+          minimum: 1
+          type: integer
+        name:
+          description: Plugin name for deployment
+          type: string
+        port:
+          description: Plugin service port
+          maximum: 65535
+          minimum: 1
+          type: integer
+        replicas:
+          description: Number of plugin replicas
+          maximum: 100
+          minimum: 1
+          type: integer
+        resources:
+          description: Resource requests and limits
+          properties:
+            limits:
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+              type: object
+            requests:
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+              type: object
+          type: object
+        secret_data:
+          description: Secret data for Kubernetes Secret
+          type: object
+        service_type:
+          default: ClusterIP
+          description: Kubernetes service type
+          enum:
+          - ClusterIP
+          - NodePort
+          - LoadBalancer
+          type: string
+        target_cpu_percent:
+          description: Target CPU utilization for auto-scaling
+          maximum: 100
+          minimum: 1
+          type: integer
+      type: object
+    plugin_name:
+      description: Name of plugin to operate on
+      type: string
+    replicas:
+      description: Number of replicas for scaling
+      maximum: 100
+      minimum: 1
+      type: integer
+  required: []
+  type: object
+kubernetes:
+  deployment:
+    replicas: 3
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+  monitoring:
+    enabled: true
+    prometheusRule: true
+    serviceMonitor: true
+  namespace: plugpipe-system
+  rbac:
+    clusterRole: plugpipe-orchestrator
+    enabled: true
+    serviceAccount: plugpipe-orchestrator
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  security:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  service:
+    ports:
+    - name: api
+      port: 8080
+      targetPort: 8080
+    type: ClusterIP
+monitoring:
+  auto_scaling_events: true
+  deployment_lifecycle_events: true
+  health_checks: true
+  metrics_collection: true
+  performance_monitoring: true
+  resource_tracking: true
+  service_discovery_events: true
+name: kubernetes
+display_name: Kubernetes
+networking:
+  ingress_support: true
+  load_balancing: true
+  network_policies: true
+  service_discovery: true
+  service_mesh_ready: true
+observability:
+  alerting_rules: true
+  grafana_dashboards: true
+  jaeger_tracing: false
+  log_aggregation: true
+  prometheus_integration: true
+output_schema:
+  properties:
+    capabilities:
+      description: Plugin capabilities
+      items:
+        type: string
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    health_status:
+      description: Health check results
+      type: object
+    operation_completed:
+      description: Completed operation name
+      type: string
+    plugin_name:
+      description: Plugin name for operations
+      type: string
+    plugin_status:
+      description: Detailed plugin status
+      type: object
+    plugin_type:
+      description: Plugin type (kubernetes)
+      type: string
+    plugins:
+      description: List of deployed plugins
+      items:
+        type: object
+      type: array
+    replicas:
+      description: Number of replicas
+      type: integer
+    services:
+      description: Discovered services
+      items:
+        type: object
+      type: array
+    status:
+      description: Plugin status
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: kubernetes_plugin_sbom_complete.json
+  components:
+  - description: Kubernetes command-line tool
+    name: kubectl
+    supplier: Kubernetes Community
+    type: tool
+    version: latest
+  - description: Python runtime environment
+    name: python
+    supplier: Python Software Foundation
+    type: runtime
+    version: '3.11'
+  - description: Asynchronous I/O framework
+    name: asyncio
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Process management utilities
+    name: subprocess
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: YAML parsing library
+    name: yaml
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  format: plugpipe_v1
+  summary: kubernetes_plugin_sbom_summary.json
+  timestamp: '2025-08-21T22:30:00Z'
+  tool: plugpipe_sbom_generator
+security:
+  audit_logging: true
+  isolation_level: namespace
+  network_policies: true
+  privilege_escalation: false
+  rbac_required: true
+  secrets_management: true
+  security_context_required: true
+  service_account_required: true
+status: stable
+stdlib_modules:
+- abc
+- asyncio
+- base64
+- datetime
+- json
+- logging
+- os
+- pathlib
+- re
+- subprocess
+- tempfile
+- time
+- typing
+- uuid
+tags:
+- orchestration
+- kubernetes
+- service_discovery
+- auto_scaling
+- enterprise
+- cloud_native
+- container_orchestration
+type: plugin
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

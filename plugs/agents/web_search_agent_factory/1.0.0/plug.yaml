@@ -1,0 +1,167 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    default_credibility_threshold:
+      default: 0.7
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    default_search_engines:
+      default:
+      - google
+      - bing
+      items:
+        enum:
+        - google
+        - bing
+        - duckduckgo
+        - yandex
+        - searx
+        type: string
+      type: array
+    enable_caching:
+      default: true
+      type: boolean
+    max_concurrent_searches:
+      default: 3
+      maximum: 10
+      minimum: 1
+      type: integer
+  type: object
+description: Web Search Agent Factory - generates specialized web search verification
+  agents using core Agent Factory plugin
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - requests
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        credibility_threshold:
+          default: 0.7
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        domain:
+          enum:
+          - general
+          - news
+          - academic
+          - social
+          - technical
+          type: string
+        enable_caching:
+          default: true
+          type: boolean
+        max_results:
+          default: 10
+          maximum: 100
+          minimum: 1
+          type: integer
+        search_engines:
+          default:
+          - google
+          items:
+            enum:
+            - google
+            - bing
+            - duckduckgo
+            - yandex
+            - searx
+            type: string
+          type: array
+      required:
+      - domain
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - search_web
+      type: string
+    template_id:
+      enum:
+      - comprehensive_search
+      - fast_search
+      - news_search
+      - academic_search
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - dynamic-agent-creation
+  - multi-engine-search
+  - real-time-verification
+  - source-credibility-assessment
+  - domain-specialization
+  category: agent-factory
+  dependencies:
+    optional:
+    - requests
+    - beautifulsoup4
+    - aiohttp
+    required:
+    - core/agent_factory
+  domain: web-search-verification
+  performance:
+    cpu_usage: medium
+    io_usage: high
+    memory_usage: medium
+    network_usage: high
+  security:
+    file_system_access: read-only
+    isolation_required: true
+    network_access: required
+name: web_search_agent_factory
+display_name: WebSearchAgentFactory
+output_schema:
+  properties:
+    agent:
+      description: Generated search agent instance
+      type: object
+    agent_id:
+      description: Unique agent identifier
+      type: string
+    capabilities:
+      description: Factory capabilities
+      items:
+        type: string
+      type: array
+    success:
+      description: Whether factory initialization succeeded
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Security Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- agents
+- factory
+- web-search
+- verification
+- fact-checking
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

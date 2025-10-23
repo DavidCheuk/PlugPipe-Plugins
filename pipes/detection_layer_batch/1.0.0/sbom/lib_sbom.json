@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:detection-layer-batch-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:41:30.462603Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "detection-layer-batch@1.0.0",
+      "name": "detection-layer-batch",
+      "version": "1.0.0",
+      "description": "Comprehensive batch execution of all detection layer plugins for automated plugin change analysis and issue identification"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

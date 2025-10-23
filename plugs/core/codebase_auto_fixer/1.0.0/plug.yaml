@@ -1,0 +1,294 @@
+description: Automated codebase fixing system with context-aware intelligence and
+  change management integration
+discoverability: public
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    ai_required:
+      default: true
+      description: Alias for ai_strict_mode for backward compatibility
+      type: boolean
+    ai_strict_mode:
+      default: true
+      description: Prohibit fallback to pattern matching - return error if AI models
+        unavailable (required for code fixing)
+      type: boolean
+    fallback_prohibited:
+      default: true
+      description: Another alias - ensures AI-only operation
+      type: boolean
+    scan_results:
+      description: Results from codebase integrity scanner
+      properties:
+        issues_found:
+          description: List of issues to fix
+          items:
+            properties:
+              category:
+                enum:
+                - PLACEHOLDER
+                - MISSING_IMPL
+                - INCOMPLETE
+                - SECURITY
+                - REGISTRY
+                - AI_GENERATED
+                - FUNCTIONAL
+                - QUALITY
+                type: string
+              context:
+                type: object
+              description:
+                type: string
+              file_path:
+                type: string
+              line_number:
+                type: integer
+              severity:
+                enum:
+                - CRITICAL
+                - HIGH
+                - MEDIUM
+                - LOW
+                type: string
+              suggestion:
+                type: string
+            required:
+            - severity
+            - category
+            - file_path
+            - description
+            type: object
+          type: array
+      required:
+      - issues_found
+      type: object
+  required:
+  - scan_results
+  type: object
+metadata:
+  author: PlugPipe Core Team
+  capabilities:
+  - automated_code_fixing
+  - context_aware_repairs
+  - change_management_integration
+  - intelligent_fix_selection
+  - rollback_support
+  - approval_workflows
+  - comprehensive_auditing
+  - safety_mechanisms
+  category: automation
+  configuration_options:
+    analyze_full_context: Enable full context analysis
+    auto_approve_low_risk: Auto-approve low-risk fixes
+    backup_before_fix: Backup files before modification
+    batch_size: Number of fixes to process in batches
+    change_management_enabled: Enable change management integration
+    context_analysis_enabled: Use context analyzer for intelligent fixes
+    create_rollback_points: Create rollback points before changes
+    dry_run_mode: Run in simulation mode without making changes
+    fix_imports: Enable import issue fixing
+    fix_placeholders: Enable placeholder code fixing
+    fix_quality_issues: Enable code quality improvements
+    max_fixes_per_run: Maximum number of fixes per execution
+    require_approval_threshold: Confidence threshold for requiring approval
+    resolve_dependencies: Enable dependency resolution
+    validate_ai_code: Enable AI code validation
+  cpu_cores: 2
+  fix_types_supported:
+  - Placeholder code replacement
+  - Import issue resolution
+  - Code quality improvements
+  - AI-generated code validation
+  - Functional implementation fixes
+  - Dependency resolution
+  - Security gap fixes
+  homepage: https://plugpipe.com/plugins/codebase-auto-fixer
+  license: MIT
+  memory_mb: 1024
+  network_required: false
+  repository: https://github.com/plugpipe/plugins/tree/main/core/codebase_auto_fixer
+  safety_features:
+  - Context analysis before fixing
+  - Change management approval workflows
+  - Automatic rollback point creation
+  - Comprehensive audit trails
+  - Dry-run mode for testing
+  - File backup before modifications
+  - Risk assessment and approval thresholds
+  storage_mb: 200
+  tags:
+  - auto-fix
+  - change-management
+  - quality
+  - automation
+  - intelligence
+name: codebase_auto_fixer
+display_name: CodebaseAutoFixer
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    fix_results:
+      description: Complete auto-fixing results
+      properties:
+        approved_fixes:
+          type: integer
+        audit_trail:
+          description: Complete audit trail of changes
+          items:
+            properties:
+              action_id:
+                type: string
+              action_type:
+                type: string
+              approval_required:
+                type: boolean
+              change_description:
+                type: string
+              confidence:
+                type: number
+              file_path:
+                type: string
+              rollback_available:
+                type: boolean
+              success:
+                type: boolean
+              timestamp:
+                format: date-time
+                type: string
+            type: object
+          type: array
+        change_requests_submitted:
+          type: integer
+        failed_fixes:
+          type: integer
+        fix_actions:
+          description: Detailed fix actions performed
+          items:
+            properties:
+              change_description:
+                type: string
+              confidence:
+                maximum: 1
+                minimum: 0
+                type: number
+              file_path:
+                type: string
+              fix_type:
+                enum:
+                - PLACEHOLDER_REPLACE
+                - IMPORT_FIX
+                - QUALITY_IMPROVE
+                - AI_VALIDATE
+                - DEPENDENCY_RESOLVE
+                - FUNCTIONAL_FIX
+                type: string
+              fixed_content:
+                type: string
+              issue_id:
+                type: string
+              line_number:
+                type: integer
+              original_content:
+                type: string
+              requires_approval:
+                type: boolean
+              rollback_data:
+                type: object
+            type: object
+          type: array
+        fixes_requiring_approval:
+          type: integer
+        performance_metrics:
+          properties:
+            execution_time_seconds:
+              type: number
+            fixes_per_second:
+              type: number
+            success_rate:
+              maximum: 1
+              minimum: 0
+              type: number
+          type: object
+        rejected_fixes:
+          type: integer
+        rollback_points_created:
+          type: integer
+        successful_fixes:
+          type: integer
+        timestamp:
+          format: date-time
+          type: string
+        total_fixes_attempted:
+          type: integer
+      type: object
+    next_steps:
+      description: Recommended next actions
+      items:
+        type: string
+      type: array
+    operation_completed:
+      description: Always 'codebase_auto_fixing'
+      type: string
+    success:
+      description: Whether the auto-fixing was successful
+      type: boolean
+    summary:
+      properties:
+        change_requests_created:
+          type: integer
+        rollback_points_available:
+          type: boolean
+        success_rate:
+          maximum: 1
+          minimum: 0
+          type: number
+        successful_fixes:
+          type: integer
+        total_fixes_attempted:
+          type: integer
+      type: object
+    timestamp:
+      format: date-time
+      type: string
+  required:
+  - success
+  - operation_completed
+  - timestamp
+  type: object
+owner: plugpipe-core
+sbom:
+  dependencies:
+    python:
+    - pathlib (built-in)
+    - hashlib (built-in)
+    - importlib (built-in)
+    - shutil (built-in)
+    - tempfile (built-in)
+    - subprocess (built-in)
+  plugin_dependencies:
+  - plugs.intelligence.context_analyzer.1.0.0
+  - plugs.management.enterprise_change_manager.1.0.0
+  - plugs.management.rollback_manager.1.0.0
+  security_notes:
+  - Requires write access to codebase files
+  - Integrates with change management for approval workflows
+  - Creates rollback points for safety
+  - All changes are audited and logged
+  system_requirements:
+  - python>=3.8
+status: production
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

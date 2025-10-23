@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:plugin_change_validation_pipeline-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-28T21:36:33.878328Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "plugin_change_validation_pipeline@1.0.0",
+      "name": "plugin_change_validation_pipeline",
+      "version": "1.0.0",
+      "description": "Comprehensive orchestration plugin for validating plugin changes through config hardening, integrity scanning, and compliance auditing"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

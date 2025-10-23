@@ -1,0 +1,202 @@
+author: PlugPipe Security Team
+capabilities:
+- mcp_tool_authorization
+- context_aware_policy_evaluation
+- dynamic_permission_assignment
+- user_approval_workflows
+- mcp_resource_authorization
+- policy_violation_reporting
+category: Security
+configuration:
+  optional:
+  - rbac_fallback: true
+  - opa_integration_enabled: true
+  - user_approval_required: []
+  - sensitive_tools: []
+  - default_tool_permissions: user:execute:own
+  required:
+  - mcp_policy_mode
+dependencies:
+  external_dependencies:
+  - name: fastapi
+    version: '>=0.104.0'
+  - name: pydantic
+    version: '>=2.0.0'
+  plugin_dependencies:
+  - name: auth_rbac_standard
+    optional: false
+    version: '>=1.0.0'
+  - name: opa_policy_enterprise
+    optional: true
+    version: '>=1.0.0'
+  - name: audit_elk_stack
+    optional: true
+    version: '>=1.0.0'
+description: MCP Protocol Security Policy Engine - Extends existing RBAC and OPA enterprise
+  plugins with MCP-specific authorization
+external_dependencies:
+  install_method: pip
+  packages:
+  - collections
+  requirements_file: requirements.txt
+license: MIT
+mcp_policy_modes:
+  basic:
+    description: RBAC-only policy enforcement
+    features:
+    - rbac_tool_authorization
+    - basic_resource_permissions
+  enterprise:
+    description: Full OPA integration with advanced policies
+    features:
+    - rbac_tool_authorization
+    - opa_policy_evaluation
+    - user_approval_workflows
+    - dynamic_policy_generation
+    - compliance_validation
+  standard:
+    description: RBAC + MCP-specific rules
+    features:
+    - rbac_tool_authorization
+    - mcp_endpoint_policies
+    - tool_argument_validation
+    - context_aware_decisions
+mcp_resource_types:
+  prompts:
+    actions:
+    - get
+    - list
+    - complete
+    approval_required:
+    - prompts:complete:admin
+    scopes:
+    - global
+    - organization
+    - project
+    - own
+  resources:
+    actions:
+    - read
+    - list
+    - subscribe
+    approval_required:
+    - resources:read:sensitive
+    scopes:
+    - global
+    - organization
+    - project
+    - own
+  server:
+    actions:
+    - initialize
+    - ping
+    - configure
+    approval_required:
+    - server:configure
+    scopes:
+    - global
+    - organization
+  tools:
+    actions:
+    - call
+    - list
+    - inspect
+    approval_required:
+    - tools:call:destructive
+    scopes:
+    - global
+    - organization
+    - project
+    - own
+monitoring:
+  events:
+  - mcp_tool_authorized
+  - mcp_tool_denied
+  - mcp_approval_requested
+  - mcp_policy_violation
+  metrics:
+  - mcp_policy_decisions_total
+  - mcp_policy_denials_total
+  - mcp_approval_requests_total
+  - mcp_policy_violations_total
+name: mcp_security_policy_engine
+display_name: McpSecurityPolicyEngine
+public: true
+sbom:
+  complete: sbom/mcp_security_policy_engine-sbom-complete.json
+  summary: sbom/mcp_security_policy_engine-sbom.json
+security:
+  features:
+  - policy_decision_auditing
+  - authorization_failure_detection
+  - privilege_escalation_prevention
+  - context_validation
+  - tool_argument_sanitization
+  - real_time_policy_updates
+tags:
+- mcp
+- security
+- policy
+- rbac
+- opa
+- authorization
+- enterprise
+tool_classifications:
+  destructive:
+    approval_required: true
+    default_permission: admin
+    description: Critical tools that can modify/delete data
+    examples:
+    - file_deleter
+    - database_admin
+    - system_admin
+  safe:
+    approval_required: false
+    default_permission: user
+    description: Low-risk tools with read-only operations
+    examples:
+    - calculator
+    - timer
+    - weather
+  sensitive:
+    approval_required: true
+    default_permission: developer
+    description: High-risk tools accessing sensitive data
+    examples:
+    - user_manager
+    - config_reader
+    - system_info
+  standard:
+    approval_required: false
+    default_permission: user
+    description: Medium-risk tools with data processing
+    examples:
+    - file_reader
+    - api_caller
+    - database_query
+user_approval_workflows:
+  resource_access:
+    approvers:
+    - role:admin
+    timeout_seconds: 180
+    triggers:
+    - resource_scope:global
+    - resource_type:sensitive
+  tool_execution:
+    approvers:
+    - role:admin
+    - role:developer
+    timeout_seconds: 300
+    triggers:
+    - tool_classification:sensitive
+    - tool_classification:destructive
+    - user_role:guest
+version: 1.0.0
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

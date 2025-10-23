@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:error_handling_analyzer",
+    "name": "Error Handling Analyzer Agent",
+    "description": "Analyzes and fixes error handling patterns in Python code with automated remediation capabilities",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/error_handling_analyzer",
+    "skills": [
+      {
+        "id": "error_handling_analyzer-primary",
+        "name": "Error Handling Analyzer",
+        "description": "Analyzes and fixes error handling patterns in Python code with automated remediation capabilities",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "error_handling_analyzer",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "error-handling",
+          "code-quality",
+          "security",
+          "analysis",
+          "auto-fix"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.596459Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

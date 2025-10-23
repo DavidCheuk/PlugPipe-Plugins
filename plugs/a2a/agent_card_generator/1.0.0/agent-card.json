@@ -1,0 +1,80 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:a2a:protocol_adapters:agent_card_generator",
+    "name": "Agent Card Generator Agent",
+    "description": "Converts PlugPipe plug.yaml manifests to A2A Protocol agent-card.json format.\nEnables PlugPipe plugins to be discoverable and invocable via Agent2Agent Protocol.\n\nKey Features:\n- Automatic conversion of plug.yaml to agent-card.json\n- A2A specification compliance validation\n- Batch processing for multiple plugins\n- Sigstore signature support (optional)\n- Skill mapping from PlugPipe capabilities",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/agent_card_generator",
+    "skills": [
+      {
+        "id": "agent_card_generator-primary",
+        "name": "Agent Card Generator",
+        "description": "Converts PlugPipe plug.yaml manifests to A2A Protocol agent-card.json format.",
+        "inputModes": [
+          "text"
+        ],
+        "outputModes": [
+          "artifact",
+          "json"
+        ]
+      },
+      {
+        "id": "agent_card_generator-example-1",
+        "name": "Convert single plugin to agent card",
+        "description": "Convert single plugin to agent card",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "agent_card_generator-example-2",
+        "name": "Batch convert all plugins with validation",
+        "description": "Batch convert all plugins with validation",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "agent_card_generator-example-3",
+        "name": "Generate signed agent card with custom service URL",
+        "description": "Generate signed agent card with custom service URL",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "agent_card_generator",
+        "category": "a2a",
+        "subcategory": "protocol_adapters",
+        "tags": [
+          "a2a",
+          "agent-card",
+          "protocol-adapter",
+          "interoperability",
+          "agent-discovery"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:28.554483Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

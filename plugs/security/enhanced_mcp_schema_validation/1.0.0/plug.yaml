@@ -1,0 +1,196 @@
+name: enhanced_mcp_schema_validation
+display_name: McpSchemaValidator
+version: 1.0.0
+description: Enhanced MCP Schema Validation - Extends MCP contract testing with security-focused
+  schema hardening and validation patterns
+author: PlugPipe Security Team
+license: MIT
+category: Security
+tags:
+- mcp
+- schema
+- validation
+- security
+- hardening
+- enterprise
+capabilities:
+- mcp_protocol_schema_hardening
+- double_validation_patterns
+- tool_argument_schema_enforcement
+- resource_content_validation
+- security_focused_schema_validation
+- real_time_validation_monitoring
+dependencies:
+  external_dependencies:
+  - name: jsonschema
+    version: '>=4.20.0'
+  - name: pydantic
+    version: '>=2.0.0'
+  - name: hypothesis
+    version: '>=6.0.0'
+  - name: schemathesis
+    version: '>=3.19.0'
+  plugin_dependencies:
+  - name: mcp_contract_tester
+    version: '>=1.0.0'
+    optional: false
+  - name: ai_prompt_injection_guardian
+    version: '>=1.0.0'
+    optional: true
+  - name: enhanced_mcp_audit_integration
+    version: '>=1.0.0'
+    optional: true
+configuration:
+  required:
+  - validation_level
+  optional:
+  - strict_mode: true
+  - double_validation: true
+  - security_hardening: true
+  - performance_monitoring: true
+  - auto_schema_updates: false
+validation_levels:
+  basic:
+    description: Standard JSON Schema validation
+    features:
+    - json_schema_validation
+    - basic_type_checking
+    - required_field_validation
+  standard:
+    description: Enhanced validation with MCP-specific rules
+    features:
+    - json_schema_validation
+    - mcp_protocol_compliance
+    - tool_argument_validation
+    - resource_format_validation
+    - security_pattern_detection
+  enterprise:
+    description: Maximum security with double validation
+    features:
+    - json_schema_validation
+    - mcp_protocol_compliance
+    - double_validation_pattern
+    - security_hardening
+    - content_sanitization
+    - malicious_payload_detection
+    - real_time_monitoring
+mcp_protocol_schemas:
+  mcp_2025_06_18:
+    base_schema_version: '2025-06-18'
+    security_extensions:
+    - authentication_required_validation
+    - authorization_context_validation
+    - rate_limiting_header_validation
+    - audit_trail_compliance
+    tool_call_schema:
+      strict_argument_validation: true
+      max_argument_size: 1048576
+      forbidden_patterns:
+      - eval(
+      - exec(
+      - system(
+      - __import__
+    resource_access_schema:
+      content_type_validation: true
+      max_resource_size: 10485760
+      allowed_content_types:
+      - text/plain
+      - application/json
+      - text/markdown
+    prompt_schema:
+      max_prompt_length: 100000
+      template_validation: true
+      variable_sanitization: true
+security_hardening:
+  input_validation:
+  - xss_prevention
+  - sql_injection_detection
+  - command_injection_detection
+  - path_traversal_detection
+  - json_bomb_prevention
+  output_validation:
+  - sensitive_data_leak_detection
+  - response_size_limits
+  - content_type_enforcement
+  - encoding_validation
+  protocol_security:
+  - http_verb_validation
+  - header_security_validation
+  - cors_policy_enforcement
+  - content_security_policy
+double_validation_patterns:
+  client_server:
+    description: Validate on both client and server sides
+    stages:
+    - client_pre_send
+    - server_receive
+    - server_pre_send
+    - client_receive
+  input_output:
+    description: Validate both input and transformed output
+    stages:
+    - input_validation
+    - processing_validation
+    - output_validation
+  schema_data:
+    description: Validate schema compliance and data integrity
+    stages:
+    - schema_validation
+    - data_integrity_check
+    - consistency_validation
+validation_rules:
+  tool_arguments:
+    max_depth: 10
+    max_array_length: 1000
+    max_string_length: 10000
+    forbidden_keys:
+    - __proto__
+    - constructor
+    - prototype
+  resource_content:
+    max_file_size: 10485760
+    allowed_extensions:
+    - .txt
+    - .json
+    - .md
+    - .csv
+    virus_scan_required: true
+  prompt_templates:
+    max_variables: 50
+    variable_pattern: ^[a-zA-Z_][a-zA-Z0-9_]*$
+    template_depth_limit: 5
+monitoring:
+  validation_metrics:
+  - schema_validation_requests_total
+  - schema_validation_failures_total
+  - validation_time_ms_histogram
+  - security_violations_detected_total
+  - double_validation_mismatches_total
+  security_events:
+  - malicious_payload_detected
+  - schema_compliance_violation
+  - double_validation_mismatch
+  - security_pattern_matched
+performance:
+  caching:
+    schema_cache_ttl: 3600
+    validation_result_cache_ttl: 300
+  limits:
+    max_validation_time_ms: 1000
+    max_concurrent_validations: 100
+  optimization:
+    lazy_loading: true
+    compiled_validators: true
+    batch_validation: true
+public: true
+sbom:
+  summary: sbom/enhanced_mcp_schema_validation-sbom.json
+  complete: sbom/enhanced_mcp_schema_validation-sbom-complete.json
+owner: PlugPipe Security Team
+status: stable
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,202 @@
+category: agents
+config_defaults:
+  robustness:
+    base_delay: 1.0
+    circuit_breaker_threshold: 5
+    circuit_breaker_timeout: 300
+    health_check_interval: 60
+    max_delay: 60.0
+    max_retries: 3
+    performance_window: 100
+    retry_strategy: exponential_backoff
+config_schema:
+  properties:
+    robustness:
+      properties:
+        base_delay:
+          default: 1.0
+          description: Base delay in seconds for retry attempts
+          maximum: 30.0
+          minimum: 0.1
+          type: number
+        circuit_breaker_threshold:
+          default: 5
+          description: Consecutive failures before opening circuit breaker
+          maximum: 20
+          minimum: 1
+          type: integer
+        circuit_breaker_timeout:
+          default: 300
+          description: Circuit breaker timeout in seconds
+          maximum: 3600
+          minimum: 60
+          type: integer
+        health_check_interval:
+          default: 60
+          description: Health check interval in seconds
+          maximum: 600
+          minimum: 10
+          type: integer
+        max_delay:
+          default: 60.0
+          description: Maximum delay in seconds for retry attempts
+          maximum: 300.0
+          minimum: 1.0
+          type: number
+        max_retries:
+          default: 3
+          description: Maximum retry attempts for failed operations
+          maximum: 10
+          minimum: 0
+          type: integer
+        performance_window:
+          default: 100
+          description: Number of operations for performance calculations
+          maximum: 1000
+          minimum: 10
+          type: integer
+        retry_strategy:
+          default: exponential_backoff
+          description: Retry strategy to use for failed operations
+          enum:
+          - exponential_backoff
+          - linear_backoff
+          - fixed_interval
+          - adaptive
+          type: string
+      type: object
+  type: object
+description: Enterprise-grade robustness layer for agent factory operations with comprehensive
+  error handling, retry mechanisms, circuit breaker patterns, and reliability monitoring
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - statistics
+  - collections
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      default: create
+      description: Robustness operation to perform
+      enum:
+      - create
+      - status
+      type: string
+    agent_request:
+      description: Agent creation request with robustness
+      properties:
+        agent_type:
+          description: Type of agent to create
+          type: string
+        configuration:
+          description: Agent configuration parameters
+          type: object
+        requirements:
+          description: Agent requirements and constraints
+          type: object
+        task_type:
+          description: Task type for the agent
+          type: string
+      type: object
+  type: object
+metadata:
+  capabilities:
+  - error_recovery
+  - retry_mechanisms
+  - circuit_breaker
+  - health_monitoring
+  - robustness_metrics
+  - adaptive_strategies
+  - performance_tracking
+  - failure_isolation
+  dependencies:
+  - description: Core agent factory for robust agent creation
+    name: agent_factory
+    required: true
+    version: 1.0.0
+  memory_mb: 512
+  type: orchestration
+name: agent_factory_robustness
+display_name: AgentFactoryRobustness
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    message:
+      description: Operation result message
+      type: string
+    result:
+      description: Robust agent creation results (for create action)
+      properties:
+        attempt:
+          description: Successful attempt number
+          type: integer
+        execution_time:
+          description: Total execution time in seconds
+          type: number
+        retry_after:
+          description: Seconds to wait before retry (if failed)
+          type: number
+        robustness_score:
+          description: Agent robustness score (0-100)
+          type: number
+        robustness_status:
+          enum:
+          - robust
+          - degraded
+          - fragile
+          - failed
+          - recovering
+          type: string
+      type: object
+    status:
+      description: Robustness status information (for status action)
+      properties:
+        agent_status:
+          type: object
+        configuration:
+          type: object
+        global_metrics:
+          type: object
+        overall_robustness:
+          enum:
+          - healthy
+          - degraded
+          type: string
+        recent_operations:
+          type: array
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Robustness Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- robustness
+- error-handling
+- retry-logic
+- circuit-breaker
+- monitoring
+- reliability
+- fault-tolerance
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

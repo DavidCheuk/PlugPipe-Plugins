@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:consistency_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:09.190134Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "consistency_agent_factory@1.0.0",
+      "name": "consistency_agent_factory",
+      "version": "1.0.0",
+      "description": "Self-Consistency Agent Factory - generates specialized multi-generation consistency checking agents using SelfCheckGPT methodology with RAG, Citation, and Web Search agent dependencies"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

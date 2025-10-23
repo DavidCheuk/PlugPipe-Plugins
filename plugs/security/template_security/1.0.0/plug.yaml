@@ -1,0 +1,233 @@
+category: security
+composed_plugins:
+- fallback: basic_sandboxing
+  name: security_orchestrator
+  path: security/security_orchestrator
+  purpose: Central coordination of template security workflows
+  required: false
+- fallback: basic_variable_validation
+  name: presidio_dlp
+  path: security/presidio_dlp
+  purpose: Microsoft Presidio for PII detection in template variables
+  required: false
+composition_patterns:
+  template_audit:
+    description: Uses security orchestrator for comprehensive template audit trails
+    fallback: basic_logging
+    primary_plugin: security_orchestrator
+  template_injection:
+    description: Uses Jinja2 SandboxedEnvironment with security orchestrator coordination
+    fallback: basic_sandboxing
+    primary_plugin: jinja2_sandboxed_environment
+    secondary_plugin: security_orchestrator
+  variable_validation:
+    description: Leverages Presidio DLP for template variable validation with orchestrator
+      coordination
+    fallback: basic_variable_validation
+    primary_plugin: presidio_dlp
+    secondary_plugin: security_orchestrator
+config_templates:
+  development:
+    audit_template: false
+    enable_plugin_composition: true
+    fallback_on_plugin_failure: true
+    security_level: basic
+    validate_variables: false
+  production:
+    audit_template: true
+    enable_plugin_composition: true
+    fallback_on_plugin_failure: false
+    security_level: enterprise
+    validate_variables: true
+  testing:
+    audit_template: true
+    enable_plugin_composition: false
+    fallback_on_plugin_failure: true
+    security_level: strict
+    validate_variables: true
+dependencies:
+- name: python
+  type: runtime
+  version: '>= 3.8'
+- name: jinja2
+  type: runtime
+  version: '>= 3.0.0'
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:48'
+  stdlib_modules_declared: true
+description: Enterprise-grade template security plugin using proven security tools
+  - eliminates Server-Side Template Injection (SSTI) vulnerabilities through sandboxed
+  Jinja2 environments and security orchestration
+external_dependencies:
+  install_method: pip
+  packages:
+  - jinja2
+  requirements_file: requirements.txt
+foundational_services:
+- name: pp
+  path: shares/loader.pp
+  purpose: Dynamic plugin discovery and loading
+- name: get_llm_config
+  path: shares/utils/config_loader.get_llm_config
+  purpose: LLM configuration management
+input_schema:
+  properties:
+    audit_template:
+      default: true
+      description: Enable template audit logging via security orchestrator
+      type: boolean
+    context:
+      description: Template context variables for rendering
+      type: object
+    security_level:
+      default: standard
+      description: Template security enforcement level
+      enum:
+      - basic
+      - standard
+      - strict
+      - enterprise
+      type: string
+    template_string:
+      description: Template string to render securely using sandboxed environment
+      type: string
+    validate_variables:
+      default: true
+      description: Enable template variable validation via Presidio DLP
+      type: boolean
+  required:
+  - template_string
+  type: object
+metadata:
+  architectural_pattern: security_composition
+  author: PlugPipe Security Team
+  homepage: https://github.com/plugpipe/plugs/security/template_security
+  license: MIT
+  philosophy: 'PLUGIN COMPOSITION ARCHITECTURE: Following PlugPipe''s ''reuse everything,
+    reinvent nothing'' principle by COMPOSING existing security plugins (security_orchestrator,
+    presidio_dlp) and leveraging proven Jinja2 SandboxedEnvironment rather than implementing
+    custom template security. Demonstrates proper PlugPipe plugin reuse patterns and
+    architectural composition.'
+  security_approach: sandboxed_template_rendering
+name: template_security
+display_name: TemplateSecurity
+output_schema:
+  properties:
+    error:
+      properties:
+        message:
+          description: Error message
+          type: string
+        security_blocked:
+          description: Whether error was due to security blocking
+          type: boolean
+        type:
+          description: Error type if rendering failed
+          type: string
+      type: object
+    rendered_output:
+      description: Securely rendered template output
+      type: string
+    security_validation:
+      properties:
+        confidence_score:
+          description: Security validation confidence score
+          type: number
+        is_safe:
+          description: Whether template passed security validation
+          type: boolean
+        security_warnings:
+          description: Security warnings from template analysis
+          items:
+            type: string
+          type: array
+        threats_detected:
+          description: Security threats detected in template or variables
+          items:
+            type: string
+          type: array
+        validation_plugins_used:
+          description: Security plugins used for template validation
+          items:
+            type: string
+          type: array
+      type: object
+    success:
+      description: Whether template rendering completed successfully
+      type: boolean
+    template_audit:
+      properties:
+        audit_id:
+          description: Audit trail identifier
+          type: string
+        execution_time:
+          description: Template rendering execution time
+          type: number
+        security_level_applied:
+          description: Security level that was applied
+          type: string
+        template_hash:
+          description: SHA-256 hash of template for audit trails
+          type: string
+        variables_validated:
+          description: Whether template variables were validated
+          type: boolean
+      type: object
+  required:
+  - success
+  type: object
+owner: PlugPipe Security Team
+plugin_type: infrastructure
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security_features:
+- Server-Side Template Injection (SSTI) prevention via Jinja2 SandboxedEnvironment
+- Template variable validation and sanitization via Presidio DLP integration
+- Restricted template execution environment with limited access to system functions
+- Template audit logging and threat correlation
+- Enterprise-grade template security orchestration through plugin composition
+- Graceful degradation when composed plugins unavailable
+status: stable
+stdlib_modules:
+- datetime
+- hashlib
+- json
+- logging
+- os
+- sys
+- time
+- typing
+subcategory: template_injection
+usage_examples:
+- description: Basic secure template rendering with sandboxed environment
+  example: "# Uses Jinja2 SandboxedEnvironment for SSTI prevention\ntemplate_security\
+    \ = pp('security/template_security')\nresult = template_security.process({\n \
+    \ 'template_string': 'Hello {{ name }}!',\n  'context': {'name': 'World'}\n})\n"
+  name: secure_template_rendering
+- description: Enterprise-grade template security with full validation
+  example: "# Uses security_orchestrator + presidio_dlp composition\ntemplate_security\
+    \ = pp('security/template_security') \nresult = template_security.process({\n\
+    \  'template_string': 'Welcome {{ username }}, your balance is ${{ balance }}',\n\
+    \  'context': {'username': 'john@example.com', 'balance': 1000},\n  'security_level':\
+    \ 'enterprise',\n  'validate_variables': true,\n  'audit_template': true\n})\n"
+  name: enterprise_template_validation
+- description: Secure template rendering with plugin composition fallbacks
+  example: "# Uses composed security plugins with graceful degradation\ntemplate_security\
+    \ = pp('security/template_security')\nresult = template_security.process({\n \
+    \ 'template_string': 'Report: {{ report_data }}',\n  'context': {'report_data':\
+    \ sensitive_data},\n  'security_level': 'strict'\n})\n"
+  name: safe_template_composition
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

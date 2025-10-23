@@ -1,0 +1,465 @@
+# -----------------------------------------------------------------
+# PlugPipe Enterprise Production Configuration
+# -----------------------------------------------------------------
+
+# Schema Validation Configuration
+schema_validation:
+  enable_at_runtime: true                     # Enable schema validation during plugin/pipe loading
+  enable_at_development: true                 # Enable schema validation during development/CLI
+  plug_schema_path: "shares/schemas/min_plug_schema.json"
+  pipe_schema_path: "shares/schemas/pipe_schema.json"
+  fail_on_validation_error: false             # Continue execution even if schema validation fails
+
+# -----------------------------------------------------------------
+# Enterprise PostgreSQL Registry Configuration
+# -----------------------------------------------------------------
+registries:
+  - type: enterprise_postgresql
+    name: "Enterprise PostgreSQL Registry"
+    priority: 1
+    config:
+      # Primary database configuration
+      primary_url: "${POSTGRES_PRIMARY_URL}"
+      
+      # Read replica configuration for horizontal scaling
+      replica_urls:
+        - "${POSTGRES_REPLICA_1_URL}"
+        - "${POSTGRES_REPLICA_2_URL}"
+        - "${POSTGRES_REPLICA_3_URL}"
+      
+      # Connection pooling configuration
+      pool_size: 25                           # Connections per pool
+      max_pool_size: 50                       # Maximum connections
+      command_timeout: 30                     # Query timeout in seconds
+      
+      # Enterprise features
+      enable_read_replicas: true              # Use read replicas for queries
+      enable_query_cache: true               # In-memory query caching
+      enable_full_text_search: true          # PostgreSQL full-text search
+      enable_audit_logging: true             # Compliance audit logs
+      enable_performance_monitoring: true    # Performance metrics collection
+      
+      # Performance tuning
+      slow_query_threshold_ms: 1000          # Log queries slower than 1s
+      health_check_interval: 30              # Health check frequency
+      cache_ttl_seconds: 300                 # Cache TTL (5 minutes)
+      
+      # Security configuration
+      compliance_level: "enterprise"         # enterprise, standard, basic
+      enable_row_level_security: true       # Enable PostgreSQL RLS
+      enable_ssl_mode: "require"             # SSL connection requirement
+      
+      # High availability configuration
+      connection_retry_attempts: 3           # Connection retry attempts
+      connection_retry_delay_ms: 1000       # Delay between retries
+      enable_failover: true                  # Automatic failover to replicas
+      
+      # Monitoring and observability
+      enable_slow_query_log: true           # Log slow queries
+      enable_connection_metrics: true       # Connection pool metrics
+      enable_query_analytics: true          # Query performance analytics
+
+# -----------------------------------------------------------------
+# LLM Provider Configuration (for AI metadata, search, etc.)
+# -----------------------------------------------------------------
+llm_provider:
+  default:
+    type: "openai"                          # Primary LLM for production
+    endpoint: "https://api.openai.com/v1"
+    model: "gpt-4"
+    api_key_env: "OPENAI_API_KEY"
+    timeout: 60
+    max_retries: 3
+  secondary:
+    type: "anthropic"                       # Fallback LLM
+    endpoint: "https://api.anthropic.com"
+    model: "claude-3-sonnet-20240229"
+    api_key_env: "ANTHROPIC_API_KEY" 
+    timeout: 60
+
+# -----------------------------------------------------------------
+# Enterprise Services Configuration
+# -----------------------------------------------------------------
+services:
+  # Registry Service Configuration
+  registry:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 8                              # More workers for enterprise
+    max_connections: 2000                   # Higher connection limit
+    keepalive_timeout: 120                  # Longer keepalive
+    enable_cors: true
+    cors_origins:
+      - "https://hub.plugpipe.io"
+      - "https://enterprise.plugpipe.io"
+      - "https://admin.plugpipe.io"
+    
+    # Enterprise security
+    enable_rate_limiting: true
+    rate_limit_per_minute: 10000            # Higher limits for enterprise
+    enable_jwt_auth: true
+    enable_api_key_auth: true
+    
+  # MCP Server Configuration  
+  mcp:
+    host: "0.0.0.0"
+    port: 8080
+    max_connections: 1000
+    protocol_version: "2025-06-18"
+    enable_subscriptions: true
+    subscription_timeout: 600               # Longer timeout for enterprise
+    
+    # Enterprise MCP features
+    enable_namespace_routing: true
+    enable_multi_tenant: true
+    enable_enterprise_auth: true
+    
+  # Frontend Configuration
+  frontend:
+    host: "0.0.0.0" 
+    port: 3000
+    enable_ssr: true
+    enable_static_optimization: true
+    enable_cdn: true                        # CDN for enterprise
+    
+# -----------------------------------------------------------------
+# Enterprise Caching Configuration
+# -----------------------------------------------------------------
+cache:
+  backend: "redis_cluster"                  # Redis Cluster for enterprise
+  redis_cluster:
+    nodes:
+      - host: "${REDIS_NODE_1_HOST}"
+        port: "${REDIS_NODE_1_PORT}"
+      - host: "${REDIS_NODE_2_HOST}"
+        port: "${REDIS_NODE_2_PORT}"
+      - host: "${REDIS_NODE_3_HOST}"
+        port: "${REDIS_NODE_3_PORT}"
+    password: "${REDIS_PASSWORD}"
+    ssl: true
+    max_connections: 100
+    socket_timeout: 10
+    retry_on_timeout: true
+    
+  # Cache policies
+  policies:
+    plugin_metadata: 7200                   # 2 hours
+    search_results: 3600                    # 1 hour 
+    health_checks: 300                      # 5 minutes
+    user_sessions: 86400                    # 24 hours
+    analytics_data: 14400                   # 4 hours
+
+# -----------------------------------------------------------------
+# Enterprise Security Configuration
+# -----------------------------------------------------------------
+security:
+  # Authentication & Authorization
+  auth:
+    enable_jwt: true
+    jwt_secret_env: "JWT_SECRET"
+    jwt_expiry: 3600                        # 1 hour
+    enable_refresh_tokens: true
+    refresh_token_expiry: 604800            # 1 week
+    
+    # Multi-factor authentication
+    enable_mfa: true
+    mfa_providers: ["totp", "sms", "email"]
+    
+    # Enterprise SSO
+    enable_saml: true
+    saml_config:
+      entity_id: "${SAML_ENTITY_ID}"
+      sso_url: "${SAML_SSO_URL}"
+      certificate: "${SAML_CERTIFICATE}"
+    
+    enable_oauth2: true
+    oauth2_providers:
+      - name: "enterprise_okta"
+        client_id: "${OKTA_CLIENT_ID}"
+        client_secret: "${OKTA_CLIENT_SECRET}"
+        discovery_url: "${OKTA_DISCOVERY_URL}"
+  
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 10000              # Enterprise limits
+    burst_size: 500
+    enable_distributed_limiting: true       # Across multiple instances
+    
+  # CORS settings
+  cors:
+    allow_origins:
+      - "https://hub.plugpipe.io"
+      - "https://enterprise.plugpipe.io"
+      - "https://admin.plugpipe.io"
+    allow_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"]
+    allow_headers: ["*"]
+    allow_credentials: true
+    
+  # Enterprise security headers
+  security_headers:
+    enable_hsts: true
+    enable_csp: true
+    enable_xss_protection: true
+    enable_frame_options: true
+    enable_content_type_options: true
+
+# -----------------------------------------------------------------
+# Enterprise Logging Configuration
+# -----------------------------------------------------------------
+logging:
+  level: "INFO"
+  format: "json"                            # Structured logging for enterprise
+  handlers:
+    - type: "console"
+      level: "INFO"
+    - type: "file"
+      level: "INFO"
+      filename: "/app/logs/plugpipe.log"
+      max_size: "500MB"
+      backup_count: 10
+    - type: "syslog"                        # Syslog for enterprise
+      level: "INFO"
+      facility: "local0"
+    - type: "elasticsearch"                 # ELK integration
+      level: "INFO"
+      hosts: ["${ELASTICSEARCH_HOST}"]
+      index: "plugpipe-logs"
+      
+  # Specific logger levels
+  loggers:
+    enterprise_postgresql: "INFO"
+    registry_service: "INFO"
+    mcp_server: "INFO"
+    health_checks: "DEBUG" 
+    security: "INFO"
+    performance: "INFO"
+    audit: "INFO"
+
+# -----------------------------------------------------------------
+# Enterprise Monitoring Configuration
+# -----------------------------------------------------------------
+monitoring:
+  # Health checks
+  health_checks:
+    enabled: true
+    interval: 15                            # More frequent for enterprise
+    timeout: 5
+    endpoints:
+      - "/health"
+      - "/health/database"
+      - "/health/cache"
+      - "/health/replicas"
+    
+  # Metrics collection
+  metrics:
+    enabled: true
+    endpoint: "/metrics"
+    format: "prometheus"                    # Prometheus format
+    include_database_metrics: true
+    include_cache_metrics: true
+    include_application_metrics: true
+    include_business_metrics: true          # Business KPIs
+    
+    # Custom metrics
+    custom_metrics:
+      - name: "plugin_downloads_total"
+        type: "counter"
+        description: "Total plugin downloads"
+      - name: "search_queries_total"
+        type: "counter" 
+        description: "Total search queries"
+      - name: "api_response_time"
+        type: "histogram"
+        description: "API response times"
+  
+  # APM integration
+  apm:
+    enabled: true
+    service_name: "plugpipe-enterprise"
+    environment: "production"
+    
+    # APM providers
+    datadog:
+      enabled: true
+      api_key: "${DATADOG_API_KEY}"
+      
+    newrelic:
+      enabled: true
+      license_key: "${NEWRELIC_LICENSE_KEY}"
+      
+  # Alerting
+  alerting:
+    enabled: true
+    channels:
+      - type: "pagerduty"
+        integration_key: "${PAGERDUTY_INTEGRATION_KEY}"
+      - type: "slack"
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+      - type: "email"
+        smtp_config:
+          host: "${SMTP_HOST}"
+          port: 587
+          username: "${SMTP_USERNAME}"
+          password: "${SMTP_PASSWORD}"
+    
+    # Alert rules
+    rules:
+      - name: "high_error_rate"
+        condition: "error_rate > 5%"
+        severity: "critical"
+      - name: "slow_database_queries"
+        condition: "avg_query_time > 2s"
+        severity: "warning"
+      - name: "low_disk_space"
+        condition: "disk_usage > 85%"
+        severity: "warning"
+
+# -----------------------------------------------------------------
+# Enterprise Backup Configuration
+# -----------------------------------------------------------------
+backup:
+  # Database backup
+  database:
+    enabled: true
+    schedule: "0 2 * * *"                   # Daily at 2 AM
+    retention_days: 90                      # Longer retention for enterprise
+    backup_location: "s3://${S3_BACKUP_BUCKET}/database"
+    encryption_key: "${BACKUP_ENCRYPTION_KEY}"
+    
+    # Point-in-time recovery
+    enable_pitr: true
+    pitr_retention_days: 30
+    
+    # Cross-region replication
+    enable_cross_region_backup: true
+    cross_region_locations:
+      - "s3://${S3_BACKUP_BUCKET_US_WEST}/database"
+      - "s3://${S3_BACKUP_BUCKET_EU_WEST}/database"
+    
+  # Plugin data backup
+  plugins:
+    enabled: true
+    schedule: "0 3 * * *"                   # Daily at 3 AM
+    retention_days: 30
+    include_sbom: true
+    include_signatures: true                # Backup plugin signatures
+    backup_location: "s3://${S3_BACKUP_BUCKET}/plugins"
+
+# -----------------------------------------------------------------
+# Enterprise Compliance Configuration
+# -----------------------------------------------------------------
+compliance:
+  # Audit logging
+  audit:
+    enabled: true
+    log_all_actions: true
+    log_data_access: true
+    log_admin_actions: true
+    retention_days: 2555                    # 7 years for compliance
+    
+    # Audit destinations
+    destinations:
+      - type: "database"
+        table: "plugpipe.audit_log"
+      - type: "s3"
+        bucket: "${S3_AUDIT_BUCKET}"
+        encryption: true
+      - type: "siem"
+        endpoint: "${SIEM_ENDPOINT}"
+  
+  # Data governance
+  data_governance:
+    enable_data_classification: true
+    enable_pii_detection: true
+    enable_gdpr_compliance: true
+    enable_ccpa_compliance: true
+    
+    # Data retention policies
+    retention_policies:
+      user_data: 2555                      # 7 years
+      plugin_metadata: 3650                # 10 years
+      audit_logs: 2555                     # 7 years
+      performance_metrics: 365             # 1 year
+  
+  # Security compliance
+  security_compliance:
+    enable_soc2: true
+    enable_iso27001: true
+    enable_hipaa: false                     # Enable if needed
+    enable_pci_dss: false                   # Enable if needed
+    
+    # Vulnerability scanning
+    enable_vulnerability_scanning: true
+    scan_schedule: "0 4 * * *"              # Daily at 4 AM
+    scan_plugins: true
+    scan_dependencies: true
+
+# -----------------------------------------------------------------
+# Secrets Management Configuration
+# -----------------------------------------------------------------
+secrets:
+  provider: "vault"                         # HashiCorp Vault for enterprise
+  vault:
+    address: "${VAULT_ADDR}"
+    token: "${VAULT_TOKEN}"
+    mount_path: "plugpipe"
+    
+  # Fallback to file-based secrets
+  file: "/app/secrets/.env"
+
+# -----------------------------------------------------------------
+# Horizontal Scaling Configuration
+# -----------------------------------------------------------------
+scaling:
+  # Auto-scaling configuration
+  auto_scaling:
+    enabled: true
+    min_instances: 3
+    max_instances: 20
+    target_cpu_utilization: 70
+    target_memory_utilization: 80
+    scale_up_cooldown: 300
+    scale_down_cooldown: 600
+  
+  # Load balancing
+  load_balancer:
+    algorithm: "least_connections"
+    health_check_path: "/health"
+    session_affinity: false                 # Stateless design
+  
+  # Database scaling
+  database:
+    enable_read_replicas: true
+    min_replicas: 2
+    max_replicas: 5
+    replica_lag_threshold: 100              # milliseconds
+
+# -----------------------------------------------------------------
+# Enterprise Deployment Configuration
+# -----------------------------------------------------------------
+deployment:
+  # Kubernetes configuration
+  kubernetes:
+    namespace: "plugpipe-enterprise"
+    enable_pod_disruption_budget: true
+    enable_horizontal_pod_autoscaler: true
+    enable_vertical_pod_autoscaler: true
+    
+    # Resource requirements
+    resources:
+      requests:
+        memory: "2Gi"
+        cpu: "1000m"
+      limits:
+        memory: "4Gi"
+        cpu: "2000m"
+  
+  # Container configuration  
+  container:
+    registry: "gcr.io/plugpipe-enterprise"
+    image_pull_policy: "Always"
+    security_context:
+      run_as_non_root: true
+      read_only_root_filesystem: true
+      allow_privilege_escalation: false

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:medical_verification_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:41.032476Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "medical_verification_agent_factory@1.0.0",
+      "name": "medical_verification_agent_factory",
+      "version": "1.0.0",
+      "description": "Medical AI Verification Agent Factory - generates specialized medical validation agents using all 5 core agent factories (core, RAG, citation, web_search, consistency) for FDA-compliant medical AI verification with clinical evidence assessment, drug interaction validation, and regulatory compliance checking"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

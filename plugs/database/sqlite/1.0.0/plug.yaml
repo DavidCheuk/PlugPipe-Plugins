@@ -1,0 +1,194 @@
+capabilities:
+- plugin_storage
+- plugin_retrieval
+- plugin_search
+- plugin_metadata_management
+- database_health_monitoring
+- yaml_migration
+- database_backup
+- kubernetes_persistence
+- acid_compliance
+- concurrent_access
+compliance:
+  audit_logging: true
+  data_retention: Plugin metadata retained according to configured retention policies
+  encryption: Database file encryption supported via filesystem-level encryption
+  gdpr_compliant: true
+database:
+  auto_backup_interval_hours: 24
+  backup_retention_days: 7
+  connection_pool_size: 10
+  file_path: /data/plugpipe_registry.db
+  timeout_seconds: 30
+description: Kubernetes-native SQLite database plugin with PersistentVolume integration
+  for plugin registry storage. Provides CRUD operations, search, health monitoring,
+  and seamless migration from YAML backend.
+enterprise_features:
+  backup_recovery: true
+  enterprise_ready: true
+  health_monitoring: true
+  kubernetes_native: true
+  migration_support: true
+  persistent_storage: true
+  production_ready: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  - aiosqlite
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    backup_path:
+      description: Backup file path for backup operations
+      type: string
+    filters:
+      description: Search filters (owner, status, capabilities)
+      type: object
+    name:
+      description: Plugin name for get/delete operations
+      type: string
+    operation:
+      description: Database operation to perform
+      enum:
+      - store_plugin
+      - get_plugin
+      - search_plugins
+      - list_plugins
+      - delete_plugin
+      - health_check
+      - migrate_from_yaml
+      - backup_database
+      type: string
+    plugin_metadata:
+      description: Plugin metadata for store operations
+      type: object
+    query:
+      description: Search query for search operations
+      type: string
+    version:
+      description: Plugin version (optional for get operation)
+      type: string
+    yaml_directory:
+      description: YAML directory path for migration operations
+      type: string
+  required:
+  - operation
+  type: object
+kubernetes:
+  namespace: plugpipe
+  persistence:
+    enabled: true
+    mount_path: /data
+    size: 10Gi
+    storage_class: standard
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+name: sqlite
+display_name: SQLite
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    health_status:
+      description: Database health information
+      properties:
+        database_connected:
+          type: boolean
+        database_size_mb:
+          type: number
+        last_backup:
+          type: string
+        total_plugins:
+          type: integer
+      type: object
+    message:
+      description: Operation result message
+      type: string
+    operation_completed:
+      description: Name of completed operation
+      type: string
+    result:
+      description: Operation result data
+      type:
+      - object
+      - array
+      - 'null'
+    success:
+      description: Operation success status
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/sbom-complete.json
+  components:
+  - description: Async SQLite interface for Python
+    name: aiosqlite
+    supplier: aiosqlite developers
+    type: library
+    version: '>=0.19.0'
+  - description: Universal Input Sanitizer for security hardening
+    name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes fallback validation when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    supplier: PlugPipe Core Team
+    type: plugin
+    version: 1.0.0
+  - description: Path manipulation utilities
+    name: pathlib
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: JSON serialization support
+    name: json
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Asynchronous programming support
+    name: asyncio
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Regular expression support for security pattern matching
+    name: re
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  format: plugpipe_v1
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+  tool: manual
+security:
+  access_control: Database access restricted to plugin operations only
+  configuration_validation: true
+  data_protection: Plugin registry data stored in SQLite with proper access controls
+  file_paths:
+  - /data
+  - /tmp
+  - /var/tmp
+  file_system_access: true
+  input_validation: true
+  network_access: false
+  path_traversal_protection: true
+  requires_secrets: false
+  sql_injection_protection: true
+  universal_sanitizer_integration: true
+status: stable
+version: 1.0.0
+author: PlugPipe Database Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

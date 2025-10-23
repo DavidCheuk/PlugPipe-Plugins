@@ -1,0 +1,46 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:orchestration:argo_workflow_runner",
+    "name": "Argo Workflow Runner Agent",
+    "description": "Enterprise Argo Workflows orchestration plugin - submit, monitor, and manage Kubernetes-native workflows with comprehensive lifecycle management and cloud-native integration.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/argo_workflow_runner",
+    "skills": [
+      {
+        "id": "argo_workflow_runner-primary",
+        "name": "Argo Workflow Runner",
+        "description": "Enterprise Argo Workflows orchestration plugin - submit, monitor, and manage Kubernetes-native workflows with comprehensive lifecycle management and cloud-native integration.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "argo_workflow_runner",
+        "category": "orchestration",
+        "subcategory": "",
+        "tags": [
+          "workflow",
+          "argo-workflows",
+          "kubernetes",
+          "orchestration",
+          "cloud-native",
+          "container-workflows",
+          "ci-cd",
+          "batch-processing",
+          "data-engineering",
+          "mlops"
+        ],
+        "author": "PlugPipe Orchestration Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:34.402943Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

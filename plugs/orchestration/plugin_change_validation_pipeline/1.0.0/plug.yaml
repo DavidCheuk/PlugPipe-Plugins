@@ -1,0 +1,113 @@
+name: plugin_change_validation_pipeline
+display_name: PluginChangeValidationPipeline
+version: 1.0.0
+owner: plugpipe-core
+status: active
+description: Comprehensive orchestration plugin for validating plugin changes through
+  config hardening, integrity scanning, and compliance auditing
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - full_validation
+      - detect_changes
+      - config_validation
+      - integrity_scan
+      - compliance_audit
+      - aggregate_issues
+      default: full_validation
+      description: Type of validation to perform
+    target_plugin:
+      type: string
+      description: Target plugin to validate (or 'all' for all plugins)
+    change_type:
+      type: string
+      enum:
+      - created
+      - modified
+      - deleted
+      - unknown
+      default: unknown
+      description: Type of change that triggered validation
+    config_file:
+      type: string
+      default: config.yaml
+      description: Configuration file to validate
+    scan_directories:
+      type: array
+      items:
+        type: string
+      default:
+      - plugs
+      - cores
+      description: Directories to scan for integrity issues
+    audit_categories:
+      type: array
+      items:
+        type: string
+      default:
+      - security
+      - code_quality
+      - architecture
+      description: Categories for compliance auditing
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+      description: Whether the validation pipeline completed successfully
+    pipeline_execution:
+      type: object
+      properties:
+        target_plugin:
+          type: string
+        change_type:
+          type: string
+        operation:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        steps_executed:
+          type: array
+          items:
+            type: string
+        total_issues:
+          type: integer
+          minimum: 0
+        critical_issues:
+          type: integer
+          minimum: 0
+        warning_issues:
+          type: integer
+          minimum: 0
+        overall_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+    change_detection:
+      type: object
+      description: Results from plugin change detection
+    config_hardening:
+      type: object
+      description: Results from configuration hardening validation
+    integrity_scanning:
+      type: object
+      description: Results from codebase integrity scanning
+    compliance_auditing:
+      type: object
+      description: Results from business compliance auditing
+    issue_aggregation:
+      type: object
+      description: Aggregated issues summary and storage status
+sbom: sbom/
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

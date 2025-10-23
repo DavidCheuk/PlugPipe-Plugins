@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: claims_processing
+  owner: Automatic Pipe Creation Agent
+  version: 1.0.0
+  description: Claims Processing workflow for healthcare industry
+  industry: healthcare
+  complexity: complex
+  estimated_duration: 20 minutes
+  tags:
+  - auto-generated
+  - workflow
+  - healthcare
+  - complex
+  created_at: '2025-08-20T19:27:19.874274'
+pipeline:
+- id: step_1_claim_submission
+  uses: claims_management
+  with:
+    action: claim_submission
+    timeout: 90
+  description: Execute claim submission step
+- id: step_2_validation
+  uses: data_validation
+  with:
+    action: validation
+    timeout: 180
+  description: Execute validation step
+- id: step_3_medical_review
+  uses: claims_management
+  with:
+    action: medical_review
+    timeout: 90
+  description: Execute medical review step
+- id: step_4_payment_calculation
+  uses: payment_processing
+  with:
+    action: payment_calculation
+    timeout: 180
+    validate_payment: true
+  description: Execute payment calculation step
+- id: step_5_settlement
+  uses: claims_management
+  with:
+    action: settlement
+    timeout: 90
+  description: Execute settlement step
+config:
+  retry_policy:
+    max_retries: 3
+    backoff: exponential
+  timeout: 1200
+  parallel_execution: false
+success_criteria:
+- All steps completed successfully
+- No errors or exceptions thrown
+- Expected outputs generated
+- Payment processed successfully
+required_plugins:
+- claims_management
+- medical_coding
+- payment_processing
+- compliance_check
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

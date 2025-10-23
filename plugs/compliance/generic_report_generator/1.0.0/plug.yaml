@@ -1,0 +1,590 @@
+capabilities:
+- multi_framework_reporting
+- template_based_generation
+- automated_scheduling
+- multi_format_export
+- data_source_integration
+- audit_trail_generation
+- compliance_scoring
+- executive_dashboards
+dependencies:
+- opa_policy_enterprise/1.0.0
+- compliance/ecosystem_monitor/1.0.0
+- core/agent_factory/1.0.0
+- intelligence/llm_service/1.0.0
+- monitoring/prometheus/1.0.0
+- audit/elk_stack/1.0.0
+- security/presidio_dlp/1.0.0
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:40'
+  stdlib_modules_declared: true
+description: Universal compliance report generation plugin supporting multiple frameworks,
+  formats, and automated scheduling
+discoverability: public
+enterprise_features:
+  api_integrations: true
+  audit_logging: true
+  automated_scheduling: true
+  bulk_operations: true
+  custom_templates: true
+  multi_tenant_support: true
+  real_time_dashboards: true
+  role_based_access: true
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - docx
+  - jinja2
+  - openpyxl
+  - pandas
+  - plotly
+  - reportlab
+  - schedule
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: generate_report
+      description: Action to perform
+      enum:
+      - generate_report
+      - schedule_report
+      - list_templates
+      - validate_data
+      - export_report
+      - get_report_status
+      type: string
+    export_config:
+      properties:
+        credentials:
+          description: Credentials for export destination
+          type: object
+        destination:
+          description: Export destination
+          type: string
+      type: object
+    report_config:
+      properties:
+        compliance_framework:
+          description: Target compliance framework
+          enum:
+          - sox
+          - gdpr
+          - hipaa
+          - pci-dss
+          - iso27001
+          - nist
+          - fedramp
+          - cis
+          - cobit
+          - itil
+          - custom
+          type: string
+        data_sources:
+          description: Data sources for report generation
+          items:
+            properties:
+              source_config:
+                description: Configuration for data source
+                type: object
+              source_type:
+                enum:
+                - plugin_metrics
+                - audit_logs
+                - security_scans
+                - policy_violations
+                - system_health
+                - custom_api
+                type: string
+            type: object
+          type: array
+        filters:
+          description: Additional filters for report data
+          type: object
+        output_format:
+          default: pdf
+          description: Output format for the report
+          enum:
+          - pdf
+          - html
+          - json
+          - csv
+          - excel
+          - word
+          - markdown
+          type: string
+        report_type:
+          description: Type of report to generate
+          enum:
+          - executive_summary
+          - detailed_compliance
+          - gap_analysis
+          - risk_assessment
+          - audit_trail
+          - custom
+          type: string
+        template_id:
+          description: Report template identifier
+          type: string
+        time_range:
+          description: Time range for report data
+          properties:
+            end_date:
+              format: date-time
+              type: string
+            period:
+              enum:
+              - daily
+              - weekly
+              - monthly
+              - quarterly
+              - yearly
+              - custom
+              type: string
+            start_date:
+              format: date-time
+              type: string
+          type: object
+      type: object
+    report_id:
+      description: Report ID for status/export operations
+      type: string
+    schedule_config:
+      properties:
+        cron_expression:
+          description: Cron expression for scheduling
+          type: string
+        delivery_method:
+          description: How to deliver the report
+          enum:
+          - email
+          - slack
+          - teams
+          - webhook
+          - s3
+          - file_system
+          type: string
+        recipients:
+          description: Report recipients
+          items:
+            properties:
+              email:
+                format: email
+                type: string
+              role:
+                enum:
+                - auditor
+                - compliance_officer
+                - manager
+                - executive
+                type: string
+            type: object
+          type: array
+        timezone:
+          default: UTC
+          description: Timezone for scheduling
+          type: string
+      type: object
+  required:
+  - action
+  type: object
+integrations:
+  elk_integration:
+    capabilities:
+    - log_aggregation
+    - audit_trail_analysis
+    - event_correlation
+    description: Uses ELK Stack for audit log analysis
+  llm_integration:
+    capabilities:
+    - natural_language_summaries
+    - finding_explanations
+    - recommendations
+    description: Uses LLM Service for intelligent report generation
+  opa_policy_integration:
+    capabilities:
+    - policy_violations
+    - compliance_status
+    - framework_mapping
+    description: Integrates with OPA Policy Enterprise for compliance data
+  prometheus_integration:
+    capabilities:
+    - metrics_collection
+    - alerting_integration
+    - performance_data
+    description: Uses Prometheus for system metrics and health data
+name: generic_report_generator
+display_name: GenericReportGenerator
+output_schema:
+  additionalProperties: false
+  properties:
+    available_templates:
+      description: Available report templates
+      items:
+        properties:
+          description:
+            type: string
+          framework:
+            type: string
+          id:
+            type: string
+          name:
+            type: string
+        type: object
+      type: array
+    error:
+      description: Error message if status is error
+      type: string
+    export_location:
+      description: Location where report was exported
+      type: string
+    message:
+      description: Human-readable message
+      type: string
+    report_content:
+      description: Report content based on format
+      type: object
+    report_id:
+      description: Generated report identifier
+      type: string
+    report_metadata:
+      description: Report metadata and summary
+      properties:
+        compliance_score:
+          maximum: 100
+          minimum: 0
+          type: number
+        data_sources_used:
+          items:
+            type: string
+          type: array
+        findings_summary:
+          properties:
+            critical_findings:
+              type: integer
+            high_findings:
+              type: integer
+            low_findings:
+              type: integer
+            medium_findings:
+              type: integer
+            total_findings:
+              type: integer
+          type: object
+        framework:
+          type: string
+        generated_at:
+          format: date-time
+          type: string
+        generated_by:
+          type: string
+        record_count:
+          type: integer
+        title:
+          type: string
+      type: object
+    scheduled_reports:
+      description: Currently scheduled reports
+      items:
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          next_run:
+            format: date-time
+            type: string
+          schedule:
+            type: string
+          status:
+            type: string
+        type: object
+      type: array
+    status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      - in_progress
+      type: string
+    validation_results:
+      description: Data validation results
+      properties:
+        errors:
+          items:
+            type: string
+          type: array
+        is_valid:
+          type: boolean
+        warnings:
+          items:
+            type: string
+          type: array
+      type: object
+  required:
+  - status
+  type: object
+owner: PlugPipe Compliance Team
+performance:
+  concurrent_reports: up to 10 simultaneous reports
+  data_processing_capacity: millions of records
+  report_generation_target: < 5 minutes for standard reports
+  template_rendering: sub-second for cached templates
+reliability:
+  error_handling: true
+  partial_failure_recovery: true
+  progress_tracking: true
+  retry_mechanisms: true
+sbom:
+  complete: sbom/sbom-complete.json
+  lib: sbom/lib_sbom.json
+  security_analysis:
+    compliance_mapping:
+      cis:
+        controls:
+        - '1.1'
+        - '5.1'
+        - '8.1'
+        - '16.1'
+        - '16.9'
+        requirements: Security controls implementation and monitoring
+      fedramp:
+        controls:
+        - AC-2
+        - AC-3
+        - AU-2
+        - SA-10
+        - SI-3
+        - SI-10
+        requirements: Federal security requirements compliance
+      gdpr:
+        controls:
+        - Article 25
+        - Article 32
+        - Article 33
+        - Article 35
+        requirements: Privacy by design and data protection impact assessments
+      hipaa:
+        controls:
+        - '164.308'
+        - '164.310'
+        - '164.312'
+        - '164.314'
+        requirements: PHI protection and access controls
+      iso27001:
+        controls:
+        - A.9.1
+        - A.9.2
+        - A.10.1
+        - A.12.2
+        - A.14.2
+        requirements: Information security management and secure development
+      nist:
+        controls:
+        - AC-2
+        - AC-3
+        - AU-2
+        - SA-10
+        - SI-3
+        - SI-10
+        requirements: Cybersecurity framework implementation
+      pci_dss:
+        controls:
+        - '3.4'
+        - '6.5'
+        - '8.2'
+        - '10.2'
+        - '11.3'
+        requirements: Payment data protection and secure coding practices
+      sox:
+        controls:
+        - AC-2
+        - AC-3
+        - AU-2
+        - AU-3
+        - AU-12
+        - SI-10
+        requirements: Financial data protection and audit trail generation
+    dependency_analysis:
+      external_dependencies:
+      - justification: Data manipulation library with good security track record
+        name: pandas
+        security_risk: low
+        version: '>=1.5.0'
+      - justification: Template engine requires careful input sanitization
+        name: jinja2
+        security_risk: medium
+        version: '>=3.0.0'
+      - justification: PDF generation library, content sanitization required
+        name: reportlab
+        security_risk: low
+        version: '>=3.6.0'
+      - justification: Excel generation, formula injection prevention required
+        name: openpyxl
+        security_risk: low
+        version: '>=3.1.0'
+      - justification: Visualization library, script injection prevention required
+        name: plotly
+        security_risk: medium
+        version: '>=5.0.0'
+      - justification: Word document generation, macro prevention required
+        name: python-docx
+        security_risk: low
+        version: '>=0.8.11'
+      internal_dependencies:
+      - universal_input_sanitizer: Critical security dependency for input validation
+      - opa_policy_enterprise: Policy compliance data source
+      - elk_stack: Audit log analysis integration
+      - prometheus: System metrics integration
+      - llm_service: AI-powered content generation
+      - presidio_dlp: Data loss prevention integration
+    security_controls:
+      access_control:
+      - Role-based access to report generation functions
+      - Authentication validation for report access
+      - Export destination access control
+      - Template access restrictions
+      data_protection:
+      - PII detection and redaction in reports
+      - Sensitive credential filtering
+      - Report content encryption for sensitive frameworks
+      - Secure temporary file handling
+      input_validation:
+      - Universal Input Sanitizer integration for all inputs
+      - Comprehensive regex-based pattern matching for malicious content
+      - Recursive data structure validation
+      - Framework-specific validation rules
+      - Configuration parameter sanitization
+      operational_security:
+      - Comprehensive audit logging of all operations
+      - Resource usage monitoring and limits
+      - Concurrent request limiting
+      - Error message sanitization to prevent information disclosure
+      - Secure file path validation and sandboxing
+    threat_model:
+    - Input injection through report configuration parameters
+    - Path traversal attacks in template and export file paths
+    - Data exfiltration through malicious report templates
+    - Code injection via custom report templates
+    - Credential exposure in report content
+    - DoS attacks through large report generation
+    - Template injection attacks
+    - SQL injection in data source queries
+    - Command injection in custom API integrations
+    - Cross-site scripting in HTML report generation
+    vulnerability_assessment:
+    - component: jinja2 template engine
+      mitigation: Template sandboxing and input sanitization
+      risk_level: medium
+    - component: reportlab PDF generation
+      mitigation: Content sanitization before PDF generation
+      risk_level: low
+    - component: openpyxl Excel generation
+      mitigation: Data validation and format restrictions
+      risk_level: low
+    - component: plotly visualization
+      mitigation: Input validation and script injection prevention
+      risk_level: medium
+    - component: custom API integrations
+      mitigation: Universal Input Sanitizer integration and URL validation
+      risk_level: high
+security_classification:
+  data_sensitivity: high
+  encryption_required: true
+  network_access: limited
+  privilege_level: standard
+status: stable
+stdlib_modules:
+- asyncio
+- concurrent
+- dataclasses
+- datetime
+- json
+- logging
+- os
+- pathlib
+- re
+- time
+- typing
+- uuid
+supported_frameworks:
+  cis:
+    description: Center for Internet Security Controls
+    templates:
+    - cis_controls_assessment
+    - security_benchmarks
+    - implementation_guide
+  fedramp:
+    description: Federal Risk and Authorization Management Program
+    templates:
+    - ato_package
+    - continuous_monitoring
+    - security_assessment_report
+  gdpr:
+    description: General Data Protection Regulation compliance
+    templates:
+    - gdpr_compliance_assessment
+    - privacy_impact_assessment
+    - data_breach_report
+  hipaa:
+    description: Health Insurance Portability and Accountability Act
+    templates:
+    - hipaa_risk_assessment
+    - security_incident_report
+    - phi_access_audit
+  iso27001:
+    description: ISO 27001 Information Security Management
+    templates:
+    - isms_effectiveness
+    - risk_treatment_plan
+    - security_controls_assessment
+  nist:
+    description: NIST Cybersecurity Framework
+    templates:
+    - csf_assessment
+    - risk_management_report
+    - security_controls_matrix
+  pci_dss:
+    description: Payment Card Industry Data Security Standard
+    templates:
+    - pci_self_assessment
+    - vulnerability_scan_report
+    - penetration_test_report
+  sox:
+    description: Sarbanes-Oxley Act compliance reporting
+    templates:
+    - sox_404_assessment
+    - sox_302_certification
+    - sox_controls_testing
+tags:
+- compliance
+- reporting
+- audit
+- governance
+- frameworks
+- automation
+- enterprise
+- multi-tenant
+- templates
+- analytics
+- security-hardened
+- input-sanitized
+- validated
+triggers:
+- compliance_deadline
+- policy_violation_detected
+- audit_request
+- scheduled_report
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

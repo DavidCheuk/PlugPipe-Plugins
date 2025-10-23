@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PlugPipe Mandatory Dependencies Schema",
+  "description": "Schema extension for mandatory dependencies in both plugs and pipes",
+  "definitions": {
+    "dependency_requirement": {
+      "type": "object",
+      "required": ["name", "type"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the required dependency"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["python", "binary", "service", "plugin", "pipe", "environment", "file", "network", "system"],
+          "description": "Type of dependency"
+        },
+        "version": {
+          "type": "string",
+          "description": "Required version or version range"
+        },
+        "source": {
+          "type": "string",
+          "description": "Installation source (pip, apt, docker, etc.)"
+        },
+        "check_command": {
+          "type": "string",
+          "description": "Command to verify dependency availability"
+        },
+        "install_command": {
+          "type": "string",
+          "description": "Command to install the dependency"
+        },
+        "failure_message": {
+          "type": "string",
+          "description": "Custom error message when dependency is missing"
+        },
+        "documentation_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to dependency installation documentation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "security_requirements": {
+      "type": "object",
+      "properties": {
+        "mandatory_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, failure of any dependency halts execution (no graceful degradation)"
+        },
+        "security_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium",
+          "description": "Security classification affecting dependency strictness"
+        },
+        "fail_fast": {
+          "type": "boolean",
+          "default": false,
+          "description": "Stop dependency checking at first failure"
+        },
+        "pre_execution_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify dependencies before plugin/pipe execution"
+        },
+        "runtime_monitoring": {
+          "type": "boolean",
+          "default": false,
+          "description": "Monitor dependencies during execution"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependency_categories": {
+      "type": "object",
+      "properties": {
+        "core_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Core dependencies required for basic functionality"
+        },
+        "security_dependencies": {
+          "type": "array", 
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Security-critical dependencies that must never gracefully degrade"
+        },
+        "optional_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"}, 
+          "description": "Optional dependencies that can gracefully degrade"
+        },
+        "development_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Dependencies only needed for development/testing"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "mandatory_dependencies": {
+      "type": "object",
+      "properties": {
+        "core_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Core dependencies required for basic functionality"
+        },
+        "security_dependencies": {
+          "type": "array", 
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Security-critical dependencies that must never gracefully degrade"
+        },
+        "optional_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"}, 
+          "description": "Optional dependencies that can gracefully degrade"
+        },
+        "development_dependencies": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/dependency_requirement"},
+          "description": "Dependencies only needed for development/testing"
+        },
+        "mandatory_mode": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, failure of any dependency halts execution (no graceful degradation)"
+        },
+        "security_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"],
+          "default": "medium",
+          "description": "Security classification affecting dependency strictness"
+        },
+        "fail_fast": {
+          "type": "boolean",
+          "default": false,
+          "description": "Stop dependency checking at first failure"
+        },
+        "pre_execution_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "Verify dependencies before plugin/pipe execution"
+        },
+        "runtime_monitoring": {
+          "type": "boolean",
+          "default": false,
+          "description": "Monitor dependencies during execution"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Comprehensive mandatory dependency configuration"
+    }
+  },
+  "additionalProperties": false
+}

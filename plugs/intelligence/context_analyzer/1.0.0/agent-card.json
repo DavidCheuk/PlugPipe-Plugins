@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:context_analyzer",
+    "name": "Context Analyzer Agent",
+    "description": "Advanced code context analysis and intelligent fix strategy generation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/context_analyzer",
+    "skills": [
+      {
+        "id": "context_analyzer-primary",
+        "name": "Context Analyzer",
+        "description": "Advanced code context analysis and intelligent fix strategy generation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "context_analyzer",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.962713Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:echo-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T18:45:05.797898Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "echo@1.0.0",
+      "name": "echo",
+      "version": "1.0.0",
+      "description": "Enterprise-Grade Security Hardened Echo Plugin: Advanced text echoing with comprehensive input validation, Universal Input Sanitizer integration, and multi-layer threat detection. Prevents SQL injection, XSS, path traversal, and command injection attacks."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

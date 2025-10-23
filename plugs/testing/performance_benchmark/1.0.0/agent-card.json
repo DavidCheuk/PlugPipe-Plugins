@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:testing:performance:performance_benchmark",
+    "name": "Performance Benchmark Agent",
+    "description": "Universal performance benchmarking and comparison framework for PlugPipe infrastructure components with comprehensive metrics, load testing, and analysis capabilities",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/performance_benchmark",
+    "skills": [
+      {
+        "id": "performance_benchmark-primary",
+        "name": "Performance Benchmark",
+        "description": "Universal performance benchmarking and comparison framework for PlugPipe infrastructure components with comprehensive metrics, load testing, and analysis capabilities",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "performance_benchmark",
+        "category": "testing",
+        "subcategory": "performance",
+        "tags": [
+          "performance",
+          "benchmarking",
+          "load-testing",
+          "metrics",
+          "comparison",
+          "analysis"
+        ],
+        "author": "PlugPipe Performance Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:36.843538Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

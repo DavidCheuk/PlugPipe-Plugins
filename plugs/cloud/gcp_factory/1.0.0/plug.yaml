@@ -1,0 +1,213 @@
+compliance:
+  audit_logging: true
+  cloud_security_compliant: true
+  credential_management: Secure GCP service account and application default credentials
+    support
+  data_residency: Respects GCP data residency and regional compliance requirements
+  encryption: Supports GCP encryption at rest and in transit
+  gcp_security_standards: Follows Google Cloud security best practices and recommendations
+  resource_governance: GCP resource labeling, naming conventions, and lifecycle management
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:40'
+  stdlib_modules_declared: true
+description: GCP Factory Plugin for multi-service cloud orchestration across Compute
+  Engine, Cloud Storage, BigQuery, Cloud Functions and other GCP services with enterprise
+  features
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: GCP operation to perform
+      enum:
+      - create_resource
+      - list_resources
+      - update_resource
+      - delete_resource
+      - get_resource_status
+      - optimize_costs
+      - setup_monitoring
+      - configure_auto_scaling
+      type: string
+    config:
+      description: Resource configuration parameters
+      type: object
+    filters:
+      description: Filters for listing resources
+      type: object
+    resource_id:
+      description: Resource identifier for operations
+      type: string
+    resource_type:
+      description: Type of resource (instance, bucket, database, function, etc.)
+      type: string
+    service:
+      description: GCP service to operate on
+      enum:
+      - compute
+      - storage
+      - bigquery
+      - functions
+      - gke
+      - sql
+      - pubsub
+      - iam
+      type: string
+  required:
+  - action
+  - service
+  type: object
+name: gcp_factory
+display_name: GCPIntegrationFactory
+output_schema:
+  properties:
+    auto_scaling_config:
+      description: Auto-scaling configuration
+      type: object
+    cost_optimization:
+      description: Cost optimization recommendations
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    monitoring_setup:
+      description: Monitoring configuration details
+      type: object
+    resource_details:
+      description: Resource details and metadata
+      type: object
+    resource_id:
+      description: Created or operated resource identifier
+      type: string
+    resources:
+      description: List of resources for list operations
+      items:
+        type: object
+      type: array
+    status:
+      description: Resource status or operation result
+      type: string
+    success:
+      description: Whether the operation was successful
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - asyncio
+    - json
+    - logging
+    - os
+    - time
+    - uuid
+    - yaml
+    - datetime
+    - typing
+    - subprocess
+    - tempfile
+    - base64
+    - re
+    - pathlib
+    - sys
+    - dataclasses
+    name: Python Standard Library
+    notes: Uses standard library modules for cloud operations, security validation,
+      and GCP CLI integration
+    purpose: Core functionality for async processing, data handling, subprocess management,
+      input validation, and security operations
+    risk_level: low
+    version: 3.8+
+  - name: Google Cloud CLI (gcloud)
+    notes: External system dependency for GCP operations - requires proper authentication
+      and network access
+    optional: false
+    purpose: Google Cloud Platform services management and authentication
+    risk_level: medium
+    version: '>=400.0.0'
+  - name: gsutil
+    notes: System tool for GCS operations - bundled with gcloud CLI
+    optional: false
+    purpose: Google Cloud Storage operations and management
+    risk_level: medium
+    version: '>=5.0'
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes comprehensive fallback validation
+      when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for security hardening
+    risk_level: low
+    version: 1.0.0
+  - modules: null
+    name: PlugPipe Framework
+    notes: Core PlugPipe framework components for plugin orchestration
+    purpose: Plugin discovery and integration with PlugPipe ecosystem
+    risk_level: low
+    version: '>=1.0.0'
+  summary: GCP Factory Plugin with comprehensive cloud orchestration, Universal Input
+    Sanitizer security integration, and enterprise GCP services management
+security:
+  access_control: Restrict GCP access to authorized cloud operations only
+  audit_logging: All GCP operations logged for compliance and monitoring
+  command_injection_protection: true
+  configuration_validation: true
+  credential_sanitization: true
+  data_protection: GCP credentials and resource data require secure handling
+  file_paths:
+  - /tmp
+  - /var/tmp
+  - ~/.config/gcloud/
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data
+  file_system_access: true
+  input_validation: true
+  network_access: true
+  network_destinations:
+  - googleapis.com
+  - storage.googleapis.com
+  - compute.googleapis.com
+  - bigquery.googleapis.com
+  - cloudfunctions.googleapis.com
+  - container.googleapis.com
+  path_traversal_protection: true
+  requires_secrets: true
+  secret_types:
+  - GOOGLE_APPLICATION_CREDENTIALS
+  - GOOGLE_CLOUD_PROJECT
+  - GOOGLE_CLOUD_KEYFILE_JSON
+  sensitive_data_handling: GCP credentials, resource IDs, and configuration data sanitized
+    and validated
+  subprocess_security: Controlled subprocess execution with timeout and validation
+  universal_sanitizer_integration: true
+status: stable
+stdlib_modules:
+- abc
+- asyncio
+- base64
+- dataclasses
+- datetime
+- json
+- logging
+- os
+- pathlib
+- re
+- subprocess
+- sys
+- tempfile
+- time
+- typing
+- uuid
+version: 1.0.0
+author: PlugPipe Cloud Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

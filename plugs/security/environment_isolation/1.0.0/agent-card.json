@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:environment_isolation",
+    "name": "Environment Isolation Agent",
+    "description": "Comprehensive environment isolation system that replaces global os.environ copying with explicit, secure context passing. Provides plugin isolation, containerization support, audit trails, and prevents cross-plugin environment contamination for enterprise-grade security.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/environment_isolation",
+    "skills": [
+      {
+        "id": "environment_isolation-primary",
+        "name": "Environment Isolation",
+        "description": "Comprehensive environment isolation system that replaces global os.environ copying with explicit, secure context passing. Provides plugin isolation, containerization support, audit trails, and prevents cross-plugin environment contamination for enterprise-grade security.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "environment_isolation",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "environment-isolation",
+          "plugin-isolation",
+          "audit-logging",
+          "containerization",
+          "context-management"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.156254Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

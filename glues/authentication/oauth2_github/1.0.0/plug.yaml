@@ -1,0 +1,26 @@
+name: oauth2_github
+version: 1.0.0
+description: GitHub OAuth 2.0 authentication with organization access control and
+  enterprise security features
+author: PlugPipe Auth Team
+category: authentication
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/auth_oauth2_github
+  original_name: auth_oauth2_github
+tags:
+- glue-component
+- authentication
+- oauth2
+- github
+- bridge
+- enterprise
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

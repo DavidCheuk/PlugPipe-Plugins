@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:Privacy_Verification_Plugin-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:25:18.562424Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "Privacy Verification Plugin@1.0.0",
+      "name": "Privacy Verification Plugin",
+      "version": "1.0.0",
+      "description": "Continuous privacy compliance verification system that orchestrates data classification, agent factories, and policy engines for comprehensive enterprise privacy governance"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

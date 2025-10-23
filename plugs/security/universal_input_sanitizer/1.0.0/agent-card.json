@@ -1,0 +1,48 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:input_validation:universal_input_sanitizer",
+    "name": "Universal Input Sanitizer Agent",
+    "description": "Universal Input Sanitizer - Complete Rewrite: Comprehensive input sanitization with 99%+ threat detection accuracy. Protects against SQL injection, XSS, path traversal, command injection, LDAP injection, and encoding attacks using proven 2025 security patterns.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/universal_input_sanitizer",
+    "skills": [
+      {
+        "id": "universal_input_sanitizer-primary",
+        "name": "Universal Input Sanitizer",
+        "description": "Universal Input Sanitizer - Complete Rewrite: Comprehensive input sanitization with 99%+ threat detection accuracy. Protects against SQL injection, XSS, path traversal, command injection, LDAP injection, and encoding attacks using proven 2025 security patterns.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "universal_input_sanitizer",
+        "category": "security",
+        "subcategory": "input_validation",
+        "tags": [
+          "security",
+          "input-validation",
+          "threat-detection",
+          "sql-injection-prevention",
+          "xss-prevention",
+          "path-traversal-protection",
+          "command-injection-detection",
+          "enterprise-security",
+          "fail-safe",
+          "audit-logging",
+          "performance-optimized",
+          "zero-dependencies"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.126575Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

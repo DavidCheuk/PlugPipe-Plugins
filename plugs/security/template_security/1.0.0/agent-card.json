@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:template_injection:template_security",
+    "name": "Template Security Agent",
+    "description": "Enterprise-grade template security plugin using proven security tools - eliminates Server-Side Template Injection (SSTI) vulnerabilities through sandboxed Jinja2 environments and security orchestration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/template_security",
+    "skills": [
+      {
+        "id": "template_security-primary",
+        "name": "Template Security",
+        "description": "Enterprise-grade template security plugin using proven security tools - eliminates Server-Side Template Injection (SSTI) vulnerabilities through sandboxed Jinja2 environments and security orchestration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "template_security",
+        "category": "security",
+        "subcategory": "template_injection",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:36.008211Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

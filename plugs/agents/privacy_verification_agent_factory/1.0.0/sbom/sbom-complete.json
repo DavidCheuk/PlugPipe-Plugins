@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:privacy_verification_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:42.810830Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "privacy_verification_agent_factory@1.0.0",
+      "name": "privacy_verification_agent_factory",
+      "version": "1.0.0",
+      "description": "Privacy Verification Agent Factory - generates specialized privacy verification agents using all 8 core agent factories (core, RAG, citation, web_search, consistency, medical, legal, financial) for regulatory-compliant privacy AI validation with PII detection, consent validation, data breach assessment, privacy impact analysis, cross-border data transfer compliance, privacy policy validation, data retention compliance, and anonymization verification"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

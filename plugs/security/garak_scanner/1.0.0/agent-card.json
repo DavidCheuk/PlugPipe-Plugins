@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:garak_scanner",
+    "name": "Garak Scanner Agent",
+    "description": "NVIDIA Garak LLM vulnerability scanner for comprehensive security assessment and red-teaming",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/garak_scanner",
+    "skills": [
+      {
+        "id": "garak_scanner-primary",
+        "name": "Garak Scanner",
+        "description": "NVIDIA Garak LLM vulnerability scanner for comprehensive security assessment and red-teaming",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "garak_scanner",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "llm",
+          "vulnerability-scanner",
+          "red-teaming",
+          "garak",
+          "nvidia",
+          "owasp"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.331639Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

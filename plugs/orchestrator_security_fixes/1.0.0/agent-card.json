@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:orchestrator_security_fixes",
+    "name": "Orchestrator Security Fixes Agent",
+    "description": "Specialized security fix orchestrator coordinating security_orchestrator plugin for targeted orchestration security fixes",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/orchestrator_security_fixes",
+    "skills": [
+      {
+        "id": "orchestrator_security_fixes-primary",
+        "name": "Orchestrator Security Fixes",
+        "description": "Specialized security fix orchestrator coordinating security_orchestrator plugin for targeted orchestration security fixes",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "orchestrator_security_fixes",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "orchestrator",
+          "fixes",
+          "hardening",
+          "vulnerability-patching",
+          "access-control",
+          "isolation"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.432658Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

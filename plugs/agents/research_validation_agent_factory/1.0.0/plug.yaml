@@ -1,0 +1,429 @@
+author: PlugPipe Agent Factory Team
+category: agent_factory
+config_defaults:
+  agent_timeout: 60.0
+  batch_size: 10
+  data_integrity_threshold: 0.85
+  methodology_strictness: 0.9
+  reproducibility_threshold: 0.8
+  research_credibility_threshold: 0.95
+  rigor_level: peer_reviewed_journal
+  statistical_analysis_threshold: 0.88
+config_schema:
+  properties:
+    agent_timeout:
+      default: 60.0
+      description: Timeout for individual agent operations in seconds
+      maximum: 300.0
+      minimum: 1.0
+      type: number
+    batch_size:
+      default: 10
+      description: Batch size for research validation processing
+      maximum: 100
+      minimum: 1
+      type: integer
+    data_integrity_threshold:
+      default: 0.85
+      description: Minimum threshold for data integrity validation
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    methodology_strictness:
+      default: 0.9
+      description: Strictness level for methodology validation
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    reproducibility_threshold:
+      default: 0.8
+      description: Minimum threshold for reproducibility assessment
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    research_credibility_threshold:
+      default: 0.95
+      description: Minimum credibility threshold for research validation
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    research_domains:
+      default:
+      - computer_science
+      - interdisciplinary_studies
+      description: Research domains to support
+      items:
+        enum:
+        - biomedical_research
+        - computer_science
+        - physics
+        - chemistry
+        - social_sciences
+        - psychology
+        - environmental_science
+        - engineering
+        - mathematics
+        - economics
+        - education_research
+        - interdisciplinary_studies
+        type: string
+      type: array
+    rigor_level:
+      default: peer_reviewed_journal
+      description: Research rigor level for validation standards
+      enum:
+      - peer_reviewed_journal
+      - conference_proceedings
+      - preprint_servers
+      - technical_reports
+      type: string
+    statistical_analysis_threshold:
+      default: 0.88
+      description: Minimum threshold for statistical analysis validation
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    validation_methods:
+      default:
+      - methodology_validation
+      - data_integrity_checking
+      - statistical_analysis_validation
+      - reproducibility_assessment
+      description: Validation methods to enable
+      items:
+        enum:
+        - methodology_validation
+        - peer_review_simulation
+        - data_integrity_checking
+        - statistical_analysis_validation
+        - reproducibility_assessment
+        - academic_fraud_detection
+        - journal_credibility_verification
+        - researcher_credentials_validation
+        type: string
+      type: array
+  type: object
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:39'
+  stdlib_modules_declared: true
+description: Research Validation Agent Factory - Creates specialized research validation
+  agents using selective reuse architecture for academic and scientific research validation
+  with 90%+ accuracy
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - main
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    batch:
+      description: Batch of research items for validation
+      items:
+        properties:
+          research_config:
+            type: object
+          research_content:
+            type: string
+        type: object
+      type: array
+    research_config:
+      description: Research configuration for validation context
+      properties:
+        assess_reproducibility:
+          default: true
+          description: Whether to assess research reproducibility
+          type: boolean
+        detect_fraud:
+          default: true
+          description: Whether to detect potential academic fraud
+          type: boolean
+        journal_info:
+          description: Journal information for credibility verification
+          type: string
+        research_domain:
+          default: interdisciplinary_studies
+          description: Research domain for domain-specific validation
+          enum:
+          - biomedical_research
+          - computer_science
+          - physics
+          - chemistry
+          - social_sciences
+          - psychology
+          - environmental_science
+          - engineering
+          - mathematics
+          - economics
+          - education_research
+          - interdisciplinary_studies
+          type: string
+        research_phase:
+          default: publication_preparation
+          description: Current research phase for phase-appropriate validation
+          enum:
+          - hypothesis_formation
+          - methodology_design
+          - data_collection
+          - analysis_execution
+          - publication_preparation
+          type: string
+        research_type:
+          default: experimental
+          description: Type of research for appropriate validation methods
+          enum:
+          - experimental
+          - observational
+          - theoretical
+          - computational
+          - meta_analysis
+          - systematic_review
+          - case_study
+          - longitudinal_study
+          type: string
+        researcher_info:
+          description: Researcher information for credentials validation
+          type: string
+        validate_credentials:
+          default: false
+          description: Whether to validate researcher credentials
+          type: boolean
+        verify_journal:
+          default: false
+          description: Whether to verify journal credibility
+          type: boolean
+      type: object
+    research_content:
+      description: Research content to validate (methodology, paper, etc.)
+      type: string
+    validation_methods:
+      description: Specific validation methods to apply
+      items:
+        enum:
+        - methodology_validation
+        - peer_review_simulation
+        - data_integrity_checking
+        - statistical_analysis_validation
+        - reproducibility_assessment
+        - academic_fraud_detection
+        - journal_credibility_verification
+        - researcher_credentials_validation
+        type: string
+      type: array
+  required:
+  - research_content
+  type: object
+metadata:
+  academic_compliance:
+  - IRB_approval
+  - research_ethics
+  - peer_review_standards
+  - data_protection
+  - academic_integrity
+  agent_coordination_optimization: 40%+ reduction vs reuse-all approach
+  agent_dependencies:
+  - core/agent_factory
+  - agents/rag_agent_factory
+  - agents/citation_agent_factory
+  - agents/web_search_agent_factory
+  capabilities:
+  - research_validation
+  - methodology_validation
+  - peer_review_simulation
+  - data_integrity_checking
+  - statistical_analysis_validation
+  - reproducibility_assessment
+  - academic_fraud_detection
+  - journal_credibility_verification
+  - researcher_credentials_validation
+  - selective_agent_coordination
+  - multi_domain_research_support
+  memory_mb: 768
+  processing_capabilities:
+    batch_research_validation: true
+    multi_domain_coordination: true
+    real_time_validation: true
+    selective_agent_utilization: true
+  research_agent_templates: 8
+  research_domains_supported:
+  - biomedical_research
+  - computer_science
+  - physics
+  - chemistry
+  - social_sciences
+  - psychology
+  - environmental_science
+  - engineering
+  - mathematics
+  - economics
+  - education_research
+  - interdisciplinary_studies
+  research_rigor_levels:
+  - peer_reviewed_journal
+  - conference_proceedings
+  - preprint_servers
+  - technical_reports
+  selective_reuse_architecture: true
+  timeout_seconds: 120
+  validation_methods: 8
+name: research_validation_agent_factory
+display_name: ResearchValidationAgentFactory
+output_schema:
+  properties:
+    batch_validation_results:
+      description: Results for batch research validation
+      items:
+        type: object
+      type: array
+    factory_statistics:
+      description: Research validation agent factory statistics
+      properties:
+        factory_id:
+          type: string
+        research_agent_templates:
+          type: integer
+        research_domains_supported:
+          type: integer
+        selective_agent_factories:
+          type: integer
+        selective_reuse_architecture:
+          type: boolean
+      type: object
+    health_status:
+      description: Factory health status
+      properties:
+        factory_id:
+          type: string
+        overall_healthy:
+          type: boolean
+        research_templates_available:
+          type: integer
+        selective_agent_factories_loaded:
+          type: integer
+        system_status:
+          type: string
+      type: object
+    message:
+      description: Status message
+      type: string
+    research_agent_templates:
+      description: Number of research agent templates available
+      type: integer
+    research_validation_result:
+      description: Comprehensive research validation results
+      properties:
+        academic_fraud_detection_results:
+          description: Results from academic fraud detection
+          type: object
+        agent_coordination_results:
+          description: Results from selective agent coordination
+          type: array
+        data_integrity_results:
+          description: Results from data integrity checking
+          type: object
+        journal_credibility_results:
+          description: Results from journal credibility verification
+          type: object
+        methodology_validation_results:
+          description: Results from research methodology validation
+          type: object
+        overall_research_quality_score:
+          description: Overall research quality score (0.0-1.0)
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        peer_review_simulation_results:
+          description: Results from peer review simulation
+          type: object
+        processing_time_ms:
+          description: Processing time in milliseconds
+          type: number
+        reproducibility_assessment_results:
+          description: Results from reproducibility assessment
+          type: object
+        research_domain:
+          description: Research domain of the validated content
+          type: string
+        research_id:
+          description: Unique identifier for the research validation
+          type: string
+        research_phase:
+          description: Research phase during validation
+          type: string
+        research_type:
+          description: Type of research validated
+          type: string
+        research_validation_method:
+          description: Validation method used for the research
+          type: string
+        researcher_credentials_results:
+          description: Results from researcher credentials validation
+          type: object
+        rigor_level:
+          description: Research rigor level applied
+          type: string
+        selective_agent_utilization:
+          description: List of selectively utilized agent factories
+          type: array
+        statistical_analysis_results:
+          description: Results from statistical analysis validation
+          type: object
+        validation_timestamp:
+          description: Timestamp of validation
+          type: string
+      type: object
+    selective_agent_dependencies:
+      description: List of selective agent factory dependencies used
+      items:
+        type: string
+      type: array
+    success:
+      description: Whether the research validation was successful
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Agent Factory Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- enum
+- importlib
+- json
+- logging
+- os
+- sys
+- typing
+- uuid
+tags:
+- research
+- validation
+- academic
+- scientific
+- methodology
+- peer_review
+- data_integrity
+- statistical_analysis
+- reproducibility
+- academic_fraud
+- journal_credibility
+- selective_reuse
+type: research_validation
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

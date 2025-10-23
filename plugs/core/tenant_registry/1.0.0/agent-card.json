@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:core:registry:tenant_registry",
+    "name": "Tenant Registry Agent",
+    "description": "Multi-tenant registry backend abstraction for PlugPipe enterprise environments",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/tenant_registry",
+    "skills": [
+      {
+        "id": "tenant_registry-primary",
+        "name": "Tenant Registry",
+        "description": "Multi-tenant registry backend abstraction for PlugPipe enterprise environments",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "tenant_registry",
+        "category": "core",
+        "subcategory": "registry",
+        "tags": [],
+        "author": "Unknown",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.987274Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

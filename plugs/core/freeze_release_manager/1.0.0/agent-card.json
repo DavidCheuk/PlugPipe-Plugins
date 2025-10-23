@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:freeze_release_manager",
+    "name": "Freeze Release Manager Agent",
+    "description": "Comprehensive freeze and release management for PlugPipe plugins and pipelines to maintain backward compatibility and prevent changes after release",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/freeze_release_manager",
+    "skills": [
+      {
+        "id": "freeze_release_manager-primary",
+        "name": "Freeze Release Manager",
+        "description": "Comprehensive freeze and release management for PlugPipe plugins and pipelines to maintain backward compatibility and prevent changes after release",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "freeze_release_manager",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.637176Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

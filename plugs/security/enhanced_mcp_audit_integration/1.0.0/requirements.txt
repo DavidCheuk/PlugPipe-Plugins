@@ -1,0 +1,7 @@
+# Enhanced MCP Audit Integration Plugin Requirements
+# Extends existing ELK stack plugin with MCP-specific audit events and security monitoring
+#
+# External dependencies:
+elasticsearch>=8.0.0  # Elasticsearch client for audit log storage and indexing
+logstash-python>=1.0.0  # Logstash integration for structured log processing
+kibana-api>=1.0.0  # Kibana API client for dashboard and visualization management

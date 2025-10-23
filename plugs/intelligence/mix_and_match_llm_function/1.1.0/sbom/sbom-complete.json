@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:intelligence_mix_and_match_llm_function-1.1.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:25:21.886374Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "intelligence.mix_and_match_llm_function@1.1.0",
+      "name": "intelligence.mix_and_match_llm_function",
+      "version": "1.1.0",
+      "description": "Revolutionary LLM-powered system that automatically generates new plugs and pipes by intelligently combining existing plugin capabilities, AND now includes intelligent app auto-update capabilities. Monitors popular applications (Stripe, GitHub, Slack, etc.) for API changes and automatically creates updated plugin versions using AI research. Core intelligence system for PlugPipe's universal integration capabilities with automated maintenance."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

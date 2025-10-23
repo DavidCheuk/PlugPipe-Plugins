@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:pp_github_automation-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T17:01:24.804804Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "pp_github_automation@1.0.0",
+      "name": "pp_github_automation",
+      "version": "1.0.0",
+      "description": "PP GitHub Automation - AI-powered repository management and analysis"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:pp_registry_comprehensive_reporter-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-29T07:50:41.753368Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "pp_registry_comprehensive_reporter@1.0.0",
+      "name": "pp_registry_comprehensive_reporter",
+      "version": "1.0.0",
+      "description": "Comprehensive PlugPipe Registry reporting system with CLI, MCP, API, PDF, Word outputs and real-time dashboard integration for validation issues, plugin metrics, and system health"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

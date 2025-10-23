@@ -1,0 +1,22 @@
+name: echo
+owner: demo
+version: 1.0.0
+status: stable
+description: "Echoes the input data as output."
+input_schema:
+  type: object
+  properties:
+    data:
+      type: string
+output_schema:
+  type: object
+  properties:
+    echoed:
+      type: string
+config_schema: {}
+sbom:
+  summary: sbom/sbom.json
+  complete: sbom/sbom-complete.json
+entrypoint: main.py
+discoverability: public
+tags: [demo]

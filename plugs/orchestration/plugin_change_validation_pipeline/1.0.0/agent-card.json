@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:plugin_change_validation_pipeline",
+    "name": "Plugin Change Validation Pipeline Agent",
+    "description": "Comprehensive orchestration plugin for validating plugin changes through config hardening, integrity scanning, and compliance auditing",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/plugin_change_validation_pipeline",
+    "skills": [
+      {
+        "id": "plugin_change_validation_pipeline-primary",
+        "name": "Plugin Change Validation Pipeline",
+        "description": "Comprehensive orchestration plugin for validating plugin changes through config hardening, integrity scanning, and compliance auditing",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "plugin_change_validation_pipeline",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.209069Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

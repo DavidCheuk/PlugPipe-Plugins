@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:enterprise:uptime_monitor",
+    "name": "Uptime Monitor Agent",
+    "description": "Monitors system uptime and availability by tracking heartbeat metrics, service health diagnostics, and calculating real-time uptime percentage with historical trend analysis",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/uptime_monitor",
+    "skills": [
+      {
+        "id": "uptime_monitor-primary",
+        "name": "Uptime Monitor",
+        "description": "Monitors system uptime and availability by tracking heartbeat metrics, service health diagnostics, and calculating real-time uptime percentage with historical trend analysis",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "uptime_monitor",
+        "category": "enterprise",
+        "subcategory": "",
+        "tags": [],
+        "author": "Unknown",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.432822Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

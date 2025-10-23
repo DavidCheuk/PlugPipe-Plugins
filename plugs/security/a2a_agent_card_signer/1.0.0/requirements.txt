@@ -1,0 +1,5 @@
+# REFACTORED (October 16, 2025): Removed python-jose dependency
+# Now uses UniversalSignatureEngine from cores/security/universal_signer.py
+# This eliminates algorithm duplication and follows hybrid architecture
+
+cryptography>=42.0.0

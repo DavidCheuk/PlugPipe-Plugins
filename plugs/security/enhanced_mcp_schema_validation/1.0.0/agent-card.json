@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:enhanced_mcp_schema_validation",
+    "name": "Enhanced Mcp Schema Validation Agent",
+    "description": "Enhanced MCP Schema Validation - Extends MCP contract testing with security-focused schema hardening and validation patterns",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/enhanced_mcp_schema_validation",
+    "skills": [
+      {
+        "id": "enhanced_mcp_schema_validation-primary",
+        "name": "Enhanced Mcp Schema Validation",
+        "description": "Enhanced MCP Schema Validation - Extends MCP contract testing with security-focused schema hardening and validation patterns",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "enhanced_mcp_schema_validation",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "schema",
+          "validation",
+          "security",
+          "hardening",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.107347Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

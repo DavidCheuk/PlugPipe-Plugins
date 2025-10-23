@@ -1,0 +1,94 @@
+category: security
+certificate_operations:
+- Certificate issuance
+- Certificate renewal
+- Certificate revocation
+- Certificate validation
+- Expiry monitoring
+- Bulk operations
+- Auto-renewal
+dependency_analysis:
+  analyzer_notes: All imports (base64, abc) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Abstract base plugin for certificate management operations across all
+  certificate providers following PlugPipe's plugin-first architecture
+discoverability: public
+enterprise_features:
+- Multi-provider abstraction
+- Standardized certificate operations
+- Vendor-neutral interface
+- Enterprise security compliance
+- Plugin composition support
+input_schema:
+  properties:
+    filters:
+      description: Optional filters for operations
+      type: object
+    operation:
+      default: get_status
+      description: Operation to perform
+      enum:
+      - get_status
+      - validate_interface
+      - list_supported_providers
+      type: string
+    provider:
+      description: Certificate provider name (for validation operations)
+      type: string
+  type: object
+name: certificate_manager_abstract
+display_name: CertificateManagerAbstract
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    interface_methods:
+      description: Abstract interface methods
+      items:
+        type: string
+      type: array
+    plugin:
+      description: Plugin name
+      type: string
+    providers:
+      description: Supported certificate providers information
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    version:
+      description: Plugin version
+      type: string
+  type: object
+owner: plugpipe-security
+status: stable
+stdlib_modules:
+- base64
+- abc
+subcategory: certificates
+supported_providers:
+- HashiCorp Vault PKI
+- Let's Encrypt ACME
+- AWS Certificate Manager
+- DigiCert Trust Lifecycle Manager
+- Venafi/CyberArk Certificate Manager
+- Microsoft Certificate Authority
+- Kubernetes cert-manager
+tags:
+- certificates
+- pki
+- security
+- abstract
+- base
+- interface
+version: 1.0.0
+author: PlugPipe Security Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

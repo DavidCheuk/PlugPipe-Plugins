@@ -1,0 +1,83 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:generic_report_generator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-01-24T15:30:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "generic_report_generator@1.0.0",
+      "name": "generic_report_generator",
+      "version": "1.0.0",
+      "description": "Universal compliance report generation plugin supporting multiple frameworks"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pandas@1.5.0",
+      "name": "pandas",
+      "version": "1.5.0",
+      "description": "Data analysis library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/pandas@1.5.0"
+    },
+    {
+      "type": "library", 
+      "bom-ref": "jinja2@3.0.0",
+      "name": "jinja2",
+      "version": "3.0.0",
+      "description": "Template engine",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/jinja2@3.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "reportlab@3.6.0",
+      "name": "reportlab",
+      "version": "3.6.0", 
+      "description": "PDF generation library",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "purl": "pkg:pypi/reportlab@3.6.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "openpyxl@3.1.0",
+      "name": "openpyxl",
+      "version": "3.1.0",
+      "description": "Excel file manipulation",
+      "licenses": [{"license": {"id": "MIT"}}],
+      "purl": "pkg:pypi/openpyxl@3.1.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "plotly@5.0.0",
+      "name": "plotly",
+      "version": "5.0.0",
+      "description": "Interactive plotting library",
+      "licenses": [{"license": {"id": "MIT"}}],
+      "purl": "pkg:pypi/plotly@5.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "generic_report_generator@1.0.0",
+      "dependsOn": [
+        "pandas@1.5.0",
+        "jinja2@3.0.0", 
+        "reportlab@3.6.0",
+        "openpyxl@3.1.0",
+        "plotly@5.0.0"
+      ]
+    }
+  ],
+  "vulnerabilities": []
+}

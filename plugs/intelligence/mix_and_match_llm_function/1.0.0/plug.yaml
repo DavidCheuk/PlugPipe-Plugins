@@ -1,0 +1,257 @@
+config_schema:
+  additionalProperties: true
+  properties:
+    generation_settings:
+      properties:
+        auto_generate_sbom:
+          default: true
+          type: boolean
+        auto_generate_tests:
+          default: true
+          type: boolean
+        follow_plugpipe_conventions:
+          default: true
+          type: boolean
+        include_error_handling:
+          default: true
+          type: boolean
+      type: object
+    llm_config:
+      additionalProperties: true
+      properties:
+        max_tokens:
+          default: 4000
+          type: integer
+        model_name:
+          default: gpt-4
+          type: string
+        temperature:
+          default: 0.7
+          type: number
+      type: object
+    plugin_discovery:
+      properties:
+        cache_plugin_metadata:
+          default: true
+          type: boolean
+        include_experimental:
+          default: false
+          type: boolean
+        scan_depth:
+          default: comprehensive
+          enum:
+          - basic
+          - comprehensive
+          - deep
+          type: string
+      type: object
+  type: object
+description: Advanced LLM-powered system that automatically generates new plugs and
+  pipes by intelligently combining existing plugin capabilities based on natural language
+  requirements. Core intelligence system for PlugPipe's universal integration capabilities.
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - unittest
+  - pytest
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    context:
+      additionalProperties: true
+      properties:
+        complexity_level:
+          description: Desired complexity level
+          enum:
+          - simple
+          - moderate
+          - complex
+          - enterprise
+          type: string
+        constraints:
+          description: Any constraints or requirements
+          type: object
+        domain:
+          description: Domain context (e.g., ecommerce, healthcare, finance)
+          type: string
+        existing_plugins:
+          description: List of existing plugins user wants to integrate
+          items:
+            type: string
+          type: array
+      type: object
+    natural_language_request:
+      description: Natural language description of what the user wants to achieve
+      type: string
+    operation:
+      description: Type of intelligent generation operation to perform
+      enum:
+      - generate_plugin
+      - generate_pipe
+      - analyze_requirements
+      - suggest_combinations
+      - optimize_workflow
+      type: string
+    preferences:
+      additionalProperties: true
+      properties:
+        generate_documentation:
+          default: true
+          type: boolean
+        include_testing:
+          default: true
+          type: boolean
+        prefer_existing_plugins:
+          default: true
+          type: boolean
+        security_level:
+          default: standard
+          enum:
+          - standard
+          - enhanced
+          - enterprise
+          type: string
+      type: object
+  required:
+  - operation
+  - natural_language_request
+  type: object
+name: mix_and_match_llm_function
+display_name: MixAndMatchLLMFunction
+output_schema:
+  properties:
+    generated_artifacts:
+      properties:
+        documentation:
+          properties:
+            integration_examples:
+              items:
+                type: string
+              type: array
+            test_scenarios:
+              items:
+                type: string
+              type: array
+            usage_guide:
+              type: string
+          type: object
+        pipes:
+          items:
+            properties:
+              name:
+                type: string
+              path:
+                type: string
+              plugin_dependencies:
+                items:
+                  type: string
+                type: array
+              workflow_steps:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+        plugins:
+          items:
+            properties:
+              capabilities:
+                items:
+                  type: string
+                type: array
+              combined_plugins:
+                items:
+                  type: string
+                type: array
+              name:
+                type: string
+              path:
+                type: string
+            type: object
+          type: array
+      type: object
+    intelligence_insights:
+      properties:
+        optimization_suggestions:
+          items:
+            type: string
+          type: array
+        plugin_combinations:
+          items:
+            type: object
+          type: array
+        requirement_analysis:
+          type: object
+        security_considerations:
+          items:
+            type: string
+          type: array
+      type: object
+    operation_completed:
+      type: string
+    revolutionary_capabilities_used:
+      items:
+        type: string
+      type: array
+    success:
+      type: boolean
+    timestamp:
+      type: string
+  type: object
+owner: PlugPipe Intelligence Team
+revolutionary_capabilities:
+- natural_language_to_plugin_conversion
+- intelligent_plugin_capability_combination
+- automated_workflow_optimization
+- context_aware_integration_generation
+- adaptive_complexity_scaling
+- security_aware_plugin_composition
+- enterprise_pattern_recognition
+- cross_domain_integration_intelligence
+- self_improving_generation_algorithms
+- universal_integration_orchestration
+- comprehensive_ethics_validation
+- automated_safety_guardrails
+sbom:
+  dependencies:
+  - name: openai
+    purpose: LLM integration for intelligent plugin generation
+    version: '>=1.0.0'
+  - name: langchain
+    purpose: Advanced language model orchestration
+    version: '>=0.1.0'
+  - name: jinja2
+    purpose: Template generation for plugins and pipes
+    version: '>=3.0.0'
+  - name: pyyaml
+    purpose: YAML configuration and plugin metadata handling
+    version: '>=6.0'
+  - name: jsonschema
+    purpose: Schema validation for generated artifacts
+    version: '>=4.0.0'
+  integrates_with:
+  - automation.enhanced_plug_creation_agent
+  - automation.automatic_pipe_creation_agent
+  - core.agent_factory
+  - intelligence.universal_agent_learning_engine
+  - security.ethics_guardrails_validator
+status: production
+tags:
+- artificial-intelligence
+- plugin-generation
+- workflow-automation
+- natural-language-processing
+- intelligent-composition
+- enterprise-integration
+- universal-hub
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

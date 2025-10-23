@@ -1,0 +1,87 @@
+aws_factory:
+  name: "aws_factory"
+  version: "1.0.0" 
+  owner: "PlugPipe Core Team"
+  type: "plugin"
+  category: "cloud"
+  
+  dependencies:
+    system:
+      - name: "aws-cli"
+        version: "latest"
+        type: "tool"
+        required: true
+        description: "AWS Command Line Interface"
+    
+    python_builtin:
+      - name: "asyncio"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Asynchronous I/O framework"
+      - name: "subprocess"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Process management utilities"
+      - name: "json"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "JSON serialization library"
+      - name: "logging"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Python logging framework"
+      - name: "uuid"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "UUID generation library"
+      - name: "os"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Operating system interface"
+      - name: "datetime"
+        version: "builtin"
+        type: "library"
+        required: true
+        description: "Date and time handling"
+  
+  capabilities:
+    - "multi_cloud_service"
+    - "resource_management"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_configuration"
+    - "enterprise_features"
+  
+  aws_services:
+    - "ec2_management"
+    - "s3_storage"
+    - "rds_databases"
+    - "lambda_functions"
+    - "ecs_containers"
+    - "eks_kubernetes"
+    - "cloudformation_iac"
+    - "iam_security"
+  
+  enterprise_features:
+    - "production_ready"
+    - "multi_region_support"
+    - "cost_optimization"
+    - "auto_scaling"
+    - "monitoring_integration"
+    - "security_best_practices"
+    - "compliance_ready"
+  
+  security_features:
+    - "iam_integration"
+    - "vpc_networking"
+    - "security_groups"
+    - "encryption_at_rest"
+    - "encryption_in_transit"
+    - "audit_logging"

@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:format_aware_attack_database",
+    "name": "Format Aware Attack Database Agent",
+    "description": "Format-aware attack database with MCP Guardian test framework integration - provides comprehensive security testing with automatic protocol wrapper detection and persistent SQLite storage",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/format_aware_attack_database",
+    "skills": [
+      {
+        "id": "format_aware_attack_database-primary",
+        "name": "Format Aware Attack Database",
+        "description": "Format-aware attack database with MCP Guardian test framework integration - provides comprehensive security testing with automatic protocol wrapper detection and persistent SQLite storage",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "format_aware_attack_database",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "attack-database",
+          "mcp",
+          "protocol-aware",
+          "persistent",
+          "sqlite",
+          "mcp-guardian",
+          "test-framework",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.271534Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

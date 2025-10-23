@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:legal_validation_agent_factory-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T16:57:39.502661Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "legal_validation_agent_factory@1.0.0",
+      "name": "legal_validation_agent_factory",
+      "version": "1.0.0",
+      "description": "Legal AI Validation Agent Factory - generates specialized legal validation agents using all 6 core agent factories (core, RAG, citation, web_search, consistency, medical) for regulatory-compliant legal AI validation with statute verification, precedent validation, jurisdiction compliance, liability assessment, and legal citation validation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

@@ -1,0 +1,127 @@
+name: agent_card_generator
+display_name: AgentCardGenerator
+version: 1.0.0
+type: plug
+category: a2a
+subcategory: protocol_adapters
+description: 'Converts PlugPipe plug.yaml manifests to A2A Protocol agent-card.json
+  format.
+
+  Enables PlugPipe plugins to be discoverable and invocable via Agent2Agent Protocol.
+
+
+  Key Features:
+
+  - Automatic conversion of plug.yaml to agent-card.json
+
+  - A2A specification compliance validation
+
+  - Batch processing for multiple plugins
+
+  - Sigstore signature support (optional)
+
+  - Skill mapping from PlugPipe capabilities
+
+  '
+author: PlugPipe Team
+license: MIT
+tags:
+- a2a
+- agent-card
+- protocol-adapter
+- interoperability
+- agent-discovery
+dependencies:
+- pyyaml
+- jsonschema
+external_dependencies:
+- name: pyyaml
+  type: pip
+  version: '>=6.0'
+  required: true
+- name: jsonschema
+  type: pip
+  version: '>=4.0'
+  required: true
+parameters:
+- name: input
+  type: string
+  required: true
+  description: Path to plug.yaml file or directory containing plugins
+- name: output
+  type: string
+  required: false
+  description: 'Output directory for generated agent cards (default: /tmp/agent_cards)'
+  default: /tmp/agent_cards
+- name: service_url
+  type: string
+  required: false
+  description: Base URL for A2A service endpoint (e.g., https://api.plugpipe.org/a2a)
+  default: http://localhost:8000/a2a
+- name: validate
+  type: boolean
+  required: false
+  description: Validate generated agent cards against A2A specification
+  default: true
+- name: sign
+  type: boolean
+  required: false
+  description: Add Sigstore signature to agent cards (requires signing keys)
+  default: false
+- name: batch
+  type: boolean
+  required: false
+  description: Process all plugins in input directory
+  default: false
+entry_point: main.py
+runtime: python3
+examples:
+- description: Convert single plugin to agent card
+  command: ./pp run agent_card_generator --input plugs/security/threat_detector/1.0.0/plug.yaml
+- description: Batch convert all plugins with validation
+  command: ./pp run agent_card_generator --input plugs/ --batch true --validate true
+- description: Generate signed agent card with custom service URL
+  command: ./pp run agent_card_generator --input plugs/mcp/mcp_guardian/1.0.0/plug.yaml
+    --service-url https://api.plugpipe.org/a2a --sign true
+output:
+  type: json
+  description: Generated agent card in A2A specification format
+  schema:
+    type: object
+    properties:
+      agentCard:
+        type: object
+        required: true
+        properties:
+          id:
+            type: string
+            description: Unique agent identifier (URN format)
+          name:
+            type: string
+            description: Human-readable agent name
+          description:
+            type: string
+            description: Agent description and capabilities
+          version:
+            type: string
+            description: Agent version (semantic versioning)
+          serviceUrl:
+            type: string
+            description: A2A service endpoint URL
+          skills:
+            type: array
+            description: List of agent skills/capabilities
+mcp_config:
+  enabled: true
+  tool_name: agent_card_generator
+  tool_description: Convert PlugPipe plugins to A2A agent cards
+discovery:
+  visibility: public
+  searchable: true
+  featured: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

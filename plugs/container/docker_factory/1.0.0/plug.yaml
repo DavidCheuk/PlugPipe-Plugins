@@ -1,0 +1,317 @@
+capabilities:
+- containerized_plugin_execution
+- container_isolation
+- resource_management
+- auto_scaling
+- container_failover
+- security_sandboxing
+- enterprise_orchestration
+- docker_integration
+- network_management
+- volume_management
+category: container
+compliance:
+  enterprise_features:
+  - Role-based access control
+  - Audit logging
+  - Resource quotas
+  - Network policies
+  security_standards:
+  - CIS Docker Benchmark
+  - NIST Container Security
+  - Docker Security Best Practices
+dependencies:
+  python:
+  - asyncio
+  - json
+  - logging
+  - subprocess
+  - uuid
+  - yaml
+  system:
+  - docker
+  - python3
+description: Enterprise Docker factory for containerized plugin execution with isolation,
+  scaling, and security sandboxing
+docker:
+  baseImage: python:3.11-slim
+  environment:
+  - PYTHONPATH=/app
+  - PLUGPIPE_FACTORY_TYPE=docker
+  expose:
+  - 8080
+  security:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+      - ALL
+    privileged: false
+    readOnlyRootFilesystem: false
+  volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+  workdir: /app
+enterprise_features:
+  comprehensive_monitoring: true
+  enterprise_ready: true
+  failover_support: true
+  high_availability: true
+  kubernetes_native: true
+  multi_container_support: true
+  production_ready: true
+  resource_management: true
+  security_isolation: true
+  zero_downtime_scaling: true
+external_dependencies:
+  install_method: pip
+  packages:
+  - shlex
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    container_id:
+      description: Container ID for operations
+      type: string
+    containers:
+      description: Container type configurations
+      properties:
+        docker:
+          description: Docker container configuration
+          properties:
+            network:
+              default: plugpipe-network
+              description: Docker network
+              type: string
+            registry:
+              default: docker.io
+              description: Docker registry
+              type: string
+            resource_limits:
+              description: Container resource limits
+              properties:
+                cpu:
+                  description: CPU limit
+                  type: string
+                memory:
+                  description: Memory limit
+                  type: string
+              type: object
+            security_options:
+              description: Container security options
+              properties:
+                no_new_privileges:
+                  default: true
+                  description: Disable privilege escalation
+                  type: boolean
+                read_only:
+                  default: true
+                  description: Read-only filesystem
+                  type: boolean
+              type: object
+          type: object
+      type: object
+    docker_factory:
+      description: Docker factory configuration
+      properties:
+        auto_scaling:
+          default: true
+          description: Enable automatic container scaling
+          type: boolean
+        enable_failover:
+          default: true
+          description: Enable container type failover
+          type: boolean
+        fallback_container_types:
+          description: Fallback container types
+          items:
+            type: string
+          type: array
+        max_containers:
+          default: 10
+          description: Maximum number of containers
+          type: integer
+        namespace:
+          default: plugpipe
+          description: Container namespace
+          type: string
+        primary_container_type:
+          default: docker
+          description: Primary container orchestration type
+          type: string
+      type: object
+    operation:
+      default: initialize
+      description: Operation to perform
+      enum:
+      - initialize
+      - health_check
+      - start_plugin
+      - stop_plugin
+      - list_containers
+      type: string
+    plugin_config:
+      description: Plugin configuration for containerization
+      properties:
+        command:
+          description: Container command
+          items:
+            type: string
+          type: array
+        environment:
+          description: Environment variables
+          type: object
+        image:
+          description: Docker image for plugin
+          type: string
+        name:
+          description: Plugin name
+          type: string
+        volumes:
+          description: Volume mounts
+          items:
+            type: string
+          type: array
+      type: object
+  required: []
+  type: object
+kubernetes:
+  deployment:
+    replicas: 3
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate
+  namespace: plugpipe-system
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  security:
+    fsGroup: 2000
+    runAsNonRoot: true
+    runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
+  service:
+    ports:
+    - name: api
+      port: 8080
+      targetPort: 8080
+    type: ClusterIP
+  volumeMounts:
+  - mountPath: /var/run/docker.sock
+    name: docker-socket
+    readOnly: false
+  volumes:
+  - hostPath:
+      path: /var/run/docker.sock
+      type: Socket
+    name: docker-socket
+monitoring:
+  container_lifecycle_events: true
+  health_checks: true
+  metrics_collection: true
+  performance_monitoring: true
+  resource_tracking: true
+name: docker_factory
+display_name: DockerFactory
+output_schema:
+  properties:
+    active_container_type:
+      description: Currently active container type
+      type: string
+    capabilities:
+      description: Factory capabilities
+      items:
+        type: string
+      type: array
+    container_id:
+      description: Container ID for operations
+      type: string
+    containers:
+      description: List of running containers
+      items:
+        type: object
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    factory_status:
+      description: Detailed factory status
+      type: object
+    factory_type:
+      description: Factory type (docker)
+      type: string
+    health_status:
+      description: Health check results
+      type: object
+    operation_completed:
+      description: Completed operation name
+      type: string
+    status:
+      description: Factory status
+      type: string
+    success:
+      description: Operation success status
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: docker_factory_plugin_sbom_complete.json
+  components:
+  - description: Container orchestration platform
+    name: docker
+    supplier: Docker Inc
+    type: system
+    version: latest
+  - description: Python runtime environment
+    name: python
+    supplier: Python Software Foundation
+    type: runtime
+    version: '3.11'
+  - description: Asynchronous I/O framework
+    name: asyncio
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  - description: Process management utilities
+    name: subprocess
+    supplier: Python Software Foundation
+    type: library
+    version: builtin
+  format: plugpipe_v1
+  summary: docker_factory_plugin_sbom_summary.json
+  timestamp: '2025-08-21T20:30:00Z'
+  tool: plugpipe_sbom_generator
+security:
+  audit_logging: true
+  filesystem_isolation: true
+  isolation_level: container
+  network_isolation: true
+  privilege_escalation: false
+  resource_limits: true
+  secrets_management: true
+status: stable
+tags:
+- container
+- docker
+- orchestration
+- isolation
+- enterprise
+- scaling
+- security
+type: factory
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,40 @@
+{
+  "name": "storage_backend_abstractor",
+  "version": "1.0.0",
+  "description": "Universal storage abstraction layer that provides unified interface for all storage backends",
+  "category": "interface",
+  "status": "stable",
+  "source_schema": "storage_requests",
+  "target_schema": "unified_storage_interface",
+  "mappings": [
+    {
+      "source_field": "storage_requests.action",
+      "target_field": "unified_storage_interface.operation",
+      "transform": {
+        "operation": "normalize_storage_action",
+        "supported_actions": ["store", "retrieve", "delete", "list", "health_check"],
+        "backend_abstraction": true
+      }
+    },
+    {
+      "source_field": "storage_requests.backend_preference",
+      "target_field": "unified_storage_interface.backend_selection",
+      "transform": {
+        "operation": "resolve_backend",
+        "fallback_strategy": "graceful_degradation",
+        "supported_backends": ["sqlite", "postgresql", "local_file", "s3"]
+      }
+    },
+    {
+      "source_field": "storage_requests.data",
+      "target_field": "unified_storage_interface.normalized_data",
+      "transform": {
+        "operation": "normalize_storage_format",
+        "serialization": "automatic",
+        "compression": "optional"
+      }
+    }
+  ],
+  "error_policy": "continue_on_error",
+  "tags": ["interface", "storage", "abstraction", "backend-unification"]
+}

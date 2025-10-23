@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:task_queue_orchestrator",
+    "name": "Task Queue Orchestrator Agent",
+    "description": "Enterprise-grade task queue orchestration service supporting multiple backends (Celery, Prefect, Temporal, built-in) with robust retry mechanisms, circuit breakers, and comprehensive monitoring for replacing manual concurrency patterns",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/task_queue_orchestrator",
+    "skills": [
+      {
+        "id": "task_queue_orchestrator-primary",
+        "name": "Task Queue Orchestrator",
+        "description": "Enterprise-grade task queue orchestration service supporting multiple backends (Celery, Prefect, Temporal, built-in) with robust retry mechanisms, circuit breakers, and comprehensive monitoring for replacing manual concurrency patterns",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "task_queue_orchestrator",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:34.297523Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

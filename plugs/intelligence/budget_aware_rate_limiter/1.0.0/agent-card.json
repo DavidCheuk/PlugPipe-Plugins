@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:budget_aware_rate_limiter",
+    "name": "Budget Aware Rate Limiter Agent",
+    "description": "Intelligent budget-aware rate limiting system that automatically adjusts rate limits based on budget constraints and cost tracking. Provides progressive throttling, plugin priority management, and tight integration with cost estimator for budget-constrained quota management.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/budget_aware_rate_limiter",
+    "skills": [
+      {
+        "id": "budget_aware_rate_limiter-primary",
+        "name": "Budget Aware Rate Limiter",
+        "description": "Intelligent budget-aware rate limiting system that automatically adjusts rate limits based on budget constraints and cost tracking. Provides progressive throttling, plugin priority management, and tight integration with cost estimator for budget-constrained quota management.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "budget_aware_rate_limiter",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "intelligence",
+          "rate-limiting",
+          "budget-management",
+          "cost-control",
+          "ai-governance"
+        ],
+        "author": "PlugPipe Intelligence Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.921447Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

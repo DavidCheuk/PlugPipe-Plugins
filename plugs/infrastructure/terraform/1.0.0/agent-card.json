@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:terraform",
+    "name": "Terraform Agent",
+    "description": "Comprehensive Terraform plugin for Infrastructure as Code (IaC) provisioning and management across multiple cloud providers with enterprise features including plan analysis, state management, and security scanning",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/terraform",
+    "skills": [
+      {
+        "id": "terraform-primary",
+        "name": "Terraform",
+        "description": "Comprehensive Terraform plugin for Infrastructure as Code (IaC) provisioning and management across multiple cloud providers with enterprise features including plan analysis, state management, and security scanning",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "terraform",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.398681Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

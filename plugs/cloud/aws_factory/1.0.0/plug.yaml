@@ -1,0 +1,118 @@
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:39'
+  stdlib_modules_declared: true
+description: AWS Factory Plugin for multi-service cloud orchestration across EC2,
+  S3, RDS, Lambda and other AWS services with enterprise features
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      description: AWS operation to perform
+      enum:
+      - create_resource
+      - list_resources
+      - update_resource
+      - delete_resource
+      - get_resource_status
+      - optimize_costs
+      - setup_monitoring
+      - configure_auto_scaling
+      type: string
+    config:
+      description: Resource configuration parameters
+      type: object
+    filters:
+      description: Filters for listing resources
+      type: object
+    resource_id:
+      description: Resource identifier for operations
+      type: string
+    resource_type:
+      description: Type of resource (instance, bucket, database, function, etc.)
+      type: string
+    service:
+      description: AWS service to operate on
+      enum:
+      - ec2
+      - s3
+      - rds
+      - lambda
+      - ecs
+      - eks
+      - cloudformation
+      - iam
+      type: string
+  required:
+  - action
+  - service
+  type: object
+name: aws_factory
+display_name: AWSIntegrationFactory
+output_schema:
+  properties:
+    auto_scaling_config:
+      description: Auto-scaling configuration
+      type: object
+    cost_optimization:
+      description: Cost optimization recommendations
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    monitoring_setup:
+      description: Monitoring configuration details
+      type: object
+    resource_details:
+      description: Resource details and metadata
+      type: object
+    resource_id:
+      description: Created or operated resource identifier
+      type: string
+    resources:
+      description: List of resources for list operations
+      items:
+        type: object
+      type: array
+    status:
+      description: Resource status or operation result
+      type: string
+    success:
+      description: Whether the operation was successful
+      type: boolean
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/lib_sbom.yaml
+  summary: 'AWS Factory Plugin dependencies: aws-cli (system tool), Python built-in
+    libraries for async I/O, JSON handling, and process management'
+status: stable
+stdlib_modules:
+- abc
+- asyncio
+- base64
+- datetime
+- json
+- logging
+- os
+- pathlib
+- re
+- subprocess
+- tempfile
+- time
+- typing
+- uuid
+version: 1.0.0
+author: PlugPipe Cloud Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

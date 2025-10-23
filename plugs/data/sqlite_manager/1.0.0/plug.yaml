@@ -1,0 +1,219 @@
+author: PlugPipe Database Team
+capabilities:
+- key_value_storage
+- attack_database_management
+- test_result_persistence
+- database_statistics
+- transaction_support
+category: data
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Configurable via database operations
+  encryption: At rest via filesystem encryption
+  gdpr_compliant: true
+configuration:
+  auto_commit:
+    default: true
+    description: Auto-commit transactions
+    type: boolean
+  db_path:
+    default: ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data/plugpipe_security.db
+    description: Path to SQLite database file (persistent storage)
+    type: string
+description: Enterprise SQLite database manager with security hardening, input validation,
+  and comprehensive storage operations
+discovery: public
+entry_point: main.py
+external_dependencies: []
+input_schema:
+  properties:
+    attack_data:
+      description: Attack data for storage
+      properties:
+        category:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+        payload:
+          type: string
+        severity:
+          type: string
+        source:
+          type: string
+      type: object
+    category:
+      description: Category filter for attack retrieval
+      maxLength: 100
+      type: string
+    config:
+      description: Database configuration
+      type: object
+    key:
+      description: Key for key-value operations
+      maxLength: 1000
+      type: string
+    limit:
+      description: Maximum number of records to return
+      maximum: 10000
+      minimum: 1
+      type: integer
+    operation:
+      description: Database operation to perform
+      enum:
+      - store_kv
+      - get_kv
+      - store_attack
+      - get_attacks
+      - store_test_result
+      - get_stats
+      type: string
+    result_data:
+      description: Test result data for storage
+      type: object
+    value:
+      description: Value for key-value store operations
+  required:
+  - operation
+  type: object
+license: MIT
+name: sqlite_manager
+display_name: SQLiteManager
+operations:
+  get_attacks:
+    description: Get stored attacks
+    parameters:
+      category: string (optional)
+      limit: integer (optional)
+  get_kv:
+    description: Get value by key
+    parameters:
+      default: any (optional)
+      key: string (required)
+  get_stats:
+    description: Get database statistics
+    parameters: none
+  store_attack:
+    description: Store attack data
+    parameters:
+      attack_data: object (required)
+  store_kv:
+    description: Store key-value pair
+    parameters:
+      key: string (required)
+      value: any (required)
+  store_test_result:
+    description: Store test execution result
+    parameters:
+      result_data: object (required)
+output_schema:
+  properties:
+    attacks:
+      description: Retrieved attack data
+      items:
+        type: object
+      type: array
+    available_operations:
+      description: List of available operations
+      items:
+        type: string
+      type: array
+    count:
+      description: Number of records returned
+      type: integer
+    error:
+      description: Error message if operation failed
+      type: string
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    key:
+      description: Key for key-value operations
+      type: string
+    operation:
+      description: Operation that was performed
+      type: string
+    stats:
+      description: Database statistics
+      type: object
+    status:
+      description: Operation status
+      enum:
+      - success
+      - error
+      type: string
+    stored:
+      description: Whether data was successfully stored
+      type: boolean
+    value:
+      description: Retrieved value for get operations
+  type: object
+owner: PlugPipe Database Team
+performance:
+  bulk_operations:
+    max_batch_size: 1000
+    recommended_batch_size: 100
+  caching:
+    enabled: false
+    ttl: 0
+sbom:
+  complete: true
+  dependencies:
+  - modules:
+    - sqlite3
+    - json
+    - logging
+    - os
+    - time
+    - re
+    - datetime
+    - typing
+    - contextlib
+    - dataclasses
+    - hashlib
+    - sys
+    name: Python Standard Library
+    notes: Uses built-in Python modules for database operations and security validation
+    purpose: Core functionality for SQLite database operations, input validation,
+      and secure file handling
+    risk_level: low
+    version: 3.8+
+  - name: universal_input_sanitizer
+    notes: Optional dependency - plugin includes fallback validation when unavailable
+    optional: true
+    purpose: Advanced input validation and sanitization for SQL injection prevention
+    risk_level: low
+    version: 1.0.0
+  summary: SQLite database manager with security hardening using Python standard library
+    and SQLite3
+schema_validation: true
+security:
+  file_paths:
+  - ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/data/
+  file_system_access: true
+  input_validation: true
+  network_access: false
+  path_traversal_protection: true
+  requires_secrets: false
+  sql_injection_protection: true
+status: stable
+tags:
+- database
+- storage
+- sqlite
+- persistence
+- attack-database
+- security
+- validation
+- enterprise
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

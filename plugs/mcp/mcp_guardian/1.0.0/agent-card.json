@@ -1,0 +1,44 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:mcp_guardian",
+    "name": "Mcp Guardian Agent",
+    "description": "MCP Guardian - Enterprise Security Proxy for Model Context Protocol with comprehensive security plugin orchestration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/mcp_guardian",
+    "skills": [
+      {
+        "id": "mcp_guardian-primary",
+        "name": "Mcp Guardian",
+        "description": "MCP Guardian - Enterprise Security Proxy for Model Context Protocol with comprehensive security plugin orchestration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "mcp_guardian",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "security",
+          "proxy",
+          "guardian",
+          "enterprise",
+          "microservice",
+          "oauth2",
+          "multi-tenant"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:33.740713Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

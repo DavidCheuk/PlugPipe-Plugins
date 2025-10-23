@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:enterprise:configurable_integration_suite",
+    "name": "Configurable Integration Suite Agent",
+    "description": "Highly configurable enterprise integration system designed for business-specific customization without code changes",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/configurable_integration_suite",
+    "skills": [
+      {
+        "id": "configurable_integration_suite-primary",
+        "name": "Configurable Integration Suite",
+        "description": "Highly configurable enterprise integration system designed for business-specific customization without code changes",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "configurable_integration_suite",
+        "category": "enterprise",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Enterprise Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.347284Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,101 @@
+name: requirement_analyzer
+display_name: RequirementAnalyzer
+version: 1.0.0
+description: Analyzes natural language requirements and extracts structured information
+  for intelligent plugin composition. Extracted from monolithic mix_and_match to follow
+  single responsibility principle.
+owner: PlugPipe Intelligence Team
+status: production
+discoverability: public
+entrypoint: main.py
+tags:
+- intelligence
+- natural-language-processing
+- requirement-analysis
+- architecture-refactoring
+config_schema:
+  type: object
+  properties:
+    llm_config:
+      type: object
+      properties:
+        model_name:
+          type: string
+          default: gpt-4
+        temperature:
+          type: number
+          default: 0.7
+        max_tokens:
+          type: integer
+          default: 4000
+    analysis_settings:
+      type: object
+      properties:
+        include_context_analysis:
+          type: boolean
+          default: true
+        extract_performance_requirements:
+          type: boolean
+          default: true
+        extract_security_requirements:
+          type: boolean
+          default: true
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - analyze_requirements
+      - extract_intent
+      - identify_patterns
+      - validate_requirements
+      description: Type of requirement analysis operation
+    natural_language_request:
+      type: string
+      description: Natural language description of requirements
+    context:
+      type: object
+      description: Additional context for analysis
+  required:
+  - operation
+  - natural_language_request
+output_schema:
+  type: object
+  properties:
+    success:
+      type: boolean
+    operation_completed:
+      type: string
+    requirement_analysis:
+      type: object
+    extracted_intent:
+      type: string
+    identified_patterns:
+      type: array
+    validation_results:
+      type: object
+    timestamp:
+      type: string
+external_dependencies:
+  install_method: pip
+  packages:
+  - openai
+  requirements_file: requirements.txt
+stdlib_modules:
+- os
+- sys
+- json
+- logging
+- asyncio
+- typing
+- dataclasses
+- re
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

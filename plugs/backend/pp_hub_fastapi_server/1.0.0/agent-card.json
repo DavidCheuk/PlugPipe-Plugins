@@ -1,0 +1,45 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:backend_infrastructure:pp_hub_fastapi_server",
+    "name": "Pp Hub Fastapi Server Agent",
+    "description": "Enterprise PP Hub FastAPI Server Plugin - Advanced reusable plugin wrapper around core PlugPipe backend infrastructure with enterprise security, monitoring, governance, and scalability features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/pp_hub_fastapi_server",
+    "skills": [
+      {
+        "id": "pp_hub_fastapi_server-primary",
+        "name": "Pp Hub Fastapi Server",
+        "description": "Enterprise PP Hub FastAPI Server Plugin - Advanced reusable plugin wrapper around core PlugPipe backend infrastructure with enterprise security, monitoring, governance, and scalability features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "pp_hub_fastapi_server",
+        "category": "backend_infrastructure",
+        "subcategory": "",
+        "tags": [
+          "pp_hub",
+          "fastapi",
+          "server",
+          "infrastructure",
+          "backend",
+          "core",
+          "plugpipe",
+          "universal",
+          "deployment"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:29.720219Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

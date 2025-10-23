@@ -1,0 +1,37 @@
+{
+  "name": "openapi_parser",
+  "version": "1.0.0",
+  "description": "OpenAPI/Swagger specification parser and validator that transforms API specs into standardized formats",
+  "category": "integration",
+  "status": "stable",
+  "source_schema": "openapi_specification",
+  "target_schema": "standardized_api_spec",
+  "mappings": [
+    {
+      "source_field": "openapi_spec.openapi",
+      "target_field": "standardized_spec.version",
+      "transform": {
+        "operation": "extract_version",
+        "validation": "semver"
+      }
+    },
+    {
+      "source_field": "openapi_spec.info",
+      "target_field": "standardized_spec.metadata",
+      "transform": {
+        "operation": "extract_metadata",
+        "fields": ["title", "description", "version", "contact", "license"]
+      }
+    },
+    {
+      "source_field": "openapi_spec.paths",
+      "target_field": "standardized_spec.endpoints",
+      "transform": {
+        "operation": "parse_endpoints",
+        "extract": ["method", "path", "parameters", "responses", "authentication"]
+      }
+    }
+  ],
+  "error_policy": "continue_on_error",
+  "tags": ["integration", "parsing", "openapi", "swagger", "validation"]
+}

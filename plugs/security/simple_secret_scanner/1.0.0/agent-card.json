@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:simple_secret_scanner",
+    "name": "Simple Secret Scanner Agent",
+    "description": "Simple, fast secret detection plugin for MCP Guardian cooperative testing",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/simple_secret_scanner",
+    "skills": [
+      {
+        "id": "simple_secret_scanner-primary",
+        "name": "Simple Secret Scanner",
+        "description": "Simple, fast secret detection plugin for MCP Guardian cooperative testing",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "simple_secret_scanner",
+        "category": "security",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Security Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:35.975418Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

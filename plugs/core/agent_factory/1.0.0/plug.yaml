@@ -1,0 +1,118 @@
+config_defaults:
+  default_timeout_seconds: 300
+  health_monitoring: true
+  max_concurrent_agents: 100
+  rate_limiting: true
+config_schema:
+  properties:
+    default_timeout_seconds:
+      default: 300
+      maximum: 3600
+      minimum: 1
+      type: number
+    health_monitoring:
+      default: true
+      type: boolean
+    max_concurrent_agents:
+      default: 100
+      maximum: 1000
+      minimum: 1
+      type: integer
+    rate_limiting:
+      default: true
+      type: boolean
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Production-ready core agent factory with comprehensive lifecycle management,
+  health monitoring, fallback mechanisms, and rate limiting
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    action:
+      description: Action to perform
+      enum:
+      - create_agent
+      - destroy_agent
+      - list_agents
+      - register_template
+      - scale_agents
+      type: string
+    agent_id:
+      description: Optional specific agent identifier
+      type: string
+    config:
+      description: Agent configuration parameters
+      type: object
+    target_count:
+      description: Target agent count for scaling operations
+      type: integer
+    template_id:
+      description: Agent template identifier
+      type: string
+  required:
+  - action
+  type: object
+metadata:
+  capabilities:
+  - agent_creation
+  - lifecycle_management
+  - health_monitoring
+  - fallback_management
+  - rate_limiting
+  - performance_monitoring
+  category: core
+  memory_mb: 2048
+  type: infrastructure
+name: agent_factory
+display_name: AgentFactoryCore
+output_schema:
+  properties:
+    agent:
+      description: Created agent instance
+      type: object
+    agents:
+      description: List of agent instances
+      type: array
+    error:
+      description: Error message if failed
+      type: string
+    message:
+      description: Result message
+      type: string
+    metrics:
+      description: Performance and health metrics
+      type: object
+    success:
+      description: Whether operation succeeded
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Core Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- core
+- agent-factory
+- lifecycle-management
+- production-ready
+- enterprise
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

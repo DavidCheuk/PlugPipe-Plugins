@@ -1,0 +1,75 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:presidio_dlp-1.0.0-mcp-security-enhanced",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T09:20:25.049512Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "presidio_dlp@1.0.0",
+      "name": "presidio_dlp",
+      "version": "1.0.0",
+      "description": "Microsoft Presidio-powered data leakage prevention and PII detection for enterprise LLM security"
+    }
+  },
+  "components": [],
+  "dependencies": [
+    {
+      "ref": "presidio_dlp@1.0.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "CVE-placeholder-presidio_dlp",
+      "id": "CVE-placeholder-presidio_dlp",
+      "description": "Placeholder for presidio_dlp vulnerability tracking",
+      "published": "2025-09-06T09:20:25.049564Z",
+      "severity": "low",
+      "recommendation": "Monitor presidio_dlp security advisories"
+    }
+  ],
+  "annotations": [
+    {
+      "bom-ref": "presidio_dlp@1.0.0",
+      "subjects": [
+        "presidio_dlp@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "plugpipe_principle_compliance",
+        "value": "REUSE_EVERYTHING_REINVENT_NOTHING"
+      }
+    },
+    {
+      "bom-ref": "presidio_dlp@1.0.0",
+      "subjects": [
+        "presidio_dlp@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "security_layer"
+      }
+    },
+    {
+      "bom-ref": "presidio_dlp@1.0.0",
+      "subjects": [
+        "presidio_dlp@1.0.0"
+      ],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_security_plugin"
+      }
+    }
+  ]
+}

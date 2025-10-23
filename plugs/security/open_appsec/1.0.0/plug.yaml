@@ -1,0 +1,336 @@
+author: PlugPipe Security Team
+capabilities:
+- web_application_firewall
+- api_security
+- threat_detection
+- machine_learning_security
+- zero_day_protection
+- owasp_top10_protection
+- ddos_mitigation
+- bot_protection
+category: security
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_support: true
+  data_handling: Processes HTTP requests in real-time, configurable logging
+  privacy: Can be configured for GDPR/privacy compliance
+  security_frameworks:
+  - OWASP
+  - NIST Cybersecurity Framework
+  - SOC 2
+  - PCI DSS
+  - ISO 27001
+config_schema:
+  additionalProperties: false
+  properties:
+    api_endpoint:
+      default: http://localhost:8080/api/v1
+      description: open-appsec API endpoint URL
+      type: string
+    api_key:
+      description: API authentication key for open-appsec management
+      type: string
+    api_protection:
+      default: true
+      description: Enable API-specific security features
+      type: boolean
+    block_mode:
+      default: true
+      description: Block detected threats (false = monitor only)
+      type: boolean
+    bot_protection:
+      default: true
+      description: Enable automated bot detection and blocking
+      type: boolean
+    custom_rules:
+      default: []
+      description: Custom security rules to apply
+      items:
+        type: string
+      type: array
+    geo_blocking:
+      default: false
+      description: Enable geographic IP blocking
+      type: boolean
+    learning_mode:
+      default: true
+      description: Enable machine learning threat detection
+      type: boolean
+    log_level:
+      default: info
+      description: Logging verbosity level
+      enum:
+      - debug
+      - info
+      - warning
+      - error
+      type: string
+    owasp_protection:
+      default: true
+      description: Enable OWASP Top 10 protection rules
+      type: boolean
+    protection_level:
+      default: balanced
+      description: Security protection level
+      enum:
+      - strict
+      - balanced
+      - permissive
+      type: string
+    rate_limiting:
+      default: true
+      description: Enable rate limiting protection
+      type: boolean
+    timeout:
+      default: 5
+      description: Request timeout in seconds
+      maximum: 30
+      minimum: 1
+      type: integer
+  required:
+  - api_endpoint
+  type: object
+description: Enterprise-grade Web Application Firewall powered by machine learning
+  for zero-day threat protection and OWASP Top 10 security
+documentation:
+  examples:
+  - config:
+      api_endpoint: http://localhost:8080/api/v1
+      api_protection: true
+      block_mode: true
+      owasp_protection: true
+      protection_level: balanced
+    description: Standard WAF protection with balanced security
+    input:
+      body: '{"username":"admin","password":"test123"}'
+      headers:
+        Content-Type: application/json
+      method: POST
+      url: /api/login
+    name: Basic WAF Protection
+  - config:
+      api_endpoint: http://localhost:8080/api/v1
+      block_mode: true
+      bot_protection: true
+      learning_mode: true
+      protection_level: strict
+      rate_limiting: true
+    description: Maximum security protection with ML learning
+    input:
+      headers:
+        User-Agent: curl/7.68.0
+      method: GET
+      url: /api/users?id=' OR 1=1--
+    name: High Security SQL Injection Protection
+  - config:
+      api_endpoint: http://localhost:8080/api/v1
+      block_mode: false
+      log_level: debug
+      protection_level: permissive
+    description: Monitor-only mode for threat analysis
+    input:
+      headers:
+        Content-Type: multipart/form-data
+      method: POST
+      url: /api/upload
+    name: Monitoring Mode Analysis
+  readme: "# open-appsec WAF Plugin\n\nEnterprise-grade Web Application Firewall integration\
+    \ for PlugPipe, powered by open-appsec's machine learning security engine.\n\n\
+    ## Features\n\n### \U0001F6E1️ Advanced Threat Protection\n- **Machine Learning\
+    \ Detection**: AI-powered threat detection with 99.139% balanced accuracy\n- **Zero-Day\
+    \ Protection**: Preemptive protection against unknown attack vectors\n- **OWASP\
+    \ Top 10**: Comprehensive protection against web application vulnerabilities\n\
+    - **Real-time Analysis**: Continuous HTTP/S request analysis and blocking\n\n\
+    ### \U0001F680 High Performance\n- **Low Latency**: Minimal impact on application\
+    \ performance\n- **Scalable Architecture**: Handles enterprise-scale traffic\n\
+    - **Auto-tuning**: Machine learning reduces false positives automatically\n- **Cloud\
+    \ Native**: Docker, Kubernetes, and cloud platform ready\n\n### \U0001F527 Flexible\
+    \ Configuration\n- **Protection Levels**: Strict, Balanced, or Permissive security\
+    \ modes\n- **Custom Rules**: Define application-specific security policies\n-\
+    \ **Rate Limiting**: Built-in DDoS and brute force protection\n- **Geographic\
+    \ Blocking**: IP-based geographic restrictions\n\n## Usage Examples\n\n### Basic\
+    \ WAF Protection\n```yaml\nsteps:\n  - plugin: open_appsec\n    config:\n    \
+    \  api_endpoint: \"http://localhost:8080/api/v1\"\n      protection_level: \"\
+    balanced\"\n      block_mode: true\n```\n\n### High Security Mode\n```yaml\nsteps:\n\
+    \  - plugin: open_appsec\n    config:\n      api_endpoint: \"http://localhost:8080/api/v1\"\
+    \n      protection_level: \"strict\"\n      learning_mode: true\n      rate_limiting:\
+    \ true\n      bot_protection: true\n      owasp_protection: true\n```\n\n### API\
+    \ Security Focus\n```yaml\nsteps:\n  - plugin: open_appsec\n    config:\n    \
+    \  api_endpoint: \"http://localhost:8080/api/v1\"\n      api_protection: true\n\
+    \      rate_limiting: true\n      custom_rules:\n        - \"block_suspicious_user_agents\"\
+    \n        - \"enforce_api_rate_limits\"\n```\n\n## Configuration Options\n\n|\
+    \ Option | Type | Default | Description |\n|--------|------|---------|-------------|\n\
+    | `api_endpoint` | string | `\"http://localhost:8080/api/v1\"` | open-appsec API\
+    \ endpoint |\n| `protection_level` | string | `\"balanced\"` | Security level:\
+    \ `strict`, `balanced`, `permissive` |\n| `block_mode` | boolean | `true` | Block\
+    \ threats (false = monitor only) |\n| `learning_mode` | boolean | `true` | Enable\
+    \ ML threat learning |\n| `owasp_protection` | boolean | `true` | Enable OWASP\
+    \ Top 10 rules |\n| `api_protection` | boolean | `true` | API-specific security\
+    \ features |\n| `rate_limiting` | boolean | `true` | Rate limiting protection\
+    \ |\n| `bot_protection` | boolean | `true` | Automated bot detection |\n| `geo_blocking`\
+    \ | boolean | `false` | Geographic IP blocking |\n\n## Threat Detection Capabilities\n\
+    \n### OWASP Top 10 Protection\n- SQL Injection (SQLi)\n- Cross-Site Scripting\
+    \ (XSS)\n- Cross-Site Request Forgery (CSRF)\n- Security Misconfigurations\n-\
+    \ Sensitive Data Exposure\n- XML External Entity (XXE)\n- Broken Access Control\n\
+    - Security Logging Failures\n- Server-Side Request Forgery (SSRF)\n- Insecure\
+    \ Deserialization\n\n### Advanced Attack Vectors\n- Zero-day exploits\n- Advanced\
+    \ Persistent Threats (APT)\n- Application-layer DDoS\n- Bot and scraper attacks\n\
+    - API abuse and data exfiltration\n- Business logic attacks\n\n## Performance\
+    \ Benchmarks\n\nBased on 2024 industry testing:\n- **Detection Accuracy**: 99.139%\
+    \ balanced accuracy\n- **False Positive Rate**: <10% (industry leading)\n- **Latency\
+    \ Impact**: <5ms additional request processing\n- **Throughput**: Handles 10,000+\
+    \ requests/second\n\n## Integration Benefits\n\n### ✅ Enterprise Ready\n- Production-tested\
+    \ at scale\n- Compliance ready (PCI DSS, SOX, HIPAA)\n- 24/7 threat intelligence\
+    \ updates\n- GraphQL API for management\n\n### ✅ Developer Friendly\n- Easy PlugPipe\
+    \ integration\n- Comprehensive logging and monitoring\n- RESTful API for automation\n\
+    - Extensive documentation\n\n### ✅ Cost Effective\n- Open source with enterprise\
+    \ features\n- Reduced security incident costs\n- Automated threat response\n-\
+    \ Minimal operational overhead\n\n## Security Architecture\n\nThe plugin integrates\
+    \ with open-appsec's distributed security engine:\n\n1. **Request Interception**:\
+    \ HTTP/S requests analyzed in real-time\n2. **ML Analysis**: Machine learning\
+    \ models evaluate threat probability\n3. **Rule Enforcement**: OWASP rules and\
+    \ custom policies applied\n4. **Action Execution**: Block, allow, or monitor based\
+    \ on configuration\n5. **Continuous Learning**: ML models adapt to new attack\
+    \ patterns\n\n## Deployment Modes\n\n- **Inline Protection**: Direct request filtering\n\
+    - **Reverse Proxy**: Gateway-style deployment\n- **Sidecar**: Kubernetes sidecar\
+    \ container\n- **Cloud Native**: Integrated with cloud load balancers\n"
+external_dependencies:
+- description: open-appsec WAF service or container
+  installation: "# Docker installation\ndocker run -d --name open-appsec \\\n  -p\
+    \ 8080:80 \\\n  -p 8081:8081 \\\n  openappsec/open-appsec:latest\n\n# Kubernetes\
+    \ installation\nhelm repo add openappsec https://openappsec.github.io/helm-charts\n\
+    helm install open-appsec openappsec/open-appsec\n\n# Linux installation\ncurl\
+    \ -fsSL https://downloads.openappsec.io/install.sh | bash"
+  name: open-appsec
+  type: service
+  version: '>=1.0.0'
+health_check:
+  expected_result: success
+  method: ping_api
+  timeout: 10
+input_schema:
+  additionalProperties: false
+  properties:
+    body:
+      description: Request body content
+      type: string
+    client_ip:
+      description: Client IP address
+      type: string
+    headers:
+      description: HTTP headers
+      type: object
+    method:
+      description: HTTP method
+      enum:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+      - HEAD
+      - OPTIONS
+      type: string
+    url:
+      description: Request URL path
+      type: string
+  required:
+  - method
+  - url
+  type: object
+license: Apache-2.0
+name: open_appsec
+display_name: OpenAppsec
+output_schema:
+  properties:
+    action:
+      description: Security action taken
+      enum:
+      - ALLOW
+      - BLOCK
+      - MONITOR
+      - CHALLENGE
+      type: string
+    blocked_reason:
+      description: Reason for blocking (if action=BLOCK)
+      type: string
+    error:
+      description: Error message if analysis failed
+      type: string
+    ml_prediction:
+      description: Machine learning threat prediction
+      type: object
+    processing_time_ms:
+      description: Processing time in milliseconds
+      type: number
+    rule_matches:
+      description: Security rules that matched
+      items:
+        type: string
+      type: array
+    success:
+      description: Whether analysis completed successfully
+      type: boolean
+    threat_score:
+      description: Threat probability score (0.0-1.0)
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+    threat_types:
+      description: Types of threats identified
+      items:
+        type: string
+      type: array
+    threats_detected:
+      description: Number of threats detected
+      type: integer
+  required:
+  - success
+  - action
+  - threat_score
+  - threats_detected
+  type: object
+owner: PlugPipe Security Team
+performance:
+  average_execution_time: 10-50 milliseconds
+  memory_usage: 20-100 MB
+  optimization:
+    connection_pooling: true
+    ml_model_caching: true
+    request_caching: true
+  scalability: Enterprise-scale traffic handling
+requirements:
+  python:
+  - requests>=2.28.0
+  - aiohttp>=3.8.0
+  - pydantic>=1.10.0
+  system:
+  - open-appsec-service
+security:
+  network_access: true
+  permissions:
+  - network_requests
+  - api_access
+  requires_secrets: true
+  secrets:
+  - api_key
+status: stable
+tags:
+- security
+- waf
+- web-application-firewall
+- machine-learning
+- threat-detection
+- owasp
+- api-security
+- zero-day-protection
+type: plugin
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

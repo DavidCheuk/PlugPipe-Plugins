@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:business_compliance_auditor-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-26T20:25:33.276463Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "business_compliance_auditor@1.0.0",
+      "name": "business_compliance_auditor",
+      "version": "1.0.0",
+      "description": "Universal business compliance auditor supporting multiple frameworks including PlugPipe principles, OWASP, SOC2, ISO27001, GDPR, and custom business rules"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

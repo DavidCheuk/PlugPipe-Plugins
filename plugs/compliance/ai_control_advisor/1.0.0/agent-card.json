@@ -1,0 +1,56 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:ai_control_advisor",
+    "name": "Ai Control Advisor Agent",
+    "description": "AI-driven control recommendation engine for intelligent compliance management and risk mitigation",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/ai_control_advisor",
+    "skills": [
+      {
+        "id": "ai_control_advisor-primary",
+        "name": "Ai Control Advisor",
+        "description": "AI-driven control recommendation engine for intelligent compliance management and risk mitigation",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "ai_control_advisor",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "compliance",
+          "ai",
+          "controls",
+          "recommendations",
+          "optimization",
+          "risk-management",
+          "automation",
+          "predictive-analytics",
+          "enterprise",
+          "advisory",
+          "security-hardened",
+          "universal-sanitizer",
+          "validation",
+          "governance",
+          "audit",
+          "frameworks",
+          "benchmarking",
+          "cost-optimization",
+          "ai-powered",
+          "machine-learning"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.888154Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

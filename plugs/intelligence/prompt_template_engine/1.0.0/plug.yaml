@@ -1,0 +1,49 @@
+name: prompt_template_engine
+display_name: PromptTemplateEngine
+version: 1.0.0
+description: Advanced templating system for PlugPipe ecosystem with powerful template
+  composition, inheritance, conditional logic, and dynamic content generation capabilities
+author: PlugPipe Core Team
+category: intelligence
+type: plugin
+entry_point: main.py
+capabilities:
+- template_rendering
+- template_validation
+- template_inheritance
+- conditional_logic
+- template_composition
+dependencies: []
+external_dependencies: []
+configuration_schema:
+  type: object
+  properties:
+    custom_functions:
+      type: object
+      description: Custom functions for template processing
+    default_template_type:
+      type: string
+      enum:
+      - simple
+      - jinja
+      - conditional
+      - composite
+      - inherited
+      default: simple
+  additionalProperties: false
+metadata:
+  license: MIT
+  maintainer: PlugPipe Core Team
+  tags:
+  - templates
+  - rendering
+  - text-processing
+  compatibility:
+    minimum_plugpipe_version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

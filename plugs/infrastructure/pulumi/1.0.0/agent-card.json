@@ -1,0 +1,47 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:pulumi",
+    "name": "Pulumi Agent",
+    "description": "Pulumi Infrastructure as Code plugin for modern multi-language infrastructure management, stack operations, state management, and comprehensive cloud provider integrations",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/pulumi",
+    "skills": [
+      {
+        "id": "pulumi-primary",
+        "name": "Pulumi",
+        "description": "Pulumi Infrastructure as Code plugin for modern multi-language infrastructure management, stack operations, state management, and comprehensive cloud provider integrations",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "pulumi",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "pulumi",
+          "infrastructure",
+          "iac",
+          "multi-cloud",
+          "deployment",
+          "typescript",
+          "python",
+          "go",
+          "csharp",
+          "automation",
+          "devops"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.358123Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

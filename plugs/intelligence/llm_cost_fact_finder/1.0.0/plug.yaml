@@ -1,0 +1,214 @@
+description: AI-powered fact-finder agents for dynamic LLM cost discovery and real-time
+  pricing updates from multiple sources including APIs, web scraping, and LLM analysis
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - sqlite3
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    hours:
+      description: 'Time window for alerts/history in hours (default: 24)'
+      type: integer
+    limit:
+      description: 'Limit for history results (default: 10)'
+      type: integer
+    operation:
+      description: Operation to perform
+      enum:
+      - discover_pricing
+      - get_alerts
+      - get_discovery_history
+      type: string
+    providers:
+      description: List of providers to check for pricing updates (optional)
+      items:
+        type: string
+      type: array
+    severity:
+      description: Filter alerts by severity level
+      enum:
+      - minor
+      - moderate
+      - major
+      - critical
+      type: string
+  required:
+  - operation
+  type: object
+name: llm_cost_fact_finder
+display_name: LLMCostFactFinder
+output_schema:
+  properties:
+    alerts:
+      description: Pricing alerts from specified time period
+      items:
+        properties:
+          change_percentage:
+            type: number
+          message:
+            type: string
+          model:
+            type: string
+          new_price:
+            type: number
+          old_price:
+            type: number
+          provider:
+            type: string
+          severity:
+            type: string
+          timestamp:
+            type: string
+        type: object
+      type: array
+    alerts_generated:
+      description: List of pricing alerts generated
+      items:
+        properties:
+          change_percentage:
+            type: number
+          message:
+            type: string
+          model:
+            type: string
+          new_price:
+            type: number
+          old_price:
+            type: number
+          provider:
+            type: string
+          severity:
+            type: string
+          timestamp:
+            type: string
+        type: object
+      type: array
+    discovery_jobs:
+      description: Historical discovery job information
+      items:
+        properties:
+          alerts_generated:
+            type: integer
+          end_time:
+            type: string
+          error_message:
+            type: string
+          job_type:
+            type: string
+          providers_checked:
+            type: integer
+          start_time:
+            type: string
+          status:
+            type: string
+          updates_found:
+            type: integer
+        type: object
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    job_id:
+      description: Discovery job ID for tracking
+      type: integer
+    pricing_updates:
+      description: List of pricing updates found
+      items:
+        properties:
+          change_percentage:
+            type: number
+          confidence:
+            type: number
+          currency:
+            type: string
+          input_cost:
+            type: number
+          model:
+            type: string
+          output_cost:
+            type: number
+          provider:
+            type: string
+          source:
+            type: string
+          timestamp:
+            type: string
+        type: object
+      type: array
+    providers_checked:
+      description: Number of providers checked during discovery
+      type: integer
+    success:
+      description: Operation success status
+      type: boolean
+    timestamp:
+      description: Operation timestamp
+      type: string
+    total_alerts:
+      description: Total number of alerts generated
+      type: integer
+    total_updates:
+      description: Total number of pricing updates found
+      type: integer
+  type: object
+owner: plugpipe_ai_team
+sbom:
+  complete: sbom/sbom-complete.json
+  data_privacy:
+  - Pricing data stored locally only, not transmitted to external services
+  - No personal or business-sensitive information collected
+  - Historical pricing data can be purged as needed
+  - Provider pricing pages accessed via standard HTTP requests only
+  lib_dependencies:
+  - name: aiohttp
+    purpose: Async HTTP client for API calls and web scraping
+    version: 3.8+
+  - name: sqlite3
+    purpose: Local database for pricing history and alerts
+    version: builtin
+  - name: asyncio
+    purpose: Asynchronous operation support
+    version: builtin
+  - name: json
+    purpose: JSON data processing
+    version: builtin
+  - name: re
+    purpose: Regular expression pattern matching for price extraction
+    version: builtin
+  - name: datetime
+    purpose: Timestamp and date calculations
+    version: builtin
+  - name: dataclasses
+    purpose: Data structure definitions
+    version: builtin
+  - name: pathlib
+    purpose: File system operations
+    version: builtin
+  - name: logging
+    purpose: Comprehensive logging and debugging
+    version: builtin
+  - name: importlib.util
+    purpose: Dynamic plugin loading for cost estimator integration
+    version: builtin
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Web scraping uses appropriate user-agent headers and rate limiting
+  - No API keys or credentials stored in plugin code
+  - Local SQLite database for sensitive pricing data storage
+  - LLM integration only for pricing analysis, no sensitive data exposure
+  - Input validation for all pricing data to prevent injection attacks
+  summary: sbom/sbom.json
+status: stable
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

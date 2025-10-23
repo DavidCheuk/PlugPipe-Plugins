@@ -1,0 +1,10 @@
+# ELK Stack Audit Logging Plugin Dependencies
+
+# Elasticsearch client for ELK stack integration
+elasticsearch>=7.14.0
+
+# HTTP requests for REST API calls to ELK services
+requests>=2.25.1
+
+# Additional security for requests
+urllib3>=1.26.0

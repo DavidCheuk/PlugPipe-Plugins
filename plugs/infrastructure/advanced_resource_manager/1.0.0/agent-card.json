@@ -1,0 +1,85 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:infrastructure:advanced_resource_manager",
+    "name": "Advanced Resource Manager Agent",
+    "description": "Enterprise-grade resource management with GPU allocation, storage quotas, network limiting, and dynamic SLA-based priority management - following PlugPipe 'reuse, never reinvent' principle",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/advanced_resource_manager",
+    "skills": [
+      {
+        "id": "advanced_resource_manager-primary",
+        "name": "Advanced Resource Manager",
+        "description": "Enterprise-grade resource management with GPU allocation, storage quotas, network limiting, and dynamic SLA-based priority management - following PlugPipe 'reuse, never reinvent' principle",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      },
+      {
+        "id": "advanced_resource_manager-example-1",
+        "name": "Allocate GPU and compute resources for AI-heavy agent with SLA requirements",
+        "description": "Allocate GPU and compute resources for AI-heavy agent with SLA requirements",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "advanced_resource_manager-example-2",
+        "name": "Dynamically adjust queue priority based on SLA requirements and deadlines",
+        "description": "Dynamically adjust queue priority based on SLA requirements and deadlines",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      },
+      {
+        "id": "advanced_resource_manager-example-3",
+        "name": "Retrieve comprehensive resource analytics and optimization recommendations",
+        "description": "Retrieve comprehensive resource analytics and optimization recommendations",
+        "inputModes": [
+          "text",
+          "structured"
+        ],
+        "outputModes": [
+          "text",
+          "json"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "advanced_resource_manager",
+        "category": "infrastructure",
+        "subcategory": "",
+        "tags": [
+          "resource_management",
+          "gpu_allocation",
+          "storage_quotas",
+          "network_limiting",
+          "queue_priority",
+          "sla_enforcement",
+          "infrastructure",
+          "enterprise",
+          "ai_optimization",
+          "cost_optimization"
+        ],
+        "author": "PlugPipe Infrastructure Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.249120Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

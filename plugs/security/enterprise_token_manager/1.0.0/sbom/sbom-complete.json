@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:enterprise_token_manager-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T07:03:56.673255Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enterprise_token_manager@1.0.0",
+      "name": "enterprise_token_manager",
+      "version": "1.0.0",
+      "description": "Enterprise-grade JWT token security manager implementing 2024 industry best practices from Auth0, Okta, AWS Cognito with mandatory rotation, durable revocation, and risk-based expiration"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

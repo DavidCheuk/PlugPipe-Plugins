@@ -1,0 +1,126 @@
+name: task_manager
+display_name: TaskManager
+version: 1.0.0
+type: plug
+category: a2a
+subcategory: task_management
+description: 'A2A Protocol Task Manager - Stateful task execution and management for
+  agent-to-agent communication.
+
+
+  Implements A2A specification task lifecycle:
+
+  - Task creation and assignment
+
+  - Multi-turn stateful execution
+
+  - Artifact generation and exchange
+
+  - Task status tracking and history
+
+  - Result aggregation
+
+  '
+author: PlugPipe Team
+license: MIT
+tags:
+- a2a
+- task-management
+- stateful-execution
+- agent-collaboration
+- artifact-generation
+parameters:
+- name: action
+  type: string
+  required: true
+  description: Task action (create, execute, get_status, cancel, list)
+  enum:
+  - create
+  - execute
+  - get_status
+  - cancel
+  - list
+  - get_history
+- name: task_id
+  type: string
+  required: false
+  description: Task identifier (required for execute, get_status, cancel)
+- name: agent_id
+  type: string
+  required: false
+  description: Target agent URN (required for create)
+- name: skill_id
+  type: string
+  required: false
+  description: Target skill identifier (required for create)
+- name: input_data
+  type: object
+  required: false
+  description: Task input data (required for create/execute)
+- name: context
+  type: object
+  required: false
+  description: Task execution context (optional)
+examples:
+- description: Create new task for agent
+  command: "./pp run task_manager --action create \\\n  --agent-id urn:agent:plugpipe:security:mcp_guardian\
+    \ \\\n  --skill-id mcp_guardian-primary \\\n  --input-data '{\"scan_type\": \"\
+    output\", \"text\": \"test\"}'\n"
+- description: Execute task turn
+  command: "./pp run task_manager --action execute \\\n  --task-id task-123 \\\n \
+    \ --input-data '{\"continue\": true}'\n"
+- description: Get task status
+  command: './pp run task_manager --action get_status --task-id task-123
+
+    '
+- description: List all active tasks
+  command: './pp run task_manager --action list
+
+    '
+output:
+  type: json
+  description: Task execution result with status, artifacts, and metadata
+  schema:
+    type: object
+    properties:
+      task_id:
+        type: string
+        description: Unique task identifier
+      status:
+        type: string
+        enum:
+        - pending
+        - running
+        - completed
+        - failed
+        - cancelled
+      agent_id:
+        type: string
+        description: Assigned agent URN
+      skill_id:
+        type: string
+        description: Executed skill identifier
+      artifacts:
+        type: array
+        description: Generated artifacts from task execution
+      result:
+        type: object
+        description: Task execution result
+      error:
+        type: object
+        description: Error information if failed
+entry_point: main.py
+runtime: python3
+mcp_config:
+  enabled: true
+  tool_name: a2a_task_manager
+  tool_description: Manage A2A protocol tasks and stateful agent execution
+discovery:
+  visibility: public
+  searchable: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

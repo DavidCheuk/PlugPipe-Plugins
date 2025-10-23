@@ -1,0 +1,46 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:performance_bottleneck_detector",
+    "name": "Performance Bottleneck Detector Agent",
+    "description": "Advanced performance bottleneck detection and analysis for PlugPipe ecosystem with comprehensive profiling, resource monitoring, and optimization recommendations",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/performance_bottleneck_detector",
+    "skills": [
+      {
+        "id": "performance_bottleneck_detector-primary",
+        "name": "Performance Bottleneck Detector",
+        "description": "Advanced performance bottleneck detection and analysis for PlugPipe ecosystem with comprehensive profiling, resource monitoring, and optimization recommendations",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "performance_bottleneck_detector",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "performance",
+          "detection",
+          "monitoring",
+          "bottleneck",
+          "optimization",
+          "profiling",
+          "resource-monitoring",
+          "analysis",
+          "enterprise",
+          "ai-powered"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.818253Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

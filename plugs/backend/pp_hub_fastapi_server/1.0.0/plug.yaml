@@ -1,0 +1,491 @@
+author: PlugPipe Team
+business_value:
+  competitive_advantages:
+  - First reusable plugin for core PlugPipe backend infrastructure
+  - Portable deployment of full PlugPipe API capabilities
+  - Plugin-based orchestration of core system services
+  - Universal backend infrastructure as a composable plugin
+  infrastructure_benefits:
+  - Complete PlugPipe backend in reusable plugin format
+  - 59+ REST and GraphQL endpoints through plugin orchestration
+  - Multi-protocol support (MCP + PlugPipe native) in plugin form
+  - Enterprise deployment flexibility through plugin architecture
+  user_experience:
+  - Deploy full PlugPipe backend through plugin configuration
+  - Seamless integration with existing plugin ecosystem
+  - Enterprise-ready with comprehensive API capabilities
+  - Universal backend infrastructure for any deployment scenario
+category: backend_infrastructure
+data_integration:
+  elasticsearch_indices:
+  - pp-hub-api-requests-*
+  - pp-hub-registry-operations-*
+  - pp-hub-plugin-discoveries-*
+  prometheus_metrics:
+  - pp_hub_requests_total
+  - pp_hub_response_duration_seconds
+  - pp_hub_active_connections
+  - pp_hub_registry_operations_total
+  - pp_hub_plugin_discoveries_total
+description: Enterprise PP Hub FastAPI Server Plugin - Advanced reusable plugin wrapper
+  around core PlugPipe backend infrastructure with enterprise security, monitoring,
+  governance, and scalability features
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - signal
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    enterprise_config:
+      description: Enterprise features configuration
+      properties:
+        compliance_frameworks:
+          default:
+          - SOC2
+          - GDPR
+          description: Compliance frameworks to enforce
+          items:
+            enum:
+            - SOC2
+            - GDPR
+            - HIPAA
+            - PCI_DSS
+            - ISO27001
+            - NIST
+            type: string
+          type: array
+        enable_advanced_security:
+          default: true
+          description: Enable advanced security orchestration
+          type: boolean
+        enable_data_classification:
+          default: false
+          description: Enable automated data classification
+          type: boolean
+        enable_enterprise_monitoring:
+          default: true
+          description: Enable comprehensive enterprise monitoring
+          type: boolean
+        enable_governance_features:
+          default: true
+          description: Enable governance and compliance features
+          type: boolean
+        enable_identity_management:
+          default: false
+          description: Enable Keycloak identity management
+          type: boolean
+        enable_llm_security:
+          default: false
+          description: Enable LLM security scanning
+          type: boolean
+        enable_privacy_verification:
+          default: false
+          description: Enable privacy compliance verification
+          type: boolean
+        monitoring_level:
+          default: comprehensive
+          description: Monitoring level configuration
+          enum:
+          - basic
+          - standard
+          - comprehensive
+          - maximum
+          type: string
+        security_level:
+          default: standard
+          description: Security level configuration
+          enum:
+          - basic
+          - standard
+          - enterprise
+          - maximum
+          type: string
+      type: object
+    operation:
+      default: start_pp_hub_server
+      description: PP Hub server operation to perform
+      enum:
+      - start_pp_hub_server
+      - stop_pp_hub_server
+      - get_pp_hub_status
+      - configure_registries
+      - enable_protocols
+      - enable_enterprise_security
+      - configure_enterprise_monitoring
+      - setup_enterprise_governance
+      - perform_security_scan
+      - generate_compliance_report
+      type: string
+    protocol_config:
+      description: API protocol configuration
+      properties:
+        enable_enhanced_mcp:
+          default: true
+          description: Enable Enhanced MCP with namespaces
+          type: boolean
+        enable_mcp_graphql:
+          default: true
+          description: Enable MCP GraphQL interface
+          type: boolean
+        enable_mcp_rest:
+          default: true
+          description: Enable MCP REST endpoints
+          type: boolean
+        enable_pp_graphql:
+          default: true
+          description: Enable PlugPipe GraphQL interface
+          type: boolean
+        enable_pp_rest:
+          default: true
+          description: Enable PlugPipe native REST
+          type: boolean
+      type: object
+    registry_config:
+      description: Plugin registry configuration
+      properties:
+        backends:
+          default:
+          - yaml
+          description: Registry backends to enable
+          items:
+            enum:
+            - yaml
+            - github
+            - mcp
+            - pp_hub
+            type: string
+          type: array
+        github_repos:
+          default: []
+          description: GitHub registry repositories
+          items:
+            type: string
+          type: array
+        yaml_dir:
+          default: ${PLUGPIPE_ROOT:-/mnt/c/Project/PlugPipe}/plugs
+          description: Local YAML registry directory
+          type: string
+      type: object
+    server_config:
+      description: PP Hub server configuration
+      properties:
+        cors_origins:
+          default:
+          - '*'
+          description: Allowed CORS origins
+          items:
+            type: string
+          type: array
+        enable_cors:
+          default: true
+          description: Enable CORS middleware
+          type: boolean
+        enable_docs:
+          default: true
+          description: Enable OpenAPI documentation
+          type: boolean
+        host:
+          default: 127.0.0.1
+          description: Server host address
+          type: string
+        port:
+          default: 8000
+          description: Server port number
+          type: integer
+        title:
+          default: PlugPipe Universal API
+          description: API title
+          type: string
+      type: object
+  type: object
+integration_metadata:
+  orchestration_pattern: core_infrastructure_delegation
+  plugin_dependencies:
+    optional:
+    - security_vault_crypto/1.0.0
+    - llm_guard/1.0.0
+    - identity_keycloak/1.0.0
+    - privacy_verification/1.0.0
+    - data_management_classification/1.0.0
+    required:
+    - monitoring_prometheus/1.0.0
+    - security_orchestrator/1.0.0
+    - advanced_health_diagnostics/1.0.0
+    - auth_rbac_standard/1.0.0
+    - audit_elk_stack/1.0.0
+  plugin_type: backend_infrastructure
+  pure_orchestration: true
+  wraps_existing_infrastructure: pp_hub/fastapi_server.py
+  zero_business_logic_overlap: true
+license: MIT
+name: pp_hub_fastapi_server
+display_name: PPHubFastapiServer
+orchestration_architecture:
+  api_orchestration:
+    endpoints: 59+ REST and GraphQL endpoints through delegation
+    purpose: Multi-protocol API serving (MCP + PlugPipe + GraphQL)
+    reuses: All existing API adapters and protocol implementations
+  infrastructure_wrapper:
+    abstraction: Provides plugin interface to core backend infrastructure
+    purpose: Plugin wrapper around existing PP Hub FastAPI Server
+    reuses: Complete pp_hub/fastapi_server.py infrastructure as-is
+  registry_coordination:
+    capabilities: Plugin discovery, metadata management, health monitoring
+    purpose: Multi-backend registry management and plugin discovery
+    reuses: Existing registry backends (YAML, GitHub, MCP, PP Hub)
+output_schema:
+  properties:
+    compliance_report_results:
+      properties:
+        compliance_score:
+          type: number
+        frameworks_assessed:
+          items:
+            type: string
+          type: array
+        recommendations:
+          items:
+            type: string
+          type: array
+        report_generated:
+          type: boolean
+        violations_found:
+          type: integer
+      type: object
+    enterprise_governance_results:
+      properties:
+        audit_trails_enabled:
+          type: boolean
+        compliance_frameworks_active:
+          items:
+            type: string
+          type: array
+        data_classification_active:
+          type: boolean
+        governance_enabled:
+          type: boolean
+        policy_enforcement_active:
+          type: boolean
+        privacy_verification_active:
+          type: boolean
+      type: object
+    enterprise_monitoring_results:
+      properties:
+        advanced_health_active:
+          type: boolean
+        dashboards_available:
+          type: integer
+        elk_logging_active:
+          type: boolean
+        metrics_collected:
+          type: integer
+        monitoring_level:
+          enum:
+          - basic
+          - standard
+          - comprehensive
+          - maximum
+          type: string
+        prometheus_active:
+          type: boolean
+      type: object
+    enterprise_security_results:
+      properties:
+        advanced_security_enabled:
+          type: boolean
+        identity_management_active:
+          type: boolean
+        llm_guard_active:
+          type: boolean
+        security_level:
+          enum:
+          - basic
+          - standard
+          - enterprise
+          - maximum
+          type: string
+        security_orchestrator_active:
+          type: boolean
+        security_policies_active:
+          type: integer
+        threat_detection_enabled:
+          type: boolean
+      type: object
+    error:
+      type: string
+    operation_completed:
+      type: string
+    pp_hub_results:
+      properties:
+        endpoints_available:
+          type: integer
+        port:
+          type: integer
+        protocols_enabled:
+          items:
+            type: string
+          type: array
+        registries_configured:
+          items:
+            type: string
+          type: array
+        server_url:
+          type: string
+        status:
+          enum:
+          - running
+          - stopped
+          - error
+          type: string
+        uptime_seconds:
+          type: number
+      type: object
+    protocol_configuration_results:
+      properties:
+        enhanced_mcp_enabled:
+          type: boolean
+        mcp_graphql_enabled:
+          type: boolean
+        mcp_rest_enabled:
+          type: boolean
+        pp_graphql_enabled:
+          type: boolean
+        pp_rest_enabled:
+          type: boolean
+        total_endpoints:
+          type: integer
+      type: object
+    registry_configuration_results:
+      properties:
+        backends_configured:
+          items:
+            type: string
+          type: array
+        registry_health:
+          enum:
+          - healthy
+          - degraded
+          - error
+          type: string
+        total_plugins_discovered:
+          type: integer
+      type: object
+    revolutionary_capabilities_used:
+      items:
+        type: string
+      type: array
+    security_scan_results:
+      properties:
+        recommendations:
+          items:
+            type: string
+          type: array
+        scan_completed:
+          type: boolean
+        security_score:
+          type: number
+        threats_detected:
+          type: integer
+        vulnerabilities_found:
+          type: integer
+      type: object
+    success:
+      type: boolean
+    timestamp:
+      type: string
+  type: object
+owner: plugpipe-team
+reused_infrastructure:
+- PP Hub FastAPI Server (pp_hub/fastapi_server.py) for core backend
+- FastAPI framework for proven HTTP server capabilities
+- Multiple API adapters (MCP REST, Enhanced MCP, PlugPipe REST)
+- GraphQL interfaces for both MCP and PlugPipe protocols
+- Registry backends for multi-backend plugin discovery
+- Prometheus monitoring via monitoring_prometheus plugin
+- ELK Stack logging and analytics via audit_elk_stack plugin
+- Security orchestration via security_orchestrator plugin
+- Advanced health diagnostics via advanced_health_diagnostics plugin
+- RBAC authentication via auth_rbac_standard plugin
+- Enterprise identity management via identity_keycloak plugin
+- LLM security scanning via llm_guard plugin
+- Privacy verification via privacy_verification plugin
+- Data classification via data_management_classification plugin
+- Cryptographic operations via security_vault_crypto plugin
+revolutionary_capabilities:
+- reusable_core_backend_infrastructure_deployment
+- plugin_wrapped_59_plus_api_endpoints
+- multi_protocol_backend_orchestration
+- portable_plugpipe_infrastructure_as_plugin
+- configurable_registry_backend_orchestration
+- enterprise_api_gateway_through_plugin_architecture
+- universal_backend_deployment_flexibility
+- core_infrastructure_plugin_composition
+- enterprise_security_orchestration_integration
+- advanced_monitoring_and_observability_stack
+- automated_governance_and_compliance_framework
+- zero_trust_security_architecture
+- comprehensive_threat_detection_and_response
+- enterprise_identity_and_access_management
+- automated_privacy_and_data_governance
+- scalable_enterprise_infrastructure_orchestration
+sbom:
+  complete: sbom/sbom-complete.json
+  dependencies:
+  - license: MIT
+    name: fastapi
+    purpose: Web framework for building APIs (inherited from PP Hub)
+    version: 0.100.0
+  - license: BSD-3-Clause
+    name: uvicorn
+    purpose: ASGI server implementation (inherited from PP Hub)
+    version: 0.22.0
+  - license: MIT
+    name: pydantic
+    purpose: Data validation (inherited from PP Hub)
+    version: 2.0.0
+  - license: MIT
+    name: strawberry-graphql
+    purpose: GraphQL implementation (inherited from PP Hub)
+    version: 0.200.0
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+  wraps_infrastructure: pp_hub/fastapi_server.py
+status: stable
+tags:
+- pp_hub
+- fastapi
+- server
+- infrastructure
+- backend
+- core
+- plugpipe
+- universal
+- deployment
+universal_use_cases:
+- portable_plugpipe_deployment
+- enterprise_backend_hosting
+- multi_tenant_plugpipe_infrastructure
+- cloud_native_plugpipe_deployment
+- containerized_backend_orchestration
+- microservice_plugpipe_architecture
+- edge_deployment_backend_hosting
+- hybrid_cloud_plugpipe_infrastructure
+- zero_trust_enterprise_deployments
+- compliance_regulated_environments
+- high_security_government_deployments
+- financial_services_infrastructure
+- healthcare_hipaa_compliant_deployments
+- enterprise_saas_platform_hosting
+- managed_service_provider_infrastructure
+- sovereign_cloud_deployments
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

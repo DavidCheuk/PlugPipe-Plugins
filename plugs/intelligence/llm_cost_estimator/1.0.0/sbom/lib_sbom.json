@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:llm_cost_estimator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-25T11:40:34.907408Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "llm_cost_estimator@1.0.0",
+      "name": "llm_cost_estimator",
+      "version": "1.0.0",
+      "description": "Production-ready LLM cost estimation and budget monitoring plugin for comprehensive cost analysis, budget tracking, and usage optimization across all PlugPipe plugins"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

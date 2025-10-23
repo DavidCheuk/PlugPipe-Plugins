@@ -1,0 +1,24 @@
+name: cli_parameter_mapping_coordinator
+version: 1.0.0
+description: Intelligent coordinator for CLI parameter mappings that automatically
+  detects plugin changes and maintains synchronized parameter mappings
+author: PlugPipe Core Team
+category: transformation
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/core/cli_parameter_mapping_coordinator
+tags:
+- glue-component
+- transformation
+- cli-coordination
+- parameter-mapping
+- ecosystem-coordination
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

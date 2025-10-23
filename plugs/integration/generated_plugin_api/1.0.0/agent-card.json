@@ -1,0 +1,39 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:generated_plugin_api",
+    "name": "Generated Plugin Api Agent",
+    "description": "Auto-generated plugin for generated_plugin API integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/generated_plugin_api",
+    "skills": [
+      {
+        "id": "generated_plugin_api-primary",
+        "name": "Generated Plugin Api",
+        "description": "Auto-generated plugin for generated_plugin API integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "generated_plugin_api",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "api-integration",
+          "auto-generated",
+          "generated_plugin_LOWER"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:32.526197Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

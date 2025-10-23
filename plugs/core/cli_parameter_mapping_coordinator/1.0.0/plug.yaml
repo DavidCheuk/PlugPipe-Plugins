@@ -1,0 +1,154 @@
+capabilities:
+- Automatic plugin change detection and notification
+- Intelligent parameter mapping synchronization
+- Version-aware mapping compatibility validation
+- Schema evolution analysis and migration planning
+- Ecosystem-wide parameter coordination
+- Plugin lifecycle integration with freeze/release management
+- Real-time monitoring and alerting for mapping inconsistencies
+- Meta testing for coordination system validation
+- Self-testing parameter mapping accuracy
+- Change detection capability verification
+- Schema evolution handling validation
+category: core
+dependencies:
+- core/freeze_release_manager/1.0.0
+- registry/database_plugin_registry/1.0.0
+- core/codebase_integrity_scanner/1.0.0
+- intelligence/context_analyzer/1.0.0
+- core/cli_parameter_processor/1.0.0
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:41'
+  stdlib_modules_declared: true
+description: Intelligent coordinator for CLI parameter mappings that automatically
+  detects plugin changes, manages versioning, and maintains synchronized parameter
+  mappings across the entire plugin ecosystem.
+external_dependencies:
+  install_method: pip
+  packages:
+  - loader
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    force_update:
+      default: false
+      description: Force parameter mapping update despite version conflicts
+      type: boolean
+    mapping_version:
+      description: Parameter mapping version
+      type: string
+    monitoring_enabled:
+      default: true
+      description: Enable continuous plugin monitoring
+      type: boolean
+    operation:
+      description: Coordination operation to perform
+      enum:
+      - detect_plugin_changes
+      - sync_parameter_mappings
+      - validate_mapping_compatibility
+      - update_mappings_for_version
+      - analyze_schema_evolution
+      - coordinate_parameter_ecosystem
+      - monitor_plugin_lifecycle
+      - generate_mapping_migration
+      - run_meta_testing
+      - test_parameter_mapping_accuracy
+      - test_change_detection_capability
+      - test_schema_evolution_handling
+      type: string
+    plugin_name:
+      description: Target plugin name for operations
+      type: string
+    plugin_version:
+      description: Plugin version to coordinate
+      type: string
+  required:
+  - operation
+  type: object
+integration_points:
+  freeze_release_manager:
+  - Coordinates with version freezing/release events
+  - Validates parameter mappings before version release
+  - Manages mapping version compatibility
+  integrity_scanner:
+  - Detects file system changes in plugin directories
+  - Validates mapping consistency across ecosystem
+  - Monitors plugin manifest updates
+  plugin_registry:
+  - Monitors plugin registration/deregistration events
+  - Discovers new plugins requiring parameter mappings
+  - Tracks plugin schema changes
+name: cli_parameter_mapping_coordinator
+display_name: CLIParameterMappingCoordinator
+output_schema:
+  properties:
+    coordination_status:
+      description: Overall coordination status
+      type: object
+    mapping_updates:
+      description: Generated parameter mapping updates
+      type: object
+    message:
+      type: string
+    migration_plan:
+      description: Migration plan for parameter mappings
+      type: object
+    operation:
+      type: string
+    plugin_changes:
+      description: Detected plugin changes
+      type: array
+    schema_evolution:
+      description: Schema evolution analysis
+      type: object
+    success:
+      type: boolean
+    version_compatibility:
+      description: Version compatibility analysis
+      type: object
+  type: object
+owner: plugpipe-core
+python_packages:
+- pydantic>=2.0.0
+- typing-extensions>=4.0.0
+- watchdog>=3.0.0
+- deepdiff>=6.0.0
+revolutionary_capabilities:
+- Self-healing parameter mapping ecosystem
+- Predictive schema evolution analysis
+- Zero-downtime parameter mapping updates
+- AI-driven compatibility migration planning
+status: production
+stdlib_modules:
+- asyncio
+- dataclasses
+- datetime
+- hashlib
+- importlib
+- json
+- logging
+- os
+- pathlib
+- re
+- sys
+- typing
+tags:
+- cli-coordination
+- parameter-mapping
+- version-management
+- plugin-lifecycle
+- schema-synchronization
+- ecosystem-coordination
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

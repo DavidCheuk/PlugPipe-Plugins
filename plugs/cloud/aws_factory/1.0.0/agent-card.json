@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:aws_factory",
+    "name": "Aws Factory Agent",
+    "description": "AWS Factory Plugin for multi-service cloud orchestration across EC2, S3, RDS, Lambda and other AWS services with enterprise features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/aws_factory",
+    "skills": [
+      {
+        "id": "aws_factory-primary",
+        "name": "Aws Factory",
+        "description": "AWS Factory Plugin for multi-service cloud orchestration across EC2, S3, RDS, Lambda and other AWS services with enterprise features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "aws_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Cloud Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:29.751536Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

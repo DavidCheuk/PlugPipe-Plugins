@@ -1,0 +1,26 @@
+name: storage_backend_abstractor
+version: 1.0.0
+description: Universal storage abstraction layer eliminating cross-cutting storage
+  concerns with unified interface for all backends
+author: PlugPipe Core Team
+category: interface
+discoverability: public
+entrypoint: main.py
+metadata:
+  glue_specification: glue.yaml
+  migrated_from: plugs/core/storage_backend_abstractor
+  type: infrastructure_abstraction
+tags:
+- glue-component
+- interface
+- storage
+- abstraction
+- backend-unification
+- infrastructure
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,42 @@
+{
+  "tool": "manually_created",
+  "format": "plugpipe_v1", 
+  "timestamp": "2025-08-21T14:00:00Z",
+  "components": [
+    {
+      "name": "python-ast",
+      "version": "builtin",
+      "type": "library",
+      "supplier": "Python Software Foundation",
+      "description": "Abstract Syntax Tree parsing for Python code analysis"
+    },
+    {
+      "name": "pathlib", 
+      "version": "builtin",
+      "type": "library",
+      "supplier": "Python Software Foundation",
+      "description": "Path manipulation utilities"
+    },
+    {
+      "name": "re",
+      "version": "builtin", 
+      "type": "library",
+      "supplier": "Python Software Foundation",
+      "description": "Regular expression operations"
+    },
+    {
+      "name": "json",
+      "version": "builtin",
+      "type": "library", 
+      "supplier": "Python Software Foundation",
+      "description": "JSON serialization and deserialization"
+    },
+    {
+      "name": "yaml",
+      "version": ">=6.0",
+      "type": "library",
+      "supplier": "PyYAML",
+      "description": "YAML parser and emitter"
+    }
+  ]
+}

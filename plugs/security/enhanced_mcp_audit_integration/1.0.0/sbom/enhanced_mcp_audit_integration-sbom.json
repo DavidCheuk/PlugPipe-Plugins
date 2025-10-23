@@ -1,0 +1,132 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:enhanced_mcp_audit_integration-1.0.0-mcp-security",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-06T17:00:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "name": "enhanced_mcp_audit_integration",
+      "version": "1.0.0",
+      "description": "Enhanced MCP Audit Integration - Extends ELK stack with MCP-specific audit events and security monitoring",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "elasticsearch@8.0.0",
+      "name": "elasticsearch",
+      "version": "8.0.0",
+      "description": "Official Python client for Elasticsearch",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/elasticsearch@8.0.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/elastic/elasticsearch-py"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "logstash-python@1.0.0",
+      "name": "logstash-python",
+      "version": "1.0.0",
+      "description": "Python integration for Logstash",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/logstash-python@1.0.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "kibana-api@1.0.0",
+      "name": "kibana-api",
+      "version": "1.0.0",
+      "description": "Kibana API client for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/kibana-api@1.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "enhanced_mcp_audit_integration@1.0.0",
+      "dependsOn": [
+        "elasticsearch@8.0.0",
+        "logstash-python@1.0.0",
+        "kibana-api@1.0.0"
+      ]
+    }
+  ],
+  "vulnerabilities": [],
+  "annotations": [
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": ["enhanced_mcp_audit_integration@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_audit_plugin"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": ["enhanced_mcp_audit_integration@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "compliance_frameworks",
+        "value": "SOX_GDPR_HIPAA"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": ["enhanced_mcp_audit_integration@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "audit_monitoring_layer"
+      }
+    },
+    {
+      "bom-ref": "enhanced_mcp_audit_integration@1.0.0",
+      "subjects": ["enhanced_mcp_audit_integration@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "plugpipe_principle",
+        "value": "REUSE_ELK_EXTEND_MCP"
+      }
+    }
+  ]
+}

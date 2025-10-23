@@ -1,0 +1,44 @@
+{
+  "name": "dynamic_format_transformer",
+  "version": "1.0.0",
+  "description": "Dynamic protocol format transformer for security testing that wraps attack payloads in various protocol formats",
+  "category": "transformation",
+  "status": "stable",
+  "source_schema": "attack_payload",
+  "target_schema": "protocol_wrapped_payload",
+  "mappings": [
+    {
+      "source_field": "attack_payload.payload",
+      "target_field": "protocol_wrapped_payload.data",
+      "transform": {
+        "operation": "protocol_wrap",
+        "protocol_detection": "auto",
+        "supported_formats": ["mcp", "http", "websocket", "graphql", "grpc"]
+      }
+    },
+    {
+      "source_field": "attack_payload.category",
+      "target_field": "protocol_wrapped_payload.attack_type",
+      "transform": {
+        "operation": "format_selection",
+        "mapping": {
+          "sql_injection": "http_post",
+          "xss": "websocket_message",
+          "command_injection": "mcp_tools_call",
+          "prompt_injection": "mcp_sampling",
+          "path_traversal": "mcp_resources_read"
+        }
+      }
+    },
+    {
+      "source_field": "attack_payload.target_format",
+      "target_field": "protocol_wrapped_payload.protocol_format",
+      "transform": {
+        "operation": "protocol_format_mapping",
+        "default": "auto_detect"
+      }
+    }
+  ],
+  "error_policy": "continue_on_error",
+  "tags": ["transformation", "security", "protocol", "format-conversion", "dynamic"]
+}

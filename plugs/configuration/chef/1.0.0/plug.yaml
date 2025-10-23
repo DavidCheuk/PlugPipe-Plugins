@@ -1,0 +1,465 @@
+description: Comprehensive Chef configuration management plugin for cookbook management,
+  node bootstrapping, recipe execution, data bags, environments, and both Chef Server/Client
+  and Chef Solo architectures
+external_dependencies:
+  install_method: pip
+  packages:
+  - shlex
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    cache_path:
+      default: /var/chef/cache
+      description: Chef cache directory
+      type: string
+    chef_server_url:
+      description: Chef Server URL
+      type: string
+    chef_zero_port:
+      default: 8889
+      description: Port for Chef Zero (local Chef Server)
+      type: integer
+    client_key_path:
+      description: Path to Chef client key file
+      type: string
+    client_name:
+      description: Chef client name
+      type: string
+    cookbook_name:
+      description: Name of the cookbook to manage
+      type: string
+    cookbook_path:
+      description: Path to cookbook directory (for upload operations)
+      type: string
+    data_bag_name:
+      description: Name of the data bag
+      type: string
+    environment:
+      default: _default
+      description: Chef environment name
+      type: string
+    environment_data:
+      default: {}
+      description: Environment configuration data
+      type: object
+    environment_name:
+      description: Name of the Chef environment
+      type: string
+    item_data:
+      default: {}
+      description: Data bag item content
+      type: object
+    item_name:
+      description: Name of the data bag item
+      type: string
+    log_level:
+      default: info
+      description: Chef log level
+      enum:
+      - debug
+      - info
+      - warn
+      - error
+      - fatal
+      type: string
+    node_address:
+      description: IP address or hostname of node to bootstrap
+      type: string
+    node_name:
+      description: Chef node name
+      type: string
+    operation:
+      description: Chef operation to execute
+      enum:
+      - upload_cookbook
+      - download_cookbook
+      - list_cookbooks
+      - delete_cookbook
+      - test_cookbook
+      - bootstrap_node
+      - list_nodes
+      - show_node
+      - delete_node
+      - run_chef_client
+      - create_data_bag
+      - create_data_bag_item
+      - list_data_bags
+      - show_data_bag_item
+      - delete_data_bag_item
+      - create_environment
+      - list_environments
+      - show_environment
+      - delete_environment
+      type: string
+    run_list:
+      default: []
+      description: Chef run list (recipes and roles)
+      items:
+        type: string
+      type: array
+    solo_mode:
+      default: false
+      description: Use Chef Solo instead of Chef Server/Client
+      type: boolean
+    ssh_key:
+      description: Path to SSH private key for node access
+      type: string
+    ssh_user:
+      default: root
+      description: SSH user for node bootstrap
+      type: string
+    ssl_verify_mode:
+      default: verify_peer
+      description: SSL verification mode for Chef Server connections
+      enum:
+      - verify_peer
+      - verify_none
+      type: string
+    timeout:
+      default: 1800
+      description: Command execution timeout in seconds
+      type: integer
+    validation_key_path:
+      description: Path to Chef validation key file
+      type: string
+    version:
+      description: Specific cookbook version
+      type: string
+  required:
+  - operation
+  type: object
+name: chef
+display_name: Chef
+output_schema:
+  properties:
+    available_operations:
+      description: List of available operations (for error responses)
+      items:
+        type: string
+      type: array
+    bootstrap_result:
+      description: Node bootstrap results
+      properties:
+        chef_run_status:
+          type: string
+        client_created:
+          type: boolean
+        node_created:
+          type: boolean
+      type: object
+    chef_config:
+      description: Chef configuration used for operation
+      properties:
+        chef_server_url:
+          type: string
+        environment:
+          type: string
+        solo_mode:
+          type: boolean
+        timeout:
+          type: integer
+      type: object
+    chef_run_result:
+      description: Chef client run results
+      properties:
+        resources_failed:
+          type: integer
+        resources_updated:
+          type: integer
+        run_time:
+          type: number
+        status:
+          enum:
+          - success
+          - failed
+          - partial
+          type: string
+        total_resources:
+          type: integer
+      type: object
+    command:
+      description: Executed Chef command
+      type: string
+    cookbook_test_results:
+      description: Cookbook testing results (for test_cookbook operation)
+      properties:
+        cookstyle:
+          properties:
+            error:
+              type: string
+            output:
+              type: string
+            success:
+              type: boolean
+          type: object
+        foodcritic:
+          properties:
+            error:
+              type: string
+            output:
+              type: string
+            success:
+              type: boolean
+          type: object
+      type: object
+    cookbooks:
+      description: List of available cookbooks (for list_cookbooks operation)
+      items:
+        type: string
+      type: array
+    data_bag_item:
+      description: Data bag item content (for show_data_bag_item operation)
+      type: object
+    data_bags:
+      description: List of data bags (for list_data_bags operation)
+      items:
+        type: string
+      type: array
+    environment_info:
+      description: Environment details (for show_environment operation)
+      type: object
+    environments:
+      description: List of environments (for list_environments operation)
+      items:
+        type: string
+      type: array
+    error:
+      description: Error message if operation failed
+      type: string
+    error_details:
+      description: Detailed error information
+      properties:
+        documentation_link:
+          type: string
+        error_type:
+          type: string
+        suggested_fix:
+          type: string
+      type: object
+    execution_time:
+      description: Operation execution time in seconds
+      type: number
+    node_info:
+      description: Detailed node information (for show_node operation)
+      type: object
+    nodes:
+      description: List of Chef nodes (for list_nodes operation)
+      items:
+        type: string
+      type: array
+    operation:
+      description: Executed Chef operation
+      type: string
+    output:
+      description: Command output from Chef tools
+      type: string
+    return_code:
+      description: Command return code
+      type: integer
+    success:
+      description: Operation success status
+      type: boolean
+    timestamp:
+      description: Operation execution timestamp
+      format: date-time
+      type: string
+  type: object
+owner: plugpipe
+sbom:
+  complete: sbom/sbom-complete.json
+  compliance_frameworks:
+  - CIS Controls for configuration management
+  - NIST Cybersecurity Framework
+  - SOC 2 compliance controls
+  - ISO 27001 configuration management standards
+  - PCI DSS system configuration requirements
+  - FedRAMP controls for government cloud deployments
+  dependencies:
+  - description: Chef client for configuration management execution
+    license: Apache-2.0
+    name: chef-client
+    source: https://github.com/chef/chef
+    type: binary
+    version: '>=17.0.0'
+  - description: Chef Server for centralized cookbook and node management
+    license: Apache-2.0
+    name: chef-server
+    optional: true
+    source: https://github.com/chef/chef-server
+    type: binary
+    version: '>=14.0.0'
+  - description: Chef command-line tool for cookbook and node management
+    license: Apache-2.0
+    name: knife
+    source: https://github.com/chef/chef
+    type: binary
+    version: '>=17.0.0'
+  - description: Cookbook linting tool for Chef best practices
+    license: MIT
+    name: foodcritic
+    optional: true
+    source: https://github.com/Foodcritic/foodcritic
+    type: ruby_gem
+    version: '>=16.0.0'
+  - description: RuboCop-based linting tool for Chef cookbooks
+    license: Apache-2.0
+    name: cookstyle
+    optional: true
+    source: https://github.com/chef/cookstyle
+    type: ruby_gem
+    version: '>=7.0.0'
+  - description: Integration testing framework for Chef cookbooks
+    license: Apache-2.0
+    name: test-kitchen
+    optional: true
+    source: https://github.com/test-kitchen/test-kitchen
+    type: ruby_gem
+    version: '>=3.0.0'
+  - description: Cookbook dependency manager for Chef
+    license: Apache-2.0
+    name: berkshelf
+    optional: true
+    source: https://github.com/berkshelf/berkshelf
+    type: ruby_gem
+    version: '>=8.0.0'
+  - description: Ruby runtime environment for Chef execution
+    license: Ruby
+    name: ruby
+    source: https://www.ruby-lang.org
+    type: runtime
+    version: '>=2.7.0'
+  integration_capabilities:
+  - Git integration for cookbook version control
+  - Jenkins/CI-CD pipeline integration
+  - Docker container management via cookbooks
+  - Cloud provider integrations (AWS, GCP, Azure)
+  - Database configuration management
+  - Application deployment automation
+  - Infrastructure monitoring setup
+  - Security compliance enforcement
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  security_considerations:
+  - Chef Server authentication and authorization controls
+  - Secure communication between Chef Server and clients (SSL/TLS)
+  - Data bag encryption for sensitive configuration data
+  - SSH key management for node bootstrapping operations
+  - Network security for Chef communication ports (443, 10000-10003)
+  - File permissions for Chef configuration and key files
+  - Regular security updates for Chef components
+  - Audit logging for all Chef operations and cookbook changes
+  - Cookbook signature verification and trusted sources
+  - Universal Input Sanitizer integration for malicious pattern detection
+  - Comprehensive command injection prevention in Chef operations
+  - Path traversal protection for cookbook and configuration files
+  - Credential and sensitive data redaction in error messages
+  - Chef-specific security validation for operations and arguments
+  - Configuration parameter validation with security constraints
+  - Fallback security validation when sanitizer unavailable
+  security_enhancements:
+    configuration_hardening:
+      path_traversal_prevention: true
+      port_range_validation: 1024-65535
+      ssl_verification_enforcement: true
+      timeout_constraints: 1-7200 seconds
+    error_sanitization:
+      chef_key_protection: true
+      credential_redaction: true
+      sensitive_path_filtering: true
+    input_validation:
+      chef_argument_sanitization: true
+      comprehensive: true
+      configuration_security_checks: true
+      recursive_validation: true
+    universal_input_sanitizer:
+      fallback_validation: true
+      integrated: true
+      patterns_detected:
+      - command_injection
+      - path_traversal
+      - script_injection
+      - chef_specific_attacks
+  summary: sbom/sbom.json
+  supported_platforms:
+  - name: Linux
+    versions:
+    - RHEL 7+
+    - CentOS 7+
+    - Ubuntu 18.04+
+    - Debian 9+
+    - SLES 12+
+    - Amazon Linux 2+
+  - name: Windows
+    versions:
+    - Windows Server 2016+
+    - Windows 10+
+  - name: macOS
+    versions:
+    - macOS 10.14+
+  - name: AIX
+    versions:
+    - AIX 7.1+
+  - name: Solaris
+    versions:
+    - Solaris 11+
+  threat_model:
+    assets:
+    - Chef Server credentials and keys
+    - Cookbook repositories and configurations
+    - Node authentication certificates
+    - Data bag encrypted secrets
+    - Environment configuration data
+    attack_vectors:
+    - Command injection through Chef operations
+    - Path traversal in cookbook management
+    - Credential theft from error messages
+    - Chef Server authentication bypass
+    - Data bag tampering and secret extraction
+    security_controls:
+    - Universal Input Sanitizer integration
+    - Comprehensive input validation framework
+    - Chef-specific argument sanitization
+    - Path traversal prevention mechanisms
+    - Credential redaction in error handling
+    - Configuration security validation
+    - SSL/TLS enforcement for Chef Server communication
+    threat_actors:
+    - External attackers via command injection
+    - Malicious cookbook authors
+    - Compromised Chef Server connections
+    - Insider threats with configuration access
+  vulnerability_assessments:
+  - description: Potential command injection through Chef knife commands
+    id: CHEF-001
+    mitigation: Comprehensive argument sanitization and shell escaping implemented
+    severity: HIGH
+    status: MITIGATED
+    title: Chef Command Injection
+  - description: Path traversal vulnerabilities in cookbook and configuration paths
+    id: CHEF-002
+    mitigation: Path validation and traversal prevention implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Path Traversal in Cookbook Operations
+  - description: Chef credentials and keys exposed in error messages
+    id: CHEF-003
+    mitigation: Comprehensive error message sanitization implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Sensitive Data Exposure
+  - description: Malicious configuration injection in Chef Solo mode
+    id: CHEF-004
+    mitigation: Configuration validation and sanitization implemented
+    severity: MEDIUM
+    status: MITIGATED
+    title: Chef Solo Configuration Injection
+status: active
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

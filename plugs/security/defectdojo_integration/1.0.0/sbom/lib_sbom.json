@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:defectdojo_integration-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T01:40:40.865968Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "defectdojo_integration@1.0.0",
+      "name": "defectdojo_integration",
+      "version": "1.0.0",
+      "description": "Professional DefectDojo vulnerability management integration leveraging 200+ security tool integrations, API capabilities, and enterprise-grade reporting features for comprehensive penetration testing report generation"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

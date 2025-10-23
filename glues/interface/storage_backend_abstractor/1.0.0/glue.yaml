@@ -1,0 +1,17 @@
+name: storage_backend_abstractor
+version: 1.0.0
+description: Universal storage abstraction layer that provides unified interface for all storage backends (SQLite, PostgreSQL, files, S3)
+author: PlugPipe Integration Team
+category: interface
+status: active
+source_schema: storage_requests
+target_schema: unified_storage_interface
+created_at: '2025-09-20'
+updated_at: '2025-09-20'
+tags:
+- interface
+- storage
+- abstraction
+- backend-unification
+- infrastructure
+- cross-cutting

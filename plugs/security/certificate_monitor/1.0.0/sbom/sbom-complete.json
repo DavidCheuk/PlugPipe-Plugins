@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:certificate_monitor-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-28T07:47:01.325722Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "certificate_monitor@1.0.0",
+      "name": "certificate_monitor",
+      "version": "1.0.0",
+      "description": "Enterprise certificate monitoring and validation plugin with multi-provider support, expiry alerting, and compliance checking"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

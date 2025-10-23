@@ -1,0 +1,52 @@
+{
+  "operation": "store_issues",
+  "issues": {
+    "validation_run_id": "configurable_test_001",
+    "timestamp": "2025-08-29T14:15:00Z",
+    "target_plugin": "issue_tracker",
+    "change_type": "created",
+    "pipeline_score": 95,
+    "issues_list": [
+      {
+        "category": "architecture",
+        "severity": "medium",
+        "description": "Storage architecture successfully isolated and made configurable",
+        "file_path": "plugs/governance/issue_tracker/1.0.0/main.py",
+        "recommendation": "Continue with this pattern for other plugins",
+        "details": {
+          "improvement": "Storage backends now completely isolated",
+          "flexibility": "Supports any database or storage system",
+          "configuration": "Fully configurable through storage_config"
+        }
+      }
+    ],
+    "metadata": {
+      "test_type": "configurable_storage_validation",
+      "backends_tested": ["local_file", "auto_selection"]
+    }
+  },
+  "storage_backend": "auto",
+  "storage_config": {
+    "sqlite": {
+      "database_path": "test_configurable_issues.db",
+      "table_name": "test_validation_issues"
+    },
+    "local_file": {
+      "storage_path": "test_configurable_issues.json",
+      "backup_enabled": true,
+      "max_history": 10
+    },
+    "custom_backends": {
+      "test_memory_storage": {
+        "plugin_name": "memory_storage_plugin",
+        "priority": 1,
+        "health_check": {
+          "operation": "ping"
+        },
+        "config": {
+          "max_items": 100
+        }
+      }
+    }
+  }
+}

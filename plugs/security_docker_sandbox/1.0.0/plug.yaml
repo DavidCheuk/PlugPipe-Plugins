@@ -1,0 +1,288 @@
+category: security
+config_templates:
+  development:
+    isolation_level: permissive
+    network_access:
+      allowed_hosts:
+      - 127.0.0.1
+      - localhost
+      enabled: true
+    resource_limits:
+      cpu_limit: 0.5
+      memory_mb: 256
+      timeout_seconds: 60
+  production:
+    filesystem_access:
+      read_only_paths:
+      - /usr
+      - /lib
+      - /bin
+      - /etc
+      writable_paths:
+      - /tmp
+    isolation_level: strict
+    network_access:
+      enabled: false
+    resource_limits:
+      cpu_limit: 1.0
+      memory_mb: 512
+      timeout_seconds: 300
+  testing:
+    isolation_level: standard
+    network_access:
+      enabled: false
+    resource_limits:
+      cpu_limit: 0.5
+      memory_mb: 128
+      timeout_seconds: 30
+contract:
+  input_schema:
+    properties:
+      args:
+        default: []
+        description: Arguments to pass to the function
+        type: array
+      function_name:
+        description: Function to execute within the plugin
+        type: string
+      kwargs:
+        default: {}
+        description: Keyword arguments to pass to the function
+        type: object
+      plugin_path:
+        description: Path to plugin to execute in sandbox
+        type: string
+      sandbox_config:
+        default: {}
+        properties:
+          filesystem_access:
+            properties:
+              mount_host_paths:
+                default: {}
+                type: object
+              read_only_paths:
+                default:
+                - /usr
+                - /lib
+                - /bin
+                items:
+                  type: string
+                type: array
+              writable_paths:
+                default:
+                - /tmp
+                items:
+                  type: string
+                type: array
+            type: object
+          isolation_level:
+            default: standard
+            enum:
+            - strict
+            - standard
+            - permissive
+            type: string
+          network_access:
+            properties:
+              allowed_hosts:
+                default: []
+                items:
+                  type: string
+                type: array
+              enabled:
+                default: false
+                type: boolean
+            type: object
+          resource_limits:
+            properties:
+              cpu_limit:
+                default: 1.0
+                maximum: 4.0
+                minimum: 0.1
+                type: number
+              memory_mb:
+                default: 512
+                maximum: 8192
+                minimum: 64
+                type: integer
+              timeout_seconds:
+                default: 300
+                maximum: 3600
+                minimum: 1
+                type: integer
+            type: object
+          security_analysis:
+            properties:
+              enable_signature_verification:
+                default: true
+                description: Enable cryptographic signature verification
+                type: boolean
+              enable_static_analysis:
+                default: true
+                description: Enable AST-based static analysis for dangerous imports
+                type: boolean
+              fail_secure:
+                default: true
+                description: Fail securely on security violations (vs fail open)
+                type: boolean
+              signature:
+                description: Plugin signature to verify (optional)
+                type: string
+              signing_key:
+                description: HMAC signing key for plugin verification (optional)
+                type: string
+            type: object
+        type: object
+    required:
+    - plugin_path
+    - function_name
+    type: object
+  output_schema:
+    properties:
+      error:
+        type: string
+      execution_stats:
+        properties:
+          cpu_time_seconds:
+            type: number
+          execution_time_seconds:
+            type: number
+          exit_code:
+            type: integer
+          memory_used_mb:
+            type: number
+        type: object
+      result:
+        description: Result from plugin execution
+      security_analysis:
+        properties:
+          dangerous_imports:
+            description: List of dangerous imports detected
+            items:
+              type: string
+            type: array
+          passed:
+            description: Overall security analysis result
+            type: boolean
+          signature_verified:
+            description: Signature verification result
+            type: boolean
+          static_analysis_passed:
+            description: Static analysis result
+            type: boolean
+          violations:
+            description: List of security violations found
+            items:
+              type: string
+            type: array
+        type: object
+      security_violations:
+        description: Security violations that caused execution to be blocked
+        items:
+          type: string
+        type: array
+      success:
+        type: boolean
+    required:
+    - success
+    type: object
+dependencies:
+- name: docker
+  type: python-package
+  version: '>= 6.0.0'
+- name: python
+  type: runtime
+  version: '>= 3.8'
+- name: asyncio-timeout
+  type: python-package
+  version: '>= 4.0.0'
+dependency_analysis:
+  analyzer_notes: All imports (shutil, tempfile, hmac, traceback, ast) are stdlib
+    modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Enhanced Docker-based plugin sandbox with cryptographic signing verification,
+  static analysis security controls, and fail-secure architecture for enterprise-grade
+  plugin execution isolation
+docker:
+  base_images:
+    generic:
+      description: Generic Linux environment for multi-language plugs
+      image: ubuntu:22.04
+    node:
+      description: Lightweight Node.js runtime for JavaScript plugs
+      image: node:18-alpine
+    python:
+      description: Lightweight Python runtime for Python plugs
+      image: python:3.11-slim
+  default_run_options:
+    detach: false
+    remove: true
+    stderr: true
+    stdout: true
+  security_options:
+  - --no-new-privileges
+  - --read-only
+  - --tmpfs /tmp
+  - --user 1000:1000
+input_schema:
+  properties: {}
+  type: object
+metadata:
+  author: PlugPipe Team
+  enhancements_added:
+  - Comprehensive static analysis for malicious code detection
+  - HMAC-SHA256 cryptographic signature verification
+  - Fail-secure vs fail-open security modes
+  - Enhanced security violation reporting
+  - Advanced container security configurations
+  enterprise_features:
+  - Integration with existing Docker infrastructure
+  - Support for Docker registries and image management
+  - Compatibility with Docker security policies
+  - Integration with Docker monitoring and logging
+  - Support for Docker Swarm and Kubernetes environments
+  homepage: https://github.com/plugpipe/plugs/security_docker_sandbox
+  license: MIT
+  philosophy: "This plugin demonstrates the PlugPipe principle \"reuse, never reinvent\"\
+    \ by \nleveraging Docker's proven container isolation technology instead of building\
+    \ \ncustom sandboxing. Docker provides enterprise-grade isolation with years of\
+    \ \nsecurity hardening and community validation.\n"
+  security_features:
+  - True OS-level isolation via Docker containers
+  - Static analysis for dangerous imports using AST parsing
+  - Cryptographic plugin signing verification (HMAC-SHA256)
+  - Fail-secure architecture with configurable security modes
+  - Resource limits through Docker cgroups
+  - Network isolation with Docker networking
+  - Read-only filesystems with tmpfs for temporary data
+  - Process isolation through container namespaces
+name: security_docker_sandbox
+display_name: SecurityDockerSandbox
+output_schema:
+  properties: {}
+  type: object
+owner: PlugPipe Security Team
+plugin_type: infrastructure
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- shutil
+- tempfile
+- hmac
+- traceback
+- ast
+subcategory: sandboxing
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

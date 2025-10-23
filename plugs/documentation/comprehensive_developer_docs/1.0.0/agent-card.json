@@ -1,0 +1,46 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:comprehensive_developer_docs",
+    "name": "Comprehensive Developer Docs Agent",
+    "description": "Comprehensive developer self-help documentation and knowledge base providing detailed guidance for plugin development, ecosystem understanding, and best practices with intelligent context awareness",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/comprehensive_developer_docs",
+    "skills": [
+      {
+        "id": "comprehensive_developer_docs-primary",
+        "name": "Comprehensive Developer Docs",
+        "description": "Comprehensive developer self-help documentation and knowledge base providing detailed guidance for plugin development, ecosystem understanding, and best practices with intelligent context awareness",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "comprehensive_developer_docs",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "documentation",
+          "developer-experience",
+          "knowledge-base",
+          "tutorials",
+          "ecosystem",
+          "guidance",
+          "templates",
+          "troubleshooting",
+          "best-practices",
+          "ai-powered"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.153025Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "user_profile_transformer",
+  "version": "1.0.0",
+  "description": "Transform user profile between System A and System B",
+  "source_schema": "system_a_user",
+  "target_schema": "system_b_user",
+  "mappings": [
+    {
+      "source_field": "fullName",
+      "target_field": "name",
+      "transform": "string:upper",
+      "default": null,
+      "when": null,
+      "error_policy": "fail"
+    },
+    {
+      "source_field": "email",
+      "target_field": "email_address",
+      "transform": null,
+      "default": null,
+      "when": null,
+      "error_policy": "fail"
+    },
+    {
+      "source_field": "age",
+      "target_field": "user_age",
+      "transform": "number:to_int",
+      "default": 0,
+      "when": null,
+      "error_policy": "fail"
+    }
+  ],
+  "enum_maps": null,
+  "global_transforms": null,
+  "error_policy": "fail"
+}

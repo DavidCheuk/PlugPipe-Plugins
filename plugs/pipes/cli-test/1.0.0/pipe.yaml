@@ -1,0 +1,17 @@
+description: Test pipeline cli-test
+name: cli-test
+owner: CLITest
+pipeline:
+- config:
+    message: CLI test
+  id: test_step
+  plugin: echo
+  version: 1.0.0
+status: active
+tags:
+- cli-test
+version: 1.0.0
+type: pipeline
+_provenance:
+  submitter: david
+  timestamp: '2025-08-22T14:31:32.186306'

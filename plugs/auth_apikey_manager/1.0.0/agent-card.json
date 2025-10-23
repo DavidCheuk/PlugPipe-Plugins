@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:api_keys:auth_apikey_manager",
+    "name": "Auth Apikey Manager Agent",
+    "description": "Enterprise API key generation, validation, and lifecycle management",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/auth_apikey_manager",
+    "skills": [
+      {
+        "id": "auth_apikey_manager-primary",
+        "name": "Auth Apikey Manager",
+        "description": "Enterprise API key generation, validation, and lifecycle management",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "auth_apikey_manager",
+        "category": "api_keys",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:29.354905Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

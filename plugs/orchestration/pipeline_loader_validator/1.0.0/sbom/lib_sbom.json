@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:pipeline_loader_validator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T18:30:47.009953Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "pipeline_loader_validator@1.0.0",
+      "name": "pipeline_loader_validator",
+      "version": "1.0.0",
+      "description": "Pipeline Loader and Validator Service - modular pipeline loading, validation, and preparation for execution with proper separation of concerns"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

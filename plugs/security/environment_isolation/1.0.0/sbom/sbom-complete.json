@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:environment_isolation-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T15:13:21.270982Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "environment_isolation@1.0.0",
+      "name": "environment_isolation",
+      "version": "1.0.0",
+      "description": "Comprehensive environment isolation system that replaces global os.environ copying with explicit, secure context passing. Provides plugin isolation, containerization support, audit trails, and prevents cross-plugin environment contamination for enterprise-grade security."
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

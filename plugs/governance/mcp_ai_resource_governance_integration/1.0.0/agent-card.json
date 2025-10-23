@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Governance:mcp_ai_resource_governance_integration",
+    "name": "Mcp Ai Resource Governance Integration Agent",
+    "description": "MCP-Aware AI Resource Governance Integration - Extends existing AI resource governance with MCP-specific cost tracking and controls",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/mcp_ai_resource_governance_integration",
+    "skills": [
+      {
+        "id": "mcp_ai_resource_governance_integration-primary",
+        "name": "Mcp Ai Resource Governance Integration",
+        "description": "MCP-Aware AI Resource Governance Integration - Extends existing AI resource governance with MCP-specific cost tracking and controls",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "mcp_ai_resource_governance_integration",
+        "category": "Governance",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "ai",
+          "governance",
+          "resource",
+          "cost",
+          "budget",
+          "enterprise"
+        ],
+        "author": "PlugPipe Governance Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:32.019590Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

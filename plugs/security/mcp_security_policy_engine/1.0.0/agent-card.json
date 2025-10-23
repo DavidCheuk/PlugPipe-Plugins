@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Security:mcp_security_policy_engine",
+    "name": "Mcp Security Policy Engine Agent",
+    "description": "MCP Protocol Security Policy Engine - Extends existing RBAC and OPA enterprise plugins with MCP-specific authorization",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/mcp_security_policy_engine",
+    "skills": [
+      {
+        "id": "mcp_security_policy_engine-primary",
+        "name": "Mcp Security Policy Engine",
+        "description": "MCP Protocol Security Policy Engine - Extends existing RBAC and OPA enterprise plugins with MCP-specific authorization",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "mcp_security_policy_engine",
+        "category": "Security",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "security",
+          "policy",
+          "rbac",
+          "opa",
+          "authorization",
+          "enterprise"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:35.613979Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

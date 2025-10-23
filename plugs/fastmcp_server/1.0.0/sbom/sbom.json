@@ -1,0 +1,27 @@
+[
+  {
+    "name": "fastmcp_server",
+    "version": "1.0.0",
+    "type": "plugin",
+    "dependencies": [
+      {
+        "name": "fastapi",
+        "version": ">=0.100.0",
+        "type": "python-package",
+        "purpose": "Web framework for MCP API endpoints"
+      },
+      {
+        "name": "uvicorn", 
+        "version": ">=0.22.0",
+        "type": "python-package",
+        "purpose": "ASGI server for running FastAPI application"
+      },
+      {
+        "name": "pydantic",
+        "version": ">=2.0.0", 
+        "type": "python-package",
+        "purpose": "Data validation and serialization"
+      }
+    ]
+  }
+]

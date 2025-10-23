@@ -1,0 +1,62 @@
+name: database_tenant_registry
+display_name: DatabaseTenantRegistry
+version: 1.0.0
+description: Database-backed tenant registry for enterprise scale multi-tenant support
+  using Trinity Registry Interface abstraction
+author: PlugPipe Core Team
+type: plug
+category: enterprise
+tags:
+- tenant
+- registry
+- database
+- enterprise
+- multi-tenant
+- persistence
+- trinity-interface
+main_entry: main.py
+manifest_version: '1.0'
+capabilities:
+- tenant_registration
+- tenant_persistence
+- tenant_isolation
+- tenant_discovery
+- database_operations
+external_dependencies:
+- name: sqlite3
+  version: '>=3.35.0'
+  purpose: SQLite database operations for tenant persistence
+- name: asyncio
+  version: '>=3.9.0'
+  purpose: Async tenant operations
+config:
+  database_path: /tmp/tenant_registry.db
+  max_tenants: 10000
+  isolation_levels:
+  - strict
+  - permissive
+  cache_ttl_seconds: 300
+  enable_backup: true
+plugpipe_compliance:
+  trinity_interface: true
+  plugin_first: true
+  database_backed: true
+  enterprise_scale: true
+  security_first: true
+performance_targets:
+  max_discovery_time_ms: 86
+  max_registration_time_ms: 50
+  max_tenant_lookup_ms: 15
+  concurrent_tenant_support: 100
+security:
+  tenant_isolation: strict
+  data_encryption: false
+  access_control: rbac
+  audit_logging: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

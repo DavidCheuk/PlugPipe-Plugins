@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:puppet",
+    "name": "Puppet Agent",
+    "description": "Comprehensive Puppet configuration management plugin for manifest compilation and application, node classification, module management, PuppetDB integration, Hiera data management, and Puppet Enterprise features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/puppet",
+    "skills": [
+      {
+        "id": "puppet-primary",
+        "name": "Puppet",
+        "description": "Comprehensive Puppet configuration management plugin for manifest compilation and application, node classification, module management, PuppetDB integration, Hiera data management, and Puppet Enterprise features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "puppet",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.252320Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

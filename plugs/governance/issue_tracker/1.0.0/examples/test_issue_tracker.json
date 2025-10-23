@@ -1,0 +1,46 @@
+{
+  "operation": "store_issues",
+  "issues": {
+    "validation_run_id": "test_run_001",
+    "timestamp": "2025-08-29T10:30:00Z",
+    "target_plugin": "config_hardening",
+    "change_type": "modified",
+    "pipeline_score": 85,
+    "issues_list": [
+      {
+        "category": "security_configuration",
+        "severity": "high",
+        "description": "Hardcoded API key detected in configuration",
+        "file_path": "plugs/security/config_hardening/1.0.0/main.py",
+        "recommendation": "Use environment variables for sensitive configuration",
+        "details": {
+          "line_number": 42,
+          "pattern": "api_key = 'sk_test_'"
+        }
+      },
+      {
+        "category": "code_integrity",
+        "severity": "medium", 
+        "description": "TODO comment indicates incomplete implementation",
+        "file_path": "plugs/security/config_hardening/1.0.0/main.py",
+        "recommendation": "Complete the implementation or remove TODO",
+        "details": {
+          "line_number": 156,
+          "pattern": "# TODO: implement proper error handling"
+        }
+      }
+    ],
+    "metadata": {
+      "validation_pipeline_version": "1.0.0",
+      "triggered_by": "plugin_change_validation_pipeline"
+    }
+  },
+  "storage_backend": "auto",
+  "storage_config": {
+    "local_file": {
+      "storage_path": "test_validation_issues.json",
+      "backup_enabled": true,
+      "max_history": 50
+    }
+  }
+}

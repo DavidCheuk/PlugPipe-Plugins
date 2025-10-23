@@ -1,0 +1,41 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:elk_kibana_manager",
+    "name": "Elk Kibana Manager Agent",
+    "description": "Programmatic Kibana dashboard and visualization management. Create dashboards, import templates, and auto-generate from plugin schemas.",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/elk_kibana_manager",
+    "skills": [
+      {
+        "id": "elk_kibana_manager-primary",
+        "name": "Elk Kibana Manager",
+        "description": "Programmatic Kibana dashboard and visualization management. Create dashboards, import templates, and auto-generate from plugin schemas.",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "elk_kibana_manager",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "kibana",
+          "dashboard",
+          "visualization",
+          "watcher",
+          "infrastructure"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.225920Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

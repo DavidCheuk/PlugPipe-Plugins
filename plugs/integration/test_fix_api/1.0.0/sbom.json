@@ -1,0 +1,61 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:test_fix-plugin-1758673681",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-24T00:28:01.364168Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "Enhanced Plugin Creation Agent",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "test_fix_api_plugin",
+      "version": "1.0.0",
+      "description": "Auto-generated plugin for test_fix API integration"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "requests",
+      "version": ">=2.25.1",
+      "purl": "pkg:pypi/requests@2.25.1",
+      "licenses": [
+        {
+          "license": {
+            "name": "Apache-2.0"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "typing",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - typing support"
+    },
+    {
+      "type": "library",
+      "name": "logging",
+      "version": "stdlib",
+      "scope": "required",
+      "description": "Python standard library - logging support"
+    }
+  ],
+  "vulnerabilities": [],
+  "dependencies": [
+    {
+      "ref": "test_fix_api_plugin",
+      "dependsOn": [
+        "pkg:pypi/requests@2.25.1"
+      ]
+    }
+  ]
+}

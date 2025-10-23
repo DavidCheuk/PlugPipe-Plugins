@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:consistency_agent_factory",
+    "name": "Consistency Agent Factory Agent",
+    "description": "Self-Consistency Agent Factory - generates specialized multi-generation consistency checking agents using SelfCheckGPT methodology with RAG, Citation, and Web Search agent dependencies",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/consistency_agent_factory",
+    "skills": [
+      {
+        "id": "consistency_agent_factory-primary",
+        "name": "Consistency Agent Factory",
+        "description": "Self-Consistency Agent Factory - generates specialized multi-generation consistency checking agents using SelfCheckGPT methodology with RAG, Citation, and Web Search agent dependencies",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "consistency_agent_factory",
+        "category": "general",
+        "subcategory": "",
+        "tags": [
+          "agents",
+          "consistency",
+          "selfcheckgpt",
+          "validation",
+          "multi-agent",
+          "fact-checking",
+          "factory"
+        ],
+        "author": "PlugPipe Agent Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:28.684654Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:monitoring:architecture_guardian_watcher",
+    "name": "Architecture Guardian Watcher Agent",
+    "description": "Continuous monitoring integration for PlugPipe Architecture Guardian agent - ensures real-time enforcement of PlugPipe principles during development",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/architecture_guardian_watcher",
+    "skills": [
+      {
+        "id": "architecture_guardian_watcher-primary",
+        "name": "Architecture Guardian Watcher",
+        "description": "Continuous monitoring integration for PlugPipe Architecture Guardian agent - ensures real-time enforcement of PlugPipe principles during development",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "architecture_guardian_watcher",
+        "category": "monitoring",
+        "subcategory": "",
+        "tags": [
+          "monitoring",
+          "architecture",
+          "guardian",
+          "compliance",
+          "realtime",
+          "git-hooks"
+        ],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:33.782692Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

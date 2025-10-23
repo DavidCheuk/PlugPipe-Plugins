@@ -1,0 +1,63 @@
+name: tenant_registry
+display_name: TenantRegistry
+version: 1.0.0
+description: Multi-tenant registry backend abstraction for PlugPipe enterprise environments
+category: core
+subcategory: registry
+type: plugin
+capabilities:
+- tenant_isolation
+- enterprise_scale
+- registry_backend_abstraction
+requirements:
+- Support 100+ enterprise tenants with complete isolation
+- Maintain <86ms discovery performance per P0 audit requirements
+- Use Trinity Registry Interface abstraction layer
+- Leverage existing pp('redis_data_operations') for caching
+interface:
+  input_format: tenant_context + query_parameters
+  output_format: tenant_scoped_plugin_results
+functions:
+- name: discover_plugins_for_tenant
+  description: Tenant-scoped plugin discovery with isolation
+  parameters:
+  - tenant_id: string (required)
+  - query: dict (optional)
+  - limit: int (optional, default=50)
+- name: register_tenant_plugin
+  description: Register plugin for specific tenant
+  parameters:
+  - tenant_id: string (required)
+  - plugin_manifest: dict (required)
+- name: get_tenant_catalog
+  description: Get complete plugin catalog for tenant
+  parameters:
+  - tenant_id: string (required)
+  - include_shared: bool (optional, default=true)
+security:
+  tenant_isolation: true
+  cross_tenant_access_prevention: true
+  audit_logging: true
+performance:
+  max_discovery_latency_ms: 86
+  concurrent_tenant_support: 100
+  cache_layer: trinity_interface
+external_dependencies:
+- name: redis
+  version: '>=3.5.0'
+  installation_method: pip
+  purpose: Cache layer via pp('redis_data_operations')
+- name: sqlite3
+  version: builtin
+  purpose: Primary registry backend (P0 audit compliant)
+discovery:
+  public: true
+  load_priority: high
+  startup_validation: true
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

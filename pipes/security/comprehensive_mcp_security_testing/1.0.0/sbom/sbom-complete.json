@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:comprehensive_mcp_security_testing-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-20T18:34:12.748290Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "comprehensive_mcp_security_testing@1.0.0",
+      "name": "comprehensive_mcp_security_testing",
+      "version": "1.0.0",
+      "description": "Comprehensive MCP security testing pipeline using existing PlugPipe plugins"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

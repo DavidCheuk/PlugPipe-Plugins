@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:mcp:fastmcp_server",
+    "name": "Fastmcp Server Agent",
+    "description": "FastMCP Server - Complete MCP protocol implementation for LLM integration",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/fastmcp_server",
+    "skills": [
+      {
+        "id": "fastmcp_server-primary",
+        "name": "Fastmcp Server",
+        "description": "FastMCP Server - Complete MCP protocol implementation for LLM integration",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "fastmcp_server",
+        "category": "mcp",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "server",
+          "llm",
+          "tools",
+          "resources",
+          "prompts",
+          "protocol"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:31.489516Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

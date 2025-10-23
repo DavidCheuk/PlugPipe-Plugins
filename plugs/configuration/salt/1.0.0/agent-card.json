@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:general:salt",
+    "name": "Salt Agent",
+    "description": "Comprehensive Salt Stack configuration management plugin for infrastructure automation, state management, pillar data, minion orchestration, and execution modules with support for both Master/Minion and SSH architectures",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/salt",
+    "skills": [
+      {
+        "id": "salt-primary",
+        "name": "Salt",
+        "description": "Comprehensive Salt Stack configuration management plugin for infrastructure automation, state management, pillar data, minion orchestration, and execution modules with support for both Master/Minion and SSH architectures",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "salt",
+        "category": "general",
+        "subcategory": "",
+        "tags": [],
+        "author": "PlugPipe Team",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:30.305614Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

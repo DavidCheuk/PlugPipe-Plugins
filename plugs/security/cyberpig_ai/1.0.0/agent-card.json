@@ -1,0 +1,43 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:security:cyberpig_ai",
+    "name": "Cyberpig Ai Agent",
+    "description": "Comprehensive secret detection and prevention plugin for ecosystem-wide security scanning",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/cyberpig_ai",
+    "skills": [
+      {
+        "id": "cyberpig_ai-primary",
+        "name": "Cyberpig Ai",
+        "description": "Comprehensive secret detection and prevention plugin for ecosystem-wide security scanning",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "cyberpig_ai",
+        "category": "security",
+        "subcategory": "",
+        "tags": [
+          "security",
+          "secrets",
+          "scanning",
+          "compliance",
+          "devsecops",
+          "pattern-detection",
+          "entropy-analysis"
+        ],
+        "author": "PlugPipe Security Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:34.942418Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

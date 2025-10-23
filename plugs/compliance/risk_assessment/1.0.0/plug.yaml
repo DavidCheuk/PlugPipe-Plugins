@@ -1,0 +1,754 @@
+capabilities:
+- multi_framework_assessment
+- automated_threat_modeling
+- quantitative_risk_analysis
+- control_gap_analysis
+- risk_matrix_generation
+- trend_analysis
+- ai_powered_assessment
+- integration_ready
+dependencies:
+- opa_policy_enterprise/1.0.0
+- compliance/ecosystem_monitor/1.0.0
+- compliance/generic_report_generator/1.0.0
+- core/agent_factory/1.0.0
+- intelligence/llm_service/1.0.0
+- monitoring/prometheus/1.0.0
+- audit/elk_stack/1.0.0
+- security/presidio_dlp/1.0.0
+- security/vulnerability_scanner/1.0.0
+description: Advanced risk assessment engine for multi-framework compliance with automated
+  threat modeling and risk scoring
+discoverability: public
+enterprise_features:
+  api_integrations: true
+  automated_assessment: true
+  compliance_integration: true
+  continuous_monitoring: true
+  custom_frameworks: true
+  executive_reporting: true
+  ml_enhanced_detection: true
+  risk_dashboard: true
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - pandas
+  - numpy
+  requirements_file: requirements.txt
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: assess_risks
+      description: Risk assessment action to perform
+      enum:
+      - assess_risks
+      - generate_risk_matrix
+      - calculate_risk_score
+      - threat_modeling
+      - control_gap_analysis
+      - risk_treatment_plan
+      type: string
+    assessment_config:
+      properties:
+        assessment_depth:
+          default: standard
+          description: Depth of risk assessment
+          enum:
+          - basic
+          - standard
+          - comprehensive
+          - deep_dive
+          type: string
+        data_sources:
+          description: Data sources for risk assessment
+          items:
+            properties:
+              source_config:
+                type: object
+              source_type:
+                enum:
+                - vulnerability_scans
+                - audit_logs
+                - security_events
+                - policy_violations
+                - incident_reports
+                - metrics
+                type: string
+            type: object
+          type: array
+        framework:
+          description: Compliance framework for risk assessment
+          enum:
+          - sox
+          - gdpr
+          - hipaa
+          - pci-dss
+          - iso27001
+          - nist
+          - fedramp
+          - cis
+          - cobit
+          - itil
+          - custom
+          type: string
+        risk_categories:
+          description: Risk categories to assess
+          items:
+            enum:
+            - operational
+            - financial
+            - strategic
+            - compliance
+            - technology
+            - security
+            - reputation
+            - legal
+            type: string
+          type: array
+        scope:
+          description: Assessment scope
+          enum:
+          - system
+          - application
+          - process
+          - data
+          - infrastructure
+          - organization
+          - custom
+          type: string
+        time_range:
+          description: Time range for historical risk data
+          properties:
+            end_date:
+              format: date-time
+              type: string
+            lookback_period:
+              enum:
+              - 7d
+              - 30d
+              - 90d
+              - 180d
+              - 365d
+              type: string
+            start_date:
+              format: date-time
+              type: string
+          type: object
+      type: object
+    risk_matrix_config:
+      properties:
+        impact_scale:
+          items:
+            properties:
+              description:
+                type: string
+              financial_threshold:
+                type: number
+              label:
+                type: string
+              level:
+                maximum: 5
+                minimum: 1
+                type: integer
+            type: object
+          type: array
+        probability_scale:
+          items:
+            properties:
+              label:
+                type: string
+              level:
+                maximum: 5
+                minimum: 1
+                type: integer
+              percentage:
+                maximum: 100
+                minimum: 0
+                type: number
+            type: object
+          type: array
+        risk_tolerance:
+          properties:
+            critical:
+              type: integer
+            high:
+              type: integer
+            low:
+              type: integer
+            medium:
+              type: integer
+          type: object
+      type: object
+    threat_model_config:
+      properties:
+        asset_types:
+          items:
+            enum:
+            - data
+            - systems
+            - processes
+            - people
+            - reputation
+            - intellectual_property
+            type: string
+          type: array
+        attack_vectors:
+          items:
+            enum:
+            - phishing
+            - malware
+            - sql_injection
+            - social_engineering
+            - physical_access
+            - supply_chain
+            type: string
+          type: array
+        methodology:
+          description: Threat modeling methodology
+          enum:
+          - stride
+          - pasta
+          - vast
+          - attack_trees
+          - bow_tie
+          - custom
+          type: string
+        threat_actors:
+          items:
+            enum:
+            - insider_threat
+            - external_attacker
+            - nation_state
+            - organized_crime
+            - hacktivist
+            - competitor
+            type: string
+          type: array
+      type: object
+  required:
+  - action
+  type: object
+name: risk_assessment
+display_name: RiskAssessment
+output_schema:
+  additionalProperties: false
+  properties:
+    assessment_summary:
+      description: High-level assessment summary
+      properties:
+        assessment_date:
+          format: date-time
+          type: string
+        critical_risks:
+          type: integer
+        high_risks:
+          type: integer
+        low_risks:
+          type: integer
+        medium_risks:
+          type: integer
+        overall_risk_score:
+          maximum: 100
+          minimum: 0
+          type: number
+        risk_trend:
+          enum:
+          - improving
+          - stable
+          - deteriorating
+          type: string
+        total_risks:
+          type: integer
+      type: object
+    compliance_mapping:
+      description: Compliance framework mapping
+      properties:
+        framework_controls:
+          items:
+            properties:
+              associated_risks:
+                items:
+                  type: string
+                type: array
+              compliance_status:
+                enum:
+                - compliant
+                - partially_compliant
+                - non_compliant
+                - not_applicable
+                type: string
+              control_id:
+                type: string
+              control_name:
+                type: string
+              evidence:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+      type: object
+    control_gaps:
+      description: Control gap analysis results
+      items:
+        properties:
+          control_objective:
+            type: string
+          current_state:
+            type: string
+          desired_state:
+            type: string
+          estimated_cost:
+            type: string
+          estimated_effort:
+            type: string
+          gap_id:
+            type: string
+          gap_severity:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          remediation_priority:
+            type: integer
+        type: object
+      type: array
+    error:
+      description: Error message if status is error
+      type: string
+    identified_risks:
+      description: Detailed risk inventory
+      items:
+        properties:
+          affected_assets:
+            items:
+              type: string
+            type: array
+          category:
+            type: string
+          control_effectiveness:
+            enum:
+            - effective
+            - partially_effective
+            - ineffective
+            - not_implemented
+            type: string
+          description:
+            type: string
+          existing_controls:
+            items:
+              type: string
+            type: array
+          impact_score:
+            maximum: 5
+            minimum: 1
+            type: integer
+          probability_score:
+            maximum: 5
+            minimum: 1
+            type: integer
+          recommendations:
+            items:
+              type: string
+            type: array
+          residual_risk:
+            type: number
+          risk_id:
+            type: string
+          risk_level:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          risk_score:
+            type: number
+          threat_sources:
+            items:
+              type: string
+            type: array
+          title:
+            type: string
+          vulnerabilities:
+            items:
+              type: string
+            type: array
+        type: object
+      type: array
+    message:
+      description: Status message
+      type: string
+    recommendations:
+      description: Risk treatment recommendations
+      items:
+        properties:
+          affected_risks:
+            items:
+              type: string
+            type: array
+          category:
+            enum:
+            - preventive
+            - detective
+            - corrective
+            - compensating
+            type: string
+          description:
+            type: string
+          estimated_cost:
+            properties:
+              amount:
+                type: number
+              currency:
+                type: string
+              range:
+                type: string
+            type: object
+          implementation_effort:
+            enum:
+            - low
+            - medium
+            - high
+            type: string
+          priority:
+            enum:
+            - low
+            - medium
+            - high
+            - critical
+            type: string
+          recommendation_id:
+            type: string
+          risk_reduction:
+            maximum: 100
+            minimum: 0
+            type: number
+          title:
+            type: string
+        type: object
+      type: array
+    risk_assessment_id:
+      description: Unique assessment identifier
+      type: string
+    risk_matrix:
+      description: Risk matrix visualization data
+      properties:
+        impact_labels:
+          items:
+            type: string
+          type: array
+        matrix_data:
+          items:
+            items:
+              properties:
+                risk_count:
+                  type: integer
+                risk_level:
+                  type: string
+                risks:
+                  items:
+                    type: string
+                  type: array
+              type: object
+            type: array
+          type: array
+        probability_labels:
+          items:
+            type: string
+          type: array
+      type: object
+    status:
+      description: Assessment status
+      enum:
+      - success
+      - error
+      - warning
+      type: string
+    threat_model:
+      description: Threat modeling results
+      properties:
+        attack_paths:
+          items:
+            properties:
+              detection_likelihood:
+                type: string
+              difficulty:
+                type: string
+              path_id:
+                type: string
+              steps:
+                items:
+                  type: string
+                type: array
+            type: object
+          type: array
+        methodology_used:
+          type: string
+        threat_scenarios:
+          items:
+            properties:
+              attack_vector:
+                type: string
+              impact:
+                type: string
+              likelihood:
+                type: string
+              risk_rating:
+                type: string
+              scenario_id:
+                type: string
+              target_asset:
+                type: string
+              threat_actor:
+                type: string
+              title:
+                type: string
+            type: object
+          type: array
+      type: object
+  required:
+  - status
+  type: object
+owner: PlugPipe Compliance Team
+performance:
+  assessment_speed: < 10 minutes for standard assessment
+  concurrent_assessments: up to 5 simultaneous assessments
+  data_processing: millions of events per assessment
+  threat_modeling: < 5 minutes for basic threat models
+reliability:
+  error_handling: true
+  partial_failure_recovery: true
+  progress_tracking: true
+  retry_mechanisms: true
+risk_methodologies:
+  hybrid:
+    description: Combined quantitative and qualitative approach
+    techniques:
+    - risk_matrices
+    - bow_tie_analysis
+    - fault_trees
+  qualitative:
+    description: Qualitative risk assessment using expert judgment
+    techniques:
+    - expert_interviews
+    - surveys
+    - workshops
+  quantitative:
+    description: Quantitative risk analysis using statistical methods
+    techniques:
+    - monte_carlo
+    - sensitivity_analysis
+    - scenario_modeling
+sbom:
+  complete: sbom/sbom-complete.json
+  lib: sbom/lib_sbom.json
+  security_analysis:
+    compliance_mapping:
+      cis:
+        controls:
+        - '1.1'
+        - '5.1'
+        - '8.1'
+        - '16.1'
+        - '16.9'
+        requirements: Security controls risk assessment and monitoring
+      fedramp:
+        controls:
+        - RA-2
+        - RA-3
+        - RA-5
+        - SI-2
+        requirements: Federal security risk assessment and continuous monitoring
+      gdpr:
+        controls:
+        - Article 25
+        - Article 32
+        - Article 35
+        requirements: Data protection impact assessments and privacy risk analysis
+      hipaa:
+        controls:
+        - '164.308'
+        - '164.310'
+        - '164.312'
+        - '164.314'
+        requirements: Healthcare risk assessments and PHI threat analysis
+      iso27001:
+        controls:
+        - A.12.6
+        - A.14.2
+        - A.16.1
+        requirements: Information security risk management and incident response
+      nist:
+        controls:
+        - ID.RA
+        - PR.IP
+        - DE.DP
+        - RS.AN
+        requirements: Cybersecurity risk identification and analysis
+      pci_dss:
+        controls:
+        - '12.2'
+        - '11.2'
+        - '6.1'
+        - '6.2'
+        requirements: Payment system risk assessment and vulnerability management
+      sox:
+        controls:
+        - AC-2
+        - AC-3
+        - AU-2
+        - AU-3
+        - AU-12
+        - SI-10
+        - RA-3
+        - RA-5
+        requirements: Financial risk assessment and internal control evaluation
+    dependency_analysis:
+      external_dependencies:
+      - justification: Data processing library with potential for injection attacks
+        name: pandas
+        security_risk: medium
+        version: '>=1.5.0'
+      - justification: Numerical library with good security track record
+        name: numpy
+        security_risk: low
+        version: '>=1.21.0'
+      - justification: ML library requiring model input validation
+        name: scikit-learn
+        security_risk: medium
+        version: '>=1.2.0'
+      - justification: Visualization library, output sanitization required
+        name: matplotlib
+        security_risk: low
+        version: '>=3.5.0'
+      - justification: Statistical plotting, data validation required
+        name: seaborn
+        security_risk: low
+        version: '>=0.11.0'
+      - justification: Graph analysis library for threat modeling
+        name: networkx
+        security_risk: medium
+        version: '>=2.8.0'
+      internal_dependencies:
+      - universal_input_sanitizer: Critical security dependency for input validation
+      - opa_policy_enterprise: Policy compliance data source
+      - elk_stack: Audit log analysis integration
+      - prometheus: System metrics integration
+      - llm_service: AI-powered risk analysis
+      - presidio_dlp: Data loss prevention integration
+      - vulnerability_scanner: Security vulnerability data
+    security_controls:
+      access_control:
+      - Role-based access to risk assessment functions
+      - Authentication validation for assessment access
+      - Framework-specific access restrictions
+      - Sensitive risk data access control
+      data_protection:
+      - Risk data encryption for sensitive assessments
+      - PII detection and redaction in risk reports
+      - Threat intelligence data protection
+      - Assessment result confidentiality
+      input_validation:
+      - Universal Input Sanitizer integration for all inputs
+      - Comprehensive regex-based pattern matching for malicious content
+      - Risk assessment specific validation rules
+      - Framework and methodology validation
+      - Threat modeling parameter sanitization
+      operational_security:
+      - Comprehensive audit logging of all risk assessments
+      - Assessment performance monitoring and limits
+      - Concurrent assessment limiting
+      - Error message sanitization to prevent information disclosure
+      - Secure AI model integration and validation
+    threat_model:
+    - Input injection through risk assessment parameters
+    - Configuration tampering in threat modeling methodologies
+    - Data manipulation in risk scoring algorithms
+    - SQL injection in data source queries
+    - Command injection via custom assessment scripts
+    - Path traversal in assessment data file paths
+    - Privilege escalation through assessment bypasses
+    - DoS attacks through resource-intensive assessments
+    - Information disclosure through detailed risk reports
+    - Cross-site scripting in web-based risk dashboards
+    vulnerability_assessment:
+    - component: pandas data processing
+      mitigation: Input sanitization and data validation
+      risk_level: medium
+    - component: numpy numerical computations
+      mitigation: Secure mathematical operations and bounds checking
+      risk_level: low
+    - component: scikit-learn ML algorithms
+      mitigation: Model input validation and output sanitization
+      risk_level: medium
+    - component: matplotlib visualization
+      mitigation: Safe plotting parameters and output validation
+      risk_level: low
+    - component: external plugin integrations
+      mitigation: Universal Input Sanitizer integration and API validation
+      risk_level: high
+security_classification:
+  data_sensitivity: high
+  encryption_required: true
+  network_access: limited
+  privilege_level: standard
+status: stable
+tags:
+- compliance
+- risk
+- assessment
+- threat-modeling
+- security
+- governance
+- audit
+- enterprise
+- ai-powered
+- quantitative
+- security-hardened
+- input-sanitized
+- validated
+threat_modeling:
+  pasta:
+    description: Process for Attack Simulation and Threat Analysis
+    stages:
+    - Define Objectives
+    - Define Technical Scope
+    - Application Decomposition
+    - Threat Analysis
+    - Weakness Analysis
+    - Attack Modeling
+    - Risk Analysis
+  stride:
+    categories:
+    - Spoofing
+    - Tampering
+    - Repudiation
+    - Information Disclosure
+    - Denial of Service
+    - Elevation of Privilege
+    description: STRIDE threat modeling methodology
+  vast:
+    description: Visual, Agile, and Simple Threat modeling
+    focus:
+    - Application threat modeling
+    - Operational threat modeling
+triggers:
+- security_incident
+- policy_change
+- vulnerability_discovery
+- audit_finding
+- scheduled_assessment
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

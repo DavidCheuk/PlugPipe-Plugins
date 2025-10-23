@@ -1,0 +1,42 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:Intelligence:ai_rate_limiter_mcp_integration",
+    "name": "Ai Rate Limiter Mcp Integration Agent",
+    "description": "MCP Protocol Integration for AI Rate Limiter - Extends existing AI rate limiting with MCP-specific features",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/ai_rate_limiter_mcp_integration",
+    "skills": [
+      {
+        "id": "ai_rate_limiter_mcp_integration-primary",
+        "name": "Ai Rate Limiter Mcp Integration",
+        "description": "MCP Protocol Integration for AI Rate Limiter - Extends existing AI rate limiting with MCP-specific features",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "ai_rate_limiter_mcp_integration",
+        "category": "Intelligence",
+        "subcategory": "",
+        "tags": [
+          "mcp",
+          "rate-limiting",
+          "ai",
+          "security",
+          "integration",
+          "extension"
+        ],
+        "author": "PlugPipe Team",
+        "license": "MIT"
+      },
+      "generatedAt": "2025-10-09T00:21:32.834665Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

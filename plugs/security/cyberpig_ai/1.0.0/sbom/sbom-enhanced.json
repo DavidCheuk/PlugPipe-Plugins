@@ -1,0 +1,193 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:cyberpig_ai-1.0.0-mcp-security-enhanced",
+  "version": 2,
+  "metadata": {
+    "timestamp": "2025-09-06T17:45:00Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "MCP Security SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "name": "cyberpig_ai",
+      "version": "1.0.0",
+      "description": "Comprehensive secret detection and prevention plugin for ecosystem-wide security scanning with enhanced dependency tracking",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "detect-secrets@1.4.0",
+      "name": "detect-secrets",
+      "version": "1.4.0",
+      "description": "Tool for detecting and preventing secrets in code",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/detect-secrets@1.4.0",
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://github.com/Yelp/detect-secrets"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "regex@2023.8.0",
+      "name": "regex",
+      "version": "2023.8.0",
+      "description": "Alternative regular expression module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/regex@2023.8.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "requests@2.31.0",
+      "name": "requests",
+      "version": "2.31.0",
+      "description": "Python HTTP for Humans",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/requests@2.31.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pyyaml@6.0",
+      "name": "PyYAML",
+      "version": "6.0",
+      "description": "YAML parser and emitter for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/pyyaml@6.0"
+    },
+    {
+      "type": "library",
+      "bom-ref": "cryptography@41.0.0",
+      "name": "cryptography",
+      "version": "41.0.0",
+      "description": "Cryptographic library for Python",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:pypi/cryptography@41.0.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "cyberpig_ai@1.0.0",
+      "dependsOn": [
+        "detect-secrets@1.4.0",
+        "regex@2023.8.0",
+        "requests@2.31.0",
+        "pyyaml@6.0",
+        "cryptography@41.0.0"
+      ]
+    },
+    {
+      "ref": "detect-secrets@1.4.0",
+      "dependsOn": [
+        "pyyaml@6.0",
+        "requests@2.31.0"
+      ]
+    },
+    {
+      "ref": "cryptography@41.0.0",
+      "dependsOn": []
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "bom-ref": "CVE-placeholder-requests",
+      "id": "CVE-placeholder-requests",
+      "description": "Placeholder for requests library vulnerability tracking",
+      "published": "2025-09-06T17:45:00Z",
+      "severity": "low",
+      "recommendation": "Monitor requests security advisories"
+    }
+  ],
+  "annotations": [
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": ["cyberpig_ai@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "security_classification",
+        "value": "enterprise_mcp_secret_detection_plugin"
+      }
+    },
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": ["cyberpig_ai@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "owasp_coverage",
+        "value": "LLM02_SENSITIVE_INFORMATION_DISCLOSURE"
+      }
+    },
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": ["cyberpig_ai@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "secret_detection_types",
+        "value": "API_KEYS_PASSWORDS_TOKENS_CERTIFICATES_DATABASE_CREDENTIALS"
+      }
+    },
+    {
+      "bom-ref": "cyberpig_ai@1.0.0",
+      "subjects": ["cyberpig_ai@1.0.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "mcp_guardian_integration",
+        "value": "secret_detection_layer"
+      }
+    },
+    {
+      "bom-ref": "detect-secrets@1.4.0",
+      "subjects": ["detect-secrets@1.4.0"],
+      "annotationType": "other",
+      "annotation": {
+        "name": "yelp_maintained",
+        "value": "true"
+      }
+    }
+  ]
+}

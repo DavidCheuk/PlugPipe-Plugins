@@ -1,0 +1,81 @@
+name: registry_backend_coordinator
+display_name: RegistryBackendCoordinator
+version: 1.0.0
+type: plugin
+category: core
+title: Registry Backend Coordination Plugin
+description: Plugin-based backend coordination for registry services - extracts complex
+  coordination logic from MultiBackendRegistryService
+author: PlugPipe Core Team
+owner: PlugPipe Core Team
+status: stable
+license: MIT
+operations:
+- coordinate_backends
+- prioritize_results
+- handle_fallback_logic
+- aggregate_search_results
+- deduplicate_plugin_data
+input_schema:
+  type: object
+  properties:
+    operation:
+      type: string
+      enum:
+      - coordinate_backends
+      - prioritize_results
+      - handle_fallback
+      - aggregate_search
+      - deduplicate
+    backends:
+      type: array
+      description: List of backend instances to coordinate
+    query:
+      type: string
+      description: Search query for coordination operations
+    priorities:
+      type: object
+      description: Backend priority configuration
+    fallback_config:
+      type: object
+      description: Fallback behavior configuration
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+      enum:
+      - success
+      - error
+      - partial
+    coordinated_results:
+      type: array
+      description: Coordinated results from multiple backends
+    backend_status:
+      type: object
+      description: Status of each backend
+    processing_time_ms:
+      type: number
+    errors:
+      type: array
+      description: Any errors encountered during coordination
+performance:
+  priority: 10
+  timeout: 30
+  retries: 2
+tags:
+- core
+- registry
+- coordination
+- backend
+- performance
+architecture_compliance:
+  plugin_first: true
+  extracted_from: MultiBackendRegistryService
+  purpose: Extract complex coordination logic into reusable plugin
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

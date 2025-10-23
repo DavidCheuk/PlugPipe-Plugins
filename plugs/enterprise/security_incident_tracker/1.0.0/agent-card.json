@@ -1,0 +1,35 @@
+{
+  "agentCard": {
+    "id": "urn:agent:plugpipe:enterprise:security_incident_tracker",
+    "name": "Security Incident Tracker Agent",
+    "description": "Tracks and reports security incidents from enterprise monitoring system, MCP Guardian logs, and security alert manager for 30-day incident tracking and severity analysis",
+    "version": "1.0.0",
+    "serviceUrl": "http://localhost:8000/a2a/security_incident_tracker",
+    "skills": [
+      {
+        "id": "security_incident_tracker-primary",
+        "name": "Security Incident Tracker",
+        "description": "Tracks and reports security incidents from enterprise monitoring system, MCP Guardian logs, and security alert manager for 30-day incident tracking and severity analysis",
+        "inputModes": [
+          "structured",
+          "text"
+        ],
+        "outputModes": [
+          "text"
+        ]
+      }
+    ],
+    "metadata": {
+      "plugpipe": {
+        "originalPlugin": "security_incident_tracker",
+        "category": "enterprise",
+        "subcategory": "",
+        "tags": [],
+        "author": "Unknown",
+        "license": "Unknown"
+      },
+      "generatedAt": "2025-10-09T00:21:31.403058Z",
+      "generator": "PlugPipe Agent Card Generator v1.0.0"
+    }
+  }
+}

@@ -1,0 +1,630 @@
+config_schema:
+  properties:
+    agent_factory_plugin:
+      default: core/agent_factory
+      description: Reference to the core Agent Factory plugin
+      type: string
+    cache_knowledge_validation_results:
+      default: true
+      type: boolean
+    consistency_agent_factory:
+      default: agents/consistency_agent_factory
+      description: Reference to Consistency Agent Factory for knowledge consistency
+        checking
+      type: string
+    default_compliance_level:
+      default: regulatory_compliant
+      enum:
+      - regulatory_compliant
+      - internal_policy
+      - best_practice
+      - standard
+      type: string
+    default_knowledge_accuracy_level:
+      default: high_accuracy
+      enum:
+      - enterprise_critical
+      - high_accuracy
+      - standard
+      - basic
+      type: string
+    default_knowledge_freshness_strictness:
+      default: 0.93
+      maximum: 0.99
+      minimum: 0.85
+      type: number
+    enable_selective_agent_coordination:
+      default: true
+      type: boolean
+    enterprise_knowledge_settings:
+      properties:
+        compliance_documentation:
+          properties:
+            audit_trail_required:
+              default: true
+              type: boolean
+            regulatory_compliance_check:
+              default: true
+              type: boolean
+            sop_validation_required:
+              default: true
+              type: boolean
+            version_control_strictness:
+              default: 0.95
+              type: number
+          type: object
+        knowledge_base:
+          properties:
+            consistency_check_enabled:
+              default: true
+              type: boolean
+            expert_review_required:
+              default: false
+              type: boolean
+            freshness_validation_days:
+              default: 30
+              type: integer
+          type: object
+        training_materials:
+          properties:
+            accuracy_threshold:
+              default: 0.92
+              type: number
+            competency_validation:
+              default: true
+              type: boolean
+            currency_check_days:
+              default: 90
+              type: integer
+          type: object
+      type: object
+    knowledge_validation_timeout:
+      default: 60.0
+      type: number
+    max_parallel_knowledge_checks:
+      default: 5
+      maximum: 10
+      minimum: 1
+      type: integer
+    rag_agent_factory:
+      default: agents/rag_agent_factory
+      description: Reference to RAG Agent Factory for knowledge base verification
+      type: string
+  type: object
+dependency_analysis:
+  analyzer_notes: All imports (uuid) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Enterprise Knowledge Validation Agent Factory - generates specialized
+  enterprise knowledge validation agents using selective agent factory reuse (Core,
+  RAG, Consistency) for knowledge base accuracy validation, content freshness verification,
+  compliance documentation checking, internal policy validation, training material
+  accuracy, knowledge graph consistency, document version control, and enterprise
+  search optimization
+discoverability: public
+entrypoint: main.py
+input_schema:
+  properties:
+    agent_config:
+      properties:
+        compliance_level:
+          enum:
+          - regulatory_compliant
+          - internal_policy
+          - best_practice
+          - standard
+          type: string
+        content_languages:
+          default:
+          - english
+          items:
+            enum:
+            - english
+            - spanish
+            - french
+            - german
+            - portuguese
+            - italian
+            - japanese
+            - chinese
+            - arabic
+            type: string
+          type: array
+        enable_compliance_checking:
+          default: true
+          type: boolean
+        enable_expert_review:
+          default: false
+          type: boolean
+        enable_version_control:
+          default: true
+          type: boolean
+        knowledge_accuracy_level:
+          enum:
+          - enterprise_critical
+          - high_accuracy
+          - standard
+          - basic
+          type: string
+        knowledge_categories:
+          default:
+          - general_knowledge
+          items:
+            enum:
+            - general_knowledge
+            - specialized_expertise
+            - regulatory_requirements
+            - operational_procedures
+            - technical_specifications
+            - customer_information
+            - vendor_information
+            - financial_information
+            type: string
+          type: array
+        knowledge_domain:
+          enum:
+          - corporate_policies
+          - compliance_documentation
+          - training_materials
+          - technical_documentation
+          - process_procedures
+          - product_knowledge
+          - customer_knowledge
+          - regulatory_knowledge
+          - internal_communications
+          - best_practices
+          type: string
+        knowledge_freshness_strictness:
+          default: 0.93
+          maximum: 0.99
+          minimum: 0.85
+          type: number
+        organizational_units:
+          default:
+          - enterprise_wide
+          items:
+            enum:
+            - enterprise_wide
+            - human_resources
+            - finance_accounting
+            - legal_compliance
+            - information_technology
+            - operations
+            - sales_marketing
+            - research_development
+            - customer_service
+            type: string
+          type: array
+      required:
+      - knowledge_domain
+      - knowledge_accuracy_level
+      type: object
+    knowledge_validation_task:
+      properties:
+        document_details:
+          properties:
+            document_id:
+              type: string
+            document_type:
+              enum:
+              - policy_document
+              - procedure_manual
+              - training_material
+              - compliance_document
+              - technical_specification
+              - knowledge_article
+              - process_document
+              - reference_guide
+              type: string
+            last_updated:
+              type: string
+            organizational_scope:
+              items:
+                type: string
+              type: array
+            regulatory_requirements:
+              items:
+                type: string
+              type: array
+            review_cycle_days:
+              type: integer
+            subject_matter_experts:
+              items:
+                type: string
+              type: array
+            version_number:
+              type: string
+          type: object
+        knowledge_content_to_validate:
+          type: string
+        knowledge_context:
+          type: string
+        urgency_level:
+          default: medium
+          enum:
+          - critical
+          - high
+          - medium
+          - low
+          type: string
+        validation_focus:
+          items:
+            enum:
+            - accuracy_verification
+            - freshness_check
+            - compliance_validation
+            - consistency_analysis
+            - completeness_assessment
+            - version_control_check
+            - expert_review_validation
+            - search_optimization
+            type: string
+          type: array
+      type: object
+    operation:
+      enum:
+      - create_agent
+      - list_templates
+      - get_agent_status
+      - run_knowledge_validation
+      type: string
+    template_id:
+      enum:
+      - knowledge_base_validator
+      - content_freshness_verifier
+      - compliance_document_checker
+      - policy_validator
+      - training_material_verifier
+      - knowledge_graph_consistency_checker
+      - document_version_controller
+      - enterprise_search_optimizer
+      type: string
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - enterprise-knowledge-agent-creation
+  - knowledge-base-accuracy-validation
+  - content-freshness-verification
+  - compliance-documentation-checking
+  - internal-policy-validation
+  - training-material-accuracy
+  - knowledge-graph-consistency
+  - document-version-control
+  - enterprise-search-optimization
+  - knowledge-gap-detection
+  - selective-agent-coordination
+  - enterprise-knowledge-pattern-analysis
+  category: domain-specific-agent-factory
+  dependencies:
+    optional:
+    - enterprise_knowledge_base_api
+    - document_management_system_api
+    - compliance_documentation_api
+    - training_management_system_api
+    - knowledge_graph_api
+    - enterprise_search_api
+    required:
+    - core/agent_factory
+    - agents/rag_agent_factory
+    - agents/consistency_agent_factory
+  domain: enterprise-knowledge-validation
+  performance:
+    cpu_usage: high
+    io_usage: high
+    memory_usage: very_high
+    network_usage: medium
+  security:
+    enterprise_data_protection: required
+    file_system_access: read-only
+    intellectual_property_protection: required
+    isolation_required: true
+    network_access: limited
+name: enterprise_knowledge_validation_agent_factory
+display_name: EnterpriseKnowledgeValidationAgentFactory
+output_schema:
+  properties:
+    agent_id:
+      type: string
+    agent_type:
+      type: string
+    capabilities:
+      items:
+        type: string
+      type: array
+    error:
+      type: string
+    knowledge_validation_results:
+      properties:
+        accuracy_verification_results:
+          properties:
+            accuracy_analysis_performed:
+              type: boolean
+            accuracy_issues:
+              items:
+                properties:
+                  correction_suggestion:
+                    type: string
+                  description:
+                    type: string
+                  expert_consultation_needed:
+                    type: boolean
+                  issue_type:
+                    enum:
+                    - factual_inaccuracy
+                    - outdated_information
+                    - incomplete_content
+                    - conflicting_information
+                    - missing_citations
+                    - expert_review_required
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+            overall_accuracy_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+          type: object
+        agent_coordination_results:
+          properties:
+            consistency_analysis:
+              properties:
+                consistency_issues:
+                  items:
+                    type: string
+                  type: array
+                cross_reference_validation:
+                  type: integer
+                knowledge_consistency_score:
+                  type: number
+                performed:
+                  type: boolean
+              type: object
+            rag_knowledge_verification:
+              properties:
+                enterprise_facts_verified:
+                  type: integer
+                expert_knowledge_consulted:
+                  type: integer
+                knowledge_conflicts:
+                  items:
+                    type: string
+                  type: array
+                performed:
+                  type: boolean
+              type: object
+          type: object
+        compliance_validation_results:
+          properties:
+            compliance_analysis_performed:
+              type: boolean
+            compliance_violations:
+              items:
+                properties:
+                  deadline:
+                    type: string
+                  regulatory_requirement:
+                    type: string
+                  remediation_required:
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  violation_type:
+                    enum:
+                    - regulatory_non_compliance
+                    - policy_deviation
+                    - procedure_gap
+                    - documentation_missing
+                    - approval_workflow_missing
+                    - retention_policy_violation
+                    type: string
+                type: object
+              type: array
+            regulatory_compliance_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+          type: object
+        freshness_verification_results:
+          properties:
+            content_age_days:
+              type: integer
+            freshness_analysis_performed:
+              type: boolean
+            freshness_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+            last_review_date:
+              type: string
+            outdated_sections:
+              items:
+                properties:
+                  last_updated:
+                    type: string
+                  section_name:
+                    type: string
+                  staleness_severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  update_recommendation:
+                    type: string
+                type: object
+              type: array
+          type: object
+        knowledge_alerts:
+          items:
+            properties:
+              alert_type:
+                enum:
+                - knowledge_accuracy_degradation
+                - content_staleness_critical
+                - compliance_violation
+                - consistency_conflict
+                - expert_review_required
+                - version_control_issue
+                type: string
+              confidence:
+                type: number
+              expert_escalation_needed:
+                type: boolean
+              message:
+                type: string
+              notification_required:
+                type: boolean
+              required_action:
+                type: string
+              severity:
+                enum:
+                - critical
+                - high
+                - medium
+                - low
+                type: string
+            type: object
+          type: array
+        knowledge_consistency_results:
+          properties:
+            consistency_analysis_performed:
+              type: boolean
+            consistency_conflicts:
+              items:
+                properties:
+                  affected_documents:
+                    items:
+                      type: string
+                    type: array
+                  conflict_type:
+                    enum:
+                    - contradictory_information
+                    - version_mismatch
+                    - terminology_inconsistency
+                    - process_variation
+                    - policy_conflict
+                    - reference_broken
+                    type: string
+                  impact_level:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                  resolution_suggestion:
+                    type: string
+                type: object
+              type: array
+            cross_document_consistency_score:
+              maximum: 1.0
+              minimum: 0.0
+              type: number
+          type: object
+        knowledge_validation_method:
+          type: string
+        overall_knowledge_quality_score:
+          maximum: 1.0
+          minimum: 0.0
+          type: number
+        recommendations:
+          items:
+            type: string
+          type: array
+        version_control_results:
+          properties:
+            version_control_analysis_performed:
+              type: boolean
+            version_control_compliance:
+              type: boolean
+            version_control_issues:
+              items:
+                properties:
+                  corrective_action:
+                    type: string
+                  document_affected:
+                    type: string
+                  issue_type:
+                    enum:
+                    - missing_version_info
+                    - outdated_version
+                    - unauthorized_changes
+                    - approval_missing
+                    - changelog_incomplete
+                    - archival_required
+                    type: string
+                  severity:
+                    enum:
+                    - critical
+                    - high
+                    - medium
+                    - low
+                    type: string
+                type: object
+              type: array
+          type: object
+      type: object
+    performance_metrics:
+      properties:
+        accuracy_verification_time:
+          type: number
+        agent_coordination_overhead:
+          type: number
+        compliance_validation_time:
+          type: number
+        expert_consultations:
+          type: integer
+        freshness_check_time:
+          type: number
+        knowledge_sources_reviewed:
+          type: integer
+        validation_time_seconds:
+          type: number
+      type: object
+    success:
+      type: boolean
+  required:
+  - success
+  type: object
+owner: PlugPipe Enterprise Knowledge Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+stdlib_modules:
+- uuid
+tags:
+- agents
+- enterprise-knowledge
+- validation
+- knowledge-base
+- compliance
+- documentation
+- factory
+- selective-reuse
+version: 1.0.0
+author: PlugPipe Agent Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

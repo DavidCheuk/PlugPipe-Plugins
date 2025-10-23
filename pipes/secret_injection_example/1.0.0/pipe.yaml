@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: secret-injection-example
+  owner: PlugPipe Team
+  version: 1.0.0
+  tags:
+  - pipeline
+  - migrated
+  doc: Shows how to use secure secret injection in pipelines
+inputs:
+  admin_email: ${env:ADMIN_EMAIL}
+  api_version: v1
+pipeline:
+- id: github_setup
+  plugin: com.github.official.github_integration
+  version: 1.0.0
+  config:
+    api_token: ${env:GITHUB_TOKEN}
+    organization: ${env:GITHUB_ORG:default-org}
+  uses: id
+  with: {}
+- id: stripe_payment
+  plugin: com.stripe.official.payments
+  version: 1.0.0
+  config:
+    api_key: ${vault:stripe/api_key}
+    webhook_secret: ${vault:stripe/webhook_secret}
+  uses: id
+  with: {}
+- id: database_connection
+  plugin: org.plugpipe.data.postgres_connector
+  version: 1.0.0
+  config:
+    connection_string: ${aws_secrets:production/database}
+  uses: id
+  with: {}
+- id: azure_storage
+  plugin: com.microsoft.azure.storage
+  version: 1.0.0
+  config:
+    account_key: ${azure:storage-account-key}
+  uses: id
+  with: {}
+- id: k8s_service
+  plugin: org.plugpipe.k8s.service_manager
+  version: 1.0.0
+  config:
+    service_token: ${k8s:plugpipe-secrets/service-token}
+  uses: id
+  with: {}
+- id: ssl_setup
+  plugin: org.plugpipe.security.ssl_manager
+  version: 1.0.0
+  config:
+    private_key: ${file:ssl/private.key}
+    certificate: ${file:ssl/certificate.pem}
+  uses: id
+  with: {}
+- id: notification_service
+  plugin: com.slack.community.messaging
+  version: 1.0.0
+  config:
+    webhook_url: ${env:SLACK_WEBHOOK_URL}
+    bot_token: ${vault:slack/bot_token}
+    encryption_key: ${k8s:slack-secrets/encryption-key}
+  uses: id
+  with: {}
+summary:
+  format: table
+  doc: Pipeline execution summary for secret-injection-example
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

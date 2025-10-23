@@ -1,0 +1,164 @@
+name: auth_apikey_manager
+display_name: AuthApikeyManager
+version: 1.0.0
+type: authentication
+category: api_keys
+title: API Key Management Plug
+description: Enterprise API key generation, validation, and lifecycle management
+author: PlugPipe Team
+license: MIT
+homepage: https://plugpipe.dev/plugs/auth-apikey-manager
+auth_type: authentication
+authentication_method: api_key
+supports_key_rotation: true
+supports_scoped_permissions: true
+provides:
+- api_key_generation
+- api_key_validation
+- api_key_rotation
+- permission_scoping
+- usage_tracking
+requires:
+- database
+- user_manager
+- rbac_manager
+configuration:
+- name: key_prefix
+  type: string
+  required: false
+  secure: false
+  default: pp_
+  description: Prefix for generated API keys
+- name: key_length
+  type: integer
+  required: false
+  secure: false
+  default: 32
+  description: Length of generated API key tokens
+- name: default_expiry_days
+  type: integer
+  required: false
+  secure: false
+  default: 90
+  description: Default API key expiration in days (enterprise security standard)
+- name: max_expiry_days
+  type: integer
+  required: false
+  secure: false
+  default: 365
+  description: Maximum API key expiration in days (1 year maximum for security)
+- name: rate_limit_default
+  type: integer
+  required: false
+  secure: false
+  default: 10000
+  description: Default rate limit per hour for API keys
+- name: enable_usage_tracking
+  type: boolean
+  required: false
+  secure: false
+  default: true
+  description: Track API key usage statistics
+- name: hash_algorithm
+  type: string
+  required: false
+  secure: false
+  default: sha256
+  description: Algorithm for key hashing
+  enum:
+  - sha256
+  - sha512
+  - scrypt
+  - bcrypt
+actions:
+- generate_api_key
+- validate_api_key
+- rotate_api_key
+- revoke_api_key
+- list_user_keys
+- update_key_permissions
+dependencies:
+- cryptography >= 3.4.8
+- bcrypt >= 4.0.0
+security:
+- Cryptographically secure key generation
+- Secure key hashing with salts
+- Permission-scoped key access
+- Rate limiting per API key
+- Key rotation with overlap periods
+enterprise:
+- Bulk API key management
+- Organization-scoped API keys
+- API key usage analytics
+- Custom permission templates
+- Automated key rotation policies
+key_management:
+  generation:
+  - Cryptographically secure random generation
+  - Customizable key prefixes and formats
+  - Collision detection and retry logic
+  - Entropy validation for key strength
+  storage:
+  - Secure hash storage (never store plain keys)
+  - Salt-based hashing to prevent rainbow attacks
+  - Indexed storage for efficient validation
+  - Encrypted metadata storage
+  validation:
+  - Constant-time hash comparison
+  - Rate limiting and usage tracking
+  - Permission scope validation
+  - Expiration and revocation checking
+  lifecycle:
+  - Scheduled key rotation with grace periods
+  - Bulk key operations for user management
+  - Usage analytics and reporting
+  - Automated cleanup of expired keys
+performance:
+  priority: 20
+  timeout: 10
+  retries: 1
+compliance:
+- OWASP API Security guidelines
+- NIST password/key storage standards
+- PCI DSS key management requirements
+- SOC 2 access control requirements
+monitoring:
+  metrics:
+  - api_keys_generated_total
+  - api_keys_validated_total
+  - api_key_validation_failures_total
+  - api_keys_rotated_total
+  - api_keys_revoked_total
+  events:
+  - api_key_generated
+  - api_key_validated
+  - api_key_rotated
+  - api_key_revoked
+  - api_key_validation_failed
+  - api_key_expired
+documentation:
+  setup_guide: docs/apikey-setup.md
+  security_guide: docs/apikey-security.md
+  rotation_guide: docs/key-rotation.md
+  examples: docs/examples/
+owner: PlugPipe Auth Team
+status: stable
+external_dependencies:
+- name: bcrypt
+  version: '>=4.0.0'
+  purpose: Password hashing and encryption for secure API key storage
+input_schema:
+  type: object
+  properties: {}
+output_schema:
+  type: object
+  properties: {}
+sbom:
+  summary: sbom/auth_apikey_manager-sbom.json
+  complete: sbom/auth_apikey_manager-sbom-complete.json
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

@@ -1,0 +1,247 @@
+# Issue Tracker Storage Configuration Examples
+# ===========================================
+# 
+# This file demonstrates various storage backend configurations
+# for the issue tracker plugin, showcasing the isolated and
+# configurable storage architecture.
+
+# Example 1: Auto-selection with multiple backends configured
+auto_selection_example:
+  operation: store_issues
+  storage_backend: auto  # Automatically selects best available
+  storage_config:
+    # Database backends (priority 1-2)
+    postgresql:
+      host: "localhost"
+      port: 5432
+      database: "plugpipe_production"
+      username: "plugpipe_user"
+      password: "${POSTGRES_PASSWORD}"
+      table_name: "validation_issues"
+    
+    sqlite:
+      database_path: "backup_issues.db"
+      table_name: "validation_issues"
+      connection_timeout: 30
+    
+    # Cloud storage (priority 3)
+    aws_s3:
+      bucket: "plugpipe-validation-data"
+      prefix: "production/validation-issues/"
+      region: "us-west-2"
+      access_key_id: "${AWS_ACCESS_KEY_ID}"
+      secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+    
+    # Local fallback (priority 99)
+    local_file:
+      storage_path: "fallback_issues.json"
+      backup_enabled: true
+      max_history: 50
+
+# Example 2: Enterprise PostgreSQL configuration
+enterprise_postgresql:
+  operation: store_issues
+  storage_backend: postgresql
+  storage_config:
+    postgresql:
+      host: "postgres-cluster.internal"
+      port: 5432
+      database: "plugpipe_enterprise"
+      username: "plugpipe_service"
+      password: "${POSTGRES_PASSWORD}"
+      table_name: "plugin_validation_issues"
+      ssl_mode: "require"
+      connection_pool_size: 10
+
+# Example 3: Cloud-native AWS S3 configuration
+cloud_native_s3:
+  operation: store_issues
+  storage_backend: aws_s3
+  storage_config:
+    aws_s3:
+      bucket: "enterprise-plugpipe-data"
+      prefix: "validation-issues/env-production/"
+      region: "us-east-1"
+      access_key_id: "${AWS_ACCESS_KEY_ID}"
+      secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+      encryption: "aws:kms"
+      lifecycle_policy: "90_day_retention"
+
+# Example 4: Multi-cloud strategy
+multi_cloud_strategy:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    # Primary: Google Cloud Storage
+    gcs:
+      project_id: "plugpipe-enterprise"
+      bucket_name: "plugpipe-validation-primary"
+      prefix: "issues/production/"
+      credentials_path: "/etc/gcs/service-account.json"
+    
+    # Secondary: Azure Blob Storage
+    azure_blob:
+      account_name: "plugpipestorage"
+      account_key: "${AZURE_STORAGE_KEY}"
+      container_name: "validation-backup"
+      prefix: "issues/"
+    
+    # Tertiary: AWS S3
+    aws_s3:
+      bucket: "plugpipe-dr-backup"
+      prefix: "validation-issues/"
+      region: "us-west-2"
+
+# Example 5: Database Factory with failover
+database_factory_ha:
+  operation: store_issues
+  storage_backend: database_factory
+  storage_config:
+    database_factory:
+      factory_config:
+        primary_database: postgresql
+        enable_failover: true
+        fallback_databases: ["mongodb", "sqlite"]
+        health_check_interval: 30
+      table_name: "validation_issues"
+      
+      # Individual database configurations
+      databases:
+        postgresql:
+          host: "postgres-primary.internal"
+          port: 5432
+          database: "plugpipe"
+          username: "plugpipe"
+          password: "${POSTGRES_PASSWORD}"
+        
+        mongodb:
+          connection_string: "mongodb://mongo-cluster.internal:27017/plugpipe"
+          database: "plugpipe"
+          collection: "validation_issues"
+        
+        sqlite:
+          database_path: "/data/plugpipe/emergency_fallback.db"
+
+# Example 6: Hybrid on-premise + cloud
+hybrid_deployment:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    # Primary: On-premise MySQL cluster
+    mysql:
+      host: "mysql-cluster.datacenter.local"
+      port: 3306
+      database: "plugpipe_production"
+      username: "plugpipe_app"
+      password: "${MYSQL_PASSWORD}"
+      table_name: "validation_issues"
+      ssl_ca: "/etc/mysql/ca.pem"
+    
+    # Backup: Network file system
+    nfs:
+      mount_path: "/mnt/shared_storage"
+      storage_path: "plugpipe/validation_issues.json"
+      backup_enabled: true
+    
+    # Archive: Cloud storage for long-term retention
+    aws_s3:
+      bucket: "plugpipe-archive"
+      prefix: "historical/validation-issues/"
+      region: "us-east-1"
+      storage_class: "GLACIER"
+
+# Example 7: Development/Testing configurations
+development_setup:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    # Fast local SQLite for development
+    sqlite:
+      database_path: "dev_issues.db"
+      table_name: "validation_issues"
+      journal_mode: "WAL"
+      synchronous: "NORMAL"
+    
+    # Local file backup
+    local_file:
+      storage_path: "dev_validation_issues.json"
+      backup_enabled: false  # Disable in dev
+      max_history: 25
+
+# Example 8: High-availability MongoDB cluster
+mongodb_cluster:
+  operation: store_issues
+  storage_backend: mongodb
+  storage_config:
+    mongodb:
+      connection_string: "mongodb://user:pass@mongo1.internal:27017,mongo2.internal:27017,mongo3.internal:27017/plugpipe?replicaSet=rs0&ssl=true"
+      database: "plugpipe_production"
+      collection: "validation_issues"
+      write_concern: "majority"
+      read_preference: "primaryPreferred"
+
+# Example 9: Custom storage plugin
+custom_elasticsearch:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    custom_backends:
+      elasticsearch:
+        plugin_name: "elasticsearch_storage"
+        priority: 1  # High priority
+        health_check:
+          operation: "cluster_health"
+        config:
+          hosts: ["es1.internal:9200", "es2.internal:9200"]
+          index: "plugpipe-validation-issues"
+          doc_type: "issue"
+          ssl_verify: true
+
+# Example 10: Distributed file system (Big Data)
+big_data_hdfs:
+  operation: store_issues
+  storage_backend: hdfs
+  storage_config:
+    hdfs:
+      namenode_url: "hdfs://namenode.cluster.local:9000"
+      hdfs_path: "/plugpipe/validation-issues"
+      replication_factor: 3
+      block_size: "128MB"
+      compression: "snappy"
+
+# Example 11: Multiple local storage paths
+multi_local_storage:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    # Primary local storage
+    local_file:
+      storage_path: "/var/lib/plugpipe/validation_issues.json"
+      backup_enabled: true
+      max_history: 100
+    
+    # Secondary local storage (different filesystem)
+    custom_backends:
+      local_ssd:
+        plugin_name: "local_file_storage"
+        priority: 2
+        config:
+          storage_path: "/ssd/plugpipe/validation_issues.json"
+          backup_enabled: true
+          compression: "gzip"
+
+# Example 12: Testing with mock storage
+testing_mock_storage:
+  operation: store_issues
+  storage_backend: auto
+  storage_config:
+    custom_backends:
+      mock_storage:
+        plugin_name: "mock_storage_plugin"
+        priority: 1
+        health_check:
+          operation: "ping"
+        config:
+          simulate_latency: 10  # milliseconds
+          fail_rate: 0.0        # 0% failure rate
+          storage_limit: 1000   # max items

@@ -1,0 +1,300 @@
+config_defaults:
+  batch_processing: false
+  default_backend: openapi-mcp-generator
+  generate_plugpipe_plugin: true
+  include_authentication: true
+  output_format: typescript
+  security_level: enterprise
+dependencies:
+- description: TypeScript OpenAPI to MCP converter
+  name: openapi-mcp-generator
+  type: npm
+  version: '>=1.0.0'
+- description: OpenAPI code generation
+  name: openapi-generator-cli
+  type: npm
+  version: '>=2.0.0'
+- description: GraphQL schema processing
+  name: graphql-tools
+  type: npm
+  version: '>=8.0.0'
+- fastmcp_server
+- fastmcp_client
+- core/agent_factory
+description: Enterprise-grade factory plugin that converts existing API specifications
+  (OpenAPI, GraphQL, RAML) into MCP servers, leveraging proven conversion tools and
+  PlugPipe components for effortless API-to-MCP migration
+discoverability: public
+enterprise_features:
+  audit_logging: true
+  authentication_mapping: true
+  batch_processing: true
+  enterprise_security: true
+  multi_backend_support: true
+  plugin_generation: true
+  sbom_generation: true
+  validation_framework: true
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - mcp
+  - httpx
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    api_specification:
+      properties:
+        format:
+          description: API specification format
+          enum:
+          - openapi
+          - graphql
+          - raml
+          - blueprint
+          type: string
+        source:
+          description: API specification source (URL, file path, or inline JSON/YAML)
+          type: string
+        version:
+          description: API specification version (e.g., '3.0', '2.0')
+          type: string
+      required:
+      - format
+      - source
+      type: object
+    batch_options:
+      properties:
+        api_specs:
+          description: Multiple API specifications for batch processing
+          items:
+            type: object
+          type: array
+        output_directory:
+          description: Output directory for batch conversion
+          type: string
+      type: object
+    conversion_options:
+      properties:
+        backend:
+          description: Conversion backend to use
+          enum:
+          - openapi-mcp-generator
+          - openapi-mcp
+          - stainless
+          - speakeasy
+          - fastmcp
+          type: string
+        description:
+          description: Generated MCP server description
+          type: string
+        generate_plugpipe_plugin:
+          description: Generate PlugPipe plugin wrapper
+          type: boolean
+        include_authentication:
+          description: Include authentication mapping
+          type: boolean
+        output_format:
+          description: MCP server output format
+          enum:
+          - typescript
+          - python
+          - go
+          type: string
+        server_name:
+          description: Generated MCP server name
+          type: string
+      type: object
+    operation:
+      description: Factory operation to perform
+      enum:
+      - convert_api
+      - batch_convert
+      - validate_spec
+      - list_backends
+      - get_status
+      type: string
+    security_config:
+      properties:
+        auth_types:
+          description: Supported authentication types
+          items:
+            enum:
+            - api_key
+            - bearer
+            - oauth2
+            - basic
+            type: string
+          type: array
+        security_level:
+          description: Security validation level
+          enum:
+          - standard
+          - enhanced
+          - enterprise
+          type: string
+      type: object
+  required:
+  - operation
+  type: object
+metadata:
+  capabilities:
+  - api_specification_parsing
+  - mcp_server_generation
+  - multi_format_support
+  - authentication_mapping
+  - plugin_scaffolding
+  - enterprise_security
+  - batch_conversion
+  - dependency_management
+  category: integration
+  integration_backends:
+  - openapi-mcp-generator
+  - openapi-mcp (Go)
+  - Stainless SDK
+  - Speakeasy
+  - FastMCP
+  output_formats:
+  - MCP Server (TypeScript)
+  - MCP Server (Python)
+  - PlugPipe Plugin
+  supported_formats:
+  - OpenAPI/Swagger (2.0, 3.x)
+  - GraphQL Schema
+  - RAML (1.0, 0.8)
+  - API Blueprint
+  type: factory
+name: api2mcp_factory
+display_name: Api2mcpFactory
+output_schema:
+  properties:
+    backend_status:
+      properties:
+        available_backends:
+          items:
+            type: string
+          type: array
+        backend_version:
+          type: string
+        selected_backend:
+          type: string
+      type: object
+    batch_results:
+      properties:
+        failed_conversions:
+          type: integer
+        output_directory:
+          type: string
+        results:
+          items:
+            type: object
+          type: array
+        successful_conversions:
+          type: integer
+        total_processed:
+          type: integer
+      type: object
+    conversion_metadata:
+      properties:
+        backend_used:
+          type: string
+        conversion_timestamp:
+          type: string
+        dependencies_installed:
+          type: array
+        generation_options:
+          type: object
+        source_format:
+          type: string
+        target_format:
+          type: string
+      type: object
+    error:
+      description: Error message if operation failed
+      type: string
+    factory_id:
+      description: Unique factory instance identifier
+      type: string
+    mcp_server:
+      properties:
+        authentication_config:
+          type: object
+        backend_used:
+          type: string
+        format:
+          type: string
+        name:
+          type: string
+        output_path:
+          type: string
+        server_config:
+          type: object
+        tools_generated:
+          type: integer
+      type: object
+    operation_completed:
+      description: Name of completed operation
+      type: string
+    plugpipe_plugin:
+      properties:
+        manifest_path:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+        sbom_generated:
+          type: boolean
+        version:
+          type: string
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    validation_results:
+      properties:
+        authentication_detected:
+          type: array
+        endpoints_count:
+          type: integer
+        format_detected:
+          type: string
+        issues:
+          items:
+            type: string
+          type: array
+        valid:
+          type: boolean
+        version_detected:
+          type: string
+      type: object
+  required:
+  - success
+  - operation_completed
+  type: object
+owner: PlugPipe Integration Team
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+status: stable
+tags:
+- integration
+- factory
+- mcp
+- api-conversion
+- openapi
+- graphql
+- enterprise
+- llm-tooling
+- automation
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

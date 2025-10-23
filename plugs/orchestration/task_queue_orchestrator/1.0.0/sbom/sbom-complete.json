@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:task_queue_orchestrator-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-08-24T19:12:13.199374Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "task_queue_orchestrator@1.0.0",
+      "name": "task_queue_orchestrator",
+      "version": "1.0.0",
+      "description": "Enterprise-grade task queue orchestration service supporting multiple backends (Celery, Prefect, Temporal, built-in) with robust retry mechanisms, circuit breakers, and comprehensive monitoring for replacing manual concurrency patterns"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

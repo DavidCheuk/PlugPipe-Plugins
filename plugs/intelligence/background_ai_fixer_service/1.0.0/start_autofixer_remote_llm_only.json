@@ -1,0 +1,12 @@
+{
+  "monitoring_interval_minutes": 5,
+  "enable_remote_llm": true,
+  "llm_provider": "claude",
+  "max_fixes_per_cycle": 10,
+  "priority_levels": ["critical", "high", "medium", "low"],
+  "auto_commit_fixes": false,
+  "require_validation": true,
+  "fix_types": ["syntax_errors", "import_errors", "type_errors", "lint_errors"],
+  "excluded_files": [".git/", "__pycache__/", "node_modules/", "logs/"],
+  "timeout_seconds": 300
+}

@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: PipeSpec
+metadata:
+  name: patient_scheduling
+  owner: Automatic Pipe Creation Agent
+  version: 1.0.0
+  description: Patient Scheduling workflow for healthcare industry
+  industry: healthcare
+  complexity: simple
+  estimated_duration: 5 minutes
+  tags:
+  - auto-generated
+  - workflow
+  - healthcare
+  - simple
+  created_at: '2025-08-20T19:27:19.794743'
+pipeline:
+- id: step_1_appointment_request
+  uses: scheduling_system
+  with:
+    action: appointment_request
+    timeout: 42
+  description: Execute appointment request step
+- id: step_2_availability_check
+  uses: scheduling_system
+  with:
+    action: availability_check
+    timeout: 42
+  description: Execute availability check step
+- id: step_3_confirmation
+  uses: scheduling_system
+  with:
+    action: confirmation
+    timeout: 42
+  description: Execute confirmation step
+- id: step_4_reminder_notifications
+  uses: notification_service
+  with:
+    action: reminder_notifications
+    timeout: 21
+  description: Execute reminder notifications step
+- id: step_5_check_in
+  uses: scheduling_system
+  with:
+    action: check_in
+    timeout: 42
+  description: Execute check in step
+config:
+  retry_policy:
+    max_retries: 2
+    backoff: exponential
+  timeout: 300
+  parallel_execution: true
+success_criteria:
+- All steps completed successfully
+- No errors or exceptions thrown
+- Expected outputs generated
+required_plugins:
+- scheduling_system
+- notification_service
+- patient_management
+- calendar_integration
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

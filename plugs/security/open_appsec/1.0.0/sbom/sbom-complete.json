@@ -1,0 +1,26 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:open_appsec-1.0.0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-11T19:40:51.363013Z",
+    "tools": [
+      {
+        "vendor": "PlugPipe",
+        "name": "SBOM Generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "open_appsec@1.0.0",
+      "name": "open_appsec",
+      "version": "1.0.0",
+      "description": "Enterprise-grade Web Application Firewall powered by machine learning for zero-day threat protection and OWASP Top 10 security"
+    }
+  },
+  "components": [],
+  "dependencies": [],
+  "vulnerabilities": []
+}

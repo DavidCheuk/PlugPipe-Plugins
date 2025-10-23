@@ -1,0 +1,362 @@
+author: PlugPipe Team
+category: streaming
+compatibility:
+  min_plugpipe_version: 0.1.0
+  python_version: '>=3.8'
+compliance:
+  audit_logging: true
+  data_retention: Configurable per topic
+  encryption: Configurable SSL/TLS
+  gdpr_compliant: true
+config_schema:
+  properties:
+    auto_commit:
+      default: true
+      description: Enable automatic offset commits
+      type: boolean
+    auto_offset_reset:
+      default: latest
+      description: Offset reset policy for new consumer groups
+      enum:
+      - earliest
+      - latest
+      - none
+      type: string
+    batch_size:
+      default: 100
+      description: Batch size for batch processing mode
+      maximum: 10000
+      minimum: 1
+      type: integer
+    bootstrap_servers:
+      default: localhost:9092
+      description: Kafka cluster bootstrap servers
+      type: string
+    commit_interval_ms:
+      default: 5000
+      description: Auto commit interval in milliseconds
+      maximum: 60000
+      minimum: 100
+      type: integer
+    deserialization:
+      default: json
+      description: Message deserialization format
+      enum:
+      - json
+      - avro
+      - protobuf
+      - string
+      - bytes
+      type: string
+    group_id:
+      description: Consumer group ID
+      type: string
+    heartbeat_interval_ms:
+      default: 3000
+      description: Heartbeat interval
+      maximum: 10000
+      minimum: 1000
+      type: integer
+    max_poll_records:
+      default: 500
+      description: Maximum records per poll
+      maximum: 10000
+      minimum: 1
+      type: integer
+    redis_backend:
+      description: Redis configuration for message coordination
+      properties:
+        enabled:
+          default: false
+          type: boolean
+        redis_url:
+          default: redis://localhost:6379/2
+          type: string
+        result_ttl:
+          default: 3600
+          type: integer
+      type: object
+    sasl_mechanism:
+      description: SASL authentication mechanism
+      enum:
+      - PLAIN
+      - SCRAM-SHA-256
+      - SCRAM-SHA-512
+      - GSSAPI
+      type: string
+    security_protocol:
+      default: PLAINTEXT
+      description: Security protocol for Kafka connection
+      enum:
+      - PLAINTEXT
+      - SSL
+      - SASL_PLAINTEXT
+      - SASL_SSL
+      type: string
+    session_timeout_ms:
+      default: 30000
+      description: Consumer session timeout
+      maximum: 300000
+      minimum: 6000
+      type: integer
+    signal_processing:
+      default: false
+      description: Enable PlugPipe signal processing features
+      type: boolean
+    topics:
+      description: Topics to consume from
+      items:
+        type: string
+      type: array
+  required:
+  - bootstrap_servers
+  - topics
+  - group_id
+  type: object
+description: Universal Kafka message consumer plugin for any streaming use case
+documentation:
+  examples:
+  - config:
+      bootstrap_servers: localhost:9092
+      group_id: user-processors
+      topics:
+      - user-events
+    description: Consume and process user action events
+    input:
+      max_messages: 50
+      processing_mode: single
+    name: Process user events
+  - config:
+      batch_size: 500
+      bootstrap_servers: analytics-kafka:9092
+      group_id: analytics-pipeline
+      topics:
+      - metrics
+      - events
+    description: High-throughput analytics data processing
+    input:
+      downstream_plugin: analytics_processor
+      processing_mode: batch
+    name: Analytics stream consumer
+  - config:
+      bootstrap_servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      group_id: plugpipe-processors
+      signal_processing: true
+      topics:
+      - plugpipe-signals
+    description: Process internal PlugPipe ecosystem signals
+    input:
+      signal_handlers:
+        health_alert: alert_notification_plugin
+        performance_issue: auto_scaling_plugin
+    name: PlugPipe signal processor
+  readme: "# Universal Kafka Consumer Plugin\n\nGeneric Kafka consumer plugin supporting\
+    \ ANY streaming consumption use case, from simple message processing to complex\
+    \ stream analytics.\n\n## Universal Use Cases\n- **Event Processing**: Real-time\
+    \ event handling and reactions\n- **Data Pipeline Consumption**: ETL source data\
+    \ processing\n- **Microservice Integration**: Service-to-service message handling\n\
+    - **Log Processing**: Centralized log analysis and routing\n- **Analytics Streaming**:\
+    \ Real-time analytics data processing\n- **IoT Data Processing**: Sensor data\
+    \ analysis and routing\n- **API Integration**: Webhook and async API processing\n\
+    - **PlugPipe Signal Processing**: Internal ecosystem signal consumption\n\n##\
+    \ Configuration Examples\n\n### Simple Event Consumer\n```yaml\nsteps:\n  - plugin:\
+    \ kafka_consumer\n    config:\n      bootstrap_servers: \"localhost:9092\"\n \
+    \     topics: [\"user-events\"]\n      group_id: \"user-event-processor\"\n  \
+    \    processing_mode: \"single\"\n    input:\n      max_messages: 100\n      timeout_ms:\
+    \ 5000\n```\n\n### High-Throughput Analytics Consumer\n```yaml\nsteps:\n  - plugin:\
+    \ kafka_consumer\n    config:\n      bootstrap_servers: \"kafka-cluster:9092\"\
+    \n      topics: [\"analytics-stream\"]\n      group_id: \"analytics-processors\"\
+    \n      processing_mode: \"batch\"\n      batch_size: 1000\n      auto_commit:\
+    \ false\n    input:\n      processing_function: \"analytics_processor\"\n    \
+    \  downstream_plugin: \"data_warehouse_loader\"\n```\n\n### PlugPipe Signal Consumer\n\
+    ```yaml\nsteps:\n  - plugin: kafka_consumer\n    config:\n      bootstrap_servers:\
+    \ \"${KAFKA_SERVERS}\"\n      topics: [\"plugpipe-health\", \"plugpipe-registry\"\
+    ]\n      group_id: \"plugpipe-signal-processor\"\n      signal_processing: true\n\
+    \    input:\n      signal_handlers:\n        health_event: \"health_dashboard_updater\"\
+    \n        registry_event: \"registry_cache_invalidator\"\n```\n"
+external_dependencies:
+  install_method: pip
+  packages:
+  - kafka
+  - redis
+  requirements_file: requirements.txt
+features:
+  enterprise:
+  - Consumer group management and rebalancing
+  - Offset management and replay capabilities
+  - Dead letter queue support
+  - Security protocols (SSL, SASL)
+  - Multi-cluster consumption
+  performance:
+  - Batch processing for high throughput
+  - Configurable polling and commit strategies
+  - Connection pooling and reuse
+  - Async processing with backpressure
+  plugpipe_integration:
+  - Signal type routing for PlugPipe ecosystem
+  - Redis coordination for complex workflows
+  - Metadata extraction for plugin tracking
+  - Downstream plugin forwarding
+  universal_compatibility:
+  - JSON, Avro, Protobuf, and raw byte deserialization
+  - Configurable processing modes (single, batch, stream)
+  - Flexible message routing and filtering
+  - Schema registry integration support
+health_check:
+  expected_response: group_info
+  method: consumer_group_metadata
+  timeout: 10
+input_schema:
+  properties:
+    commit_strategy:
+      default: auto
+      description: Offset commit strategy
+      enum:
+      - auto
+      - manual
+      - batch
+      type: string
+    downstream_plugin:
+      description: Plugin to forward processed messages to
+      type: string
+    filter_criteria:
+      description: Message filtering criteria
+      type: object
+    max_messages:
+      default: 100
+      description: Maximum number of messages to consume
+      maximum: 10000
+      minimum: 1
+      type: integer
+    processing_function:
+      description: Name of processing function to apply to messages
+      type: string
+    processing_mode:
+      default: single
+      description: Message processing mode
+      enum:
+      - single
+      - batch
+      - stream
+      type: string
+    signal_handlers:
+      additionalProperties:
+        type: string
+      description: PlugPipe signal type to handler plugin mapping
+      type: object
+    timeout_ms:
+      default: 30000
+      description: Consumer timeout in milliseconds
+      maximum: 300000
+      minimum: 1000
+      type: integer
+  type: object
+license: MIT
+monitoring:
+  events:
+  - message_consumed
+  - batch_processed
+  - consumption_error
+  - consumer_rebalance
+  - processing_completed
+  metrics:
+  - kafka_messages_consumed_total
+  - kafka_consumption_errors_total
+  - kafka_processing_latency_ms_avg
+  - kafka_batch_processing_duration_ms
+  - kafka_consumer_lag_messages
+name: kafka_consumer
+display_name: KafkaConsumer
+output_schema:
+  properties:
+    kafka_error:
+      description: Error message if operation failed
+      type: string
+    kafka_result:
+      properties:
+        consumed_count:
+          description: Number of messages successfully consumed
+          type: integer
+        failed_count:
+          description: Number of messages that failed processing
+          type: integer
+        last_offset:
+          description: Last committed offset per partition
+          type: object
+        messages:
+          description: Consumed messages (if requested)
+          items:
+            type: object
+          type: array
+        processed_count:
+          description: Number of messages successfully processed
+          type: integer
+        processing_duration_ms:
+          description: Total processing time
+          type: integer
+        status:
+          enum:
+          - success
+          - error
+          - partial
+          - timeout
+          type: string
+      type: object
+    kafka_status:
+      enum:
+      - success
+      - error
+      - partial
+      - timeout
+      type: string
+  type: object
+owner: PlugPipe Streaming Team
+performance:
+  bulk_operations:
+    max_batch_size: 1000
+    recommended_batch_size: 500
+  caching:
+    enabled: true
+    ttl: 300
+  rate_limit:
+    batch_operations_per_minute: 600
+    messages_per_second: 5000
+requirements:
+  python:
+  - kafka-python>=2.0.2
+  - confluent-kafka>=2.1.0
+  - redis>=4.5.0
+  system: []
+sbom:
+  complete: sbom/sbom-complete.json
+  lib_json: sbom/lib_sbom.json
+  lib_yaml: sbom/lib_sbom.yaml
+  summary: sbom/sbom.json
+security:
+  external_domains:
+  - '*.kafka.domain'
+  - confluent.cloud
+  - '*.amazonaws.com'
+  network_access: true
+  requires_secrets: true
+  secret_fields:
+  - kafka_bootstrap_servers
+  - kafka_username
+  - kafka_password
+  - kafka_ssl_cert_path
+  - kafka_ssl_key_path
+status: stable
+tags:
+- kafka
+- streaming
+- consumer
+- messaging
+- universal
+- processing
+version: 1.0.0
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

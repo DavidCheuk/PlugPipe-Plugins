@@ -1,0 +1,129 @@
+category: intelligence
+config_schema:
+  properties:
+    http_embedding_endpoint:
+      description: Custom HTTP embedding endpoint URL
+      type: string
+    ollama_host:
+      default: localhost
+      type: string
+    ollama_port:
+      default: 11434
+      type: integer
+  type: object
+dependency_analysis:
+  auto_generated: true
+  external_dependencies_required: true
+  last_updated: '2025-09-21 23:01:44'
+  stdlib_modules_declared: true
+description: AI-powered plugin discovery using embeddings and semantic search for
+  natural language plugin queries
+external_dependencies:
+  install_method: pip
+  packages:
+  - yaml
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    embedding_model:
+      default: nomic-embed-text
+      description: Embedding model to use (for ollama provider)
+      type: string
+    embedding_provider:
+      default: ollama
+      description: Embedding provider to use for semantic search
+      enum:
+      - ollama
+      - http
+      - keyword_fallback
+      type: string
+    limit:
+      default: 10
+      description: Maximum number of results to return
+      type: integer
+    query:
+      description: Natural language query to search for plugins
+      examples:
+      - payment processing
+      - JWT authentication
+      - CSV file parsing
+      - security analysis
+      type: string
+    threshold:
+      default: 0.1
+      description: Minimum similarity threshold for results
+      maximum: 1.0
+      minimum: 0.0
+      type: number
+  type: object
+name: ai_discovery
+display_name: AIDiscovery
+output_schema:
+  properties:
+    embedding_provider_used:
+      type: string
+    processing_time_ms:
+      type: number
+    query:
+      type: string
+    results:
+      items:
+        properties:
+          category:
+            type: string
+          description:
+            type: string
+          name:
+            type: string
+          plugin_type:
+            type: string
+          sbom_hash:
+            type: string
+          sbom_valid:
+            type: boolean
+          similarity_score:
+            type: number
+          source_registry:
+            type: string
+          version:
+            type: string
+        type: object
+      type: array
+    results_count:
+      type: integer
+    success:
+      type: boolean
+  type: object
+owner: PlugPipe Intelligence Team
+sbom:
+  dependencies:
+  - name: requests
+    version: '>=2.25.0'
+  - name: numpy
+    version: '>=1.20.0'
+status: stable
+stdlib_modules:
+- datetime
+- os
+- pathlib
+- sys
+- time
+- typing
+tags:
+- ai
+- discovery
+- search
+- embeddings
+- semantic
+- mcp
+- intelligence
+- nlp
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

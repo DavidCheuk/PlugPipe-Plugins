@@ -1,0 +1,219 @@
+category: intelligence
+config_defaults:
+  ab_testing_enabled: true
+  auto_optimization: true
+  base_path: .
+  performance_tracking: true
+  prompts_directory: prompt_templates
+  security_validation: true
+  version_control_enabled: true
+config_schema:
+  properties:
+    ab_testing_enabled:
+      default: true
+      description: Enable A/B testing capabilities
+      type: boolean
+    auto_optimization:
+      default: true
+      description: Enable automatic optimization suggestions
+      type: boolean
+    base_path:
+      default: .
+      description: Base path for prompt storage
+      type: string
+    llm_service_config:
+      additionalProperties: true
+      description: Configuration for LLM service integration
+      type: object
+    performance_tracking:
+      default: true
+      description: Enable performance analytics
+      type: boolean
+    prompts_directory:
+      default: prompt_templates
+      description: Directory name for prompt storage
+      type: string
+    security_validation:
+      default: true
+      description: Enable security validation of prompts
+      type: boolean
+    version_control_enabled:
+      default: true
+      description: Enable version control for prompts
+      type: boolean
+  type: object
+description: Enterprise-grade prompt engineering and management system with comprehensive
+  governance, versioning, analytics, and LLM service integration
+discoverability: public
+entrypoint: main.py
+external_dependencies:
+  install_method: pip
+  packages:
+  - statistics
+  requirements_file: requirements.txt
+input_schema:
+  properties:
+    action:
+      default: list
+      description: Prompt management action to perform
+      enum:
+      - create
+      - get
+      - execute
+      - list
+      - analytics
+      - optimize
+      type: string
+    execution_config:
+      description: Configuration for prompt execution
+      properties:
+        max_tokens:
+          default: 1000
+          minimum: 1
+          type: integer
+        prefer_local:
+          default: true
+          type: boolean
+        temperature:
+          default: 0.7
+          maximum: 2
+          minimum: 0
+          type: number
+      type: object
+    filters:
+      description: Filters for listing prompts
+      properties:
+        author:
+          type: string
+        category:
+          type: string
+        status:
+          enum:
+          - draft
+          - review
+          - approved
+          - active
+          - deprecated
+          - archived
+          type: string
+        tags:
+          items:
+            type: string
+          type: array
+      type: object
+    prompt_data:
+      description: Prompt template data for creation
+      properties:
+        access_level:
+          default: public
+          enum:
+          - public
+          - internal
+          - restricted
+          - confidential
+          type: string
+        author:
+          description: Author of the prompt
+          type: string
+        category:
+          description: Prompt category
+          type: string
+        content:
+          description: Prompt content with variable placeholders
+          type: string
+        description:
+          description: Description of prompt purpose
+          type: string
+        name:
+          description: Name of the prompt template
+          type: string
+        tags:
+          description: Tags for prompt classification
+          items:
+            type: string
+          type: array
+        target_models:
+          description: Target LLM models for optimization
+          items:
+            type: string
+          type: array
+        use_cases:
+          description: Intended use cases
+          items:
+            type: string
+          type: array
+        variables:
+          description: Template variables and their descriptions
+          type: object
+      type: object
+    prompt_id:
+      description: Unique identifier for prompt template
+      type: string
+    variables:
+      description: Variables to substitute in prompt template
+      type: object
+    version:
+      description: Specific version to retrieve
+      type: string
+  type: object
+metadata:
+  capabilities:
+  - prompt_lifecycle_management
+  - version_control
+  - performance_analytics
+  - security_validation
+  - template_engine
+  - llm_integration
+  - ab_testing
+  - auto_optimization
+  - governance_controls
+  dependencies:
+  - description: LLM service integration for prompt execution
+    name: llm_service
+    required: false
+    version: 1.0.0
+  memory_mb: 512
+  type: management
+name: prompt_manager
+display_name: PromptManager
+output_schema:
+  properties:
+    error:
+      description: Error message if operation failed
+      type: string
+    operation_completed:
+      description: Operation that was completed
+      type: string
+    result:
+      description: Operation-specific result data
+      type: object
+    success:
+      description: Operation success status
+      type: boolean
+    timestamp:
+      description: ISO timestamp of operation completion
+      type: string
+  required:
+  - success
+  - operation_completed
+  type: object
+owner: PlugPipe Core Team
+status: stable
+tags:
+- prompts
+- templates
+- llm
+- management
+- analytics
+- governance
+- optimization
+- enterprise
+version: 1.0.0
+author: PlugPipe Intelligence Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT

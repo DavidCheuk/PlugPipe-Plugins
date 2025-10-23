@@ -1,0 +1,245 @@
+capabilities:
+- change_orchestration
+- multi_environment_deployment
+- rollback_management
+- compliance_tracking
+- automated_verification
+- audit_reporting
+- risk_assessment
+- agent_factory_integration
+dependencies:
+- audit/elk_stack/1.0.0
+- core/agent_factory/1.0.0
+- infrastructure/salt/1.0.0
+- monitoring/prometheus/1.0.0
+dependency_analysis:
+  analyzer_notes: All imports (concurrent) are stdlib modules
+  external_dependencies_required: false
+  stdlib_modules_declared: true
+description: Enterprise change management orchestrator using existing plugin composition
+  (Salt, ELK, Prometheus) with Agent Factory integration
+discoverability: public
+enterprise_features:
+  approval_workflows: true
+  audit_trails: true
+  automated_validation: true
+  compliance_integration: true
+  multi_stage_rollback: true
+  risk_assessment: true
+entrypoint: main.py
+input_schema:
+  additionalProperties: false
+  properties:
+    action:
+      default: status
+      description: Action to perform
+      enum:
+      - plan_change
+      - execute_change
+      - list_changes
+      - get_change_status
+      - status
+      type: string
+    change_id:
+      description: Change ID for execution/status queries
+      type: string
+    change_request:
+      properties:
+        compliance:
+          description: Compliance requirements
+          items:
+            type: string
+          type: array
+        configuration:
+          description: Change configuration data
+          type: object
+        description:
+          description: Change description
+          type: string
+        rollback_plan:
+          description: Rollback plan configuration
+          type: object
+        scheduled_time:
+          description: Scheduled execution time
+          format: date-time
+          type: string
+        targets:
+          description: Target systems/environments
+          items:
+            type: string
+          type: array
+        type:
+          description: Type of change
+          enum:
+          - configuration
+          - application_deployment
+          - security_patch
+          - infrastructure
+          - emergency_fix
+          - compliance_update
+          type: string
+      type: object
+  required: []
+  type: object
+integrations:
+  agent_factory_integration:
+    capabilities:
+    - risk_assessment
+    - compliance_validation
+    - rollback_planning
+    description: Uses Agent Factory for specialized change management agents
+  elk_integration:
+    capabilities:
+    - event_logging
+    - audit_trails
+    - search_indexing
+    description: Uses ELK Stack plugin for comprehensive logging
+  prometheus_integration:
+    capabilities:
+    - metrics_collection
+    - threshold_monitoring
+    - alerting
+    description: Uses Prometheus plugin for monitoring and alerting
+  salt_integration:
+    capabilities:
+    - state_application
+    - pillar_management
+    - target_execution
+    description: Uses Salt plugin for configuration management
+name: enterprise_change_manager
+display_name: EnterpriseChangeManager
+output_schema:
+  additionalProperties: false
+  properties:
+    active_changes:
+      description: List of active change IDs
+      items:
+        type: string
+      type: array
+    change_details:
+      description: Detailed change information
+      type: object
+    change_id:
+      description: Generated or referenced change ID
+      type: string
+    dependencies_status:
+      description: Status of composed plugin dependencies
+      properties:
+        agent_factory:
+          type: boolean
+        logging_plugin:
+          type: boolean
+        monitoring_plugin:
+          type: boolean
+        salt_plugin:
+          type: boolean
+      type: object
+    error:
+      description: Error message if status is error
+      type: string
+    message:
+      description: Human-readable message
+      type: string
+    monitoring_data:
+      description: System monitoring data during change
+      type: object
+    risk_level:
+      description: Assessed risk level
+      enum:
+      - low
+      - medium
+      - high
+      type: string
+    rollback_info:
+      description: Rollback execution information
+      properties:
+        error:
+          type: string
+        method:
+          type: string
+        status:
+          type: string
+        timestamp:
+          type: integer
+      type: object
+    status:
+      description: Execution status
+      enum:
+      - success
+      - error
+      - in_progress
+      type: string
+    steps_completed:
+      description: Completed execution steps
+      items:
+        properties:
+          result:
+            type: object
+          target:
+            type: string
+          timestamp:
+            type: integer
+        type: object
+      type: array
+    supported_actions:
+      description: List of supported actions
+      items:
+        type: string
+      type: array
+    technical_details:
+      description: Technical execution details for audit
+      items:
+        properties:
+          action:
+            type: string
+          details:
+            type: object
+          method:
+            type: string
+          timestamp:
+            type: integer
+        type: object
+      type: array
+  required:
+  - status
+  type: object
+owner: PlugPipe Core Team
+performance:
+  change_planning_target: < 30 seconds
+  monitoring_frequency: real-time
+  parallel_execution: true
+  rollback_time_target: < 5 minutes
+reliability:
+  automatic_rollback: true
+  dependency_checking: true
+  graceful_failure_handling: true
+  health_validation: true
+sbom:
+  complete: sbom/sbom-complete.json
+  lib: sbom/lib_sbom.json
+status: stable
+stdlib_modules:
+- concurrent
+triggers:
+- scheduled_deployment
+- emergency_change
+- compliance_update
+- configuration_drift
+version: 1.0.0
+author: PlugPipe Team
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: "Copyright \xA9 2025 PlugPipe Team. All rights reserved."
+license: MIT
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT
+external_dependencies:
+- name: enum34
+  type: pip
+  version: null
+  required: true
+- name: importlib
+  type: pip
+  version: null
+  required: true

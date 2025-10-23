@@ -1,0 +1,156 @@
+name: plugin_code_signer
+display_name: PluginCodeSigner
+version: 1.0.0
+category: security
+description: 'Sign and verify plugin source code for integrity protection and tamper
+  detection.
+
+
+  REFACTORED (October 16, 2025): Now uses UniversalSignatureEngine for cryptography.
+
+  Part of hybrid signature architecture (Phase 2).
+
+
+  Features:
+
+  - Cryptographic hash-based signatures (SHA256 + ES256/RS256)
+
+  - Plugin integrity verification before execution
+
+  - Tamper detection through hash comparison
+
+  - Signature database management
+
+  - Trusted signer management
+
+
+  Hybrid Architecture:
+
+  - Core Engine: UniversalSignatureEngine (cryptographic primitives)
+
+  - This Plugin: File hashing, signature DB, trusted signers
+
+  '
+author: PlugPipe Team
+license: MIT
+operations:
+- sign: Sign plugin code with cryptographic signature
+- verify: Verify plugin code integrity and detect tampering
+- list: List all signed plugins in database
+- scan: Scan all plugins for security issues
+- revoke: Revoke plugin signature
+- add_trusted_signer: Add a trusted signer to the system
+parameters:
+  operation:
+    type: string
+    required: true
+    description: Operation to perform (sign, verify, list, scan, revoke, add_trusted_signer)
+  plugin_name:
+    type: string
+    required: false
+    description: Name of plugin to sign/verify
+  plugin_version:
+    type: string
+    required: false
+    description: Version of plugin to sign/verify
+  plugin_path:
+    type: string
+    required: false
+    description: Path to plugin main.py file
+  private_key_path:
+    type: string
+    required: false
+    description: Path to private key PEM file (optional, generates if not provided)
+  public_key_path:
+    type: string
+    required: false
+    description: Path to public key PEM file (for verification)
+  algorithm:
+    type: string
+    required: false
+    default: ES256
+    description: Signature algorithm (ES256, ES384, ES512, RS256, RS384, RS512, ED25519)
+  signer_id:
+    type: string
+    required: false
+    default: system
+    description: Identifier of the signer
+  trusted:
+    type: boolean
+    required: false
+    default: false
+    description: Mark signature as trusted
+  plugs_dir:
+    type: string
+    required: false
+    description: Path to plugs directory (for scan operation)
+  signature_db_path:
+    type: string
+    required: false
+    description: 'Path to signature database file (default: ./plugin_signatures.json)'
+external_dependencies:
+- name: cryptography
+  version: '>=42.0.0'
+  install_command: pip install cryptography
+  purpose: Used by UniversalSignatureEngine for cryptographic operations
+usage_examples:
+- description: Sign a plugin with ES256
+  command: "./pp run plugin_code_signer --config '{\n  \"operation\": \"sign\",\n\
+    \  \"plugin_name\": \"echo_plugin\",\n  \"plugin_version\": \"1.0.0\",\n  \"plugin_path\"\
+    : \"/path/to/plugs/echo_plugin/1.0.0/main.py\",\n  \"algorithm\": \"ES256\",\n\
+    \  \"trusted\": true\n}'\n"
+- description: Verify plugin integrity
+  command: "./pp run plugin_code_signer --config '{\n  \"operation\": \"verify\",\n\
+    \  \"plugin_name\": \"echo_plugin\",\n  \"plugin_version\": \"1.0.0\",\n  \"plugin_path\"\
+    : \"/path/to/plugs/echo_plugin/1.0.0/main.py\"\n}'\n"
+- description: Scan all plugins for security issues
+  command: "./pp run plugin_code_signer --config '{\n  \"operation\": \"scan\",\n\
+    \  \"plugs_dir\": \"/path/to/plugs\"\n}'\n"
+- description: List all signed plugins
+  command: "./pp run plugin_code_signer --config '{\n  \"operation\": \"list\"\n}'\n"
+tags:
+- security
+- signature
+- integrity
+- verification
+- tamper-detection
+- code-signing
+security_features:
+- Cryptographic signatures using ES256/RS256/ED25519
+- SHA256 hash-based integrity verification
+- Tamper detection through hash comparison
+- Signature database with audit trail
+- Trusted signer management
+architecture_notes: 'This plugin is part of PlugPipe''s hybrid signature architecture:
+
+
+  - Core Engine (NOT a plugin): UniversalSignatureEngine provides cryptographic primitives
+
+  - This Plugin: Handles plugin-specific logic (file hashing, signature DB, etc.)
+
+
+  Benefits:
+
+  - Zero algorithm duplication (reuses UniversalSignatureEngine)
+
+  - Single security audit point (core engine)
+
+  - Plugin composability (format-specific logic)
+
+  - Full PlugPipe principles compliance
+
+  '
+backward_compatibility: 'Maintains compatibility with existing plugin_signatures.json
+  database.
+
+  Signature format changed to include algorithm field, but old signatures
+
+  can still be verified (defaults to ES256).
+
+  '
+copyright:
+  owner: PlugPipe Team
+  year: 2025
+  notice: Copyright © 2025 PlugPipe Team. All rights reserved.
+license_url: https://opensource.org/licenses/MIT
+spdx_license_identifier: MIT
