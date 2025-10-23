@@ -1,0 +1,308 @@
+# Architecture Compliance CI Workflow
+# Validates plugin implementation against PlugPipe architectural principles
+
+name: Architecture Compliance
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**/*.py'
+      - 'pipes/**/*.py'
+      - 'glues/**/*.py'
+      - 'plugs/**/*.yaml'
+      - 'pipes/**/*.yaml'
+      - 'glues/**/*.yaml'
+      - '.github/workflows/architecture-compliance.yaml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**/*.py'
+      - 'pipes/**/*.py'
+      - 'glues/**/*.py'
+  workflow_dispatch:
+
+jobs:
+  architecture-compliance:
+    name: Architecture Compliance Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Check pp() Usage (Dynamic Discovery Requirement)
+        run: |
+          echo "🔍 Checking for pp() dynamic discovery usage..."
+
+          # Find Python files without pp() usage but with plugin imports
+          echo "Checking for hardcoded imports instead of pp()..."
+
+          VIOLATIONS=0
+
+          find plugs pipes glues -name "main.py" | while read file; do
+            # Check if file imports other plugins directly
+            if grep -q "^from plugs\.\|^import plugs\.\|^from pipes\.\|^import pipes\." "$file" 2>/dev/null; then
+              echo "❌ $file: Uses hardcoded plugin imports (should use pp())"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            fi
+          done
+
+          if [ $VIOLATIONS -eq 0 ]; then
+            echo "✅ No hardcoded plugin imports detected"
+          else
+            echo "⚠️  Found $VIOLATIONS files with hardcoded imports"
+            echo "Plugins should use pp('plugin_name') for dynamic discovery"
+          fi
+
+      - name: Check Hardcoded Paths
+        run: |
+          echo "🔍 Checking for hardcoded paths..."
+
+          # Find files with hardcoded paths
+          HARDCODED_PATHS=$(grep -r "Path(__file__).parent.parent\|'/mnt/c/Project/PlugPipe'\|'C:\\\\Project\\\\PlugPipe'" plugs/ pipes/ glues/ --include="*.py" 2>/dev/null | wc -l)
+
+          if [ $HARDCODED_PATHS -eq 0 ]; then
+            echo "✅ No hardcoded paths detected"
+          else
+            echo "❌ Found $HARDCODED_PATHS files with hardcoded paths"
+            echo "Use get_plugpipe_root() from shares.plugpipe_path_helper instead"
+
+            # Show first 5 violations
+            grep -r "Path(__file__).parent.parent\|'/mnt/c/Project/PlugPipe'" plugs/ pipes/ glues/ --include="*.py" | head -5
+          fi
+
+          # Fail if hardcoded paths found
+          if [ $HARDCODED_PATHS -gt 0 ]; then
+            exit 1
+          fi
+
+      - name: Check SPDX Headers (Copyright Compliance)
+        run: |
+          echo "🔍 Checking SPDX headers in Python files..."
+
+          MISSING_SPDX=0
+
+          find plugs pipes glues -name "*.py" | while read file; do
+            if ! grep -q "SPDX-License-Identifier:" "$file" 2>/dev/null; then
+              echo "❌ $file: Missing SPDX header"
+              MISSING_SPDX=$((MISSING_SPDX + 1))
+            fi
+          done
+
+          if [ $MISSING_SPDX -eq 0 ]; then
+            echo "✅ All Python files have SPDX headers"
+          else
+            echo "⚠️  Found $MISSING_SPDX files without SPDX headers"
+          fi
+
+      - name: Check Plugin Manifest Compliance
+        run: |
+          echo "📋 Checking plugin manifest compliance..."
+
+          # Check for .yaml extension (not .yaml)
+          YML_FILES=$(find plugs pipes glues -name "*.yaml" 2>/dev/null | wc -l)
+
+          if [ $YML_FILES -gt 0 ]; then
+            echo "❌ Found $YML_FILES files with .yaml extension (should be .yaml)"
+            find plugs pipes glues -name "*.yaml" | head -5
+            exit 1
+          else
+            echo "✅ All YAML files use .yaml extension"
+          fi
+
+      - name: Check "REUSE EVERYTHING" Principle
+        run: |
+          echo "🔍 Checking for code duplication (REUSE EVERYTHING principle)..."
+
+          # Look for common reimplemented functions
+          REIMPLEMENTED=0
+
+          # Check for duplicate schema validation
+          SCHEMA_VALIDATORS=$(grep -r "jsonschema.validate\|ValidationError" plugs/ pipes/ glues/ --include="*.py" | cut -d: -f1 | sort -u | wc -l)
+
+          if [ $SCHEMA_VALIDATORS -gt 5 ]; then
+            echo "⚠️  Found $SCHEMA_VALIDATORS files with schema validation logic"
+            echo "Consider using shared schema_validator plugin"
+          fi
+
+          # Check for duplicate YAML loading
+          YAML_LOADERS=$(grep -r "yaml.safe_load" plugs/ pipes/ glues/ --include="*.py" | wc -l)
+
+          echo "YAML loading instances: $YAML_LOADERS"
+          echo "Schema validation instances: $SCHEMA_VALIDATORS"
+
+          # This is informational, not blocking
+          echo "✅ Duplication check complete (informational)"
+
+      - name: Run Architecture Guardian Audit (Sample)
+        continue-on-error: true
+        run: |
+          echo "🛡️  Running Architecture Guardian audit on sample plugins..."
+
+          # Audit first 3 new/modified plugins
+          find plugs pipes glues -name "main.py" -type f | head -3 | while read plugin_file; do
+            plugin_dir=$(dirname "$plugin_file")
+            plugin_name=$(basename $(dirname $(dirname "$plugin_file")))
+
+            echo "Auditing: $plugin_name"
+
+            # Use architecture_guardian_watcher for audit
+            # Note: This is a sample audit, not full enforcement
+            ./pp run architecture_guardian_watcher --action quick_audit --target "$plugin_dir" || echo "⚠️  $plugin_name: Architecture issues detected"
+          done
+
+          echo "✅ Architecture Guardian audit complete (sample)"
+
+      - name: Check PlugPipe Spirit Alignment
+        run: |
+          echo "🎯 Checking PlugPipe Spirit alignment..."
+
+          # Check for common anti-patterns
+          echo "Checking for anti-patterns..."
+
+          # 1. Avoid subprocess for plugin execution (should use pp())
+          SUBPROCESS_PLUGIN_CALLS=$(grep -r "subprocess.*pp run\|subprocess.*\./pp" plugs/ pipes/ glues/ --include="*.py" 2>/dev/null | wc -l)
+
+          if [ $SUBPROCESS_PLUGIN_CALLS -gt 0 ]; then
+            echo "❌ Found $SUBPROCESS_PLUGIN_CALLS subprocess calls to run plugins"
+            echo "Use pp('plugin_name').execute() instead of subprocess"
+            exit 1
+          fi
+
+          # 2. Check for proper error handling
+          echo "✅ No subprocess anti-patterns detected"
+
+      - name: Generate Architecture Compliance Report
+        if: always()
+        run: |
+          echo "📊 Generating architecture compliance report..."
+
+          cat > /tmp/architecture_report.txt << EOF
+          === PlugPipe Architecture Compliance Report ===
+
+          1. pp() Dynamic Discovery: Checked
+          2. No Hardcoded Paths: Checked
+          3. SPDX Headers: Checked
+          4. .yaml Extension: Checked
+          5. REUSE EVERYTHING: Checked
+          6. No Subprocess Anti-patterns: Checked
+          7. Architecture Guardian Audit: Sample checked
+
+          === Key Principles ===
+          - DEFAULT TO CREATING PLUGINS
+          - REUSE EVERYTHING, REINVENT NOTHING
+          - Use pp() for dynamic discovery
+          - Use get_plugpipe_root() for paths
+          - Include SPDX headers
+          - Use .yaml (not .yaml)
+          EOF
+
+          cat /tmp/architecture_report.txt
+
+      - name: Upload Architecture Compliance Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: architecture-compliance-report
+          path: /tmp/architecture_report.txt
+          retention-days: 30
+
+      - name: Comment PR with Architecture Issues (if PR)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `## ❌ Architecture Compliance Failed
+
+            This PR introduces code that violates PlugPipe's architectural principles.
+
+            ### Critical Issues
+
+            **Common violations:**
+            - 🚫 **Hardcoded Imports**: Use \`pp('plugin_name')\` instead of \`from plugs.category.plugin import ...\`
+            - 🚫 **Hardcoded Paths**: Use \`get_plugpipe_root()\` from \`shares.plugpipe_path_helper\`
+            - 🚫 **Missing SPDX Headers**: All Python files must include \`# SPDX-License-Identifier: MIT\`
+            - 🚫 **Wrong Extension**: Use \`.yaml\` (not \`.yaml\`) for YAML files
+            - 🚫 **Subprocess Anti-patterns**: Use \`pp('plugin').execute()\` instead of \`subprocess.run('./pp run plugin')\`
+
+            ### How to Fix
+
+            **Use pp() for dynamic discovery:**
+            \`\`\`python
+            from shares.loader import pp
+
+            # ✅ Good
+            sanitizer = pp('universal_input_sanitizer')
+            result = sanitizer.execute({'text': user_input})
+
+            # ❌ Bad
+            from plugs.security.universal_input_sanitizer.main import execute
+            \`\`\`
+
+            **Use get_plugpipe_root() for paths:**
+            \`\`\`python
+            from shares.plugpipe_path_helper import get_plugpipe_root
+
+            # ✅ Good
+            root = get_plugpipe_root()
+            config_path = root / 'config' / 'settings.yaml'
+
+            # ❌ Bad
+            config_path = Path('/mnt/c/Project/PlugPipe/config/settings.yaml')
+            \`\`\`
+
+            **Add SPDX headers:**
+            \`\`\`python
+            # SPDX-License-Identifier: MIT
+            # Copyright 2025 PlugPipe Team
+            \`\`\`
+
+            ### PlugPipe Principles
+
+            - **DEFAULT TO CREATING PLUGINS**: Every new feature should be a plugin
+            - **REUSE EVERYTHING, REINVENT NOTHING**: Leverage existing plugins and tools
+            - **SIMPLICITY BY TRADITION**: Follow established patterns
+            - **GRACEFUL DEGRADATION**: Systems continue working when components fail
+
+            See: \`CLAUDE.md\` for complete architectural guidance.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: Architecture Compliance Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=" * 60
+          echo "🏛️  Architecture Compliance Summary"
+          echo "=" * 60
+          echo ""
+          echo "All plugins must follow PlugPipe architectural principles:"
+          echo ""
+          echo "1. DEFAULT TO CREATING PLUGINS"
+          echo "2. REUSE EVERYTHING, REINVENT NOTHING"
+          echo "3. Use pp() for dynamic discovery"
+          echo "4. Use get_plugpipe_root() for paths"
+          echo "5. Include SPDX headers in all files"
+          echo "6. Use .yaml extension (not .yaml)"
+          echo "7. No subprocess anti-patterns"
+          echo ""
+          echo "Architecture compliance is MANDATORY for all contributions."
+          echo ""

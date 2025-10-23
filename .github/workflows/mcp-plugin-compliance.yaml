@@ -1,0 +1,205 @@
+# MCP Plugin Protocol Compliance CI Workflow
+# OPTIONAL protocol compliance check - only for plugins with mcp_server=true
+
+name: MCP Plugin Compliance
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+      - '.github/workflows/mcp-plugin-compliance.yaml'
+      - 'plugs/ci/mcp_protocol_validator/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+  workflow_dispatch:
+
+jobs:
+  mcp-plugin-compliance:
+    name: MCP Plugin Validation (Optional)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Check MCP Opt-In Plugins
+        id: check_opt_in
+        run: |
+          echo "🔍 Checking for plugins with MCP opt-in..."
+
+          # Find plugins with mcp_server=true in manifest
+          MCP_OPT_IN=$(find plugs pipes glues -name "*.yaml" -type f | xargs grep -l "mcp_server: true" 2>/dev/null | wc -l)
+
+          # Find plugins with "mcp" in name
+          MCP_NAMED=$(find plugs pipes glues -type d -name "*mcp*" | wc -l)
+
+          TOTAL_MCP=$(( MCP_OPT_IN + MCP_NAMED ))
+
+          echo "Plugins with mcp_server=true: $MCP_OPT_IN"
+          echo "Plugins with 'mcp' in name: $MCP_NAMED"
+          echo "Total MCP opt-in plugins: $TOTAL_MCP"
+
+          echo "mcp_count=$TOTAL_MCP" >> $GITHUB_OUTPUT
+
+          if [ $TOTAL_MCP -eq 0 ]; then
+            echo "⏭️  No plugins opted-in to MCP validation (MCP is OPTIONAL)"
+            echo "skip_validation=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Found $TOTAL_MCP plugins to validate"
+            echo "skip_validation=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run MCP Plugin Compliance Check (Using mcp_protocol_validator Plugin)
+        if: steps.check_opt_in.outputs.skip_validation != 'true'
+        id: mcp_compliance
+        run: |
+          echo "🔍 Running MCP plugin compliance validation (OPTIONAL for opt-in plugins)..."
+
+          # Use PlugPipe plugin for MCP validation (plugin-first architecture)
+          ./pp run mcp_protocol_validator --action validate_all > /tmp/mcp_plugin_report.txt 2>&1
+          EXIT_CODE=$?
+
+          # Display report
+          cat /tmp/mcp_plugin_report.txt
+
+          # Save to output
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/mcp_plugin_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Don't fail the workflow - MCP is optional
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "⚠️  MCP validation found issues, but this is non-blocking (MCP is OPTIONAL)"
+            exit 0
+          fi
+
+          exit 0
+
+      - name: List MCP Opt-In Plugins
+        if: steps.check_opt_in.outputs.skip_validation != 'true'
+        run: |
+          echo "📋 Listing plugins with MCP opt-in..."
+
+          echo "Plugins with mcp_server=true:"
+          find plugs pipes glues -name "*.yaml" -type f | xargs grep -l "mcp_server: true" 2>/dev/null | head -10
+
+          echo ""
+          echo "Plugins with 'mcp' in name:"
+          find plugs pipes glues -type d -name "*mcp*" | head -10
+
+      - name: Upload MCP Plugin Compliance Report
+        if: always() && steps.check_opt_in.outputs.skip_validation != 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: mcp-plugin-compliance-report
+          path: /tmp/mcp_plugin_report.txt
+          retention-days: 30
+
+      - name: Comment PR with MCP Plugin Status (if PR)
+        if: github.event_name == 'pull_request' && steps.check_opt_in.outputs.skip_validation != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const mcp_count = '${{ steps.check_opt_in.outputs.mcp_count }}';
+
+            let report = '';
+            try {
+              report = fs.readFileSync('/tmp/mcp_plugin_report.txt', 'utf8');
+            } catch (e) {
+              report = 'Report not available';
+            }
+
+            const comment = `## 📋 MCP Plugin Compliance (Optional)
+
+            Found **${mcp_count}** plugins with MCP opt-in.
+
+            **Note**: MCP compliance is OPTIONAL. Only plugins that explicitly opt-in are validated.
+
+            <details>
+            <summary>View MCP Plugin Compliance Report</summary>
+
+            \`\`\`
+            ${report}
+            \`\`\`
+
+            </details>
+
+            ### MCP Opt-In Mechanism
+
+            To opt-in to MCP validation, add to your plugin manifest:
+
+            **Option 1: Explicit field**
+            \`\`\`yaml
+            mcp_server: true
+            \`\`\`
+
+            **Option 2: Capability**
+            \`\`\`yaml
+            capabilities:
+              - mcp_server
+            \`\`\`
+
+            **Option 3: Naming convention**
+            Include "mcp" in plugin name (e.g., \`my_mcp_plugin\`)
+
+            ### How to Check MCP Compliance
+
+            \`\`\`bash
+            ./pp run mcp_protocol_validator --action validate_plugin --plugin_path <path>
+            \`\`\`
+
+            ### MCP Protocol Specification
+
+            For details on MCP protocol requirements, see: https://modelcontextprotocol.org
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: MCP Plugin Compliance Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=" * 60
+          echo "📋 MCP Plugin Compliance Summary"
+          echo "=" * 60
+          echo ""
+
+          if [ "${{ steps.check_opt_in.outputs.skip_validation }}" == "true" ]; then
+            echo "⏭️  No plugins opted-in to MCP validation"
+            echo ""
+            echo "MCP (Model Context Protocol) compliance is OPTIONAL."
+            echo "Only plugins with mcp_server=true are validated."
+          else
+            echo "✅ MCP validation completed for opt-in plugins"
+            echo ""
+            echo "MCP opt-in plugins: ${{ steps.check_opt_in.outputs.mcp_count }}"
+          fi
+
+          echo ""
+          echo "Default protocol: A2A (Agent-to-Agent) - See a2a-protocol-compliance.yaml"
+          echo "Optional protocol: MCP (Model Context Protocol) - This workflow"
+          echo ""

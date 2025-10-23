@@ -1,0 +1,320 @@
+# Plugin Approval Pipeline - Master Orchestration Workflow
+# Coordinates all validation checks and makes approval decisions
+
+name: Plugin Approval Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+  workflow_dispatch:
+    inputs:
+      plugin_path:
+        description: 'Plugin path to validate (e.g., plugs/category/plugin/1.0.0)'
+        required: false
+
+jobs:
+  # Step 1: Run all validation checks in parallel
+  validation-checks:
+    name: Run All Validation Checks
+    runs-on: ubuntu-latest
+    outputs:
+      copyright_result: ${{ steps.copyright.outputs.result }}
+      sbom_result: ${{ steps.sbom.outputs.result }}
+      security_result: ${{ steps.security.outputs.result }}
+      a2a_result: ${{ steps.a2a.outputs.result }}
+      mcp_result: ${{ steps.mcp.outputs.result }}
+      schema_result: ${{ steps.schema.outputs.result }}
+      architecture_result: ${{ steps.architecture.outputs.result }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema pyyaml
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # Run all validators
+      - name: Copyright Compliance Check
+        id: copyright
+        continue-on-error: true
+        run: |
+          ./pp run copyright_validator --action validate --scope all > /tmp/copyright_result.json 2>&1 || true
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/copyright_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: SBOM Validation Check
+        id: sbom
+        continue-on-error: true
+        run: |
+          # Simple SBOM check (using existing workflow logic)
+          TOTAL_PLUGINS=$(find plugs pipes glues -name "plug.yaml" -o -name "pipe.yaml" -o -name "glue.yaml" 2>/dev/null | wc -l)
+          PLUGINS_WITH_SBOM=$(find plugs pipes glues -name "sbom-complete.json" 2>/dev/null | wc -l)
+          COVERAGE=$(( PLUGINS_WITH_SBOM * 100 / TOTAL_PLUGINS ))
+
+          echo "{\"success\": $([ $COVERAGE -ge 50 ] && echo true || echo false), \"coverage\": $COVERAGE}" > /tmp/sbom_result.json
+
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/sbom_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Security Validation Check
+        id: security
+        continue-on-error: true
+        run: |
+          ./pp run ci_security_validator --action scan_all > /tmp/security_result.json 2>&1 || true
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/security_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: A2A Protocol Compliance Check
+        id: a2a
+        continue-on-error: true
+        run: |
+          ./pp run a2a_protocol_validator --action validate_all > /tmp/a2a_result.json 2>&1 || true
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/a2a_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: MCP Protocol Compliance Check (Optional)
+        id: mcp
+        continue-on-error: true
+        run: |
+          ./pp run mcp_protocol_validator --action validate_all > /tmp/mcp_result.json 2>&1 || true
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/mcp_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Schema Validation Check
+        id: schema
+        continue-on-error: true
+        run: |
+          ./pp run schema_validator --action validate_all > /tmp/schema_result.json 2>&1 || true
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/schema_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Architecture Compliance Check
+        id: architecture
+        continue-on-error: true
+        run: |
+          # Architecture check results (simplified)
+          HARDCODED_PATHS=$(grep -r "Path(__file__).parent.parent\|'/mnt/c/Project/PlugPipe'" plugs/ pipes/ glues/ --include="*.py" 2>/dev/null | wc -l)
+          MISSING_SPDX=$(find plugs pipes glues -name "*.py" | while read f; do grep -q "SPDX-License-Identifier:" "$f" || echo "$f"; done | wc -l)
+
+          SUCCESS=$([ $HARDCODED_PATHS -eq 0 ] && [ $MISSING_SPDX -eq 0 ] && echo true || echo false)
+
+          echo "{\"success\": $SUCCESS, \"hardcoded_paths\": $HARDCODED_PATHS, \"missing_spdx\": $MISSING_SPDX}" > /tmp/architecture_result.json
+
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/architecture_result.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Upload Validation Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-results
+          path: /tmp/*_result.json
+          retention-days: 30
+
+  # Step 2: Compute quality score and make approval decision
+  quality-scoring:
+    name: Quality Scoring & Approval Decision
+    runs-on: ubuntu-latest
+    needs: validation-checks
+    outputs:
+      quality_score: ${{ steps.scoring.outputs.score }}
+      grade: ${{ steps.scoring.outputs.grade }}
+      decision: ${{ steps.scoring.outputs.decision }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Aggregate Validation Results
+        id: aggregate
+        run: |
+          # Create aggregated results JSON
+          cat > /tmp/validation_results.json << 'EOF'
+          {
+            "copyright_compliance": ${{ needs.validation-checks.outputs.copyright_result }},
+            "sbom_validation": ${{ needs.validation-checks.outputs.sbom_result }},
+            "security_validation": ${{ needs.validation-checks.outputs.security_result }},
+            "a2a_compliance": ${{ needs.validation-checks.outputs.a2a_result }},
+            "mcp_compliance": ${{ needs.validation-checks.outputs.mcp_result }},
+            "schema_validation": ${{ needs.validation-checks.outputs.schema_result }},
+            "architecture_compliance": ${{ needs.validation-checks.outputs.architecture_result }}
+          }
+          EOF
+
+          cat /tmp/validation_results.json
+
+      - name: Compute Quality Score
+        id: scoring
+        run: |
+          echo "🎯 Computing quality score using quality_scorer plugin..."
+
+          # Run quality scorer
+          ./pp run quality_scorer --validation-results /tmp/validation_results.json > /tmp/quality_score.json 2>&1 || true
+
+          # Extract results
+          SCORE=$(python3 -c "import json; print(json.load(open('/tmp/quality_score.json')).get('quality_score', 0))")
+          GRADE=$(python3 -c "import json; print(json.load(open('/tmp/quality_score.json')).get('grade', 'F'))")
+          DECISION=$(python3 -c "import json; print(json.load(open('/tmp/quality_score.json')).get('decision', 'auto_reject'))")
+
+          echo "Quality Score: $SCORE/100"
+          echo "Grade: $GRADE"
+          echo "Decision: $DECISION"
+
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "grade=$GRADE" >> $GITHUB_OUTPUT
+          echo "decision=$DECISION" >> $GITHUB_OUTPUT
+
+          # Display full report
+          cat /tmp/quality_score.json
+
+      - name: Upload Quality Score Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: quality-score-report
+          path: /tmp/quality_score.json
+          retention-days: 30
+
+  # Step 3: Make approval decision and comment on PR
+  approval-decision:
+    name: Approval Decision
+    runs-on: ubuntu-latest
+    needs: quality-scoring
+
+    steps:
+      - name: Display Approval Decision
+        run: |
+          SCORE="${{ needs.quality-scoring.outputs.quality_score }}"
+          GRADE="${{ needs.quality-scoring.outputs.grade }}"
+          DECISION="${{ needs.quality-scoring.outputs.decision }}"
+
+          echo ""
+          echo "=" * 60
+          echo "🎯 PLUGIN APPROVAL DECISION"
+          echo "=" * 60
+          echo ""
+          echo "Quality Score: $SCORE/100"
+          echo "Grade: $GRADE"
+          echo "Decision: $DECISION"
+          echo ""
+
+          case "$DECISION" in
+            "auto_approve")
+              echo "✅ AUTO-APPROVE: Quality score >= 90"
+              echo "This PR meets all quality standards and can be merged automatically."
+              ;;
+            "manual_review")
+              echo "⚠️  MANUAL REVIEW REQUIRED: Quality score 70-89"
+              echo "This PR requires maintainer review before merging."
+              ;;
+            "auto_reject")
+              echo "❌ AUTO-REJECT: Quality score < 70"
+              echo "This PR does not meet minimum quality standards."
+              exit 1
+              ;;
+          esac
+
+      - name: Comment PR with Approval Decision
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const score = '${{ needs.quality-scoring.outputs.quality_score }}';
+            const grade = '${{ needs.quality-scoring.outputs.grade }}';
+            const decision = '${{ needs.quality-scoring.outputs.decision }}';
+
+            let emoji, title, message;
+
+            if (decision === 'auto_approve') {
+              emoji = '✅';
+              title = 'AUTO-APPROVE';
+              message = 'This PR meets all quality standards and can be merged automatically.';
+            } else if (decision === 'manual_review') {
+              emoji = '⚠️';
+              title = 'MANUAL REVIEW REQUIRED';
+              message = 'This PR requires maintainer review before merging.';
+            } else {
+              emoji = '❌';
+              title = 'AUTO-REJECT';
+              message = 'This PR does not meet minimum quality standards.';
+            }
+
+            const comment = `## ${emoji} ${title}
+
+            **Quality Score**: ${score}/100 (Grade: ${grade})
+
+            ${message}
+
+            <details>
+            <summary>View Scoring Breakdown</summary>
+
+            ### Category Scores
+
+            - **Copyright Compliance**: 10% weight
+            - **SBOM Validation**: 10% weight
+            - **Security Validation**: 25% weight
+            - **A2A Protocol Compliance**: 20% weight
+            - **MCP Protocol Compliance**: 5% weight (optional)
+            - **Schema Validation**: 15% weight
+            - **Architecture Compliance**: 15% weight
+
+            ### Approval Thresholds
+
+            - **90-100**: ✅ Auto-approve
+            - **70-89**: ⚠️  Manual review
+            - **0-69**: ❌ Auto-reject
+
+            </details>
+
+            ### Validation Reports
+
+            Download detailed validation reports from workflow artifacts:
+            - validation-results
+            - quality-score-report
+
+            ---
+
+            📊 For complete validation details, see individual workflow runs.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: Block PR if Auto-Reject
+        if: needs.quality-scoring.outputs.decision == 'auto_reject'
+        run: |
+          echo "❌ PR BLOCKED: Quality score < 70"
+          exit 1

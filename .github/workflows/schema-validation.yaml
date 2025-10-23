@@ -1,0 +1,252 @@
+# Schema Validation CI Workflow
+# Validates all plugin manifests against min_plug_schema.json
+
+name: Schema Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**/*.yaml'
+      - 'pipes/**/*.yaml'
+      - 'glues/**/*.yaml'
+      - 'schemas/min_plug_schema.json'
+      - '.github/workflows/schema-validation.yaml'
+      - 'plugs/ci/schema_validator/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**/*.yaml'
+      - 'pipes/**/*.yaml'
+      - 'glues/**/*.yaml'
+      - 'schemas/min_plug_schema.json'
+  workflow_dispatch:
+
+jobs:
+  schema-validation:
+    name: Schema Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema pyyaml
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Verify Schema File Exists
+        run: |
+          echo "🔍 Checking for unified schema file..."
+
+          if [ -f "schemas/min_plug_schema.json" ]; then
+            echo "✅ Found schemas/min_plug_schema.json"
+
+            # Validate schema is valid JSON
+            python3 -c "import json; json.load(open('schemas/min_plug_schema.json'))"
+            echo "✅ Schema is valid JSON"
+          else
+            echo "❌ schemas/min_plug_schema.json not found"
+            exit 1
+          fi
+
+      - name: Run Schema Validation (Using schema_validator Plugin)
+        id: schema_validation
+        run: |
+          echo "🔍 Running schema validation using schema_validator plugin..."
+
+          # Use PlugPipe plugin for schema validation (plugin-first architecture)
+          ./pp run schema_validator --action validate_all > /tmp/schema_report.txt 2>&1
+          EXIT_CODE=$?
+
+          # Display report
+          cat /tmp/schema_report.txt
+
+          # Save to output
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/schema_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          exit $EXIT_CODE
+
+      - name: Check YAML Syntax (Quick Scan)
+        continue-on-error: true
+        run: |
+          echo "📝 Checking YAML syntax for all manifests..."
+
+          YAML_ERRORS=0
+
+          find plugs pipes glues -name "*.yaml" | while read yaml_file; do
+            if ! python3 -c "import yaml; yaml.safe_load(open('$yaml_file'))" 2>/dev/null; then
+              echo "❌ Invalid YAML: $yaml_file"
+              YAML_ERRORS=$((YAML_ERRORS + 1))
+            fi
+          done
+
+          if [ $YAML_ERRORS -eq 0 ]; then
+            echo "✅ All YAML files have valid syntax"
+          else
+            echo "⚠️  Found $YAML_ERRORS YAML syntax errors"
+          fi
+
+      - name: Check Required Fields
+        run: |
+          echo "📋 Checking for required fields in manifests..."
+
+          MISSING_FIELDS=0
+
+          find plugs pipes glues -name "plug.yaml" -o -name "pipe.yaml" -o -name "glue.yaml" | head -20 | while read manifest; do
+            # Check for required fields using Python
+            python3 << EOF
+import yaml
+import sys
+
+try:
+    with open('$manifest') as f:
+        data = yaml.safe_load(f)
+
+    required_fields = ['name', 'version', 'category', 'description']
+    missing = [field for field in required_fields if field not in data]
+
+    if missing:
+        print(f"❌ $manifest: Missing required fields: {', '.join(missing)}")
+        sys.exit(1)
+except Exception as e:
+    print(f"⚠️  $manifest: {e}")
+    sys.exit(1)
+EOF
+
+            if [ $? -ne 0 ]; then
+              MISSING_FIELDS=$((MISSING_FIELDS + 1))
+            fi
+          done
+
+          if [ $MISSING_FIELDS -eq 0 ]; then
+            echo "✅ All manifests have required fields"
+          else
+            echo "⚠️  Found $MISSING_FIELDS manifests with missing fields"
+          fi
+
+      - name: Check Semantic Versioning
+        run: |
+          echo "🔢 Checking semantic versioning compliance..."
+
+          INVALID_VERSIONS=0
+
+          find plugs pipes glues -name "plug.yaml" -o -name "pipe.yaml" -o -name "glue.yaml" | while read manifest; do
+            VERSION=$(python3 -c "import yaml; print(yaml.safe_load(open('$manifest')).get('version', 'unknown'))")
+
+            if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+              echo "❌ $manifest: Invalid version format: $VERSION (should be X.Y.Z)"
+              INVALID_VERSIONS=$((INVALID_VERSIONS + 1))
+            fi
+          done
+
+          if [ $INVALID_VERSIONS -eq 0 ]; then
+            echo "✅ All versions follow semantic versioning"
+          else
+            echo "⚠️  Found $INVALID_VERSIONS manifests with invalid version format"
+          fi
+
+      - name: Upload Schema Validation Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: schema-validation-report
+          path: /tmp/schema_report.txt
+          retention-days: 30
+
+      - name: Comment PR with Schema Issues (if PR)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/schema_report.txt', 'utf8');
+
+            const comment = `## ❌ Schema Validation Failed
+
+            This PR introduces plugin manifests that do not comply with the schema.
+
+            <details>
+            <summary>View Schema Validation Report</summary>
+
+            \`\`\`
+            ${report}
+            \`\`\`
+
+            </details>
+
+            ### Critical Issues
+
+            Schema validation issues detected:
+            - 📋 **Missing Required Fields**: name, version, category, description
+            - 🔢 **Invalid Version Format**: Must follow semantic versioning (X.Y.Z)
+            - 📝 **YAML Syntax Errors**: Invalid YAML format
+            - 🔍 **Schema Non-Compliance**: Manifest does not match min_plug_schema.json
+
+            ### How to Fix
+
+            **Validate your manifest:**
+            \`\`\`bash
+            ./pp run schema_validator --action validate_plugin --plugin_path <path>
+            \`\`\`
+
+            **Check against schema manually:**
+            \`\`\`bash
+            python3 -c "
+            import json, yaml, jsonschema
+            schema = json.load(open('schemas/min_plug_schema.json'))
+            manifest = yaml.safe_load(open('<your-manifest>.yaml'))
+            jsonschema.validate(manifest, schema)
+            print('✅ Valid')
+            "
+            \`\`\`
+
+            **Required fields:**
+            \`\`\`yaml
+            name: plugin_name
+            version: 1.0.0  # Must be X.Y.Z format
+            category: category_name
+            description: "Plugin description"
+            \`\`\`
+
+            ### Schema Reference
+
+            See: \`schemas/min_plug_schema.json\` for complete schema specification.
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: Schema Validation Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=" * 60
+          echo "📋 Schema Validation Summary"
+          echo "=" * 60
+          echo ""
+          echo "All plugin manifests must comply with unified schema:"
+          echo "  - schemas/min_plug_schema.json"
+          echo ""
+          echo "Required fields:"
+          echo "  ✅ name (string)"
+          echo "  ✅ version (X.Y.Z format)"
+          echo "  ✅ category (string)"
+          echo "  ✅ description (string)"
+          echo ""
+          echo "Schema validation is MANDATORY for all plugins."
+          echo ""

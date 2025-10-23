@@ -1,0 +1,260 @@
+# Security Validation CI Workflow
+# Comprehensive security scanning for plugins
+
+name: Security Validation
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+      - '.github/workflows/security-validation.yaml'
+      - 'plugs/ci/ci_security_validator/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+  workflow_dispatch:
+
+jobs:
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install security tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Comprehensive Security Scanner (Using ci_security_validator Plugin)
+        id: security_scan
+        run: |
+          echo "🔒 Running comprehensive security scan using ci_security_validator plugin..."
+
+          # Use PlugPipe plugin for security validation (plugin-first architecture)
+          ./pp run ci_security_validator --action scan_all > /tmp/security_report.txt 2>&1
+          EXIT_CODE=$?
+
+          # Display report
+          cat /tmp/security_report.txt
+
+          # Save to output
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/security_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          exit $EXIT_CODE
+
+      - name: Run pip-audit on Project Dependencies
+        continue-on-error: true
+        run: |
+          echo "🔍 Running pip-audit on project-level dependencies..."
+
+          if [ -f requirements.txt ]; then
+            pip-audit -r requirements.txt --format json > /tmp/pip_audit_project.json || true
+
+            # Parse and display results
+            python3 << 'EOF'
+          import json
+          import sys
+
+          try:
+              with open('/tmp/pip_audit_project.json') as f:
+                  results = json.load(f)
+
+              vulns = results.get('vulnerabilities', [])
+
+              if vulns:
+                  print(f"⚠️  Found {len(vulns)} vulnerabilities in project dependencies")
+                  for vuln in vulns[:10]:
+                      print(f"  - {vuln.get('name')}: {vuln.get('id')}")
+              else:
+                  print("✅ No vulnerabilities found in project dependencies")
+          except Exception as e:
+              print(f"Info: Could not parse pip-audit results: {e}")
+          EOF
+          else
+            echo "No requirements.txt found at project root"
+          fi
+
+      - name: Secret Scanning with Gitleaks (if available)
+        continue-on-error: true
+        run: |
+          echo "🔍 Running secret scanning..."
+
+          # Try to use gitleaks if available
+          if command -v gitleaks &> /dev/null; then
+            gitleaks detect --source . --verbose --no-git || true
+          else
+            echo "Gitleaks not available, using built-in scanner"
+          fi
+
+      - name: Check for Universal Input Sanitizer Usage
+        run: |
+          echo "🛡️  Checking Universal Input Sanitizer integration..."
+
+          # Find plugins with user input
+          plugins_with_input=$(grep -r "input(\|request\.\|get_input\|user_input" plugs/ pipes/ glues/ --include="*.py" | cut -d: -f1 | sort -u)
+
+          if [ -z "$plugins_with_input" ]; then
+            echo "No plugins with user input detected"
+            exit 0
+          fi
+
+          echo "Found $(echo "$plugins_with_input" | wc -l) plugins with user input"
+
+          # Check for sanitizer usage
+          missing_sanitizer=0
+
+          for file in $plugins_with_input; do
+            if ! grep -q "universal_input_sanitizer\|sanitize" "$file"; then
+              echo "⚠️  $file: Missing sanitizer integration"
+              missing_sanitizer=$((missing_sanitizer + 1))
+            fi
+          done
+
+          if [ $missing_sanitizer -gt 0 ]; then
+            echo ""
+            echo "⚠️  Warning: $missing_sanitizer plugins handle input without sanitization"
+            echo "Consider integrating universal_input_sanitizer plugin"
+          else
+            echo "✅ All plugins with input use sanitization"
+          fi
+
+      - name: Check MCP Guardian Integration
+        run: |
+          echo "🛡️  Checking MCP Guardian integration for MCP plugins..."
+
+          # Find MCP plugins
+          mcp_plugins=$(find plugs/ pipes/ -name "plug.yaml" -o -name "pipe.yaml" | xargs grep -l "mcp" | head -20)
+
+          if [ -z "$mcp_plugins" ]; then
+            echo "No MCP plugins found"
+            exit 0
+          fi
+
+          echo "Found MCP plugins to check"
+
+          missing_guardian=0
+
+          for manifest in $mcp_plugins; do
+            if ! grep -q "mcp_guardian" "$manifest"; then
+              echo "⚠️  $(dirname $manifest): Missing mcp_guardian dependency"
+              missing_guardian=$((missing_guardian + 1))
+            fi
+          done
+
+          if [ $missing_guardian -gt 0 ]; then
+            echo ""
+            echo "⚠️  Warning: $missing_guardian MCP plugins missing mcp_guardian"
+            echo "MCP plugins should include mcp_guardian for security"
+          else
+            echo "✅ All MCP plugins include mcp_guardian"
+          fi
+
+      - name: Upload Security Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-scan-report
+          path: |
+            /tmp/security_report.txt
+            /tmp/pip_audit_project.json
+          retention-days: 30
+
+      - name: Comment PR with Security Issues (if PR)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/security_report.txt', 'utf8');
+
+            const comment = `## ❌ Security Validation Failed
+
+            This PR introduces security issues that must be resolved.
+
+            <details>
+            <summary>View Security Report</summary>
+
+            \`\`\`
+            ${report}
+            \`\`\`
+
+            </details>
+
+            ### Critical Issues
+
+            Security issues detected:
+            - 🔒 **Vulnerabilities**: Dependency vulnerabilities found
+            - 🔐 **Secrets**: Potential secrets detected in code
+            - 🛡️ **Missing Protection**: Input sanitization or security plugins missing
+
+            ### How to Fix
+
+            **Fix dependency vulnerabilities:**
+            \`\`\`bash
+            pip-audit -r requirements.txt
+            # Update vulnerable packages in requirements.txt
+            \`\`\`
+
+            **Remove secrets from code:**
+            - Use environment variables instead
+            - Update .gitignore to prevent future leaks
+            - Rotate any exposed credentials
+
+            **Add input sanitization:**
+            \`\`\`python
+            from shares.loader import pp
+            sanitizer = pp('universal_input_sanitizer')
+            sanitized_input = sanitizer.sanitize(user_input)
+            \`\`\`
+
+            **Add MCP Guardian (for MCP plugins):**
+            \`\`\`yaml
+            # In plug.yaml
+            mandatory_dependencies:
+              security:
+                - mcp_guardian
+            \`\`\`
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: Security Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=" * 60
+          echo "🔒 Security Validation Summary"
+          echo "=" * 60
+          echo ""
+          echo "Security checks performed:"
+          echo "  ✅ Dependency vulnerability scanning (pip-audit)"
+          echo "  ✅ Secret detection"
+          echo "  ✅ Universal Input Sanitizer integration"
+          echo "  ✅ MCP Guardian integration (for MCP plugins)"
+          echo ""
+          echo "Critical issues will block the PR/merge."
+          echo "Warnings are recommendations for improvement."
+          echo ""

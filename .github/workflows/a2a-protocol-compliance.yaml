@@ -1,0 +1,206 @@
+# A2A Protocol Compliance CI Workflow
+# DEFAULT protocol compliance check for ALL PlugPipe plugins
+
+name: A2A Protocol Compliance
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+      - '.github/workflows/a2a-protocol-compliance.yaml'
+      - 'plugs/ci/a2a_protocol_validator/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+  workflow_dispatch:
+
+jobs:
+  a2a-compliance:
+    name: A2A Protocol Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run A2A Protocol Compliance Check (Using a2a_protocol_validator Plugin)
+        id: a2a_compliance
+        run: |
+          echo "🔍 Running A2A protocol compliance validation (DEFAULT for all plugins)..."
+
+          # Use PlugPipe plugin for A2A validation (plugin-first architecture)
+          ./pp run a2a_protocol_validator --action validate_all > /tmp/a2a_report.txt 2>&1
+          EXIT_CODE=$?
+
+          # Display report
+          cat /tmp/a2a_report.txt
+
+          # Save to output
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat /tmp/a2a_report.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          exit $EXIT_CODE
+
+      - name: Check Agent Card Generation
+        continue-on-error: true
+        run: |
+          echo "📋 Checking agent-card.json generation capability..."
+
+          # Find plugins without agent-card.json
+          PLUGINS_WITHOUT_AGENT_CARD=$(find plugs pipes glues -type d -name "[0-9]*.[0-9]*.[0-9]*" | while read plugin_dir; do
+            if [ ! -f "$plugin_dir/agent-card.json" ]; then
+              echo "$plugin_dir"
+            fi
+          done)
+
+          if [ -z "$PLUGINS_WITHOUT_AGENT_CARD" ]; then
+            echo "✅ All plugins have agent-card.json"
+          else
+            MISSING_COUNT=$(echo "$PLUGINS_WITHOUT_AGENT_CARD" | wc -l)
+            echo "⚠️  $MISSING_COUNT plugins missing agent-card.json:"
+            echo "$PLUGINS_WITHOUT_AGENT_CARD" | head -10
+          fi
+
+      - name: Check Stateless Invocation Patterns
+        run: |
+          echo "🔍 Checking for stateless invocation patterns..."
+
+          # Find plugins with potential stateful patterns
+          STATEFUL_PLUGINS=$(grep -r "self\._state\|self\.state\|global [a-zA-Z]" plugs/ pipes/ glues/ --include="*.py" | cut -d: -f1 | sort -u | wc -l)
+
+          if [ $STATEFUL_PLUGINS -eq 0 ]; then
+            echo "✅ No obvious stateful patterns detected"
+          else
+            echo "⚠️  Found $STATEFUL_PLUGINS plugins with potential stateful patterns"
+            echo "This is informational - not all stateful patterns violate A2A"
+          fi
+
+      - name: Validate A2A Task Format
+        run: |
+          echo "📝 Validating A2A task input/output format compliance..."
+
+          # Check for execute() function (standard A2A invocation)
+          PLUGINS_WITH_EXECUTE=$(grep -r "def execute(" plugs/ pipes/ glues/ --include="main.py" | wc -l)
+          TOTAL_PLUGINS=$(find plugs pipes glues -name "main.py" | wc -l)
+
+          COMPLIANCE_RATE=$(( PLUGINS_WITH_EXECUTE * 100 / TOTAL_PLUGINS ))
+
+          echo "Plugins with execute(): $PLUGINS_WITH_EXECUTE / $TOTAL_PLUGINS ($COMPLIANCE_RATE%)"
+
+          if [ $COMPLIANCE_RATE -lt 80 ]; then
+            echo "⚠️  Warning: Less than 80% of plugins use standard execute() function"
+          else
+            echo "✅ Good execute() function adoption"
+          fi
+
+      - name: Upload A2A Compliance Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: a2a-compliance-report
+          path: /tmp/a2a_report.txt
+          retention-days: 30
+
+      - name: Comment PR with A2A Issues (if PR)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/a2a_report.txt', 'utf8');
+
+            const comment = `## ❌ A2A Protocol Compliance Failed
+
+            This PR introduces plugins that are not compliant with the A2A (Agent-to-Agent) protocol.
+
+            **Note**: A2A compliance is the DEFAULT requirement for all PlugPipe plugins.
+
+            <details>
+            <summary>View A2A Compliance Report</summary>
+
+            \`\`\`
+            ${report}
+            \`\`\`
+
+            </details>
+
+            ### Critical Issues
+
+            A2A protocol compliance issues detected:
+            - 📋 **Missing Agent Card**: Plugins must generate valid agent-card.json
+            - 🔄 **Stateful Patterns**: Plugins should support stateless invocation
+            - 📝 **Non-Standard Format**: Plugins should use execute() function
+
+            ### How to Fix
+
+            **Generate agent-card.json:**
+            \`\`\`bash
+            ./pp run agent_card_generator --plugin <your_plugin_name>
+            \`\`\`
+
+            **Ensure stateless invocation:**
+            - Avoid instance variables for state (self._state, self.cache)
+            - Pass all context in task payload
+            - Make operations idempotent
+
+            **Use standard execute() function:**
+            \`\`\`python
+            def execute(params: Dict) -> Dict:
+                """Standard A2A task invocation."""
+                # Your plugin logic here
+                return {"success": True, "result": ...}
+            \`\`\`
+
+            **Check A2A compliance:**
+            \`\`\`bash
+            ./pp run a2a_protocol_validator --action validate_plugin --plugin_path <path>
+            \`\`\`
+
+            ### A2A Protocol Specification
+
+            For details on A2A protocol requirements, see: https://a2a-protocol.org
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: comment
+            });
+
+      - name: A2A Compliance Summary
+        if: always()
+        run: |
+          echo ""
+          echo "=" * 60
+          echo "🔄 A2A Protocol Compliance Summary"
+          echo "=" * 60
+          echo ""
+          echo "A2A (Agent-to-Agent) is the DEFAULT protocol for all PlugPipe plugins."
+          echo ""
+          echo "A2A requirements:"
+          echo "  ✅ Agent discovery (agent-card.json)"
+          echo "  ✅ Stateless task invocation"
+          echo "  ✅ Standard task input/output format"
+          echo "  ✅ Error handling with standard codes"
+          echo ""
+          echo "All plugins MUST be A2A compliant to be merged."
+          echo ""
