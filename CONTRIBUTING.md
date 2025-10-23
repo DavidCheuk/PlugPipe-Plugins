@@ -221,17 +221,80 @@ plug_metadata = {
 }
 ```
 
-### 4. Test Locally
+### 4. Validate Plugin
+
+**Option A: Use Validation Toolkit (Recommended)**
 
 ```bash
-# Run quick validation (see commands above)
-python3 -c "import yaml; yaml.safe_load(open('plug.yaml'))"
+# Validate your plugin automatically
+python3 scripts/validate_plugin.py plugs/category/my_plugin/1.0.0/
 
-# Check copyright
-grep -r "SPDX-License-Identifier:" .
+# With strict security checks
+python3 scripts/validate_plugin.py plugs/category/my_plugin/1.0.0/ --strict
+```
 
-# Run pre-commit checks
-cd ../../../..  # Back to repo root
+The validation toolkit checks:
+- ✅ YAML syntax and required manifest fields
+- ✅ SPDX copyright headers in all Python files
+- ✅ Semantic versioning format (X.Y.Z)
+- ✅ Plugin naming conventions (lowercase_with_underscores)
+- ✅ A2A protocol compliance (execute function, stateless design)
+- ✅ Basic security patterns (eval/exec usage)
+- ✅ Required file structure (plug.yaml, main.py, README.md)
+
+**Example Output**:
+```
+======================================================================
+Validating: plugs/category/my_plugin/1.0.0
+======================================================================
+
+📁 Checking directory structure...
+📋 Validating manifest...
+©️  Validating copyright headers...
+🔗 Validating A2A protocol compliance...
+
+======================================================================
+VALIDATION SUMMARY
+======================================================================
+
+📊 Results: 16 passed, 0 failed
+
+✅ VALIDATION PASSED - Plugin is ready for submission!
+```
+
+**Option B: Manual Validation** (if toolkit unavailable)
+
+```bash
+# 1. Check YAML syntax
+python3 -c "import yaml; yaml.safe_load(open('plugs/category/my_plugin/1.0.0/plug.yaml'))"
+
+# 2. Check copyright headers
+find plugs/category/my_plugin -name "*.py" | while read f; do
+  grep -q "SPDX-License-Identifier:" "$f" || echo "Missing: $f"
+done
+
+# 3. Check semantic versioning
+grep "^version:" plugs/category/my_plugin/1.0.0/plug.yaml | grep -E "[0-9]+\.[0-9]+\.[0-9]+"
+
+# 4. Validate required fields
+python3 << 'EOF'
+import yaml
+data = yaml.safe_load(open('plugs/category/my_plugin/1.0.0/plug.yaml'))
+required = ['name', 'version', 'category', 'description', 'copyright']
+missing = [f for f in required if f not in data]
+if missing:
+    print(f"Missing fields: {', '.join(missing)}")
+    exit(1)
+else:
+    print("✅ All required fields present")
+EOF
+```
+
+**Option C: Pre-commit Hooks**
+
+```bash
+# Run pre-commit checks (validates on commit)
+cd PlugPipe-Plugins  # Repo root
 pre-commit run --files plugs/category/my_plugin/**/*
 ```
 
