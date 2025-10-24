@@ -1,0 +1,145 @@
+name: Validate Plugin PR
+
+on:
+  pull_request:
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+  push:
+    branches:
+      - main
+    paths:
+      - 'plugs/**'
+      - 'pipes/**'
+      - 'glues/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate Plugin Submissions
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for changelog
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyYAML
+
+      - name: Detect changed plugins
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+          fi
+
+          echo "Detecting changed plugins between $BASE_SHA and $HEAD_SHA"
+
+          # Get changed plugin directories
+          CHANGED_PLUGINS=$(git diff --name-only $BASE_SHA $HEAD_SHA | \
+            grep -E '^(plugs|pipes|glues)/' | \
+            cut -d'/' -f1-4 | \
+            sort -u)
+
+          echo "Changed plugin directories:"
+          echo "$CHANGED_PLUGINS"
+
+          # Save to file for next step
+          echo "$CHANGED_PLUGINS" > changed_plugins.txt
+
+          # Set output
+          if [ -n "$CHANGED_PLUGINS" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "count=$(echo "$CHANGED_PLUGINS" | wc -l)" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate changed plugins
+        if: steps.changed-files.outputs.has_changes == 'true'
+        run: |
+          echo "📋 Validating ${{ steps.changed-files.outputs.count }} changed plugin(s)"
+
+          FAILED=0
+          PASSED=0
+
+          while IFS= read -r plugin_dir; do
+            if [ -z "$plugin_dir" ]; then
+              continue
+            fi
+
+            echo ""
+            echo "========================================"
+            echo "Validating: $plugin_dir"
+            echo "========================================"
+
+            if python3 scripts/validate_plugin.py "$plugin_dir" --strict; then
+              echo "✅ PASSED: $plugin_dir"
+              PASSED=$((PASSED + 1))
+            else
+              echo "❌ FAILED: $plugin_dir"
+              FAILED=$((FAILED + 1))
+            fi
+          done < changed_plugins.txt
+
+          echo ""
+          echo "========================================"
+          echo "VALIDATION SUMMARY"
+          echo "========================================"
+          echo "✅ Passed: $PASSED"
+          echo "❌ Failed: $FAILED"
+          echo "📊 Total:  $((PASSED + FAILED))"
+
+          if [ $FAILED -gt 0 ]; then
+            echo ""
+            echo "❌ Validation failed for $FAILED plugin(s)"
+            echo "Please fix the errors and push again"
+            exit 1
+          else
+            echo ""
+            echo "✅ All plugins passed validation!"
+          fi
+
+      - name: Run pre-commit hooks
+        if: steps.changed-files.outputs.has_changes == 'true'
+        uses: pre-commit/action@v3.0.0
+        with:
+          extra_args: --files $(cat changed_plugins.txt | tr '\n' ' ')
+
+      - name: Comment on PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Plugin validation failed**\n\nPlease check the workflow logs for details and fix the errors.\n\nYou can validate locally before pushing:\n```bash\npython3 scripts/validate_plugin.py plugs/category/name/version/ --strict\n```'
+            })
+
+      - name: Success comment on PR
+        if: success() && github.event_name == 'pull_request' && steps.changed-files.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ **Plugin validation passed!**\n\n${{ steps.changed-files.outputs.count }} plugin(s) validated successfully.\n\nNext steps:\n1. Wait for maintainer review\n2. Address any feedback\n3. Once approved, your plugin will be merged and available in the registry!'
+            })
