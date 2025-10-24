@@ -111,12 +111,12 @@ jobs:
         run: |
           echo "📋 Checking plugin manifest compliance..."
 
-          # Check for .yaml extension (not .yaml)
-          YML_FILES=$(find plugs pipes glues -name "*.yaml" 2>/dev/null | wc -l)
+          # Check for .yml extension (should be .yaml)
+          YML_FILES=$(find plugs pipes glues -name "*.yml" 2>/dev/null | wc -l)
 
           if [ $YML_FILES -gt 0 ]; then
-            echo "❌ Found $YML_FILES files with .yaml extension (should be .yaml)"
-            find plugs pipes glues -name "*.yaml" | head -5
+            echo "❌ Found $YML_FILES files with .yml extension (should be .yaml)"
+            find plugs pipes glues -name "*.yml" | head -5
             exit 1
           else
             echo "✅ All YAML files use .yaml extension"
