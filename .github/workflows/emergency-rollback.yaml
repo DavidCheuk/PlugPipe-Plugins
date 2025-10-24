@@ -1,0 +1,264 @@
+name: Emergency Plugin Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      plugin_path:
+        description: 'Plugin path to remove (e.g., plugs/category/name/version/)'
+        required: true
+        type: string
+      reason:
+        description: 'Reason for emergency removal (e.g., Security vulnerability CVE-2025-12345)'
+        required: true
+        type: string
+      create_issue:
+        description: 'Create public incident issue?'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  emergency-rollback:
+    runs-on: ubuntu-latest
+    name: Emergency Plugin Removal
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate inputs
+        id: validate
+        run: |
+          PLUGIN_PATH="${{ github.event.inputs.plugin_path }}"
+
+          # Remove trailing slash if present
+          PLUGIN_PATH="${PLUGIN_PATH%/}"
+
+          # Validate path format (plugs/category/name/version or pipes/category/name/version)
+          if [[ ! "$PLUGIN_PATH" =~ ^(plugs|pipes|glues)/[^/]+/[^/]+/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ ERROR: Invalid plugin path format"
+            echo "Expected: plugs/category/name/version (e.g., plugs/security/scanner/1.0.0)"
+            echo "Got: $PLUGIN_PATH"
+            exit 1
+          fi
+
+          # Check if path exists
+          if [ ! -d "$PLUGIN_PATH" ]; then
+            echo "❌ ERROR: Plugin path does not exist: $PLUGIN_PATH"
+            exit 1
+          fi
+
+          # Extract plugin info
+          TYPE=$(echo "$PLUGIN_PATH" | cut -d'/' -f1)
+          CATEGORY=$(echo "$PLUGIN_PATH" | cut -d'/' -f2)
+          NAME=$(echo "$PLUGIN_PATH" | cut -d'/' -f3)
+          VERSION=$(echo "$PLUGIN_PATH" | cut -d'/' -f4)
+
+          echo "plugin_path=$PLUGIN_PATH" >> $GITHUB_OUTPUT
+          echo "type=$TYPE" >> $GITHUB_OUTPUT
+          echo "category=$CATEGORY" >> $GITHUB_OUTPUT
+          echo "name=$NAME" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          echo "✅ Validation passed"
+          echo "  Type: $TYPE"
+          echo "  Category: $CATEGORY"
+          echo "  Name: $NAME"
+          echo "  Version: $VERSION"
+
+      - name: Backup plugin before removal
+        run: |
+          PLUGIN_PATH="${{ steps.validate.outputs.plugin_path }}"
+          BACKUP_DIR=".rollback_backups/$(date +%Y%m%d_%H%M%S)_${{ steps.validate.outputs.name }}_${{ steps.validate.outputs.version }}"
+
+          mkdir -p "$BACKUP_DIR"
+          cp -r "$PLUGIN_PATH" "$BACKUP_DIR/"
+
+          echo "✅ Plugin backed up to: $BACKUP_DIR"
+          echo "backup_path=$BACKUP_DIR" >> $GITHUB_ENV
+
+      - name: Remove plugin
+        run: |
+          PLUGIN_PATH="${{ steps.validate.outputs.plugin_path }}"
+
+          echo "🗑️ Removing plugin: $PLUGIN_PATH"
+          rm -rf "$PLUGIN_PATH"
+
+          # Verify removal
+          if [ -d "$PLUGIN_PATH" ]; then
+            echo "❌ ERROR: Failed to remove plugin"
+            exit 1
+          fi
+
+          echo "✅ Plugin removed successfully"
+
+      - name: Update registry stats
+        run: |
+          TYPE="${{ steps.validate.outputs.type }}"
+
+          # Count remaining plugins
+          PLUGIN_COUNT=$(find $TYPE -name "plug.yaml" -o -name "pipe.yaml" | wc -l)
+
+          echo "{\"total_${TYPE}\": $PLUGIN_COUNT, \"last_updated\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > registry/${TYPE}_stats.json
+
+          echo "✅ Updated registry stats: $PLUGIN_COUNT $TYPE remaining"
+
+      - name: Commit removal
+        run: |
+          git config user.name "PlugPipe Bot"
+          git config user.email "bot@plugpipe.com"
+
+          git add .
+          git commit -m "emergency: Remove ${{ steps.validate.outputs.name }} v${{ steps.validate.outputs.version }}
+
+Reason: ${{ github.event.inputs.reason }}
+
+Emergency rollback initiated by: @${{ github.actor }}
+Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+Backup: ${{ env.backup_path }}
+
+[skip ci]"
+
+          git push origin main
+
+          echo "✅ Changes committed and pushed"
+
+      - name: Create incident issue
+        if: ${{ github.event.inputs.create_issue == 'true' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pluginName = '${{ steps.validate.outputs.name }}';
+            const version = '${{ steps.validate.outputs.version }}';
+            const reason = `${{ github.event.inputs.reason }}`;
+            const actor = '${{ github.actor }}';
+            const backupPath = process.env.backup_path;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Emergency Rollback: ${pluginName} v${version}`,
+              body: `## Emergency Plugin Removal
+
+**Plugin**: \`${pluginName}\` v${version}
+**Removed by**: @${actor}
+**Timestamp**: ${new Date().toISOString()}
+
+### Reason
+
+${reason}
+
+### Actions Taken
+
+- ✅ Plugin removed from repository
+- ✅ Backup created at: \`${backupPath}\`
+- ✅ Registry statistics updated
+- ✅ Changes pushed to main branch
+
+### User Impact
+
+⚠️ **Users must take action:**
+
+1. **Stop using this plugin immediately**
+2. **Remove from your installations:**
+   \`\`\`bash
+   ./pp plugin remove ${pluginName}
+   \`\`\`
+3. **Clear cache:**
+   \`\`\`bash
+   ./pp registry cache clear
+   \`\`\`
+
+### Recovery
+
+If this removal was made in error:
+1. Contact @${actor} or open a new issue
+2. Backup is available at \`${backupPath}\`
+3. Plugin can be restored via revert commit
+
+### Timeline
+
+- Plugin will remain removed until security review is complete
+- Users should migrate to alternative solutions
+- Check [migration guide](docs/guides/plugin-migration.md) for alternatives
+
+---
+
+🤖 This issue was automatically created by the emergency rollback workflow.
+`,
+              labels: ['emergency', 'rollback', 'security', 'incident']
+            });
+
+      - name: Notify in PR comments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Find recent merged PRs that added this plugin
+            const pluginPath = '${{ steps.validate.outputs.plugin_path }}';
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 50
+            });
+
+            for (const pr of pulls) {
+              if (pr.merged_at) {
+                // Check if PR touched this plugin
+                const { data: files } = await github.rest.pulls.listFiles({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number
+                });
+
+                const touchedPlugin = files.some(f => f.filename.startsWith(pluginPath));
+
+                if (touchedPlugin) {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: pr.number,
+                    body: `🚨 **Emergency Rollback Notice**
+
+The plugin added in this PR has been removed from the repository.
+
+**Reason**: ${{ github.event.inputs.reason }}
+**Removed by**: @${{ github.actor }}
+**Timestamp**: ${new Date().toISOString()}
+
+See incident issue for details and user impact.`
+                  });
+
+                  console.log(`Notified PR #${pr.number}`);
+                  break; // Only notify the most recent PR
+                }
+              }
+            }
+
+      - name: Summary
+        run: |
+          echo "## 🚨 Emergency Rollback Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Plugin**: \`${{ steps.validate.outputs.name }}\` v${{ steps.validate.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Path**: \`${{ steps.validate.outputs.plugin_path }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Reason**: ${{ github.event.inputs.reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Removed by**: @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Backup**: \`${{ env.backup_path }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Actions Completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Plugin validated and removed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Backup created" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Registry stats updated" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Changes committed and pushed" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ github.event.inputs.create_issue }}" == "true" ]; then
+            echo "- ✅ Incident issue created" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "- ✅ Related PRs notified" >> $GITHUB_STEP_SUMMARY
